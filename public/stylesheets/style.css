@@ -1,0 +1,13 @@
+body {
+	font-family: 'Raleway', sans-serif;
+	background-color: #355e3b;
+	color: #fff;
+}
+
+.container{
+	margin-top: 45px;
+}
+
+.blacktext {
+	color: black !important;
+}
