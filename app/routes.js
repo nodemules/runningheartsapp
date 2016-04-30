@@ -14,6 +14,43 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/loginrouter', isLoggedIn, function(req, res) {
+        //surely there is a better way to accomplish this?
+        if (req.user.usertype == 1){
+            console.log("super admin detected");
+            res.render('superadminconsole.ejs', {
+                user : req.user
+            });
+        }
+        else if (req.user.usertype == 2){
+            console.log("regular admin detected");
+            res.render('adminconsole.ejs', {
+                user : req.user
+            });
+        }
+        //change to regular user later:
+        else {
+        console.log("non admin detected");
+        res.render('adminconsole.ejs', {
+            user : req.user
+        });
+        }
+    });
+
+    // SUPER ADMIN SECTION =========================
+    app.get('/superadminconsole', isLoggedIn, function(req, res) {
+        res.render('superadminconsole.ejs', {
+            user : req.user
+        });
+    });
+
+    // REGULAR ADMIN SECTION =========================
+    app.get('/adminconsole', isLoggedIn, function(req, res) {
+        res.render('adminconsole.ejs', {
+            user : req.user
+        });
+    });
+
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
@@ -33,7 +70,7 @@ module.exports = function(app, passport) {
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/loginrouter', // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -88,7 +125,7 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
-// =============================================================================
+/*// =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
 
@@ -138,7 +175,7 @@ module.exports = function(app, passport) {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
-
+*/
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
