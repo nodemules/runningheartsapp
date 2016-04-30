@@ -19,13 +19,15 @@ module.exports = function(app, passport) {
         if (req.user.usertype == 1){
             console.log("super admin detected");
             res.render('superadminconsole.ejs', {
-                user : req.user
+                user : req.user,
+                name : req.user.local.email
             });
         }
         else if (req.user.usertype == 2){
             console.log("regular admin detected");
             res.render('adminconsole.ejs', {
-                user : req.user
+                user : req.user,
+                name : req.user.local.email
             });
         }
         //change to regular user later:
