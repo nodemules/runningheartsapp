@@ -14,7 +14,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/loginrouter', isLoggedIn, function(req, res) {
+    app.get('/main', isLoggedIn, function(req, res) {
         //surely there is a better way to accomplish this?
         if (req.user.usertype == 1){
             console.log("super admin detected");
@@ -70,7 +70,7 @@ module.exports = function(app, passport) {
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/loginrouter', // redirect to the secure profile section
+            successRedirect : '/main', // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -125,6 +125,39 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
+// =============================================================================
+// PAGE ROUTES (ALREADY LOGGED IN ) ============================================
+// =============================================================================
+
+app.get('/addmodifyvenues', isLoggedIn, function(req, res) {
+    res.render('addmodifyvenues.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/addremoveplayers', isLoggedIn, function(req, res) {
+    res.render('addremoveplayers.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/creategame', isLoggedIn, function(req, res) {
+    res.render('creategame.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/viewgame', isLoggedIn, function(req, res) {
+    res.render('viewgame.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/assignstandings', isLoggedIn, function(req, res) {
+    res.render('assignstandings.ejs', {
+        user : req.user
+    });
+});
 /*// =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
