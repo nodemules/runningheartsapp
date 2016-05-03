@@ -1,8 +1,41 @@
 <!doctype html>
-<html>
+<html ng-app="runningHeartsPoker">
 <head>
 <% include head %>
 </head>
-<body>
-Add or Modify Venues
+<body ng-controller="rhpSuperAdminCtrl">
+
+<h1>Add or Modify Venues</h1>
+
+<div class="venuelist">
+	<div ng-repeat="venue in venues">
+		<div class="row">	
+			<div class="col-xs-3 venueitem">{{venue.name}}</div>
+			<div class="col-xs-3 venueitem">{{venue.day}}</div>
+			<div class="col-xs-3 venueitem">{{venue.td}}</div>
+			<div class="col-xs-3 venueitem"><button class="btn btn-danger btn-xs">Edit</button></div>
+	  </div>
+	</div>
+</div>
+
+<div class="venueinput">
+	<div class="form-group">
+		<input type="text" class="form-control input" placeholder="Venue Name" ng-model="formData.name">
+  </div>
+	<div class="form-group">	
+		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="formData.day">
+	</div>
+	<div class="form-group">	
+		<input type="text" class="form-control input" placeholder="Venue TD" ng-model="formData.td">
+	</div>
+	<button type="submit" class="btn btn-danger btn-sm" ng-click="createVenue()">Add Venue</button>
+</div>
+
+
+
+
+
+
+
+</body>
 </html>

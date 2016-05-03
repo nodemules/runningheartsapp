@@ -15,6 +15,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
+var api = require('./app/api/main');
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
@@ -32,6 +33,7 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 // required for passport
 app.use(session({ secret: 'isitsecretisitsafepunchthekeyandpunchthekeys' })); // session secret
 app.use(passport.initialize());
@@ -40,6 +42,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+app.use('/api', api);
+
 
 // launch ======================================================================
 app.listen(port);

@@ -120,3 +120,18 @@ h1 {
   z-index: 0;
 }
 
+.venuelist {
+	font-weight: bold;
+	font-size: 1.4em;
+}
+
+.venueitem {
+	padding: 5px 0px 5px 0px;
+}
+
+.venueinput {
+   position: fixed;
+   bottom: 0px;
+   margin: 0 auto;
+   width: 50%;
+}
