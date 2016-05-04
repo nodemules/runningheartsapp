@@ -28,6 +28,26 @@
             });
     };
 
+    $scope.loadValues = function(venueId){
+        $http.get('/api/venues/' + venueId)
+          .success(function(data) {  //change to then?
+            $scope.editData = {
+              name    : data.name,
+              day     : data.day,
+              td      : data.td,
+              venueId : data._id
+            }
+        })
+      }
+    
+    $scope.modifyVenue = function(venueId){
+      $http.put('api/venues', $scope.editData)
+        .then(function(data){
+              getVenues();
+              $scope.show = false;
+        })
+    }
+
       getVenues();
     }
 

@@ -13,10 +13,24 @@
 			<div class="col-xs-3 venueitem">{{venue.name}}</div>
 			<div class="col-xs-3 venueitem">{{venue.day}}</div>
 			<div class="col-xs-3 venueitem">{{venue.td}}</div>
-			<div class="col-xs-3 venueitem"><button class="btn btn-danger btn-xs">Edit</button></div>
+			<div class="col-xs-3 venueitem"><button class="btn btn-danger btn-xs" ng-click="$parent.show = true; loadValues(venue._id);">Edit</button></div>
 	  </div>
 	</div>
 </div>
+
+<div ng-if="show" class="venuemodify">
+	<div class="form-group">
+		<input type="text" class="form-control input" placeholder="Venue Name" ng-model="editData.name">
+  </div>
+	<div class="form-group">	
+		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="editData.day">
+	</div>
+	<div class="form-group">	
+		<input type="text" class="form-control input" placeholder="Venue TD" ng-model="editData.td">
+	</div>
+	<button type="submit" class="btn btn-danger btn-sm" ng-click="modifyVenue(editData.venueId);">Modify Venue</button>
+</div>
+
 
 <div class="venueinput">
 	<div class="form-group">
