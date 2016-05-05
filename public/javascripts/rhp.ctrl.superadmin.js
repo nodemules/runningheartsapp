@@ -21,7 +21,7 @@
             .success(function(data) { //change to then?
                 $scope.formData = {}; // clear the form after entry
                 $scope.venues = data;
-                console.log(data);
+                getVenues();
             })
             .error(function(data) {
                 console.log('Error: ' + data);

@@ -20,20 +20,10 @@ api.get('/venues', function(req, res, next) {
 });
 
 api.post('/venues', function(req, res) {
-
-    Venues.create({
-        name : req.body.name,
-        day  : req.body.day,
-        td   : req.body.td
-    }, function(err, venue) {
+    Venues.create(req.body, function(err, venue) {
         if (err)
             res.send(err);
-
-        Venues.find(function(err, venues) {
-            if (err)
-                res.send(err)
-            res.json(venues);
-        });
+        res.send(venue);
     });
 
 });
@@ -47,21 +37,11 @@ api.get('/venues/:venueId', function(req, res, next) {
 });
 
 api.put('/venues', function(req, res){
-    console.log(req.body.venueId);
-    Venues.findById(req.body.venueId, function(err, venue){
-         if (err)
-            res.send(err);
-        
-        venue.td = req.body.td;
-        venue.name = req.body.name;
-        venue.day = req.body.day;
-
-        venue.save(function(err) {
-            if (err)
-                res.send(err);
-        });
-        res.send(venue);
-    })
+    Venues.findOneAndUpdate({_id:req.body.venueId}, req.body, function (err, venue) {
+    if (err)
+        res.send(err);
+    res.send(venue);
+    });
 });
 
 
