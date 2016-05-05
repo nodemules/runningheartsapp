@@ -1,8 +1,27 @@
 <!doctype html>
-<html>
+<html ng-app="runningHeartsPoker">
 <head>
 <% include head %>
 </head>
-<body>
-AddRemove Players
+<body ng-controller="rhpPlayerCtrl">
+
+<h1>Add or Modify Players</h1>
+
+<div class="playerInput">
+	<div class="form-group">
+		<input type="text" class="form-control input" placeholder="Player Name" ng-model="formData.playername">
+    </div>
+
+	<button type="submit" class="btn btn-danger btn-sm" ng-click="addPlayer()">Add Player</button>
+</div>
+
+<h1>Make a Player a TD</h1>
+<div class="selectPlayer">
+	<select class="form-control">
+		<option ng-repeat="player in players" value="{{player.local.email}}" >{{player.local.email}}</option>
+	</select>
+</div>
+
+
+</body>
 </html>

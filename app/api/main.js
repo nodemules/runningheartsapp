@@ -1,6 +1,7 @@
 var express = require('express');
 var api = express.Router();
 var Venues = require('../models/venue');
+var Users = require('../models/user');
 
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
@@ -44,5 +45,27 @@ api.put('/venues', function(req, res){
     });
 });
 
+//========================
+//Add Modify Players =====
+//========================
+
+//TODO: need to setup a loop here to only return the usernames, otherwise we are sending their pass, usertype etc.
+api.get('/players', function(req, res, next) {
+    console.log('get players..');
+    Users.find(function(err, players) {
+        if (err)
+            res.send(err);
+        res.json(players);
+    });
+});
+
+api.post('/players', function(req, res) {
+    Users.create(req.body, function(err, player) {
+        if (err)
+            res.send(err);
+        res.send(player);
+    });
+
+});
 
 module.exports = api;
