@@ -17,9 +17,10 @@
 
 <h1>Make a Player a TD</h1>
 <div class="selectPlayer">
-	<select class="form-control">
+	<select class="form-control" ng-model="formdata.tdSelect">
 		<option ng-repeat="player in players" value="{{player.local.email}}" >{{player.local.email}}</option>
 	</select>
+	<button type="submit" class="btn btn-danger btn-sm" ng-click="makeTd()">Make This Player a TD</button>
 </div>
 
 
