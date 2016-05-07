@@ -2,6 +2,7 @@ var express = require('express');
 var api = express.Router();
 var Venues = require('../models/venue');
 var Users = require('../models/user');
+var Players = require('../models/player');
 
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
@@ -68,7 +69,7 @@ api.get('/players', function(req, res, next) {
 });
 
 api.post('/players', function(req, res) {
-    Users.create(req.body, function(err, player) {
+    Players.create(req.body, function(err, player) {
         if (err)
             res.send(err);
         res.send(player);

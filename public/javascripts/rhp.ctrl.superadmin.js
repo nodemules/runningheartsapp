@@ -17,7 +17,6 @@
       }
       
       $scope.createVenue = function() {
-      console.log($scope.formData);
         $http.post('/api/venues', $scope.formData)
             .success(function(data) { //change to then?
                 $scope.formData = {}; // clear the form after entry
