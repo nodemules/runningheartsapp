@@ -20,21 +20,22 @@ module.exports = function(app, passport) {
             console.log("super admin detected");
             res.render('superadminconsole.ejs', {
                 user : req.user,
-                name : req.user.local.email
+                name : req.user.local.username
             });
         }
         else if (req.user.usertype == 2){
             console.log("regular admin detected");
             res.render('adminconsole.ejs', {
                 user : req.user,
-                name : req.user.local.email
+                name : req.user.local.username
             });
         }
         //change to regular user later:
         else {
         console.log("non admin detected");
         res.render('adminconsole.ejs', {
-            user : req.user
+            user : req.user,
+            name : req.user.local.username
         });
         }
     });
