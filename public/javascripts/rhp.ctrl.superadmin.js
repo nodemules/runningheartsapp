@@ -17,6 +17,7 @@
       }
       
       $scope.createVenue = function() {
+      console.log($scope.formData);
         $http.post('/api/venues', $scope.formData)
             .success(function(data) { //change to then?
                 $scope.formData = {}; // clear the form after entry
@@ -48,6 +49,14 @@
         })
     }
 
+    function getTds() {
+      $http.get('/api/tds')
+        .success(function(data) {  //change to then?
+            $scope.tds = data;
+        })
+      }
+
+      getTds();
       getVenues();
     }
 

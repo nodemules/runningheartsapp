@@ -25,8 +25,11 @@
 	<div class="form-group">	
 		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="editData.day">
 	</div>
-	<div class="form-group">	
-		<input type="text" class="form-control input" placeholder="Venue TD" ng-model="editData.td">
+	<div class="form-group">
+	  <select class="form-control" ng-model="editData.td" >
+	  	<option value="" disabled selected>Venue TD</option>
+		<option ng-repeat="td in tds" value="{{td.local.username}}" >{{td.local.username}}</option>
+	  </select>
 	</div>
 	<button type="submit" class="btn btn-danger btn-sm" ng-click="modifyVenue(editData.venueId);">Modify Venue</button>
 </div>
@@ -39,8 +42,11 @@
 	<div class="form-group">	
 		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="formData.day">
 	</div>
-	<div class="form-group">	
-		<input type="text" class="form-control input" placeholder="Venue TD" ng-model="formData.td">
+	<div class="form-group">
+	<select class="form-control" ng-model="formData.td">
+	  	<option value="" disabled selected>Venue TD</option>
+		<option ng-repeat="td in tds" value="{{td.local.username}}" >{{td.local.username}}</option>
+	</select>
 	</div>
 	<button type="submit" class="btn btn-danger btn-sm" ng-click="createVenue()">Add Venue</button>
 </div>
