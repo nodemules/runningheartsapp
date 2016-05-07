@@ -68,4 +68,12 @@ api.post('/players', function(req, res) {
 
 });
 
+api.put('/players', function(req, res){
+    Users.findOneAndUpdate({'local.username': req.body.user}, req.body, function (err, user) {
+    if (err)
+        res.send(err);
+    res.send(user);
+    });
+});
+
 module.exports = api;

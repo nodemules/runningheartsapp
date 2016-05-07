@@ -16,7 +16,16 @@
         })
       }
 
-
+      $scope.makeTd = function(){
+        var updateUser = { 
+          user: $scope.formdata.tdSelect,
+          usertype: 2
+          }
+        $http.put('/api/players', updateUser )
+          .then(function(data){
+            //TODO: some sort of visual confirmation
+          })
+      }
 
       getPlayers();
       

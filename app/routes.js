@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
         //change to regular user later:
         else {
         console.log("non admin detected");
-        res.render('adminconsole.ejs', {
+        res.render('profile.ejs', {
             user : req.user,
             name : req.user.local.username
         });
