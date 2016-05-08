@@ -78,7 +78,11 @@ module.exports = function(passport) {
     function(req, username, password, done) {
         if (username)
             username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
-        console.log(req.body.playerName);
+            
+            //must provide name
+            if (!req.body.playerName) {
+                return done(null, false, req.flash('signupMessage', 'Please provide a name.'));
+            }
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
