@@ -98,18 +98,20 @@ module.exports = function(passport) {
                     } else {
 
                         // create the user and player
-                        var newUser            = new User();
+                        var newUser = {
+                            local: {
+                                username: username,
+                                password: password
+                            },
+                            name: req.body.playerName
+                        }
 
-                        newUser.local.username = username;
-                        newUser.local.password = newUser.generateHash(password);
-                        newUser.name           = req.body.playerName;
-
-                        newUser.save(function(err) {
+                        User.create(newUser, function(err, user) {
                             if (err)
                                 return done(err);
                             var newPlayer = {
                                 playerName: req.body.playerName,
-                                userId: newUser._id,
+                                userId: user._id,
                                 totalWins: 0,
                                 seasonWins: 0,
                                 totalPoints: 0,
@@ -124,7 +126,7 @@ module.exports = function(passport) {
 
 
 
-                            return done(null, newUser);
+                            return done(null, user);
                         });
                     }
 

@@ -32,6 +32,24 @@ var userSchema = mongoose.Schema({
 
 });
 
+userSchema.pre('save', function(next) {
+    var user = this;
+
+    // generate a salt
+    bcrypt.genSalt(8, function(err, salt) {
+        if (err) return next(err);
+
+        // hash the password using our new salt
+        bcrypt.hash(user.local.password, salt, null, function(err, hash) {
+            if (err) return next(err);
+
+            // override the cleartext password with the hashed one
+            user.local.password = hash;
+            next();
+        });
+    });
+});
+
 // generating a hash
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
