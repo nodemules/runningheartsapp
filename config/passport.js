@@ -4,8 +4,9 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
-// load up the user model
+// load up the user and player models
 var User       = require('../app/models/user');
+var Player     = require('../app/models/player');
 
 // load the auth variables
 var configAuth = require('./auth'); // use this one for testing
@@ -72,12 +73,12 @@ module.exports = function(passport) {
         // by default, local strategy uses username and password, we will override with username
         usernameField : 'username',
         passwordField : 'password',
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        passReqToCallback : true //for the name portion
     },
     function(req, username, password, done) {
         if (username)
             username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
-
+        console.log(req.body.playerName);
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
@@ -92,15 +93,32 @@ module.exports = function(passport) {
                         return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
                     } else {
 
-                        // create the user
+                        // create the user and player
                         var newUser            = new User();
 
-                        newUser.local.username    = username;
+                        newUser.local.username = username;
                         newUser.local.password = newUser.generateHash(password);
+                        newUser.name           = req.body.playerName;
 
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
+                            var newPlayer = {
+                                playerName: req.body.playerName,
+                                userId: newUser._id,
+                                totalWins: 0,
+                                seasonWins: 0,
+                                totalPoints: 0,
+                                seasonPoints: 0,
+                                isTd: false,
+                            }
+                                //create a player in the players collection
+                                Player.create(newPlayer, function(err, player) {
+                                if (err)
+                                    return done(err);
+                                });
+
+
 
                             return done(null, newUser);
                         });
