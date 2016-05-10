@@ -1,10 +1,14 @@
 var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
+
+//require user model
+var User = require('./user');
 
 // define the schema for our venue model
 var playerSchema = mongoose.Schema({
 
-    playerName   : String,
-    userId       : String,
+    name         : String,
+    user         : { type: Schema.Types.ObjectId, ref: 'User' },
     totalWins    : Number,
     seasonWins   : String,
     totalPoints  : Number,

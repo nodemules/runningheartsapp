@@ -61,11 +61,14 @@ api.get('/tds', function(req, res, next) {
 
 //TODO: need to setup a loop here to only return the usernames, otherwise we are sending their pass, usertype etc.
 api.get('/players', function(req, res, next) {
-    Users.find(function(err, players) {
-        if (err)
-            res.send(err);
-        res.json(players);
-    });
+    Players
+        .find()
+        .populate('user')
+        .exec(function(err, player){
+            if (err)
+                res.send(err);
+            res.send(player);
+        })
 });
 
 api.post('/players', function(req, res) {
@@ -77,8 +80,8 @@ api.post('/players', function(req, res) {
 
 });
 
-api.put('/players', function(req, res){
-    Users.findOneAndUpdate({'local.username': req.body.user}, req.body, function (err, user) {
+api.put('/user', function(req, res){
+    Users.findOneAndUpdate({_id: req.body._id}, req.body, function (err, user) {
     if (err)
         res.send(err);
     res.send(user);

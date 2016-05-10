@@ -1,6 +1,10 @@
 // load the things we need
 var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
 var bcrypt   = require('bcrypt-nodejs');
+
+//require player schema
+var Player   = require('./player')
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -28,7 +32,7 @@ var userSchema = mongoose.Schema({
         name         : String
     },
     usertype         : Number,
-    name             : String
+    player           : { type: Schema.Types.ObjectId, ref: 'Player' }
 
 });
 

@@ -9,16 +9,19 @@
 
     function rhpPlayerCtrl ($scope, $http) {
 
+      $scope.formData = {};
+
       function getPlayers() {
         $http.get('/api/players')
           .success(function(data) {  //change to then?
             $scope.players = data;
+            $scope.formData.tdSelect = $scope.players[0].user;
         })
       }
 
       $scope.addPlayer = function() {
         var newPlayer = {
-          playerName: $scope.formData.playerName,
+          name: $scope.formData.playerName,
           totalWins: 0,
           seasonWins: 0,
           totalPoints: 0,
@@ -37,11 +40,9 @@
       }
 
       $scope.makeTd = function(){
-        var updateUser = { 
-          user: $scope.formdata.tdSelect,
-          usertype: 2
-          }
-        $http.put('/api/players', updateUser )
+        console.log($scope.formData.tdSelect);
+        $scope.formData.tdSelect.usertype = 2;
+        $http.put('/api/user', $scope.formData.tdSelect)
           .then(function(data){
             //TODO: some sort of visual confirmation
           })

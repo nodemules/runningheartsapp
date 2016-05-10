@@ -97,28 +97,30 @@ module.exports = function(passport) {
                         return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
                     } else {
 
+                        var newPlayer = new Player({
+                            name: req.body.playerName,
+                            totalWins: 0,
+                            seasonWins: 0,
+                            totalPoints: 0,
+                            seasonPoints: 0,
+                            isTd: false,
+                        });
+
                         // create the user and player
                         var newUser = {
                             local: {
                                 username: username,
                                 password: password
                             },
-                            name: req.body.playerName
+                            player: newPlayer._id
                         }
 
                         User.create(newUser, function(err, user) {
                             if (err)
                                 return done(err);
-                            var newPlayer = {
-                                playerName: req.body.playerName,
-                                userId: user._id,
-                                totalWins: 0,
-                                seasonWins: 0,
-                                totalPoints: 0,
-                                seasonPoints: 0,
-                                isTd: false,
-                            }
+
                                 //create a player in the players collection
+                                newPlayer.user = user._id;
                                 Player.create(newPlayer, function(err, player) {
                                 if (err)
                                     return done(err);
