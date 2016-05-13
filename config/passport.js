@@ -79,9 +79,27 @@ module.exports = function(passport) {
         if (username)
             username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
             
+            /*lets error handle yo */
+
             //must provide name
             if (!req.body.playerName) {
                 return done(null, false, req.flash('signupMessage', 'Please provide a name.'));
+            }
+            //username 4 or more chars
+            if (username.length < 4) {
+                return done(null, false, req.flash('signupMessage', 'Username must be 4 or more characters'));
+            }
+            //password greater than 6 and at least one number and one letter.
+            //find a library for this or don't. Make your only library like a boss.
+            var reg = /[0-9]/;
+            if (!reg.test(password)) {
+                return done(null, false, req.flash('signupMessage', 'Password must contain at least one number.'));
+            }
+            if (password.length < 6) {
+                return done(null, false, req.flash('signupMessage', 'Password must be 6 or more characters.'));
+            }
+            if (req.body.passwordConfirm != password){
+                return done(null, false, req.flash('signupMessage', 'Passwords do not match'));
             }
         // asynchronous
         process.nextTick(function() {
