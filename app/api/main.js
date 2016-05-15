@@ -1,8 +1,10 @@
-var express = require('express');
-var api = express.Router();
-var Venues = require('../models/venue');
-var Users = require('../models/user');
-var Players = require('../models/player');
+var express = require('express'),
+    api     = express.Router();
+
+var Venues  = require('../models/venue'),
+    Users   = require('../models/user'),
+    Players = require('../models/player'),
+    Event   = require('../models/event');
 
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
@@ -14,11 +16,14 @@ api.use(function(req, res, next) {
 //========================
 
 api.get('/venues', function(req, res, next) {
-	Venues.find(function(err, venues) {
-		if (err)
-			res.send(err);
-		res.json(venues);
-	});
+	Venues
+    .find()
+    .populate('td')
+    .exec(function(err, venues) {
+      if (err)
+        res.send(err);
+      res.json(venues);
+    });
 });
 
 api.post('/venues', function(req, res) {
@@ -48,7 +53,10 @@ api.put('/venues', function(req, res){
 
 //TODO: need to setup a loop here to only return the usernames, otherwise we are sending their pass, usertype etc.
 api.get('/tds', function(req, res, next) {
-    Users.find({usertype: 2}, function(err, tds) {
+  Users
+    .find({usertype: 2})
+    .populate('player')
+    .exec(function(err, tds) {
         if (err)
             res.send(err);
         res.json(tds);
@@ -87,5 +95,46 @@ api.put('/user', function(req, res){
     res.send(user);
     });
 });
+
+// EVENTS
+
+api.post('/event', function(req, res) {
+  Event.create(req.body, function(err, event) {
+    if (err)
+      res.send(err);
+    res.send(event);
+  })
+})
+
+api.put('/event', function(req, res) {
+  Event.findOneAndUpdate({ _id : req.body._id }, req.body, 
+    function (err, event) {
+      if (err)
+        res.send(err);
+      res.send(event);
+  })
+})
+
+api.get('/event', function(req, res) {
+  Event
+    .find()
+    .populate('venue td')
+    .exec(function(err, events) {
+      if (err)
+        res.send(err);
+      res.send(events);
+    })
+})
+
+api.get('/event/:id', function(req, res) {
+  Event
+    .findById(req.params.id)
+    .populate('venue td')
+    .exec(function(err, events) {
+      if (err)
+        res.send(err);
+      res.send(events);
+    })
+})
 
 module.exports = api;

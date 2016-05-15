@@ -8,6 +8,8 @@
     rhpSuperAdminCtrl.$inject = [ '$scope', '$http' ];
 
     function rhpSuperAdminCtrl ($scope, $http) {
+      $scope.tds = [];
+      $scope.formData = {};
 
       function getVenues() {
         $http.get('/api/venues')
@@ -26,7 +28,7 @@
             .error(function(data) {
                 console.log('Error: ' + data);
             });
-    };
+      };
 
     $scope.loadValues = function(venueId){
         $http.get('/api/venues/' + venueId)
@@ -51,7 +53,8 @@
     function getTds() {
       $http.get('/api/tds')
         .success(function(data) {  //change to then?
-            $scope.tds = data;
+          $scope.tds = data;
+          $scope.formData.td = $scope.tds[0];
         })
       }
 

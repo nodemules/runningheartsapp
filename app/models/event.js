@@ -9,14 +9,14 @@ var Player    = require('./player'),
 var eventSchema = mongoose.Schema({
   date      : Date,
   venue     : { type: Schema.Types.ObjectId, ref: 'Venue' },
-  td        : { type: Schema.Types.ObjectId, ref 'Player' },
+  td        : { type: Schema.Types.ObjectId, ref: 'Player' },
   games     : [
     {
       number : Number,                                                  // do we need this or can we just use the index of the object in the array
       completed : Boolean,
       players : [ 
         {
-          player : { type: Schema.Types.ObjectId, ref 'Player' },       // when populating events for a player, only load the name of each player
+          player : { type: Schema.Types.ObjectId, ref: 'Player' },       // when populating events for a player, only load the name of each player
           score : Number,
           rank : Number
         }
