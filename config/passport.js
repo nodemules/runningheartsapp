@@ -4,8 +4,9 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
-// load up the user model
+// load up the user and player models
 var User       = require('../app/models/user');
+var Player     = require('../app/models/player');
 
 // load the auth variables
 var configAuth = require('./auth'); // use this one for testing
@@ -35,17 +36,17 @@ module.exports = function(passport) {
     // =========================================================================
     passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+        usernameField : 'username',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
     },
-    function(req, email, password, done) {
-        if (email)
-            email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+    function(req, username, password, done) {
+        if (username)
+            username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
         // asynchronous
         process.nextTick(function() {
-            User.findOne({ 'local.email' :  email }, function(err, user) {
+            User.findOne({ 'local.username' :  username }, function(err, user) {
                 // if there are any errors, return the error
                 if (err)
                     return done(err);
@@ -69,58 +70,101 @@ module.exports = function(passport) {
     // LOCAL SIGNUP ============================================================
     // =========================================================================
     passport.use('local-signup', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+        // by default, local strategy uses username and password, we will override with username
+        usernameField : 'username',
         passwordField : 'password',
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+        passReqToCallback : true //for the name portion
     },
-    function(req, email, password, done) {
-        if (email)
-            email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+    function(req, username, password, done) {
+        if (username)
+            username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
+            
+            /*lets error handle yo */
 
+            //must provide name
+            if (!req.body.playerName) {
+                return done(null, false, req.flash('signupMessage', 'Please provide a name.'));
+            }
+            //username 4 or more chars
+            if (username.length < 4) {
+                return done(null, false, req.flash('signupMessage', 'Username must be 4 or more characters'));
+            }
+            //password greater than 6 and at least one number and one letter.
+            //find a library for this or don't. Make your only library like a boss.
+            var reg = /[0-9]/;
+            if (!reg.test(password)) {
+                return done(null, false, req.flash('signupMessage', 'Password must contain at least one number.'));
+            }
+            if (password.length < 6) {
+                return done(null, false, req.flash('signupMessage', 'Password must be 6 or more characters.'));
+            }
+            if (req.body.passwordConfirm != password){
+                return done(null, false, req.flash('signupMessage', 'Passwords do not match'));
+            }
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:
             if (!req.user) {
-                User.findOne({ 'local.email' :  email }, function(err, user) {
+                User.findOne({ 'local.username' :  username }, function(err, user) {
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
 
-                    // check to see if theres already a user with that email
+                    // check to see if theres already a user with that username
                     if (user) {
-                        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                        return done(null, false, req.flash('signupMessage', 'That username is already taken.'));
                     } else {
 
-                        // create the user
-                        var newUser            = new User();
+                        var newPlayer = new Player({
+                            name: req.body.playerName,
+                            totalWins: 0,
+                            seasonWins: 0,
+                            totalPoints: 0,
+                            seasonPoints: 0,
+                            isTd: false,
+                        });
 
-                        newUser.local.email    = email;
-                        newUser.local.password = newUser.generateHash(password);
+                        // create the user and player
+                        var newUser = {
+                            local: {
+                                username: username,
+                                password: password
+                            },
+                            player: newPlayer._id
+                        }
 
-                        newUser.save(function(err) {
+                        User.create(newUser, function(err, user) {
                             if (err)
                                 return done(err);
 
-                            return done(null, newUser);
+                                //create a player in the players collection
+                                newPlayer.user = user._id;
+                                Player.create(newPlayer, function(err, player) {
+                                if (err)
+                                    return done(err);
+                                });
+
+
+
+                            return done(null, user);
                         });
                     }
 
                 });
             // if the user is logged in but has no local account...
-            } else if ( !req.user.local.email ) {
+            } else if ( !req.user.local.username ) {
                 // ...presumably they're trying to connect a local account
-                // BUT let's check if the email used to connect a local account is being used by another user
-                User.findOne({ 'local.email' :  email }, function(err, user) {
+                // BUT let's check if the username used to connect a local account is being used by another user
+                User.findOne({ 'local.username' :  username }, function(err, user) {
                     if (err)
                         return done(err);
                     
                     if (user) {
-                        return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
+                        return done(null, false, req.flash('loginMessage', 'That username is already taken.'));
                         // Using 'loginMessage instead of signupMessage because it's used by /connect/local'
                     } else {
                         var user = req.user;
-                        user.local.email = email;
+                        user.local.username = username;
                         user.local.password = user.generateHash(password);
                         user.save(function (err) {
                             if (err)

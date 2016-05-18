@@ -14,6 +14,46 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/main', isLoggedIn, function(req, res) {
+        //surely there is a better way to accomplish this?
+        if (req.user.usertype == 1){
+            console.log("super admin detected");
+            res.render('superadminconsole.ejs', {
+                user : req.user,
+                name : req.user.local.username
+            });
+        }
+        else if (req.user.usertype == 2){
+            console.log("regular admin detected");
+            res.render('adminconsole.ejs', {
+                user : req.user,
+                name : req.user.local.username
+            });
+        }
+        //change to regular user later:
+        else {
+        console.log("non admin detected");
+        res.render('profile.ejs', {
+            user : req.user,
+            name : req.user.local.username
+        });
+        }
+    });
+
+    // SUPER ADMIN SECTION =========================
+    app.get('/superadminconsole', isLoggedIn, function(req, res) {
+        res.render('superadminconsole.ejs', {
+            user : req.user
+        });
+    });
+
+    // REGULAR ADMIN SECTION =========================
+    app.get('/adminconsole', isLoggedIn, function(req, res) {
+        res.render('adminconsole.ejs', {
+            user : req.user
+        });
+    });
+
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
@@ -33,7 +73,7 @@ module.exports = function(app, passport) {
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
+            successRedirect : '/main', // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -89,6 +129,39 @@ module.exports = function(app, passport) {
             }));
 
 // =============================================================================
+// PAGE ROUTES (ALREADY LOGGED IN ) ============================================
+// =============================================================================
+
+app.get('/addmodifyvenues', isLoggedIn, function(req, res) {
+    res.render('addmodifyvenues.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/addremoveplayers', isLoggedIn, function(req, res) {
+    res.render('addremoveplayers.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/creategame', isLoggedIn, function(req, res) {
+    res.render('creategame.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/viewgame', isLoggedIn, function(req, res) {
+    res.render('viewgame.ejs', {
+        user : req.user
+    });
+});
+
+app.get('/assignstandings', isLoggedIn, function(req, res) {
+    res.render('assignstandings.ejs', {
+        user : req.user
+    });
+});
+/*// =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
 
@@ -138,7 +211,7 @@ module.exports = function(app, passport) {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
-
+*/
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
