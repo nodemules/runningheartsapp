@@ -7,10 +7,10 @@ var Player    = require('./player'),
 
 // define the schema for our venue model
 var venueSchema = mongoose.Schema({
-  name      : String,
-  day       : String,
-  td        : { type: Schema.Types.ObjectId, ref: 'Player' },
-  events    : [{ type: Schema.Types.ObjectId, ref: 'Event' }]
+  "name"      : String,
+  "day"       : String,
+  "td"        : { "type" : Schema.Types.ObjectId, "ref" : "Player" },
+  "events"    : [{ "type" : Schema.Types.ObjectId, "ref" : "Event" }]
 });
 
 

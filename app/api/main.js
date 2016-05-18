@@ -4,7 +4,8 @@ var express = require('express'),
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
     Players = require('../models/player'),
-    Event   = require('../models/event');
+    Event   = require('../models/event'),
+    Game   = require('../models/game');
 
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
@@ -99,10 +100,10 @@ api.put('/user', function(req, res){
 // EVENTS
 
 api.post('/event', function(req, res) {
-  Event.create(req.body, function(err, event) {
+  Event.create(req.body, function(err, e) {
     if (err)
-      res.send(err);
-    res.send(event);
+      console.log(err.stack);
+    res.send(e);
   })
 })
 

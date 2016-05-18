@@ -7,14 +7,12 @@ var Player   = require('./player')
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
-    local            : {
-        username     : String,
-        password     : String
+    "local"            : {
+        "username"     : String,
+        "password"     : String
     },
-    usertype         : Number,
-    player           : { type: Schema.Types.ObjectId, ref: 'Player' }
-
+    "usertype"         : Number,
+    "player"           : { "type" : Schema.Types.ObjectId, "ref" : "Player" }
 });
 
 userSchema.pre('save', function(next) {
