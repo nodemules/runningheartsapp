@@ -1,27 +1,21 @@
-var mongoose = require('mongoose');
-var Schema   = mongoose.Schema;
+var mongoose = require('mongoose'),
+    Schema   = mongoose.Schema;
 
-//require user model
-var User = require('./user');
+// import schemas
+var User    = require('./user'),
+    Event   = require('./event');
 
 // define the schema for our venue model
 var playerSchema = mongoose.Schema({
-
-    name         : String,
-    user         : { type: Schema.Types.ObjectId, ref: 'User' },
-    totalWins    : Number,
-    seasonWins   : String,
-    totalPoints  : Number,
-    seasonPoints : Number,
-    isTd         : Boolean,
-    stats        : [{
-    	venue    : String,
-    	venueId  : String,
-    	date     : String,
-    	game1    : Number,
-    	game2    : Number
-     }]
-
+  "name"         : String,
+  "user"         : { "type" : Schema.Types.ObjectId, "ref" : "User" },
+  "isTd"         : Boolean,
+  "stats"        : {                                                        // let's figure out how we populate this from the event data
+    "totalWins"    : Number,
+    "seasonWins"   : Number,
+    "totalPoints"  : Number,
+    "seasonPoints" : Number
+  }
 });
 
 

@@ -12,7 +12,7 @@
 		<div class="row">	
 			<div class="col-xs-3 venueitem">{{venue.name}}</div>
 			<div class="col-xs-3 venueitem">{{venue.day}}</div>
-			<div class="col-xs-3 venueitem">{{venue.td}}</div>
+			<div class="col-xs-3 venueitem">{{venue.td.name}}</div>
 			<div class="col-xs-3 venueitem"><button class="btn btn-danger btn-xs" ng-click="$parent.show = true; loadValues(venue._id);">Edit</button></div>
 	  </div>
 	</div>
@@ -43,9 +43,7 @@
 		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="formData.day">
 	</div>
 	<div class="form-group">
-	<select class="form-control" ng-model="formData.td">
-	  	<option value="" disabled selected>Venue TD</option>
-		<option ng-repeat="td in tds" value="{{td.local.username}}" >{{td.local.username}}</option>
+	<select class="form-control" ng-model="formData.td" ng-options="x.player._id as x.player.name for x in tds">
 	</select>
 	</div>
 	<button type="submit" class="btn btn-danger btn-sm" ng-click="createVenue()">Add Venue</button>
