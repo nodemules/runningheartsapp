@@ -43,7 +43,7 @@
 		<input type="text" class="form-control input" placeholder="Venue Day" ng-model="formData.day">
 	</div>
 	<div class="form-group">
-	<select class="form-control" ng-model="formData.td" ng-options="x.player._id as x.player.name for x in tds track by x._id">
+	<select class="form-control" ng-model="formData.td" ng-options="x.player._id as x.player.name for x in tds">
 	</select>
 	</div>
 	<button type="submit" class="btn btn-danger btn-sm" ng-click="createVenue()">Add Venue</button>
