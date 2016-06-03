@@ -7,7 +7,7 @@ var User    = require('./user'),
 
 // define the schema for our venue model
 var playerSchema = mongoose.Schema({
-  "name"         : String,
+  "name"         : { "type" : String, "required" : true },
   "user"         : { "type" : Schema.Types.ObjectId, "ref" : "User" },
   "isTd"         : Boolean,
   "stats"        : {                                                        // let's figure out how we populate this from the event data

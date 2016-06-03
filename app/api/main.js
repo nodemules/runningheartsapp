@@ -3,7 +3,8 @@ var express = require('express'),
     
 var venuesController  = require('./venuesController'),
     eventsController  = require('./eventsController'),
-    gamesController   = require('./gamesController');
+    gamesController   = require('./gamesController'),
+    playersController = require('./playersController');
 
 
 api.use(function(req, res, next) {
@@ -14,6 +15,7 @@ api.use(function(req, res, next) {
 api.use('/venues', venuesController);
 api.use('/events', eventsController);
 api.use('/games', gamesController);
+api.use('/players', playersController)
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
@@ -36,26 +38,6 @@ api.get('/tds', function(req, res, next) {
 //========================
 //Add Modify Players =====
 //========================
-
-api.get('/players', function(req, res, next) {
-    Players
-        .find()
-        .populate('user')
-        .exec(function(err, player){
-            if (err)
-                res.send(err);
-            res.send(player);
-        })
-});
-
-api.post('/players', function(req, res) {
-    Players.create(req.body, function(err, player) {
-        if (err)
-            res.send(err);
-        res.send(player);
-    });
-
-});
 
 api.put('/user', function(req, res){
     Users.findOneAndUpdate({_id: req.body._id}, req.body, function (err, user) {
