@@ -1,13 +1,17 @@
 var express = require('express'),
     api     = express.Router();
     
-var venuesController  = require('./venuesController');
+var venuesController  = require('./venuesController'),
+    eventsController  = require('./eventsController');
+
+
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
 	next(); 
 });
 
 api.use('/venues', venuesController);
+api.use('/events', eventsController);
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
@@ -58,83 +62,6 @@ api.put('/user', function(req, res){
     res.send(user);
     });
 });
-
-// EVENTS
-
-api.post('/event', function(req, res) {
-  Event.create(req.body, function(err, e) {
-    if (err)
-      console.log(err.stack);
-    res.send(e);
-  })
-})
-
-api.put('/event', function(req, res) {
-  Event.findOneAndUpdate({ _id : req.body._id }, req.body, 
-    function (err, event) {
-      if (err)
-        res.send(err);
-      res.send(event);
-  })
-})
-
-api.get('/event', function(req, res) {
-  var pOptions = [
-    { 
-      path : 'venue', 
-      select : 'name day' 
-    }, 
-    { 
-      path : 'td', 
-      select : 'name user', 
-      populate : { 
-        path : 'user', 
-        model : 'User', 
-        select : 'local.username' 
-      } 
-    },
-    {
-      path : 'games'
-    }
-  ];
-  Event
-    .find()
-    .populate(pOptions)
-    .exec(function(err, events) {
-      if (err)
-        res.send(err);
-      res.send(events);
-    })
-})
-
-api.get('/event/:id', function(req, res) {
-  var pOptions = [
-    { 
-      path : 'venue', 
-      select : 'name day' 
-    }, 
-    { 
-      path : 'td', 
-      select : 'name user', 
-      populate : { 
-        path : 'user', 
-        model : 'User', 
-        select : 'local.username' 
-      } 
-    },
-    {
-      path : 'games'
-    }
-  ];
-  Event
-    .findById(req.params.id)
-    .populate(pOptions)
-    .exec(function(err, events) {
-      if (err)
-        res.send(err);
-      res.send(events);
-    })
-})
 
 // GAMES
 
