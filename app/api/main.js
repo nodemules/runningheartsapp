@@ -1,56 +1,19 @@
 var express = require('express'),
     api     = express.Router();
-
-var Venues  = require('../models/venue'),
-    Users   = require('../models/user'),
-    Players = require('../models/player'),
-    Event   = require('../models/event'),
-    Game   = require('../models/game');
-
+    
+var venuesController  = require('./venuesController');
 api.use(function(req, res, next) {
 	console.log('Running Hearts API is baking...');
 	next(); 
 });
 
-//========================
-//Add Modify Venues ======
-//========================
+api.use('/venues', venuesController);
 
-api.get('/venues', function(req, res, next) {
-	Venues
-    .find()
-    .populate('td')
-    .exec(function(err, venues) {
-      if (err)
-        res.send(err);
-      res.json(venues);
-    });
-});
-
-api.post('/venues', function(req, res) {
-    Venues.create(req.body, function(err, venue) {
-        if (err)
-            res.send(err);
-        res.send(venue);
-    });
-
-});
-
-api.get('/venues/:venueId', function(req, res, next) {
-    Venues.findById(req.params.venueId, function(err, venue) {
-        if (err)
-            console.log(err.stack);
-        res.json(venue);
-    });
-});
-
-api.put('/venues', function(req, res){
-    Venues.findOneAndUpdate({_id:req.body.venueId}, req.body, function (err, venue) {
-    if (err)
-        res.send(err);
-    res.send(venue);
-    });
-});
+var Venues  = require('../models/venue'),
+    Users   = require('../models/user'),
+    Players = require('../models/player'),
+    Event   = require('../models/event'),
+    Game    = require('../models/game');
 
 //TODO: need to setup a loop here to only return the usernames, otherwise we are sending their pass, usertype etc.
 api.get('/tds', function(req, res, next) {
