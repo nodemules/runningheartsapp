@@ -7,7 +7,7 @@ var Player    = require('./player'),
 
 // define the schema for our venue model
 var gameSchema = mongoose.Schema({
-  "event"       : { "type" : Schema.Types.ObjectId, "ref" : "Event" },
+  "event"       : { "type" : Schema.Types.ObjectId, "ref" : "Event", "required" : true },
   "number"      : Number,                                                  // do we need this or can we just use the index of the object in the array
   "completed"   : Boolean,
   "players"     : [ 

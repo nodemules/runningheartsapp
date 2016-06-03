@@ -2,7 +2,8 @@ var express = require('express'),
     api     = express.Router();
     
 var venuesController  = require('./venuesController'),
-    eventsController  = require('./eventsController');
+    eventsController  = require('./eventsController'),
+    gamesController   = require('./gamesController');
 
 
 api.use(function(req, res, next) {
@@ -12,6 +13,7 @@ api.use(function(req, res, next) {
 
 api.use('/venues', venuesController);
 api.use('/events', eventsController);
+api.use('/games', gamesController);
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
@@ -62,109 +64,5 @@ api.put('/user', function(req, res){
     res.send(user);
     });
 });
-
-// GAMES
-
-api.post('/game', function(req, res) {
-  Game.create(req.body, function(err, game) {
-    if (err)
-      console.log(err.stack);
-    Event.findOne({ _id : game['event'] }, function(err, e) {
-      if (err)
-        console.log(err.stack);
-      e.games.push(game._id);
-      e.save();
-      res.send(game);
-    })
-  })
-})
-
-api.put('/game', function(req, res) {
-  Game.findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true },
-    function (err, game) {
-      if (err)
-        res.send(err);
-      res.send(game);
-  })
-})
-
-api.get('/game', function(req, res) {
-  var pOptions = [
-    { 
-      path : 'event',
-      select : 'venue td date',
-      populate: [
-        {
-          path : 'venue', 
-          select : 'name day'
-        },
-        { 
-          path : 'td', 
-          select : 'name user', 
-          populate : { 
-            path : 'user', 
-            model : 'User', 
-            select : 'local.username' 
-          } 
-        }
-      ]
-    }
-  ];
-  Game
-    .find()
-    .populate(pOptions)
-    .exec(function(err, games) {
-      if (err)
-        res.send(err);
-      res.send(games);
-    })
-})
-
-api.get('/game/:id', function(req, res) {
-  var pOptions = [
-    { 
-      path : 'event',
-      populate: [
-        {
-          path : 'venue', 
-          select : 'name day'
-        },
-        { 
-          path : 'td', 
-          select : 'name user', 
-          populate : { 
-            path : 'user', 
-            model : 'User', 
-            select : 'local.username' 
-          } 
-        },
-        {
-          path : 'games',
-          select : 'event number'
-        }
-      ]
-    },
-    {
-      path : 'players',
-      populate : {
-        path : 'player', 
-        select : 'name user', 
-        populate : { 
-          path : 'user', 
-          model : 'User', 
-          select : 'local.username' 
-        } 
-      }
-    }
-  ];
-  Game
-    .findById(req.params.id)
-    .populate(pOptions)
-    .exec(function(err, games) {
-      if (err)
-        res.send(err);
-      res.send(games);
-    })
-})
 
 module.exports = api;
