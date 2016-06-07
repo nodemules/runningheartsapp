@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+<% include head %>
+</head>
+<body>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1 class="blacktext">Running Hearts Poker</h1>
+
+        <p class="blacktext">Login or Register</p>
+
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
+        <!-- <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a> -->
+
+    </div>
+
+ </div>
+</body>
+</html>
