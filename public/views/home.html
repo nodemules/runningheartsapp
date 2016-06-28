@@ -19,7 +19,7 @@
       </div>
     </md-toolbar>
     <md-list flex>
-      <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab.id)">
+      <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
         <div class="md-list-item-text" layout="column">
           <h3>{{tab.label}}</h3>
           <h4>{{tab.message}}</h4>
@@ -32,5 +32,6 @@
     <h1>{{ home.activeTab.label | uppercase}}</h1>
     <p>{{ home.activeTab.message }}</p>
     <p>{{ home.activeTab.alert }}</p>
+  <div ui-view></div>
   </md-content>
 </div>

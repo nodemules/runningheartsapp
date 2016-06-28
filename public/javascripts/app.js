@@ -1,6 +1,9 @@
 // global angular
 var APP_NAME = 'runningHeartsApp';
 (function(angular) {
+
+  'use strict';
+
   var APP_DEPENDENCIES = ['ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'ngMessages'];
   angular
     .module(APP_NAME, APP_DEPENDENCIES)
@@ -15,13 +18,29 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'homeCtrl',
           controllerAs: 'home'
         })
-        .state('test', {
-          url : '/test',
-          templateUrl: '/views/test.html',
-          controller: 'homeCtrl',
-          controllerAs: 'test'
+        .state('venues', {
+          url : 'venues',
+          parent: 'home',
+          templateUrl: '/views/venues.html',
+          controller: 'venuesCtrl',
+          controllerAs: 'venues'
+        })
+        .state('players', {
+          url : 'players',
+          parent: 'home',
+          templateUrl: '/views/players.html',
+          controller: 'playersCtrl',
+          controllerAs: 'players'
+        })
+        .state('events', {
+          url : 'events',
+          parent: 'home',
+          templateUrl: '/views/events.html',
+          controller: 'eventsCtrl',
+          controllerAs: 'events'
         })
 
+      
       $locationProvider.html5Mode({
         enabled : true,
         requireBase : true
