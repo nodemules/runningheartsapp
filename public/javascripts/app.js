@@ -4,7 +4,7 @@ var APP_NAME = 'runningHeartsApp';
 
   'use strict';
 
-  var APP_DEPENDENCIES = ['ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'ngMessages'];
+  var APP_DEPENDENCIES = ['ui.router', 'ngMaterial', 'ngAnimate', 'ngAria', 'ngMessages', 'ngResource'];
   angular
     .module(APP_NAME, APP_DEPENDENCIES)
     .config(function($stateProvider, $urlRouterProvider, $locationProvider) {

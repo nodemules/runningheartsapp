@@ -3,7 +3,7 @@
     <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu()">
       <md-icon md-font-set="material-icons">menu</md-icon>
     </md-button>
-    <h1>{{ 'Running Hearts Poker' | uppercase}}</h1>
+    <h1 ng-click="home.selectTab()">{{ 'Running Hearts Poker' | uppercase}}</h1>
   </div>
 </md-toolbar>
 <div id="appContainer" class="container" layout="row" flex>
@@ -29,9 +29,6 @@
     </md-list>
   </md-sidenav>
   <md-content flex id="appContent">
-    <h1>{{ home.activeTab.label | uppercase}}</h1>
-    <p>{{ home.activeTab.message }}</p>
-    <p>{{ home.activeTab.alert }}</p>
   <div ui-view></div>
   </md-content>
 </div>

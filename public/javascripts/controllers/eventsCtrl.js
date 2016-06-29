@@ -8,7 +8,8 @@
   eventsCtrl.$inject = [ ];
 
   function eventsCtrl() {
-  var vm = this;
+
+    var vm = this;
 
   }    
 

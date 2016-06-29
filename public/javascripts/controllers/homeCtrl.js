@@ -10,13 +10,13 @@
   function homeCtrl($filter, $mdSidenav, $state, $scope) {
     var vm = this;
 
-    vm.activeTab = {
-      id : 0,
-      label : "Home",
-      message : "This is the home page"
-    }
-
     vm.tabs = [
+      {
+        id : 0,
+        label : "Home",
+        message : "This is the home page",
+        path : "home"
+      },
       {
         id : 1,
         label : "Events",
@@ -43,13 +43,14 @@
     vm.selectTab = function(tab) {
       vm.activeTab = tab;
       $state.go(tab.path);
-    console.log(tab);
       vm.toggleMenu();
     }
 
     vm.toggleMenu = function() {
       $mdSidenav('appSidenav').toggle();
     }
+
+    vm.activeTab = vm.tabs[0];
 
   }
 

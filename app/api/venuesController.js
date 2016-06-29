@@ -30,12 +30,22 @@ api.get('/:id', function(req, res, next) {
 });
 
 api.post('/', function(req, res) {
-  Venues
-    .create(req.body, function(err, venue) {
+  if (req.body._id) {
+    Venues
+    .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+    .exec(function (err, venue) {
       if (err)
         console.log(err.stack);
       res.send(venue);
     });
+  } else {
+    Venues
+      .create(req.body, function(err, venue) {
+        if (err)
+          console.log(err.stack);
+        res.send(venue);
+      });
+  }
 });
 
 api.put('/', function(req, res){
