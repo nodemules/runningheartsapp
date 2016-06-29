@@ -13,3 +13,12 @@ html, body {
   padding-right: 40px;
   padding-top: 5px;
 }
+
+#appContent md-list-item.md-3-line, 
+#appContent md-list-item.md-3-line > .md-no-style {
+  min-height: 0;
+}
+
+md-ink-bar {
+  height: 6px;
+}

@@ -1,14 +1,19 @@
-<md-toolbar id="appToolbar" class="md-warn" layout="row">
-  <div class="md-toolbar-tools">
+<md-toolbar id="appToolbar" class="md-primary" layout="row">
+  <div class="md-toolbar-tools" layout="row">
     <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu()">
       <md-icon md-font-set="material-icons">menu</md-icon>
     </md-button>
-    <h1 ng-click="home.selectTab()">{{ 'Running Hearts Poker' | uppercase}}</h1>
+    <h1>{{ 'Running Hearts Poker' | uppercase}}</h1>
+    <div layout="row" layout-align="end" flex>
+      <md-button class="md-icon-button" aria-label="Refresh" ng-click="home.refresh()">
+        <md-icon md-font-set="material-icons">refresh</md-icon>
+      </md-button>
+    </div>
   </div>
 </md-toolbar>
-<div id="appContainer" class="container" layout="row" flex>
+<div id="appContainer" class="container" layout="row">
   <md-sidenav class="md-whiteframe-z2" md-component-id="appSidenav">
-    <md-toolbar id="appToolbar" class="md-warn" layout="row">
+    <md-toolbar id="appToolbar" class="md-primary" layout="row">
       <div class="md-toolbar-tools" layout="row" flex="80">
         <h1>Navigation Menu</h1>
       </div>
@@ -28,7 +33,5 @@
       </md-list-item>
     </md-list>
   </md-sidenav>
-  <md-content flex id="appContent">
-  <div ui-view></div>
-  </md-content>
+  <md-content flex ui-view></md-content>
 </div>

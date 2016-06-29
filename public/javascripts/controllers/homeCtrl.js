@@ -50,6 +50,10 @@
       $mdSidenav('appSidenav').toggle();
     }
 
+    vm.refresh = function() {
+      $state.go($state.current, {}, {reload: true})
+    }
+
     vm.activeTab = vm.tabs[0];
 
   }

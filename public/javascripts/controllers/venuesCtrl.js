@@ -5,14 +5,26 @@
 
   angular.module(APP_NAME).controller('venuesCtrl', venuesCtrl);
 
-  venuesCtrl.$inject = [ '$filter', 'venuesService', 'usersService' ];
+  venuesCtrl.$inject = [ '$filter', '$state', 'venuesService', 'usersService' ];
 
-  function venuesCtrl($filter, venuesService, usersService) {
+  function venuesCtrl($filter, $state, venuesService, usersService) {
     
     var vm = this;
 
     vm.venue = {};
     vm.directors = [];
+    vm.selectedTab;
+
+    vm.tabs = [
+      {
+        name : 'View',
+        path : 'venues.list'
+      },
+      {
+        name : 'Manage',
+        path : 'venues.manage'
+      }
+    ]
 
     vm.days = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
 
@@ -24,7 +36,8 @@
 
     vm.newVenue = function() {
       vm.resetVenue();
-      vm.new = true;
+      vm.selectedTab = 1;
+      $state.transitionTo('venues.manage');
     }
 
     vm.resetVenue = function() {
@@ -33,19 +46,20 @@
 
     vm.getVenues = function() {
       vm.resetVenue();
-      vm.edit = vm.new = false;
       vm.venues = venuesService.api().query();
+      vm.selectedTab = 0;
+      $state.transitionTo('venues.list');
     }
 
     vm.setVenue = function(venue) {
-      vm.edit = true;
       venue.td = $filter('filter')(vm.directors, { _id : venue.td._id })[0];
       vm.venue = venue;
+      vm.selectedTab = 1;
+      $state.transitionTo('venues.manage');
     }
 
     vm.save = function() {
       venuesService.api().save(vm.venue, function() {
-        vm.edit = vm.new = false;
         vm.getVenues();
       });
     }
