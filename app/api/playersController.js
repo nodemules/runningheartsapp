@@ -34,6 +34,19 @@ api.get('/:id', function(req, res) {
     })
 });
 
+api.put('/', function(req, res){
+  console.log(req.body);
+  Players
+    .find(req.body)
+    .populate(publicPlayer)
+    .exec(function(err, player){
+      if (err)
+        console.log(err.stack);
+      res.send(player);
+    })
+
+})
+
 api.post('/', function(req, res) {
   if (req.body._id) {
    Players

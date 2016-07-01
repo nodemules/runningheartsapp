@@ -31,6 +31,9 @@ api.get('/', function(req, res) {
     .find()
     .populate(publicEvent)
     .exec(function(err, events) {
+      for (var i in events){
+        events[i].date = events[i].date.getTime();
+      }
       if (err)
         res.send(err);
       res.send(events);

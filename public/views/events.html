@@ -1,0 +1,6 @@
+<md-tabs md-stretch-tabs="always" class="md-primary md-fixed" md-selected="events.selectedTab">
+  <md-tab ui-sref="{{tab.path}}" ng-repeat="tab in events.tabs">
+    <md-tab-label>{{tab.name}}</md-tab-label>
+  </md-tab>
+</md-tabs>
+<div ui-view class="rhp-tab-content" ng-class="{ 'rhp-tab-content-xs':events.mdMedia('xs') }" layout="column"></div>

@@ -20,6 +20,11 @@
     function api(id) {
       return $resource(basePath + '/:id', {
         id : id
+      }, {
+        'findBy' : { 
+          method : 'PUT',
+          isArray : true
+         }
       });
     }
 
