@@ -49,7 +49,6 @@
     vm.getVenues = function() {
       vm.resetVenue();
       vm.venues = venuesService.api().query();
-      vm.venueIndex = 0;
       vm.selectedTab = 0;
       $state.transitionTo('venues.list');
     }
@@ -75,14 +74,6 @@
       venuesService.api(venue._id).remove(function() {
         vm.getVenues();
       });
-    }
-
-    vm.last5Venues = function() {
-      vm.venueIndex += -5;
-    }
-
-    vm.next5Venues = function() {
-      vm.venueIndex += 5;
     }
 
     function initialize() {

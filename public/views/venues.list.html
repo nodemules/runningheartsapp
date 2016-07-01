@@ -1,21 +1,5 @@
 <md-content layout="column">
-  <md-button class="md-secondary" ng-disabled="venues.venueIndex == 0" aria-label="last-five-venues" ng-click="venues.last5Venues()">
-    Last 5 Venues
-  </md-button>
-  <md-list class="md-dense" ng-class="{ 'rhp-dense-list':venues.mdMedia('xs') }" ng-repeat="venue in venues.venues | limitTo:5:venues.venueIndex">
-    <md-list-item class="md-3-line md-hue-1" ng-click="venues.setVenue(venue)">
-      <div class="md-list-item-text">
-        <h3>{{venue.name}}</h3>
-        <p>{{venue.day}}</p>
-        <p>{{venue.td.name}}</p>
-      </div>
-      <md-button class="md-warn md-icon-button" ng-click="venues.removeVenue(venue)">
-        <md-icon md-font-set="material-icons">clear</md-icon>
-      </md-button>
-    </md-list-item>
-  </md-list>
-  <md-button class="md-secondary" aria-label="more-venues" ng-click="venues.venues.length > venues.venueIndex + 5 ? venues.next5Venues() : venues.getVenues()">
-    {{ venues.venues.length > venues.venueIndex + 5 ? 'And ' + (venues.venues.length - venues.venueIndex - 5) + ' more...' : 'Back to Start' }}
-  </md-button>
+  <rhp-list ng-model="venues.venues" rhp-list-size="5" rhp-text="venues.venueListText"
+    rhp-list-set="venues.setVenue(item)" rhp-list-edit="" rhp-list-del="venues.removeVenue(item)"></rhp-list>
 </md-content>
 <md-button class="md-fab md-fab-bottom-right md-primary" ng-click="venues.newVenue()"><md-icon md-font-set="material-icons">add</md-icon></md-button>
