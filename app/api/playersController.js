@@ -35,11 +35,21 @@ api.get('/:id', function(req, res) {
 });
 
 api.post('/', function(req, res) {
-  Players.create(req.body, function(err, player) {
-    if (err)
-      console.log(err.stack);
-    res.send(player);
-  });
+  if (req.body._id) {
+   Players
+      .findByIdAndUpdate(req.body._id, req.body, { "new" : true })
+      .exec(function(err, player) {
+        if (err)
+          console.log(err.stack);
+        res.send(player);
+      })
+  } else {
+    Players.create(req.body, function(err, player) {
+      if (err)
+        console.log(err.stack);
+      res.send(player);
+    });
+  }
 });
 
 api.put('/', function(req, res) {

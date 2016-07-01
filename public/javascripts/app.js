@@ -52,8 +52,19 @@ var APP_NAME = 'runningHeartsApp';
           parent: 'home',
           templateUrl: '/views/players.html',
           controller: 'playersCtrl',
-          controllerAs: 'players'
+          controllerAs: 'players',
+          redirectTo: 'players.list'
         })
+        .state('players.list', {
+          url : '/list',
+          parent: 'players',
+          templateUrl: '/views/players.list.html'
+        })
+        .state('players.manage', {
+          url : '/manage',
+          parent: 'players',
+          templateUrl: '/views/players.manage.html'
+        }) 
 
       $stateProvider
         .state('events', {

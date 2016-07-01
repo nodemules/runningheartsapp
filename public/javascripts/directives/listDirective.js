@@ -15,13 +15,14 @@
       '    Last 5 list', //
       '  </md-button>', //
       '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | limitTo:5:list.listIndex">', //
-      '    <md-list-item class="md-3-line md-hue-1" ng-click="list.doSetItem(item)">', //
+      '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
       '      <div class="md-list-item-text">', //
       '        <h3>{{item.name}}</h3>', //  TODO - Figure out how to standardize 
       '        <p>{{item.day}}</p>', //     TODO - this based on a scope import
-      '        <p>{{item.td.name}}</p>', // TODO - from the directive attribute
+      '        <p ng-if="item.td.name">{{item.td.name}}</p>', // TODO - from the directive attribute
+      '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
       '      </div>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem(item)">', //
+      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item})">', //
       '        <md-icon md-font-set="material-icons">clear</md-icon>', //
       '      </md-button>', //
       '    </md-list-item>', //
@@ -59,14 +60,6 @@
 
       function initialize() {
         vm.first5();
-      }
-
-      vm.doSetItem = function(item) {
-        vm.setItem({item : item});
-      }
-
-      vm.doRemoveItem = function(item) {
-        vm.removeItem({item : item})
       }
 
       vm.next5 = function() {

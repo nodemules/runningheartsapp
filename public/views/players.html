@@ -1,1 +1,6 @@
-some players dog
+<md-tabs md-stretch-tabs="always" class="md-primary md-fixed" md-selected="players.selectedTab">
+  <md-tab ui-sref="{{tab.path}}" ng-repeat="tab in players.tabs">
+    <md-tab-label>{{tab.name}}</md-tab-label>
+  </md-tab>
+</md-tabs>
+<div ui-view class="rhp-tab-content" ng-class="{ 'rhp-tab-content-xs':players.mdMedia('xs') }" layout="column"></div>

@@ -1,0 +1,5 @@
+<md-content layout="column">
+  <rhp-list ng-model="players.players" rhp-list-size="5" 
+    rhp-list-set="players.setPlayer(item)" rhp-list-edit="" rhp-list-del="players.removePlayer(item)"></rhp-list>
+</md-content>
+<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="players.newPlayer()"><md-icon md-font-set="material-icons">add</md-icon></md-button>
