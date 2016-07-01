@@ -1,4 +1,4 @@
-<md-toolbar id="appToolbar" class="md-primary" layout="row">
+<md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary" layout="row">
   <div class="md-toolbar-tools" layout="row">
     <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu()">
       <md-icon md-font-set="material-icons">menu</md-icon>
@@ -11,7 +11,7 @@
     </div>
   </div>
 </md-toolbar>
-<div id="appContainer" class="container" layout="row">
+<md-content id="appContainer" class="container" layout="row">
   <md-sidenav class="md-whiteframe-z2" md-component-id="appSidenav">
     <md-toolbar id="appToolbar" class="md-primary" layout="row">
       <div class="md-toolbar-tools" layout="row" flex="80">
@@ -34,4 +34,4 @@
     </md-list>
   </md-sidenav>
   <md-content flex ui-view></md-content>
-</div>
+</md-content>

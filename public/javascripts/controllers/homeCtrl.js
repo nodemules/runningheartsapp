@@ -5,10 +5,13 @@
   
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
-  homeCtrl.$inject = [ '$filter', '$mdSidenav', '$state', '$scope' ];
+  homeCtrl.$inject = [ '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia' ];
 
-  function homeCtrl($filter, $mdSidenav, $state, $scope) {
+  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia) {
+    
     var vm = this;
+
+    vm.mdMedia = $mdMedia;
 
     vm.tabs = [
       {

@@ -5,11 +5,13 @@
 
   angular.module(APP_NAME).controller('venuesCtrl', venuesCtrl);
 
-  venuesCtrl.$inject = [ '$filter', '$state', 'venuesService', 'usersService' ];
+  venuesCtrl.$inject = [ '$filter', '$state', '$mdMedia', 'venuesService', 'usersService' ];
 
-  function venuesCtrl($filter, $state, venuesService, usersService) {
+  function venuesCtrl($filter, $state, $mdMedia, venuesService, usersService) {
     
     var vm = this;
+
+    vm.mdMedia = $mdMedia;
 
     vm.venue = {};
     vm.directors = [];
@@ -47,6 +49,7 @@
     vm.getVenues = function() {
       vm.resetVenue();
       vm.venues = venuesService.api().query();
+      vm.venueIndex = 0;
       vm.selectedTab = 0;
       $state.transitionTo('venues.list');
     }
@@ -72,6 +75,14 @@
       venuesService.api(venue._id).remove(function() {
         vm.getVenues();
       });
+    }
+
+    vm.last5Venues = function() {
+      vm.venueIndex += -5;
+    }
+
+    vm.next5Venues = function() {
+      vm.venueIndex += 5;
     }
 
     function initialize() {

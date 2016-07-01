@@ -1,6 +1,6 @@
-<md-tabs md-stretch-tabs class="md-primary md-fixed" md-selected="venues.selectedTab">
+<md-tabs md-stretch-tabs="always" class="md-primary md-fixed" md-selected="venues.selectedTab">
   <md-tab ui-sref="{{tab.path}}" ng-repeat="tab in venues.tabs">
     <md-tab-label>{{tab.name}}</md-tab-label>
   </md-tab>
 </md-tabs>
-<div ui-view id="appContent" layout="column"></div>
+<div ui-view class="rhp-tab-content" ng-class="{ 'rhp-tab-content-xs':venues.mdMedia('xs') }" layout="column"></div>
