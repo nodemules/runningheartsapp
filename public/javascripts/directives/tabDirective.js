@@ -5,32 +5,67 @@
   function rhpTabs () {
 
     var rhpTabsTemplate = [
-      '<md-tabs md-dynamic-height md-selected="selectedTab">',
-      '  <md-tab ng-repeat="t in tabs">',
-      '    <md-tab-label>{{t.label}}</md-tab-label>',
-      '    <md-tab-body>{{t.content}}</md-tab-body>',
-      '  </md-tab>',
-      '</md-tabs>'
+      '<md-tabs md-stretch-tabs="always" class="md-primary md-fixed" md-selected="tabs.selectedTab">', //
+      '  <md-tab ui-sref="{{tab.path}}" ng-repeat="tab in tabs.tabs">', //
+      '    <md-tab-label>{{tab.name}}</md-tab-label>', //
+      '  </md-tab>', //
+      '</md-tabs>' //
     ].join('');
 
     var directive = {
       restrict: 'E',
-      link: link,
       template: rhpTabsTemplate,
-      controller: rhpTabsController
+      scope : {
+      },
+      bindToController: true,
+      controller: rhpTabsController,
+      controllerAs: 'tabs'
     }
     return directive;
 
-    function link (scope, el, attrs) {
-      scope.tabs = scope.$eval(attrs.tabs);
-      console.log(attrs.tabs, scope.tabs);
+    rhpTabsController.$inject = [ '$scope', '$state', '$filter', '$timeout' ];
 
-    }
+    function rhpTabsController ($scope, $state, $filter, $timeout) {
 
-    rhpTabsController.$inject = [];
+      var vm = this;
 
-    function rhpTabsController () {
-      
+      function buildTabArray(state) {
+
+        vm.tabs = [];
+        var parent = state.parent;
+
+        var tabsTypes = [ 'List', 'View', 'Manage' ];
+
+        angular.forEach(tabsTypes, function(type) {
+          var path = parent + '.' + type.toLowerCase();
+          var tab = {
+            name : type,
+            path : path
+          };
+
+          vm.tabs.push(tab);
+        })
+
+        setActiveTab(state);
+
+      }
+
+      function setActiveTab(state) {
+
+        var activeTab = $filter('filter')(vm.tabs, { path : state.name })[0];
+
+        vm.selectedTab = vm.tabs.indexOf(activeTab);
+
+      }
+
+      $scope.$watch(function() {
+        return $state.current;
+      }, function(n,o) {
+        setActiveTab(n);
+      })
+
+      buildTabArray($state.current);
+
     }
 
   }

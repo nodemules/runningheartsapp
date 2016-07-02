@@ -26,6 +26,8 @@ var APP_NAME = 'runningHeartsApp';
 
       $urlRouterProvider.when('/venues', '/venues/list')
 
+      $urlRouterProvider.when('/events', '/events/list')
+
       $stateProvider
         .state('venues', {
           url : 'venues',

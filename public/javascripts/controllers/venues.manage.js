@@ -13,7 +13,6 @@
 
     vm.venue = {};
     vm.directors = [];
-    vm.selectedTab;
 
     vm.days = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
 
@@ -23,7 +22,6 @@
 
     vm.newVenue = function() {
       vm.resetVenue();
-      vm.selectedTab = 1;
       $state.transitionTo('venues.manage');
     }
 
