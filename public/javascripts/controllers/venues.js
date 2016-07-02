@@ -48,16 +48,6 @@
       vm.venues = venuesService.api().query();
     }
 
-    vm.viewVenue = function(venue) {
-      vm.selectedTab = 2;
-      $state.transitionTo('venues.view', { id : venue._id });
-    }
-
-    vm.editVenue = function(venue) {
-      vm.selectedTab = 1;
-      $state.transitionTo('venues.manage', { id : venue._id });
-    }
-
     vm.save = function() {
       venuesService.api().save(vm.venue, function() {
         vm.getVenues();
@@ -68,12 +58,6 @@
       vm.venue = venuesService.api(id).get();
     }
 
-    vm.removeVenue = function(venue) {
-      venuesService.api(venue._id).remove(function() {
-        vm.getVenues();
-      });
-    }
-
     function setTab() {
       var tab = $state.current.name;
       if (tab === 'venues.view') {
@@ -81,6 +65,7 @@
       } else if (tab === 'venues.manage') {
         vm.selectedTab = 1;
       } else {
+        $state.go('venues.list')
         vm.selectedTab = 0;
       }
     }
