@@ -52,11 +52,14 @@ api.put('/', function(req, res){
 });
 
 api.delete('/:id', function(req, res) {
+  req.body.statusId = 2;
   Users
-    .findByIdAndRemove(req.params.id)
+    .findByIdAndUpdate(req.params.id, req.body)
     .exec(function (err) {
-      if (err)
+      if (err) {
         console.log(err.stack);
+        res.send(500, err.stack);
+      }
       res.send();
     })
 });

@@ -7,6 +7,7 @@ var Player   = require('./player')
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
+    "statusId"  : { "type" : Number, "default" : 1 },
     "local"            : {
         "username"     : String,
         "password"     : String

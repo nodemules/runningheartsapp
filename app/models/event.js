@@ -8,6 +8,7 @@ var Player    = require('./player'),
 
 // define the schema for our event model
 var eventSchema = mongoose.Schema({
+  "statusId"  : { "type" : Number, "default" : 1 },
   "date"      : { "type" : Date, "default" : Date.now },
   "venue"     : { "type" : Schema.Types.ObjectId, "ref" : "Venue" },
   "td"        : { "type" : Schema.Types.ObjectId, "ref" : "Player" },

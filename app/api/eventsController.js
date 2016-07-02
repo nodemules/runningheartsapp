@@ -28,7 +28,7 @@ var Venues  = require('../models/venue'),
 
 api.get('/', function(req, res) {
   Event
-    .find()
+    .find({ statusId : 1 })
     .populate(publicEvent)
     .exec(function(err, events) {
       for (var i in events){
@@ -69,9 +69,10 @@ api.put('/', function(req, res) {
 });
 
 api.delete('/:id', function(req, res) {
+  req.body.statusId = 2;
   Event
-    .findByIdAndRemove(req.params.id)
-    .exec(function(err) {
+    .findByIdAndUpdate(req.params.id, req.body)
+    .exec(function (err) {
       if (err)
         console.log(err.stack);
       res.send();

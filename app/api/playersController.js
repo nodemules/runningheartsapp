@@ -14,7 +14,7 @@ var publicPlayer = {
 
 api.get('/', function(req, res) {
   Players
-    .find()
+    .find({ statusId : 1 })
     .populate(publicPlayer)
     .exec(function(err, player){
       if (err)
@@ -35,7 +35,7 @@ api.get('/:id', function(req, res) {
 });
 
 api.put('/', function(req, res){
-  console.log(req.body);
+  req.body.statusId = 1;
   Players
     .find(req.body)
     .exec(function(err, player){
@@ -75,15 +75,15 @@ api.put('/', function(req, res) {
 });
 
 api.delete('/:id', function(req, res) {
+  req.body.statusId = 2;
   Players
-    .findByIdAndRemove(req.params.id)
-    .exec(function(err) {
+    .findByIdAndUpdate(req.params.id, req.body)
+    .exec(function (err) {
       if (err) {
         console.log(err.stack);
-        res.status(500).send();
-      } else {
-        res.send();
+        res.send(500, err.stack);
       }
+      res.send();
     })
 })
 
