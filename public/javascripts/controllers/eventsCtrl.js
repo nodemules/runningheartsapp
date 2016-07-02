@@ -15,18 +15,6 @@
 
     vm.event = {};
     vm.directors = [];
-    vm.selectedTab;
-
-    vm.tabs = [
-      {
-        name : 'View',
-        path : 'events.list'
-      },
-      {
-        name : 'Manage',
-        path : 'events.manage'
-      }
-    ]
 
     vm.getDirectors = function() {
       vm.directors = playersService.api().findBy({isTd : true}); 
@@ -35,7 +23,6 @@
     vm.getEvents = function() {
       vm.resetEvent();
       vm.events = eventsService.api().query();
-      vm.selectedTab = 0;
       $state.transitionTo('events.list');
     }
 
@@ -45,7 +32,6 @@
     
     vm.newEvent = function() {
       vm.resetEvent();
-      vm.selectedTab = 1;
       $state.transitionTo('events.manage');
     }
 
@@ -57,7 +43,6 @@
       event.td = $filter('filter')(vm.directors, { _id : event.td._id })[0];
       event.venue = $filter('filter')(vm.venues, { _id : event.venue._id })[0];      
       vm.event = event;
-      vm.selectedTab = 1;
       $state.transitionTo('events.manage');
     }
 

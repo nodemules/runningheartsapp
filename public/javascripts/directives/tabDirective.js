@@ -29,10 +29,14 @@
 
       var vm = this;
 
+      vm.tabs = [];
+
       function buildTabArray(state) {
 
         vm.tabs = [];
         var parent = state.parent;
+        if (parent === 'home')
+          return;
 
         var tabsTypes = [ 'List', 'View', 'Manage' ];
 
@@ -61,10 +65,17 @@
       $scope.$watch(function() {
         return $state.current;
       }, function(n,o) {
-        setActiveTab(n);
+        if (n.parent == o.parent && vm.tabs.length && n.parent != 'home') {
+          setActiveTab(n);
+        } else {
+          buildTabArray(n);
+        }
       })
 
-      buildTabArray($state.current);
+      function initialize() {
+      }
+
+      initialize();
 
     }
 
