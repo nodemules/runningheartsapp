@@ -38,7 +38,6 @@ api.put('/', function(req, res){
   console.log(req.body);
   Players
     .find(req.body)
-    .populate(publicPlayer)
     .exec(function(err, player){
       if (err)
         console.log(err.stack);
