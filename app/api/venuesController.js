@@ -9,7 +9,7 @@ var Venues  = require('../models/venue'),
 
 api.get('/', function(req, res, next) {
     Venues
-    .find()
+    .find({ statusId : 1 })
     .populate('td')
     .exec(function(err, venues) {
       if (err)
@@ -32,12 +32,12 @@ api.get('/:id', function(req, res, next) {
 api.post('/', function(req, res) {
   if (req.body._id) {
     Venues
-    .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
-    .exec(function (err, venue) {
-      if (err)
-        console.log(err.stack);
-      res.send(venue);
-    });
+      .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .exec(function (err, venue) {
+        if (err)
+          console.log(err.stack);
+        res.send(venue);
+      });
   } else {
     Venues
       .create(req.body, function(err, venue) {
@@ -59,8 +59,9 @@ api.put('/', function(req, res){
 });
 
 api.delete('/:id', function(req, res) {
+  req.body.statusId = 2;
   Venues
-    .findByIdAndRemove(req.params.id)
+    .findByIdAndUpdate(req.params.id, req.body)
     .exec(function (err) {
       if (err)
         console.log(err.stack);

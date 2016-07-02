@@ -7,6 +7,7 @@ var Player    = require('./player'),
 
 // define the schema for our venue model
 var venueSchema = mongoose.Schema({
+  "statusId"  : { "type" : Number, "default" : 1 },
   "name"      : String,
   "day"       : String,
   "td"        : { "type" : Schema.Types.ObjectId, "ref" : "Player" },
