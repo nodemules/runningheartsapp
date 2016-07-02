@@ -40,7 +40,9 @@ var APP_NAME = 'runningHeartsApp';
         .state('venues.list', {
           url : '/list',
           parent: 'venues',
-          templateUrl: '/views/venues.list.html'
+          templateUrl: '/views/venues.list.html',
+          controller: 'venuesListCtrl',
+          controllerAs: 'vl'
         })
         .state('venues.manage', {
           url : '/manage/:id',
