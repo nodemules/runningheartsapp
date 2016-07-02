@@ -23,7 +23,10 @@
       '        <p ng-if="item.td">{{item.td.name}}</p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
       '      </div>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item})">', //
+      '      <md-button class="md-warn md-icon-button" ng-click="list.editItem({item : item})">', //
+      '        <md-icon md-font-set="material-icons">edit</md-icon>', //
+      '      </md-button>', //
+      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item}); $event.stopPropagation()">', //
       '        <md-icon md-font-set="material-icons">clear</md-icon>', //
       '      </md-button>', //
       '    </md-list-item>', //

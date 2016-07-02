@@ -47,6 +47,13 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'venuesManageCtrl',
           controllerAs: 'vm'
         })
+        .state('venues.view', {
+          url : '/view/:id',
+          parent: 'venues',
+          templateUrl: '/views/venues.view.html',
+          controller: 'venuesViewCtrl',
+          controllerAs: 'vv'
+        })
 
       $stateProvider
         .state('players', {
