@@ -15,10 +15,6 @@
       $state.transitionTo('players.manage');
     }
 
-    vm.resetPlayer = function() {
-      vm.player = {};
-    }
-
     vm.getPlayers = function() {
       vm.players = playersService.api().query();
     }

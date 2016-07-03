@@ -51,20 +51,25 @@ api.get('/:id', function(req, res) {
 });
 
 api.post('/', function(req, res) {
-  Event.create(req.body, function(err, e) {
-    if (err)
-      console.log(err.stack);
-    res.send(e);
-  })
+  if (req.body._id) {
+    Event
+      .findOneAndUpdate({ _id : req.body._id }, req.body)
+      .select('-statusId')
+      .exec(function (err, event) {
+        if (err)
+          res.send(err);
+        res.send(event);
+    })
+  } else {
+    Event.create(req.body, function(err, e) {
+      if (err)
+        console.log(err.stack);
+      res.send(e);
+    })
+  }
 });
 
 api.put('/', function(req, res) {
-  Event.findOneAndUpdate({ _id : req.body._id }, req.body, 
-    function (err, event) {
-      if (err)
-        res.send(err);
-      res.send(event);
-  })
 });
 
 api.delete('/:id', function(req, res) {

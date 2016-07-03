@@ -104,12 +104,23 @@ var APP_NAME = 'runningHeartsApp';
         .state('events.list', {
           url : '/list',
           parent: 'events',
-          templateUrl: '/views/events.list.html'
+          templateUrl: '/views/events.list.html',
+          controller: 'eventsListCtrl',
+          controllerAs: 'el'
         })
         .state('events.manage', {
-          url : '/manage',
+          url : '/manage/:id',
           parent: 'events',
-          templateUrl: '/views/events.manage.html'
+          templateUrl: '/views/events.manage.html',
+          controller: 'eventsManageCtrl',
+          controllerAs: 'em'
+        }) 
+        .state('events.view', {
+          url : '/view/:id',
+          parent: 'events',
+          templateUrl: '/views/events.view.html',
+          controller: 'eventsViewCtrl',
+          controllerAs: 'ev'
         }) 
 
       $urlRouterProvider.otherwise('/');
