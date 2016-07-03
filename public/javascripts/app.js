@@ -28,6 +28,8 @@ var APP_NAME = 'runningHeartsApp';
 
       $urlRouterProvider.when('/events', '/events/list')
 
+      $urlRouterProvider.when('/players', '/players/list')
+
       $stateProvider
         .state('venues', {
           url : 'venues',
@@ -71,12 +73,23 @@ var APP_NAME = 'runningHeartsApp';
         .state('players.list', {
           url : '/list',
           parent: 'players',
-          templateUrl: '/views/players.list.html'
+          templateUrl: '/views/players.list.html',
+          controller: 'playersListCtrl',
+          controllerAs: 'pl',
         })
         .state('players.manage', {
-          url : '/manage',
+          url : '/manage/:id',
           parent: 'players',
-          templateUrl: '/views/players.manage.html'
+          templateUrl: '/views/players.manage.html',
+          controller: 'playersManageCtrl',
+          controllerAs: 'pm',
+        }) 
+        .state('players.view', {
+          url : '/view/:id',
+          parent: 'players',
+          templateUrl: '/views/players.view.html',
+          controller: 'playersViewCtrl',
+          controllerAs: 'pv',
         }) 
 
       $stateProvider
