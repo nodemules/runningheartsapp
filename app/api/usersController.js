@@ -10,7 +10,7 @@ var Venues  = require('../models/venue'),
 api.get('/', function(req, res) {
   Users
     .find()
-    .select('local.username usertype')
+    .select('-statusId local.username usertype')
     .exec(function(err, user){
       if (err)
         console.log(err.stack);
@@ -21,7 +21,7 @@ api.get('/', function(req, res) {
 api.get('/:id', function(req, res) {
   Users
     .findById(req.params.id)
-    .select('local.username usertype')
+    .select('-statusId local.username usertype')
     .exec(function(err, user){
       if (err)
         console.log(err.stack);
@@ -32,7 +32,7 @@ api.get('/:id', function(req, res) {
 api.get('/type/:typeId', function(req, res, next) {
   Users
     .find({usertype: req.params.typeId})
-    .select('local.username usertype player')
+    .select('-statusId local.username usertype player')
     .populate('player')
     .exec(function(err, users) {
         if (err)

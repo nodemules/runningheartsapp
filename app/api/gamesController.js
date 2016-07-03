@@ -32,6 +32,7 @@ api.get('/', function(req, res) {
   Game
     .find({ statusId : 1 })
     .populate(pOptions)
+    .select('-statusId')
     .exec(function(err, games) {
       if (err)
         res.send(err);
@@ -79,6 +80,7 @@ api.get('/:id', function(req, res) {
   Game
     .findById(req.params.id)
     .populate(pOptions)
+    .select('-statusId')
     .exec(function(err, games) {
       if (err)
         res.send(err);

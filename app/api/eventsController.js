@@ -30,10 +30,8 @@ api.get('/', function(req, res) {
   Event
     .find({ statusId : 1 })
     .populate(publicEvent)
+    .select('-statusId')
     .exec(function(err, events) {
-      for (var i in events){
-        events[i].date = events[i].date.getTime();
-      }
       if (err)
         res.send(err);
       res.send(events);
@@ -44,6 +42,7 @@ api.get('/:id', function(req, res) {
   Event
     .findById(req.params.id)
     .populate(publicEvent)
+    .select('-statusId')
     .exec(function(err, events) {
       if (err)
         res.send(err);

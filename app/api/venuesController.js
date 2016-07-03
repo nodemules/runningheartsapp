@@ -11,6 +11,7 @@ api.get('/', function(req, res, next) {
     Venues
     .find({ statusId : 1 })
     .populate('td')
+    .select('-statusId')
     .exec(function(err, venues) {
       if (err)
         console.log(err.stack);
@@ -22,6 +23,7 @@ api.get('/:id', function(req, res, next) {
   Venues
     .findById(req.params.id)
     .populate('td')
+    .select('-statusId')
     .exec(function(err, venue) {
       if (err)
         console.log(err.stack);
@@ -33,6 +35,7 @@ api.post('/', function(req, res) {
   if (req.body._id) {
     Venues
       .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .select('-statusId')
       .exec(function (err, venue) {
         if (err)
           console.log(err.stack);
