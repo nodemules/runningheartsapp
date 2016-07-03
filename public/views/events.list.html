@@ -1,0 +1,5 @@
+<md-content layout="column">
+  <rhp-list ng-model="el.events" rhp-list-size="5" 
+    rhp-list-set="el.viewEvent(item)" rhp-list-edit="el.editEvent(item)" rhp-list-del="el.removeEvent(item)"></rhp-list>
+</md-content>
+<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="el.newEvent()"><md-icon md-font-set="material-icons">add</md-icon></md-button>

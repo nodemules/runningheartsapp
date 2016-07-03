@@ -1,22 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-<% include head %>
-</head>
-<body>
-<div class="container">
+  <head>
+    
+    <base href="/">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <div class="jumbotron text-center">
-        <h1 class="blacktext">Running Hearts Poker</h1>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="bower_components/angular-material/angular-material.js"></script>
+    <script type="text/javascript" src="bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="bower_components/angular-messages/angular-messages.js"></script>
+    <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
 
-        <p class="blacktext">Login or Register</p>
+    <script type="text/javascript" src="javascripts/app.js"></script>
 
-        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Signup</a>
-        <!-- <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a> -->
+    <script type="text/javascript" src="javascripts/controllers/homeCtrl.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/players.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/players.list.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/players.manage.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/players.view.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/events.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/events.list.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/events.manage.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/events.view.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/venues.js"></script> 
+    <script type="text/javascript" src="javascripts/controllers/venues.list.js"></script>
+    <script type="text/javascript" src="javascripts/controllers/venues.manage.js"></script> 
+    <script type="text/javascript" src="javascripts/controllers/venues.view.js"></script>
 
-    </div>
+    <script type="text/javascript" src="javascripts/services/venuesService.js"></script>
+    <script type="text/javascript" src="javascripts/services/usersService.js"></script>
+    <script type="text/javascript" src="javascripts/services/playersService.js"></script>
+    <script type="text/javascript" src="javascripts/services/eventsService.js"></script>
 
- </div>
-</body>
+    <script type="text/javascript" src="javascripts/directives/tabDirective.js"></script>
+    <script type="text/javascript" src="javascripts/directives/listDirective.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="stylesheets/main.css" />
+
+  </head>
+  <body ng-app="runningHeartsApp" ng-cloak layout="column" ui-view>
+  </body>
 </html>

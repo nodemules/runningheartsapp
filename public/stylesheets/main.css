@@ -1,0 +1,46 @@
+/* main.css */
+html, body {
+  overflow-y: auto;
+  min-height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size:14px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#appContainer {
+  height: 100%;
+}
+
+.rhp-tab-content {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.rhp-tab-content-xs {
+}
+
+.rhp-toolbar-xs {
+  min-height: 40px;
+}
+
+.rhp-toolbar-xs h1 {
+  font-size: 16px;
+}
+
+.rhp-dense-list {
+  padding: 3px 0px;
+}
+
+.rhp-dense-list md-list-item.md-3-line .md-list-item-text p {
+  font-size: 12px;
+}
+
+.rhp-dense-list md-list-item.md-3-line, 
+.rhp-dense-list md-list-item.md-3-line > .md-no-style {
+  min-height: 0;
+}
+
+md-ink-bar {
+  height: 6px;
+}

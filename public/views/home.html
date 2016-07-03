@@ -1,0 +1,37 @@
+<md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary" layout="row">
+  <div class="md-toolbar-tools" layout="row">
+    <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu()">
+      <md-icon md-font-set="material-icons">menu</md-icon>
+    </md-button>
+    <h1>{{ 'Running Hearts Poker' | uppercase}}</h1>
+    <div layout="row" layout-align="end" flex>
+      <md-button class="md-icon-button" aria-label="Refresh" ng-click="home.refresh()">
+        <md-icon md-font-set="material-icons">refresh</md-icon>
+      </md-button>
+    </div>
+  </div>
+</md-toolbar>
+<md-content id="appContainer" class="container" layout="row">
+  <md-sidenav class="md-whiteframe-z2" md-component-id="appSidenav">
+    <md-toolbar id="appToolbar" class="md-primary" layout="row">
+      <div class="md-toolbar-tools" layout="row" flex="80">
+        <h1>Navigation Menu</h1>
+      </div>
+      <div class="md-toolbar-tools" layout="row" layout-align="end center" flex>
+        <md-button class="md-icon-button" ng-click="home.toggleMenu()">
+          <md-icon md-font-set="material-icons">menu</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-list flex>
+      <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
+        <div class="md-list-item-text" layout="column">
+          <h3>{{tab.label}}</h3>
+          <h4>{{tab.message}}</h4>
+          <p>{{tab.alert}}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+  <md-content flex ui-view></md-content>
+</md-content>
