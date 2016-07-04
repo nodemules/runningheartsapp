@@ -1,0 +1,34 @@
+<md-content layout="column">
+  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Game @ {{gp.game.event.venue.name}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p>Some information about this game.</p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary" ui-sref="events.view({ id : gp.game.event._id })">Back to Event</md-button>
+    </md-card-actions>
+  </md-card>
+  <md-content layout="column">
+    <md-button class="md-raised md-accent">Finalize Scores</md-button>
+  </md-content>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Players</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="column">
+      <md-button class="md-raised md-primary">I am a button</md-button>
+    </md-card-actions>
+    <md-card-content>
+      <span ng-repeat="player in gp.game.players">
+        {{player.player.name}}        
+      </span>
+    </md-card-content>
+  </md-card>
+  
+</md-content>

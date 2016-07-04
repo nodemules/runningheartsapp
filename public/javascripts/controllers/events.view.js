@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
-  eventsViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService' ];
+  eventsViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService' ];
 
-  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService) {
+  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService) {
     
     var vm = this;
 
@@ -19,6 +19,21 @@
       eventsService.api(event._id).remove(function() {
         vm.getEvents();
       });
+    }
+
+    vm.newGame = function() {
+      var newGame = {
+        event : vm.event,
+        number : vm.event.games.length + 1
+      }
+      gamesService.api().create(newGame, function(game) {
+        vm.viewGame(game);
+      })
+
+    }
+
+    vm.viewGame = function(game) {
+      $state.transitionTo('games.play', { id : game._id } )
     }
 
     function initialize() {

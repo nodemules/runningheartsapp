@@ -123,6 +123,24 @@ var APP_NAME = 'runningHeartsApp';
           controllerAs: 'ev'
         }) 
 
+      $stateProvider
+        .state('games', {
+          url: 'games',
+          parent: 'home',
+          templateUrl: '/views/games.html',
+          controller: 'gamesCtrl',
+          controllerAs: 'games',
+          redirectTo: 'games.play',
+          abstract: true
+        })
+        .state('games.play', {
+          url: '/play/:id',
+          parent: 'games',
+          templateUrl: '/views/games.play.html',
+          controller: 'gamesPlayCtrl',
+          controllerAs: 'gp'
+        })
+
       $urlRouterProvider.otherwise('/');
 
       $stateProvider

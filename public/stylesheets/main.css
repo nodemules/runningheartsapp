@@ -44,3 +44,11 @@ html, body {
 md-ink-bar {
   height: 6px;
 }
+
+.rhp-card-xs md-card-title {
+  padding: 4px 16px;
+}
+
+.rhp-card-xs md-card-content {
+  padding-bottom: 4px;
+}

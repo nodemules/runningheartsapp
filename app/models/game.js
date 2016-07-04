@@ -10,7 +10,7 @@ var gameSchema = mongoose.Schema({
   "statusId"  : { "type" : Number, "default" : 1 },
   "event"       : { "type" : Schema.Types.ObjectId, "ref" : "Event", "required" : true },
   "number"      : Number,                                                  // do we need this or can we just use the index of the object in the array
-  "completed"   : Boolean,
+  "completed"   : { "type" : Boolean, "default" : false },
   "players"     : [ 
     {
       "player"  : { "type" : Schema.Types.ObjectId, "ref" : "Player" },       // when populating events for a player, only load the name of each player
