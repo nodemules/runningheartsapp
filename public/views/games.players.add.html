@@ -4,7 +4,7 @@
   </div>
   <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }">
     <md-list-item ng-repeat="player in gp.players">
-      <md-checkbox ng-model="player.selected"></md-checkbox>
+      <md-checkbox ng-model="selected" ng-change="gp.toggleSelection(player)"></md-checkbox>
       <p>{{player.name}}</p>
     </md-list-item>
   </md-list>

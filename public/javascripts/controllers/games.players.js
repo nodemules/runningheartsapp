@@ -17,30 +17,31 @@
 
     vm.getGame = function(gameId) {
       vm.game = gamesService.api(gameId).get(function() {
-
-      vm.getPlayers();
+        vm.getPlayers();
       });
     }
 
     vm.getPlayers = function() {
-      var ids = [];
+      var players = [];
       angular.forEach(vm.game.players, function(player) {
-        ids.push(player.player._id);
+        players.push(player.player._id);
       })
-      vm.players = playersService.api().query(function() {
-        angular.forEach(vm.players, function(player) {
-          player.selected = ids.indexOf(player._id) != -1;
-          console.log(player);
-        })
-      });
+      vm.players = playersService.api().notIn({ players : players});
+    }
+
+    vm.toggleSelection = function(player) {
+      var attendee = $filter('filter')(vm.game.players, { player : { _id : player._id }  })[0];
+      var idx = vm.game.players.indexOf(attendee);
+      console.log(idx);
+      if (idx > -1) {
+        vm.game.players.splice(idx, 1);
+        console.log(vm.game.players);
+      } else {
+        vm.game.players.push({ player : player })
+      }
     }
 
     vm.addPlayersToGame = function() {
-      var players = $filter('filter')(vm.players, { selected : true })
-      vm.game.players = [];
-      angular.forEach(players, function(player) {
-        vm.game.players.push({ player : player })
-      })
       gamesService.api().save(vm.game, function() {
         $state.transitionTo('games.play', { id : vm.game._id })
       })

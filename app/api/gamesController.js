@@ -68,12 +68,7 @@ api.get('/:id', function(req, res) {
       path : 'players',
       populate : {
         path : 'player', 
-        select : 'name user', 
-        populate : { 
-          path : 'user', 
-          model : 'User', 
-          select : 'local.username' 
-        } 
+        select : 'name isTd'
       }
     }
   ];
