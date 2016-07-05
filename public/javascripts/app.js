@@ -140,6 +140,20 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'gamesPlayCtrl',
           controllerAs: 'gp'
         })
+        .state('games.players', {
+          url: '/players',
+          parent: 'games.play',
+          templateUrl: '/views/games.players.html',
+          controller: 'gamesPlayersCtrl',
+          controllerAs: 'gp'
+        })
+        .state('games.players.add', {
+          url: '/:gameId/players/add',
+          parent: 'games',
+          templateUrl: '/views/games.players.add.html',
+          controller: 'gamesPlayersCtrl',
+          controllerAs: 'gp'
+        })
 
       $urlRouterProvider.otherwise('/');
 

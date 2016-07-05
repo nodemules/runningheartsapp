@@ -1,0 +1,14 @@
+<md-content>
+  <div layout="row" layout-align="end">
+    <md-button class="md-raised md-primary" ui-sref="games.play({ id : gp.game._id })">Back to Game</md-button>
+  </div>
+  <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }">
+    <md-list-item ng-repeat="player in gp.players">
+      <md-checkbox ng-model="player.selected"></md-checkbox>
+      <p>{{player.name}}</p>
+    </md-list-item>
+  </md-list>
+  <div layout="column">
+    <md-button class="md-raised md-primary" ng-click="gp.addPlayersToGame()">Add Players</md-button>
+  </div>
+</md-content>

@@ -21,14 +21,14 @@
         <span class="md-headline">Players</span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-actions layout="column">
-      <md-button class="md-raised md-primary">I am a button</md-button>
-    </md-card-actions>
     <md-card-content>
-      <span ng-repeat="player in gp.game.players">
+      <md-card ng-repeat="player in gp.game.players">
         {{player.player.name}}        
-      </span>
+      </md-card>
     </md-card-content>
+    <md-card-actions layout="column">
+      <md-button class="md-raised md-primary" ui-sref="games.players.add({ gameId : gp.game._id })">Add Players</md-button>
+    </md-card-actions>
   </md-card>
   
 </md-content>
