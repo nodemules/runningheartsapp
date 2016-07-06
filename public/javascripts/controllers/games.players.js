@@ -26,16 +26,32 @@
       angular.forEach(vm.game.players, function(player) {
         players.push(player.player._id);
       })
-      vm.players = playersService.api().notIn({ players : players});
+      if (vm.showAllPlayers) {
+        vm.players = playersService.api().query(function() {
+          ready();
+        });
+      } else {
+        vm.players = playersService.api().notIn({ players : players }, function() {
+          ready();
+        });
+      }
+    }
+
+    vm.isSelected = function(player) {
+      var attendee = $filter('filter')(vm.game.players, { player : { _id : player._id }  })[0];
+      var idx = vm.game.players.indexOf(attendee);
+      var selected = false;
+      if (idx != -1) {
+        selected = true;
+      }
+      return selected;
     }
 
     vm.toggleSelection = function(player) {
       var attendee = $filter('filter')(vm.game.players, { player : { _id : player._id }  })[0];
       var idx = vm.game.players.indexOf(attendee);
-      console.log(idx);
       if (idx > -1) {
         vm.game.players.splice(idx, 1);
-        console.log(vm.game.players);
       } else {
         vm.game.players.push({ player : player })
       }
@@ -45,6 +61,10 @@
       gamesService.api().save(vm.game, function() {
         $state.transitionTo('games.play', { id : vm.game._id })
       })
+    }
+
+    function ready() {
+      vm.ready = true;
     }
 
     function initialize() {

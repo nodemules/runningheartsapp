@@ -51,8 +51,27 @@ html, body {
   min-height: 0;
 }
 
+.rhp-list-actions {
+  padding: 0px 16px;
+}
+
+.rhp-list-actions md-checkbox {
+    margin-left: 3px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.rhp-list-actions md-checkbox .md-label {
+  padding: 8px 0px;
+  font-size: 12px;
+}
+
 md-ink-bar {
   height: 6px;
+}
+
+#vertical-container {
+  height: 70vh;
 }
 
 .rhp-card-xs md-card-title {
