@@ -33,7 +33,7 @@
     }
 
     vm.viewGame = function(game) {
-      $state.transitionTo('games.play', { id : game._id } )
+      $state.transitionTo('games.view', { id : game._id } )
     }
 
     function initialize() {

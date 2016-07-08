@@ -23,6 +23,12 @@
       }, {
         'create' : {
           method : 'POST'
+        },
+        'save' : {
+          method : 'POST',
+          params : {
+            id : null
+          }
         }
       });
     }
