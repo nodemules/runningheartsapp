@@ -14,6 +14,7 @@
     vm.getGame = function(id) {
       vm.game = gamesService.api(id).get(function() {
         if (!vm.game.inProgress) {
+          vm.game.startTime = Date.now(),
           vm.game.inProgress = true;
           vm.game.$save();
         }
