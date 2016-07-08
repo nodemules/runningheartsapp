@@ -11,6 +11,8 @@
     
     var vm = this;
 
+    // var vm = {};
+
     vm.event = {};
     vm.directors = [];
 
@@ -30,8 +32,12 @@
       event.td = $filter('filter')(vm.directors, { _id : event.td._id })[0];
       event.venue = $filter('filter')(vm.venues, { _id : event.venue._id })[0];
       event.date = new Date(event.date);
-      console.log(event);
       vm.event = event;
+    }
+
+    vm.setEventFromVenue = function(venue) {
+      console.log(venue);
+      vm.event.td = $filter('filter')(vm.directors, { _id : venue.td._id })[0];
     }
 
     vm.save = function() {
