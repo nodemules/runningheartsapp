@@ -133,6 +133,13 @@ var APP_NAME = 'runningHeartsApp';
           redirectTo: 'games.play',
           abstract: true
         })
+        .state('games.view', {
+          url: '/view/:id',
+          parent: 'games',
+          templateUrl: '/views/games.view.html',
+          controller: 'gamesViewCtrl',
+          controllerAs: 'gv'
+        })
         .state('games.play', {
           url: '/play/:id',
           parent: 'games',

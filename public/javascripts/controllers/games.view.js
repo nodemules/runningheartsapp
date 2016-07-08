@@ -3,11 +3,11 @@
 
   'use strict';
 
-  angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
+  angular.module(APP_NAME).controller('gamesViewCtrl', gamesViewCtrl);
 
-  gamesPlayCtrl.$inject = [ '$state', '$stateParams', 'gamesService' ];
+  gamesViewCtrl.$inject = [ '$state', '$stateParams', 'gamesService' ];
 
-  function gamesPlayCtrl($state, $stateParams, gamesService) {
+  function gamesViewCtrl($state, $stateParams, gamesService) {
 
     var vm = this;
 

@@ -10,6 +10,7 @@ var gameSchema = mongoose.Schema({
   "statusId"  : { "type" : Number, "default" : 1 },
   "event"       : { "type" : Schema.Types.ObjectId, "ref" : "Event", "required" : true },
   "number"      : Number,                                                  // do we need this or can we just use the index of the object in the array
+  "inProgress"  : { "type" : Boolean, "default" : false },
   "completed"   : { "type" : Boolean, "default" : false },
   "players"     : [ 
     {
