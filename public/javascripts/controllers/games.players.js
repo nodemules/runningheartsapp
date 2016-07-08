@@ -59,7 +59,7 @@
 
     vm.addPlayersToGame = function() {
       gamesService.api().save(vm.game, function() {
-        $state.transitionTo('games.play', { id : vm.game._id })
+        $state.transitionTo('games.view', { id : vm.game._id })
       })
     }
 

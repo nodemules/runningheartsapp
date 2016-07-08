@@ -1,10 +1,10 @@
 <md-content layout="column" flex>
   <div class="rhp-list-actions" layout="row" layout-align="start" flex="15">
     <div layout="row" flex>
-      <md-checkbox ng-model="gp.showAllPlayers" ng-change="gp.getPlayers()">Show All Players</md-checkbox>
+      <md-checkbox ng-model="gp.showAllPlayers" ng-change="gp.getPlayers()" ng-if="!gp.game.inProgress">Show All Players</md-checkbox>
     </div>
     <div layout="row" layout-align="end" flex>
-      <md-button class="md-raised md-primary" ui-sref="games.play({ id : gp.game._id })">Back to Game</md-button>
+      <md-button class="md-raised md-primary" ui-sref="games.view({ id : gp.game._id })">Back to Game</md-button>
     </div>
   </div>
   <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }" layout="row" flex="85">

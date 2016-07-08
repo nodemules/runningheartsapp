@@ -85,8 +85,40 @@ api.get('/:id', function(req, res) {
 
 api.post('/', function(req, res) {
   if (req.body._id) {
+    var pOptions = [
+      { 
+        path : 'event',
+        populate: [
+          {
+            path : 'venue', 
+            select : 'name day'
+          },
+          { 
+            path : 'td', 
+            select : 'name user', 
+            populate : { 
+              path : 'user', 
+              model : 'User', 
+              select : 'local.username' 
+            } 
+          },
+          {
+            path : 'games',
+            select : 'event number'
+          }
+        ]
+      },
+      {
+        path : 'players',
+        populate : {
+          path : 'player', 
+          select : 'name isTd'
+        }
+      }
+    ];
     Game
       .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .populate(pOptions)
       .select('-statusId')
       .exec(function (err, game) {
           if (err)
