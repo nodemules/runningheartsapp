@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = [ '$state', '$stateParams', 'gamesService'];
+  gamesPlayCtrl.$inject = [ '$filter', '$state', '$stateParams', 'gamesService'];
 
-  function gamesPlayCtrl($state, $stateParams, gamesService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, gamesService) {
 
     var vm = this;
 
@@ -19,6 +19,13 @@
           vm.game.$save();
         }
       });
+    }
+
+    vm.playerOut = function(attendee) {
+      attendee.score = 1;
+      attendee.cashedOutTime = Date.now();
+      vm.game.$save();
+
     }
 
     function initialize() {

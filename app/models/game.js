@@ -16,9 +16,10 @@ var gameSchema = mongoose.Schema({
   "completed"   : { "type" : Boolean, "default" : false },
   "players"     : [ 
     {
-      "player"  : { "type" : Schema.Types.ObjectId, "ref" : "Player" },       // when populating events for a player, only load the name of each player
-      "score"   : Number,
-      "rank"    : Number
+      "player"        : { "type" : Schema.Types.ObjectId, "ref" : "Player" },       // when populating events for a player, only load the name of each player
+      "score"         : Number,
+      "rank"          : Number,
+      "cashedOutTime" : Date
     }
   ]
 });

@@ -1,8 +1,7 @@
 <md-content layout="column">
   <md-list class="md-dense" layout="row" flex>
     <md-virtual-repeat-container id="rhp-active-player-container" flex>
-      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players" 
-        layout-align="center center">
+      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: 'cashedOutTime': true" layout-align="center center" >
           <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center">
             <div class="rhp-player-name">
               {{attendee.player.name | uppercase}}
@@ -10,7 +9,7 @@
           </div>
         <div layout="row" layout-align="end center" ng-if="touched">
           <div layout-align="start center">
-            <md-button class="md-raised md-warn">
+            <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee)" ng-disabled="attendee.score">
               OUT
             </md-button>
           </div>
