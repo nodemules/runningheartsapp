@@ -22,10 +22,21 @@
     }
 
     vm.playerOut = function(attendee) {
-      attendee.score = 1;
+      var idx = vm.game.players.indexOf(attendee);
+      attendee.score = getScore(idx); 
       attendee.cashedOutTime = Date.now();
+      attendee.rank = idx + 1;
       vm.game.$save();
+    }
 
+    function getScore(idx) {
+      if (idx == 0 ) {
+        return 10;
+      } else if (idx < 8) {
+        return 9 - idx;
+      } else {
+        return 1;
+      }
     }
 
     function initialize() {
