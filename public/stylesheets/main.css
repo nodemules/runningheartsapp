@@ -85,3 +85,7 @@ md-ink-bar {
 .rhp-card-xs md-card-content {
   padding-bottom: 4px;
 }
+
+.rhp-player-heading {
+  min-height: 48px;
+}

@@ -3,24 +3,28 @@
     <md-virtual-repeat-container id="rhp-active-player-container" flex>
       <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players" 
         layout-align="center center">
-        <md-content ng-click="touched=!touched" layout="column">{{attendee.player.name | uppercase}}</md-content>
-        <md-content layout="row" layout-align="end center" ng-if="touched">
-          <md-content layout-align="start center">
+          <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center">
+            <div class="rhp-player-name">
+              {{attendee.player.name | uppercase}}
+            </div>
+          </div>
+        <div layout="row" layout-align="end center" ng-if="touched">
+          <div layout-align="start center">
             <md-button class="md-raised md-warn">
               OUT
             </md-button>
-          </md-content>
-          <md-content>
+          </div>
+          <div>
             <md-button class="md-raised md-primary">
               SOMETHING
             </md-button>
-          </md-content>
-        </md-content>
+          </div>
+        </div>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
-</md-content>
-<md-content layout="column">
+</div>
+<div layout="column">
   <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" >
     Return to Game Manager
   </md-button>
