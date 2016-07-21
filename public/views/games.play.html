@@ -1,4 +1,4 @@
-<md-content layout="column">
+<div layout="column">
   <md-list class="md-dense" layout="row" flex>
     <md-virtual-repeat-container id="rhp-active-player-container" flex>
       <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: 'cashedOutTime': true" layout-align="center center" >
@@ -24,7 +24,12 @@
   </md-list>
 </div>
 <div layout="column">
+  <md-button class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
+    {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
+  </md-button>
+</div>
+<div layout="column">
   <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" >
     Return to Game Manager
   </md-button>
-</md-content>
+</div>
