@@ -4,7 +4,7 @@
       <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: 'cashedOutTime': true" layout-align="center center" >
           <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center">
             <div class="rhp-player-name">
-              {{attendee.player.name | uppercase}}
+              {{attendee.player.name | uppercase}} {{attendee.score}} | #{{attendee.rank}}
             </div>
           </div>
         <div layout="row" layout-align="end center" ng-if="touched">

@@ -24,7 +24,7 @@
     vm.playerOut = function(attendee) {
       // TODO -- This doesn't actually work, the players Array is not sorted correctly when we
       // go and look up the index of the player we are marking out. @bh
-      var idx = vm.game.players.indexOf(attendee);
+      var idx = getNextRankOut();
       attendee.score = getScore(idx); 
       attendee.cashedOutTime = Date.now();
       attendee.rank = idx + 1;
@@ -32,10 +32,8 @@
     }
 
     vm.finalTable = function() {
-      var playersWithoutScore = $filter('filter')(vm.game.players, { score : 1 }, function(a,e) {
-        return a < e || a === undefined;
-      })
-      if (playersWithoutScore.length > 8) {
+      var nextRankOut = getNextRankOut() + 1;
+      if (nextRankOut > 8) {
         // TODO -- Visually inform the user that they have too many players to finalize the game. @bh
         console.log("You have more than 8 players, fuck off.");
         return false;
@@ -48,6 +46,12 @@
       // TODO -- Temporarily this undoes the "Final Table" status, convert to "Finalize Game" functionality ~ @bh
       vm.game.finalTable = false;
       vm.game.$save();     
+    }
+
+    function getNextRankOut() {
+      return $filter('filter')(vm.game.players, { score : 1 }, function(a,e) {
+        return a < e || a === undefined;
+      }).length - 1;
     }
 
     function getScore(idx) {
