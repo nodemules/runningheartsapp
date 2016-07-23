@@ -9,7 +9,7 @@
           </div>
         <div layout="row" layout-align="end center" ng-if="touched">
           <div layout-align="start center">
-            <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee)" ng-disabled="attendee.score">
+            <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee); touched = !touched; $parent.touched = !$parent.touched; gp.consoleLogBrah($parent.$parent)" ng-disabled="attendee.score">
               OUT
             </md-button>
           </div>
