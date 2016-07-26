@@ -43,15 +43,32 @@
     }
 
     vm.finalizeGame = function() {
-      // TODO -- Temporarily this undoes the "Final Table" status, convert to "Finalize Game" functionality ~ @bh
-      vm.game.finalTable = false;
-      vm.game.$save();     
+      var nextRankOut = getNextRankOut();
+
+      if (nextRankOut < 0) {
+        vm.game.finalize = true;
+      } else {
+        console.log('not done');
+      }
+    }
+
+    vm.completeGame = function() {
+      
+      if (!vm.game.finalize){
+        console.log('twilight zone');
+        return false;
+      }
+      
+      vm.game.completed = true;
+      vm.game.$save();
     }
 
     function getNextRankOut() {
-      return $filter('filter')(vm.game.players, { score : 1 }, function(a,e) {
+
+      var unscoredPlayers = $filter('filter')(vm.game.players, { score : 1 }, function(a,e) {
         return a < e || a === undefined;
-      }).length - 1;
+      })
+      return unscoredPlayers.length - 1;
     }
 
     function getScore(idx) {
