@@ -22,8 +22,6 @@
     }
 
     vm.playerOut = function(attendee) {
-      // TODO -- This doesn't actually work, the players Array is not sorted correctly when we
-      // go and look up the index of the player we are marking out. @bh
       var idx = getNextRankOut();
       attendee.score = getScore(idx); 
       attendee.cashedOutTime = Date.now();
@@ -52,6 +50,30 @@
       }
     }
 
+    vm.checkScore = function(player) {
+      var oldRank = getRank(player.score);
+
+      if ( !player.rank && player.rank !== 0 ) {
+        return false;
+      }
+      if (player.rank > 8 || player.rank < 1) {
+        player.rank = oldRank;
+        return false;
+      }
+      var newScore = getScore(player.rank - 1);
+      var counterPart = $filter('filter')(vm.game.players, { score : newScore })[0];
+      counterPart.rank = oldRank;
+      counterPart.score = getScore(oldRank - 1);
+      console.log(counterPart);
+      player.score = newScore;
+    }
+
+    vm.noBlankAllowed = function(player){
+      if ( !player.rank ) {
+        player.rank = getRank(player.score);
+      }
+    }
+
     vm.completeGame = function() {
       
       if (!vm.game.finalize){
@@ -72,12 +94,22 @@
     }
 
     function getScore(idx) {
-      if (idx == 0 ) {
+      if (idx === 0) {
         return 10;
       } else if (idx < 8) {
         return 9 - idx;
       } else {
         return 1;
+      }
+    }
+
+    function getRank(score) {
+      if (score == 10) {
+        return 1;
+      } else if (score > 1 && score < 9) {
+        return 10 - score;
+      } else {
+        return 9;
       }
     }
 
