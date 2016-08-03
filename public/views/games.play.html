@@ -5,7 +5,7 @@
         <div layout="row">
           <div ng-if="gp.game.finalize" layout="column" layout-align="center start" flex="10">
             <md-input-container>
-              <input ng-change="gp.checkScore(attendee)" ng-blur="gp.noBlankAllowed(attendee)" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
+              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee)" ng-blur="gp.noBlankAllowed(attendee, $index)" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
             </md-input-container>
           </div>
           <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center" flex>

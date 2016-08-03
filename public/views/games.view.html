@@ -26,7 +26,7 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <md-card ng-repeat="player in gv.game.players">
+      <md-card ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']">
         <md-card-title>
           {{player.player.name}} 
         </md-card-title>       
