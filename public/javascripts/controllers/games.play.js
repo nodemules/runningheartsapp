@@ -47,6 +47,7 @@
         vm.game.finalize = true;
       } else {
         console.log('not done');
+        return false;
       }
     }
 
@@ -83,6 +84,10 @@
       
       vm.game.completed = true;
       vm.game.$save();
+    }
+    
+    vm.isFinalizeable = function() {
+      return getNextRankOut() < 0;
     }
 
     function getNextRankOut() {

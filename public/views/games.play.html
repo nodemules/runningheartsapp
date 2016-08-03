@@ -5,7 +5,7 @@
         <div layout="row">
           <div ng-if="gp.game.finalize" layout="column" layout-align="center start" flex="10">
             <md-input-container>
-              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee)" ng-blur="gp.noBlankAllowed(attendee, $index)" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
+              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee)" ng-blur="gp.noBlankAllowed(attendee)" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
             </md-input-container>
           </div>
           <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center" flex>
@@ -31,7 +31,7 @@
   </md-list>
 </div>
 <div layout="column">
-  <md-button ng-if="!gp.game.finalize && !gp.game.completed" class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
+  <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
     {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
   </md-button>
   <md-button ng-if="gp.game.finalize" class="md-raised md-warn" ng-click="gp.completeGame();">
