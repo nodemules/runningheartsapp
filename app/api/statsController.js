@@ -8,14 +8,10 @@ var Venues  = require('../models/venue'),
     Event   = require('../models/event'),
     Game    = require('../models/game');
 
-var stats = {
-  players : []
-};
+var stats = {};
 
-api.get('/', function(req, res) {
-  stats = {
-    players : []
-  }
+api.get('/players', function(req, res) {
+  stats.players = []
   var pOptions = [
     { 
       path : 'event',
@@ -60,7 +56,7 @@ api.get('/', function(req, res) {
           parsePlayerData(players[j], games[i]);          
         }
       }
-      res.send(stats);
+      res.send(stats.players);
     })
 
 });
@@ -83,22 +79,23 @@ function parsePlayerData(record, game) {
     score: record.score,
     cashedOutTime : record.cashedOutTime
   }
+
   var p1 = _.filter(stats.players, { '_id' : p._id });
   if (p1 && p1.length) {
     var x = p1[0];
-    x.stats.totalWins += (r.rank === 1) ? 1 : 0;
-    x.stats.totalPoints += r.score;
-    x.stats.totalGames++;
+    updateStats(x.stats, r);
     x.games.push(r);
   } else {
+    updateStats(p.stats, r);
     p.games.push(r);
-    p.stats.totalWins += (r.rank === 1) ? 1 : 0;
-    p.stats.totalPoints += r.score;
     stats.players.push(p);
   }
 
-  function addGame(games, game) {
-    
+  function updateStats(stats, record) {
+    stats.totalWins += (record.rank === 1) ? 1 : 0;
+    stats.totalPoints += record.score;
+    stats.bonusChips = Math.floor(stats.totalPoints / 10) * 100;
+    stats.totalGames++;
   }
 
 }
