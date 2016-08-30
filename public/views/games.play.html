@@ -1,0 +1,45 @@
+<div layout="column">
+  <md-list class="md-dense" layout="row" flex>
+    <md-virtual-repeat-container id="rhp-active-player-container" flex>
+      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: ['-score', '-cashedOutTime']" layout-align="center center" >
+        <div layout="row">
+          <div ng-if="gp.game.finalize" layout="column" layout-align="center start" flex="10">
+            <md-input-container>
+              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee)" ng-blur="gp.noBlankAllowed(attendee)" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
+            </md-input-container>
+          </div>
+          <div class="rhp-player-heading" ng-click="touched=!touched" layout="column" layout-align="center center" flex>
+            <div class="rhp-player-name">
+              {{attendee.player.name | uppercase}} {{attendee.score}} | #{{attendee.rank}}
+            </div>
+          </div>
+        </div>
+        <div layout="row" layout-align="end center" ng-if="touched && !gp.game.finalize && !gp.game.completed">
+          <div layout-align="start center">
+            <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee); touched = !touched; $parent.touched = !$parent.touched;" ng-disabled="attendee.score">
+              OUT
+            </md-button>
+          </div>
+          <div>
+            <md-button class="md-raised md-primary">
+              SOMETHING
+            </md-button>
+          </div>
+        </div>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<div layout="column">
+  <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
+    {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
+  </md-button>
+  <md-button ng-if="gp.game.finalize" class="md-raised md-warn" ng-click="gp.completeGame();">
+    {{ 'Complete Game' }}
+  </md-button>
+</div>
+<div layout="column">
+  <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" >
+    Return to Game Manager
+  </md-button>
+</div>

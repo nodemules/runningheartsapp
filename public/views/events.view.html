@@ -1,17 +1,40 @@
 <md-content layout="column">
   <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">Event @ {{ev.event.venue.name}}</span>
-          <span class="md-subhead">Hosted by {{ev.event.td.name}}</span>
-        </md-card-title-text>
-      </md-card-title>
-      <md-card-content>
-        <p>Some information about an event at {{ev.event.venue.name}} hosted by {{ev.event.td.name}}.</p>
-      </md-card-content>
-      <md-card-actions layout="row" layout-align="end center">
-        <md-button>Action 1</md-button>
-        <md-button>Action 2</md-button>
-      </md-card-actions>
-    </md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Event @ {{ev.event.venue.name}}</span>
+        <span class="md-subhead">Hosted by {{ev.event.td.name}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p>Some information about an event at {{ev.event.venue.name}} hosted by {{ev.event.td.name}}.</p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary" ng-click="ev.editEvent()">Edit Event</md-button>
+      <md-button>Action 2</md-button>
+    </md-card-actions>
+  </md-card>
+  <md-card class="rhp-card-xs" ng-repeat="game in ev.event.games">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Game #{{$index + 1}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p>This game is {{game.completed ? 'finished' : 'in progress'}}.</p>
+    </md-card-content>
+    <md-card-actions layout="column">
+      <md-button class="md-raised md-primary" ng-click="ev.viewGame(game)">View Game</md-button>
+    </md-card-actions>
+  </md-card>
+  <md-card class="rhp-card-xs">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Game #{{ev.event.games.length + 1}}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="column">
+      <md-button class="md-raised md-primary" ng-click="ev.newGame()">Start {{ev.event.games.length ? 'Another' : ''}} Game</md-button>
+    </md-card-actions>
+  </md-card>
 </md-content>

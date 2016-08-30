@@ -15,7 +15,6 @@ var publicPlayer = {
 api.get('/', function(req, res) {
   Players
     .find({ statusId : 1 })
-    .populate(publicPlayer)
     .select('-statusId')
     .exec(function(err, player){
       if (err)
@@ -41,12 +40,23 @@ api.put('/', function(req, res){
   Players
     .find(req.body)
     .select('-statusId')
-    .exec(function(err, player){
+    .exec(function(err, players){
       if (err)
         console.log(err.stack);
-      res.send(player);
+      res.send(players);
     })
 
+})
+
+api.put('/notIn', function(req, res) {
+  Players
+    .find({ _id : { "$nin" : req.body.players } })
+    .select('-statusId')
+    .exec(function(err, players) {
+      if (err)
+        console.log(err.stack);
+      res.send(players);
+    })
 })
 
 api.post('/', function(req, res) {

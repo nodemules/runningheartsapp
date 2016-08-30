@@ -18,13 +18,20 @@
     /////////////////////
 
     function api(id) {
-      return $resource(basePath + '/:id', {
+      return $resource(basePath + '/:id/:action', {
         id : id
       }, {
         'findBy' : { 
           method : 'PUT',
           isArray : true
-         }
+         },
+        'notIn' : {
+          method : 'PUT',
+          params : {
+            action : 'notIn'
+          },
+          isArray : true
+        }
       });
     }
 
