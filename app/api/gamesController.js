@@ -68,12 +68,7 @@ api.get('/:id', function(req, res) {
       path : 'players',
       populate : {
         path : 'player', 
-        select : 'name user', 
-        populate : { 
-          path : 'user', 
-          model : 'User', 
-          select : 'local.username' 
-        } 
+        select : 'name isTd'
       }
     }
   ];
@@ -89,22 +84,65 @@ api.get('/:id', function(req, res) {
 });
 
 api.post('/', function(req, res) {
-  Game.create(req.body, function(err, game) {
-    if (err) {
-      console.log(err.stack);
-      res.status(500).send()
-    } else {
-      Event
-        .findOne({ _id : game['event'] })
-        .exec(function(err, e) {
+  if (req.body._id) {
+    var pOptions = [
+      { 
+        path : 'event',
+        populate: [
+          {
+            path : 'venue', 
+            select : 'name day'
+          },
+          { 
+            path : 'td', 
+            select : 'name user', 
+            populate : { 
+              path : 'user', 
+              model : 'User', 
+              select : 'local.username' 
+            } 
+          },
+          {
+            path : 'games',
+            select : 'event number'
+          }
+        ]
+      },
+      {
+        path : 'players',
+        populate : {
+          path : 'player', 
+          select : 'name isTd'
+        }
+      }
+    ];
+    Game
+      .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .populate(pOptions)
+      .select('-statusId')
+      .exec(function (err, game) {
           if (err)
-            console.log(err.stack);
-          e.games.push(game._id);
-          e.save();
+            res.send(err);
           res.send(game);
-        })
-    }
-  })
+      })
+  } else {
+    Game.create(req.body, function(err, game) {
+      if (err) {
+        console.log(err.stack);
+        res.status(500).send()
+      } else {
+        Event
+          .findOne({ _id : game['event'] })
+          .exec(function(err, e) {
+            if (err)
+              console.log(err.stack);
+            e.games.push(game._id);
+            e.save();
+            res.send(game);
+          })
+      }
+    })
+  }
 });
 
 api.put('/', function(req, res) {

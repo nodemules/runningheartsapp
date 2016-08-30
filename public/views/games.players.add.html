@@ -1,0 +1,21 @@
+<md-content layout="column" flex>
+  <div class="rhp-list-actions" layout="row" layout-align="start" flex="15">
+    <div layout="row" flex>
+      <md-checkbox ng-model="gp.showAllPlayers" ng-change="gp.getPlayers()" ng-if="!gp.game.inProgress">Show All Players</md-checkbox>
+    </div>
+    <div layout="row" layout-align="end" flex>
+      <md-button class="md-raised md-primary" ui-sref="games.view({ id : gp.game._id })">Back to Game</md-button>
+    </div>
+  </div>
+  <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }" layout="row" flex="85">
+    <md-virtual-repeat-container id="vertical-container" flex>
+      <md-list-item md-virtual-repeat="player in gp.players">
+        <md-checkbox ng-checked="gp.isSelected(player)" ng-click="gp.toggleSelection(player)"></md-checkbox>
+        <p>{{player.name}}</p>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</md-content>
+<md-content layout="column" layout-align="end" flex>
+  <md-button class="md-raised md-primary" ng-click="gp.addPlayersToGame()">Add Players</md-button>
+</md-content>
