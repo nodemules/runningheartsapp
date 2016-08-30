@@ -5,7 +5,8 @@ var venuesController  = require('./venuesController'),
     eventsController  = require('./eventsController'),
     gamesController   = require('./gamesController'),
     usersController   = require('./usersController'),
-    playersController = require('./playersController');
+    playersController = require('./playersController'),
+    statsController   = require('./statsController');
 
 
 api.use(function(req, res, next) {
@@ -18,6 +19,6 @@ api.use('/events', eventsController);
 api.use('/games', gamesController);
 api.use('/players', playersController);
 api.use('/users', usersController);
-
+api.use('/stats', statsController);
 
 module.exports = api;
