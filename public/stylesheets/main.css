@@ -46,7 +46,7 @@ html, body {
   font-size: 12px;
 }
 
-.rhp-dense-list md-list-item.md-3-line, 
+.rhp-dense-list md-list-item.md-3-line,
 .rhp-dense-list md-list-item.md-3-line > .md-no-style {
   min-height: 0;
 }
@@ -64,6 +64,20 @@ html, body {
 .rhp-list-actions md-checkbox .md-label {
   padding: 8px 0px;
   font-size: 12px;
+}
+
+.stats-player-row {
+  /*font-family: 'Droid Sans', sans-serif;*/
+  /*font-family: 'Montserrat', sans-serif;*/
+  /*font-family: 'Rubik', sans-serif;*/
+  /*font-family: 'Oswald', sans-serif;*/
+  /*font-family: 'Libre Baskerville', serif;*/
+  font-family: 'Bitter', serif;
+  /*font-family: 'Bree Serif', serif;*/
+  /*font-family: 'Orbitron', sans-serif;*/
+  font-size: 2em;
+  min-height: 32px;
+  width: 100%;
 }
 
 md-ink-bar {
