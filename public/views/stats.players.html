@@ -1,4 +1,66 @@
-<div ng-repeat="player in vm.playerStats">
-  <div>{{player.name}}</div>
-  <div>{{player.stats.totalWins / player.stats.totalGames}} %</div>
+<div layout="column">
+  <md-list class="md-dense" layout="row" flex>
+    <md-virtual-repeat-container id="rhp-active-player-container" flex>
+      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-stats.bonusChips', '-stats.totalWins']" layout-align="center center" >
+        <div layout="row">
+          <div layout="column">
+            <div ng-click="touched=!touched" layout="row" layout-align="center center" flex>
+              {{player.name}}
+            </div>
+            <div layout="row" flex>
+              <div layout="column" flex>
+                <div layout="row" flex>
+                  {{player.stats.totalWins}}
+                </div>
+                <div layout="row" flex>
+                  Wins
+                </div>
+              </div>
+              <div layout="column" flex>
+                <div layout="row" flex>
+                  {{player.stats.bonusChips}}
+                </div>
+                <div layout="row" flex>
+                  Bonus
+                </div>
+              </div>
+              <div layout="column" flex>
+                <div layout="row" flex>
+                  {{$index + 1}}
+                </div>
+                <div layout="row" flex>
+                  Rank
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div layout="row" layout-align="end center" ng-if="touched">
+          <div layout-align="start center">
+            <md-button class="md-raised md-warn" ng-click="touched = !touched; $parent.touched = !$parent.touched;">
+              Shout Out
+            </md-button>
+          </div>
+          <div>
+            <md-button class="md-raised md-primary"  ui-sref="players.view({ id : player._id })">
+              View Profile
+            </md-button>
+          </div>
+        </div>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<div layout="column">
+  <md-button class="md-raised md-warn" >
+    faen
+  </md-button>
+  <md-button class="md-raised md-warn">
+    doublefaen
+  </md-button>
+</div>
+<div layout="column">
+  <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" ng-disabled="true" >
+    Return to Game Manager
+  </md-button>
 </div>
