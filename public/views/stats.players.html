@@ -1,7 +1,7 @@
 <div layout="column">
   <md-list class="md-dense" layout="row" flex>
     <md-virtual-repeat-container id="rhp-active-player-container" flex>
-      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-stats.bonusChips', '-stats.totalWins']" layout-align="center center" >
+      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-stats.bonusChips', '-stats.totalWins']" layout-align="center center">
         <div layout="row">
           <div layout="column">
             <div ng-click="touched=!touched" layout="row" layout-align="center center" flex>
