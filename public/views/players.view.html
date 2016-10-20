@@ -2,16 +2,15 @@
   <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
       <md-card-title>
         <md-card-title-text>
-          <span class="md-headline">{{pv.player.name}}</span>
-          <span class="md-subhead">{{pv.player.isTd ? 'Tournament Director' : ''}}</span>
+          <span class="md-headline player-info">{{pv.player.name}}</span>
+          <span class="md-subhead player-info">{{pv.player.isTd ? 'Tournament Director' : ''}}</span>
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
         <p>Some information about {{pv.player.name}}.</p>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
-        <md-button>Action 1</md-button>
-        <md-button>Action 2</md-button>
+        <md-button>Give Shout Out</md-button>
       </md-card-actions>
     </md-card>
 </md-content>
