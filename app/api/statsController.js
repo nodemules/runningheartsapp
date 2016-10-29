@@ -103,29 +103,40 @@ function parsePlayerData(record, game) {
 
 api.get('/players/:id', function(req, res){
 
-var project = {
-  '$project': {
-    'players': { $filter: { input: '$players', as: 'player', cond: { $eq: ['$$player.player', mongoose.Types.ObjectId(req.params.id)] } }}
+  var unwind = {
+    '$unwind': {
+      'path': '$players'
+    }
   }
-}
 
-var match = {
-  '$match': {
-    'players': { $exists: true, $ne: [] }
+  var match = {
+    '$match': {
+      'players.player' : mongoose.Types.ObjectId(req.params.id)
+    }
   }
-}
-//outputs each value as an array with the value inside... why..?
-var tidy = {
-  '$project': {
-    'playerId': '$players.player',
-    'score': '$players.score',
-    'rank': '$players.rank',
-    'cashedOutTime': '$players.cashedOutTime',
+
+  var group = {
+    '$group': {
+      '_id': '$players.player',
+      'games': {
+        $push: {
+          '_id': '$_id',
+          'score': '$players.score',
+          'rank': '$players.rank',
+          'event': '$event',
+          'gameNumber': '$number',
+          'gameStartTime': '$startTime',
+          'completed': '$completed',
+          'inProgress': '$inProgress',
+          'finalTable': '$finalTable',
+          'cashedOutTime': '$players.cashedOutTime'
+        }
+      }
+    }
   }
-}
 
   Game
-  .aggregate([project, match, tidy])
+  .aggregate([unwind, match, group])
   .exec(function(err, games){
     if (err)
       console.error(err.stack);
