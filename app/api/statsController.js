@@ -39,6 +39,19 @@ var group = {
   }
 }
 
+var project = {
+  '$project': {
+    '_id': '$_id',
+    'name': '$player.name',
+    'isTd': '$player.isTd',
+    'totalPoints': '$totalPoints',
+    'averageRank': '$averageRank',
+    'bestRank': '$bestRank',
+    'worstRank': '$worstRank',
+    'games': '$games'
+  }
+}
+
 var sort = {
   '$sort': { 'startTime': -1 }
 }
@@ -96,7 +109,7 @@ api.get('/players/:id', function(req, res){
     }
   }
 
-  var pipeline = [unwind, match, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer];
+  var pipeline = [unwind, match, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
 
   Game
   .aggregate(pipeline)
