@@ -125,7 +125,7 @@ var tidy = {
 }
 
   Game
-  .aggregate([project, match])
+  .aggregate([project, match, tidy])
   .exec(function(err, games){
     if (err)
       console.error(err.stack);
