@@ -1,6 +1,7 @@
 var express = require('express'),
     api     = express.Router(),
     _       = require('lodash');
+    mongoose = require('mongoose');
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
@@ -13,21 +14,21 @@ var stats = {};
 api.get('/players', function(req, res) {
   stats.players = []
   var pOptions = [
-    { 
+    {
       path : 'event',
       populate: [
         {
-          path : 'venue', 
+          path : 'venue',
           select : 'name day'
         },
-        { 
-          path : 'td', 
-          select : 'name user', 
-          populate : { 
-            path : 'user', 
-            model : 'User', 
-            select : 'local.username' 
-          } 
+        {
+          path : 'td',
+          select : 'name user',
+          populate : {
+            path : 'user',
+            model : 'User',
+            select : 'local.username'
+          }
         },
         {
           path : 'games',
@@ -38,7 +39,7 @@ api.get('/players', function(req, res) {
     {
       path : 'players',
       populate : {
-        path : 'player', 
+        path : 'player',
         select : 'name isTd'
       }
     }
@@ -53,7 +54,7 @@ api.get('/players', function(req, res) {
       for (var i in games) {
         var players = games[i].players;
         for (var j in players) {
-          parsePlayerData(players[j], games[i]);          
+          parsePlayerData(players[j], games[i]);
         }
       }
       res.send(stats.players);
@@ -99,5 +100,37 @@ function parsePlayerData(record, game) {
   }
 
 }
+
+api.get('/players/:id', function(req, res){
+
+var project = {
+  '$project': {
+    'players': { $filter: { input: '$players', as: 'player', cond: { $eq: ['$$player.player', mongoose.Types.ObjectId(req.params.id)] } }}
+  }
+}
+
+var match = {
+  '$match': {
+    'players': { $exists: true, $ne: [] }
+  }
+}
+//outputs each value as an array with the value inside... why..?
+var tidy = {
+  '$project': {
+    'playerId': '$players.player',
+    'score': '$players.score',
+    'rank': '$players.rank',
+    'cashedOutTime': '$players.cashedOutTime',
+  }
+}
+
+  Game
+  .aggregate([project, match])
+  .exec(function(err, games){
+    if (err)
+      console.error(err.stack);
+    res.send(games);
+  })
+})
 
 module.exports = api;

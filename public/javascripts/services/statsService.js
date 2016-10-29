@@ -12,9 +12,9 @@
     }
 
     return service;
-    
+
     /////////////////////
-    
+
     function api(id) {
       return $resource(basePath + '/:action/:id', {
         id : id
