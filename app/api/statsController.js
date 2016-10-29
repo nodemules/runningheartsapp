@@ -122,7 +122,10 @@ api.get('/players/:id', function(req, res){
 
 api.get('/players', function(req, res){
 
-  var pipeline = [unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
+  var sortBy = {
+    '$sort': { 'totalPoints': -1, 'averageRank': 1 }
+  }
+  var pipeline = [unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
 
   Game
   .aggregate(pipeline)
