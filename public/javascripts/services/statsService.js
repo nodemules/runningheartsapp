@@ -19,12 +19,18 @@
       return $resource(basePath + '/:action/:id', {
         id : id
       }, {
+        'player' : {
+          method : 'get',
+          params : {
+            action : 'players'
+          }
+        },
         'players' : {
           method : 'get',
           params : {
             action : 'players'
           },
-          isArray : true
+          isArray: true
         }
       });
     }

@@ -7,9 +7,15 @@
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
-        <div ng-repeat="stat in pv.stats">
-
-        </div>
+        <p>Total Points: {{pv.player.totalPoints}}</p>
+        <p>Total Wins: {{pv.player.totalWins}}</p>
+        <p>Bonus Chips: {{pv.player.bonusChips}}</p>
+        <p>Average Rank: {{pv.player.averageRank}}</p>
+        <p>Best Rank: {{pv.player.bestRank}}</p>
+        <p>Worst Rank: {{pv.player.worstRank}}</p>
+        <md-button ng-repeat="game in pv.player.games | limitTo: 5" ui-sref="games.view({ id : game._id })">
+          {{game.event.venue.name}} -- {{game.gameStartTime | date: 'short'}}
+        </md-button>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button>Give Shout Out</md-button>

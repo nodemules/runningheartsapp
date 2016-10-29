@@ -12,12 +12,7 @@
     var vm = this;
 
     vm.getPlayer = function(id) {
-      vm.player = playersService.api(id).get();
-    }
-
-    vm.getPlayerStats = function(id) {
-      vm.stats = statsService.api(id).players();
-
+      vm.player = statsService.api(id).player();
     }
 
     vm.save = function() {
@@ -35,7 +30,6 @@
     function initialize() {
       if ($stateParams.id) {
         vm.getPlayer($stateParams.id);
-        vm.getPlayerStats($stateParams.id);
       }
     }
 

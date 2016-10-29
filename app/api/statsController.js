@@ -22,6 +22,7 @@ var group = {
     'averageRank': { '$avg': '$players.rank'},
     'bestRank': {'$min': '$players.rank'},
     'worstRank': {'$max': '$players.rank'},
+    'totalWins': { $sum: { $cond: [ { $eq: [ '$players.rank', 1 ] }, 1, 0 ] } },
     'games': {
       $push: {
         '_id': '$_id',
@@ -45,6 +46,8 @@ var project = {
     'name': '$player.name',
     'isTd': '$player.isTd',
     'totalPoints': '$totalPoints',
+    'totalWins': '$totalWins',
+    'bonusChips': { $multiply: [ { $floor: { $divide: ['$totalPoints', 10] } }, 100] },
     'averageRank': '$averageRank',
     'bestRank': '$bestRank',
     'worstRank': '$worstRank',
@@ -113,10 +116,10 @@ api.get('/players/:id', function(req, res){
 
   Game
   .aggregate(pipeline)
-  .exec(function(err, games){
+  .exec(function(err, players){
     if (err)
       console.error(err.stack);
-    res.send(games);
+    res.send(players[0]);
   })
 })
 
@@ -129,10 +132,10 @@ api.get('/players', function(req, res){
 
   Game
   .aggregate(pipeline)
-  .exec(function(err, games){
+  .exec(function(err, players){
     if (err)
       console.error(err.stack);
-    res.send(games);
+    res.send(players);
   })
 })
 
