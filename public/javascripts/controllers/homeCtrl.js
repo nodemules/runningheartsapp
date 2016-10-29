@@ -1,14 +1,14 @@
 // global angular
 (function(angular) {
-  
+
   'use strict';
-  
+
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
   homeCtrl.$inject = [ '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia' ];
 
   function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia) {
-    
+
     var vm = this;
 
     vm.mdMedia = $mdMedia;
@@ -40,6 +40,13 @@
         message : "View player information",
         alert : "6 players with new data!",
         path: "players"
+      },
+      {
+        id: 4,
+        label: "Standings",
+        message: "View Player Standings",
+        alert: "Last Updated <date>",
+        path: "stats"
       }
     ];
 

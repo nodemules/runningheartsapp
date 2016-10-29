@@ -1,0 +1,51 @@
+<div layout="column">
+  <md-list class="md-dense" layout="row" flex>
+    <md-virtual-repeat-container id="rhp-active-player-container" flex>
+      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalWins']" layout-align="center center">
+            <div ng-click="touched=!touched" layout="row" layout-align="center center" class="stats-player-row">
+              {{player.name | uppercase}}
+            </div>
+            <div layout="row" class="stats-player-row" layout-align="center center">
+              <div layout="row" flex layout-align="center center">
+                <i class="fa fa-hashtag"></i>   {{$index + 1}}
+              </div>
+              <div layout="row" flex layout-align="center center">
+                  <i class="fa fa-usd"></i>  {{player.bonusChips}}
+              </div>
+              <div layout="row" flex layout-align="center center">
+                  {{player.totalWins}}  <i class="fa fa-trophy"></i>
+              </div>
+            </div>
+        <div layout="row" class="stats-player-row" ng-if="touched">
+          <div layout="row" flex>
+            <div layout="column" flex>
+              <md-button class="md-raised md-warn" ng-click="touched = !touched; $parent.touched = !$parent.touched;">
+                Shout Out
+              </md-button>
+            </div>
+          </div>
+          <div layout="row" flex>
+            <div layout="column" flex>
+              <md-button class="md-raised md-primary"  ui-sref="players.view({ id : player._id })">
+                View Profile
+              </md-button>
+            </div>
+          </div>
+        </div>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<div layout="column">
+  <md-button class="md-raised md-warn" >
+    faen
+  </md-button>
+  <md-button class="md-raised md-warn">
+    doublefaen
+  </md-button>
+</div>
+<div layout="column">
+  <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" ng-disabled="true" >
+    Return to Game Manager
+  </md-button>
+</div>

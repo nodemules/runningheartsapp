@@ -1,18 +1,18 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('playersViewCtrl', playersViewCtrl);
 
-  playersViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'playersService' ];
+  playersViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'playersService', 'statsService' ];
 
-  function playersViewCtrl($filter, $state, $stateParams, playersService) {
-    
+  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService) {
+
     var vm = this;
 
     vm.getPlayer = function(id) {
-      vm.player = playersService.api(id).get();
+      vm.player = statsService.api(id).player();
     }
 
     vm.save = function() {
@@ -35,6 +35,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);
