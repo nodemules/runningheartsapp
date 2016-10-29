@@ -43,6 +43,51 @@ var sort = {
   '$sort': { 'startTime': -1 }
 }
 
+var lookupPlayer = {
+  '$lookup': {
+    from: 'players', //<collection to join>,
+    localField: '_id', //<field from the input documents>,
+    foreignField: '_id', //<field from the documents of the "from" collection>,
+    as: 'player' //<output array field>
+  }
+}
+
+var lookupEvent = {
+  '$lookup': {
+    from: 'events',
+    localField: 'event',
+    foreignField: '_id',
+    as: 'event'
+  }
+}
+
+var lookupVenue = {
+  '$lookup': {
+    from: 'venues',
+    localField: 'event.venue',
+    foreignField: '_id',
+    as: 'event.venue'
+  }
+}
+
+var unwindPlayer = {
+  '$unwind': {
+    'path': '$player'
+  }
+}
+
+var unwindEvent = {
+  '$unwind': {
+    'path': '$event'
+  }
+}
+
+var unwindVenue = {
+  '$unwind': {
+    'path': '$event.venue'
+  }
+}
+
 api.get('/players/:id', function(req, res){
 
   var match = {
@@ -51,7 +96,7 @@ api.get('/players/:id', function(req, res){
     }
   }
 
-  var pipeline = [unwind, match, sort, group];
+  var pipeline = [unwind, match, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer];
 
   Game
   .aggregate(pipeline)
@@ -64,7 +109,7 @@ api.get('/players/:id', function(req, res){
 
 api.get('/players', function(req, res){
 
-  var pipeline = [unwind, sort, group];
+  var pipeline = [unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer];
 
   Game
   .aggregate(pipeline)
