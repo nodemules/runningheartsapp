@@ -9,7 +9,7 @@ var APP_NAME = 'runningHeartsApp';
     .module(APP_NAME, APP_DEPENDENCIES)
     .config(function($mdThemingProvider) {
       var whiteMap = $mdThemingProvider.extendPalette('red', {
-        '500' : '#ffffff'
+        '500': '#ffffff'
       })
       $mdThemingProvider.definePalette('white', whiteMap);
 
@@ -19,7 +19,7 @@ var APP_NAME = 'runningHeartsApp';
           'default': '900'
         })
         .backgroundPalette('grey', {
-          'hue-1' : '400'
+          'hue-1': '400'
         });
     })
     .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -32,7 +32,7 @@ var APP_NAME = 'runningHeartsApp';
 
       $stateProvider
         .state('venues', {
-          url : 'venues',
+          url: 'venues',
           parent: 'home',
           templateUrl: '/views/venues.html',
           controller: 'venuesCtrl',
@@ -40,21 +40,21 @@ var APP_NAME = 'runningHeartsApp';
           redirectTo: 'venues.list'
         })
         .state('venues.list', {
-          url : '/list',
+          url: '/list',
           parent: 'venues',
           templateUrl: '/views/venues.list.html',
           controller: 'venuesListCtrl',
           controllerAs: 'vl'
         })
         .state('venues.manage', {
-          url : '/manage/:id',
+          url: '/manage/:id',
           parent: 'venues',
           templateUrl: '/views/venues.manage.html',
           controller: 'venuesManageCtrl',
           controllerAs: 'vm'
         })
         .state('venues.view', {
-          url : '/view/:id',
+          url: '/view/:id',
           parent: 'venues',
           templateUrl: '/views/venues.view.html',
           controller: 'venuesViewCtrl',
@@ -63,7 +63,7 @@ var APP_NAME = 'runningHeartsApp';
 
       $stateProvider
         .state('players', {
-          url : 'players',
+          url: 'players',
           parent: 'home',
           templateUrl: '/views/players.html',
           controller: 'playersCtrl',
@@ -71,30 +71,30 @@ var APP_NAME = 'runningHeartsApp';
           redirectTo: 'players.list'
         })
         .state('players.list', {
-          url : '/list',
+          url: '/list',
           parent: 'players',
           templateUrl: '/views/players.list.html',
           controller: 'playersListCtrl',
           controllerAs: 'pl',
         })
         .state('players.manage', {
-          url : '/manage/:id',
+          url: '/manage/:id',
           parent: 'players',
           templateUrl: '/views/players.manage.html',
           controller: 'playersManageCtrl',
           controllerAs: 'pm',
-        }) 
+        })
         .state('players.view', {
-          url : '/view/:id',
+          url: '/view/:id',
           parent: 'players',
           templateUrl: '/views/players.view.html',
           controller: 'playersViewCtrl',
           controllerAs: 'pv',
-        }) 
+        })
 
       $stateProvider
         .state('events', {
-          url : 'events',
+          url: 'events',
           parent: 'home',
           templateUrl: '/views/events.html',
           controller: 'eventsCtrl',
@@ -102,26 +102,26 @@ var APP_NAME = 'runningHeartsApp';
           redirectTo: 'events.list'
         })
         .state('events.list', {
-          url : '/list',
+          url: '/list',
           parent: 'events',
           templateUrl: '/views/events.list.html',
           controller: 'eventsListCtrl',
           controllerAs: 'el'
         })
         .state('events.manage', {
-          url : '/manage/:id',
+          url: '/manage/:id',
           parent: 'events',
           templateUrl: '/views/events.manage.html',
           controller: 'eventsManageCtrl',
           controllerAs: 'em'
-        }) 
+        })
         .state('events.view', {
-          url : '/view/:id',
+          url: '/view/:id',
           parent: 'events',
           templateUrl: '/views/events.view.html',
           controller: 'eventsViewCtrl',
           controllerAs: 'ev'
-        }) 
+        })
 
       $stateProvider
         .state('games', {
@@ -164,17 +164,31 @@ var APP_NAME = 'runningHeartsApp';
 
       $stateProvider
         .state('stats', {
-          url : 'stats',
+          url: 'stats',
           parent: 'home',
           templateUrl: '/views/stats.html',
           controller: 'statsCtrl',
           controllerAs: 'vm'
         })
         .state('stats.players', {
-          url : '/players',
+          url: '/players',
           parent: 'stats',
           templateUrl: '/views/stats.players.html',
           controller: 'statsPlayersCtrl',
+          controllerAs: 'vm'
+        })
+
+      $stateProvider
+        .state('seasons', {
+          url: 'seasons',
+          parent: 'home',
+          templateUrl: '/views/seasons.html'
+        })
+        .state('seasons.view', {
+          url: '/view',
+          parent: 'seasons',
+          templateUrl: '/views/seasons.view.html',
+          controller: 'seasonsViewCtrl',
           controllerAs: 'vm'
         })
 
@@ -182,16 +196,16 @@ var APP_NAME = 'runningHeartsApp';
 
       $stateProvider
         .state('home', {
-          url : '/',
+          url: '/',
           templateUrl: '/views/home.html',
           controller: 'homeCtrl',
           controllerAs: 'home'
         })
 
-      
+
       $locationProvider.html5Mode({
-        enabled : true,
-        requireBase : true
+        enabled: true,
+        requireBase: true
       });
 
     })
