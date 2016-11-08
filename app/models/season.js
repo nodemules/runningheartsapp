@@ -7,10 +7,8 @@ var seasonSchema = mongoose.Schema({
     "type": Number,
     "unique": true
   },
-  "startDate": {
-    "type": Date,
-    "default": Date.now
-  }
+  "startDate": Date,
+  "endDate": Date
 });
 
 // create the model for venues and expose it to our app
