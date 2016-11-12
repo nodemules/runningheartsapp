@@ -1,0 +1,8 @@
+<div>
+  <md-button ng-click="vm.newSeason()">Make a new Season</md-button>
+  <md-button ng-click="vm.getSeason()">Get all the fucking Seasons</md-button>
+  <div ng-repeat="season in vm.seasons">
+    {{season.seasonNumber}}
+    {{season.startDate}}
+  </div>
+</div>

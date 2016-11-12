@@ -7,7 +7,8 @@ var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
     Players = require('../models/player'),
     Event   = require('../models/event'),
-    Game    = require('../models/game');
+    Game    = require('../models/game'),
+    Season  = require('../models/season');
 
 var unwind = {
   '$unwind': {
@@ -139,5 +140,41 @@ api.get('/players', function(req, res){
   })
 })
 
+api.get('/seasonalPlayers/:seasonNumber', function(req, res){
+
+  Season
+  .find( {seasonNumber : req.params.seasonNumber} )
+  .exec(function(err, season){
+    if (err)
+      console.log(err)
+
+    var sortBy = {
+      '$sort': { 'totalPoints': -1, 'averageRank': 1 }
+    }
+
+    var startTime = season[0].startDate;
+    var endTime = season[0].endDate;
+
+    var match = {
+      '$match': { 'startTime' : { '$gte' : new Date(startTime) } }
+    }
+
+    if (endTime) {
+      match.$match.startTime.$lt = new Date(endTime);
+    }
+
+    var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
+
+    Game
+    .aggregate(pipeline)
+    .exec(function(err, players){
+      if (err)
+        console.error(err.stack);
+      res.send(players);
+    })
+  })
+
+
+})
 
 module.exports = api;
