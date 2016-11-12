@@ -1,4 +1,7 @@
 <div layout="column">
+  <div ng-show="!vm.playerStats.length">
+    There are no stats to show for this season.
+  </div>
   <md-list class="md-dense" layout="row" flex>
     <md-virtual-repeat-container id="rhp-active-player-container" flex>
       <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalWins']" layout-align="center center">
@@ -35,4 +38,7 @@
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
+  <md-button class="md-raised md-default" ui-sref="stats">
+    Back to Stats Home
+  </md-button>
 </div>
