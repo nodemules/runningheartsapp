@@ -148,30 +148,30 @@ api.get('/seasonalPlayers/:seasonNumber', function(req, res){
     if (err)
       console.log(err)
 
-      var sortBy = {
-        '$sort': { 'totalPoints': -1, 'averageRank': 1 }
-      }
+    var sortBy = {
+      '$sort': { 'totalPoints': -1, 'averageRank': 1 }
+    }
 
-      var startTime = season[0].startDate;
-      var endTime = season[0].endDate;
+    var startTime = season[0].startDate;
+    var endTime = season[0].endDate;
 
-      var match = {
-        '$match': { 'startTime' : { '$gte' : new Date(startTime) } }
-      }
+    var match = {
+      '$match': { 'startTime' : { '$gte' : new Date(startTime) } }
+    }
 
-      if (endTime) {
-        match.$match.startTime.$lt = new Date(endTime);
-      }
+    if (endTime) {
+      match.$match.startTime.$lt = new Date(endTime);
+    }
 
-      var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
+    var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
 
-      Game
-      .aggregate(pipeline)
-      .exec(function(err, players){
-        if (err)
-          console.error(err.stack);
-        res.send(players);
-      })
+    Game
+    .aggregate(pipeline)
+    .exec(function(err, players){
+      if (err)
+        console.error(err.stack);
+      res.send(players);
+    })
   })
 
 

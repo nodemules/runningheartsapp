@@ -177,6 +177,13 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'statsPlayersCtrl',
           controllerAs: 'vm'
         })
+        .state('stats.seasons', {
+          url: '/seasons/:id',
+          parent: 'stats',
+          templateUrl: '/views/stats.players.html',
+          controller: 'statsPlayersCtrl',
+          controllerAs: 'vm'
+        })
 
       $stateProvider
         .state('seasons', {
