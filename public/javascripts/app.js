@@ -189,7 +189,10 @@ var APP_NAME = 'runningHeartsApp';
         .state('seasons', {
           url: 'seasons',
           parent: 'home',
-          templateUrl: '/views/seasons.html'
+          templateUrl: '/views/seasons.html',
+          controller: 'seasonsCtrl',
+          controllerAs: 'vm',
+          redirectTo: 'seasons.view'
         })
         .state('seasons.view', {
           url: '/view',
