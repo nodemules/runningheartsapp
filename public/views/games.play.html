@@ -8,7 +8,7 @@
           </div>
           <div layout="row" flex="10" layout-align="center center" ng-show="changeRank">
             <md-input-container>
-              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee);" ng-blur="gp.noBlankAllowed(attendee); changeRank=!changeRank" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
+              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee); changeRank=false;" ng-blur="gp.noBlankAllowed(attendee); changeRank=false;" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
             </md-input-container>
           </div>
           <div layout="row" flex layout-align="center center">

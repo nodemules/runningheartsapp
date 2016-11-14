@@ -23,7 +23,7 @@
 
     vm.playerOut = function(attendee) {
       var idx = getNextRankOut();
-      attendee.score = getScore(idx); 
+      attendee.score = getScore(idx);
       attendee.cashedOutTime = Date.now();
       attendee.rank = idx + 1;
       vm.game.$save();
@@ -61,6 +61,9 @@
         player.rank = oldRank;
         return false;
       }
+      if (player.rank > vm.game.players.length) {
+        player.rank = vm.game.players.length;
+      }
       var newScore = getScore(player.rank - 1);
       var counterPart = $filter('filter')(vm.game.players, { score : newScore })[0];
       counterPart.rank = oldRank;
@@ -76,16 +79,16 @@
     }
 
     vm.completeGame = function() {
-      
+
       if (!vm.game.finalize){
         console.log('twilight zone');
         return false;
       }
-      
+
       vm.game.completed = true;
       vm.game.$save();
     }
-    
+
     vm.isFinalizeable = function() {
       return getNextRankOut() < 0;
     }
@@ -123,7 +126,7 @@
     }
 
     initialize();
-    
+
   }
 
 })(angular);
