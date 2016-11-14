@@ -87,6 +87,11 @@ html, body {
   width: 100%;
 }
 
+.rhp-list-row {
+  min-height: 24px;
+  width: 100%;
+}
+
 .player-info {
   font-family: 'Bitter', serif;
   text-align: center;
@@ -102,6 +107,14 @@ md-ink-bar {
 
 #rhp-active-player-container {
   height: 74vh;
+}
+
+.rhp-active-player md-input-container {
+  margin: 0;
+}
+
+.rhp-active-player md-input-container .md-errors-spacer {
+  min-height: 0;
 }
 
 .rhp-card-xs md-card-title {
