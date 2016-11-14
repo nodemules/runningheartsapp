@@ -80,6 +80,13 @@ html, body {
   width: 100%;
 }
 
+.season-row {
+  font-family: 'Bitter', serif;
+  font-size: 1em;
+  min-height: 24px;
+  width: 100%;
+}
+
 .player-info {
   font-family: 'Bitter', serif;
   text-align: center;
