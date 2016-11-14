@@ -1,14 +1,14 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
   eventsViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService' ];
 
   function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService) {
-    
+
     var vm = this;
 
     vm.getEvent = function(id) {
@@ -32,6 +32,15 @@
 
     }
 
+    vm.editEvent = function(event) {
+      if (event) {
+        $state.transitionTo('events.manage', { id : event._id });
+      } else{
+        $state.transitionTo('events.list');
+      }
+
+    }
+
     vm.viewGame = function(game) {
       $state.transitionTo('games.view', { id : game._id } )
     }
@@ -44,6 +53,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);
