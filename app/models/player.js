@@ -11,6 +11,7 @@ var playerSchema = mongoose.Schema({
   "name"         : { "type" : String, "required" : true },
   "user"         : { "type" : Schema.Types.ObjectId, "ref" : "User" },
   "isTd"         : Boolean,
+  "shoutOuts"    : {"type" : Number, "default" : 0},
   "stats"        : {                                                        // let's figure out how we populate this from the event data
     "totalWins"    : Number,
     "seasonWins"   : Number,

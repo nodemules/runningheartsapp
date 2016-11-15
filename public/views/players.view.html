@@ -16,12 +16,13 @@
           <p>Best Rank: {{pv.player.bestRank}}</p>
           <p>Worst Rank: {{pv.player.worstRank}}</p>
         </div>
+        <p>Shout Outs: {{pv.player.shoutOuts}}</p>
         <md-button ng-repeat="game in pv.player.games | limitTo: 5" ui-sref="games.view({ id : game._id })">
           {{game.event.venue.name}} -- {{game.gameStartTime | date: 'short'}}
         </md-button>
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
-        <md-button>Give Shout Out</md-button>
+        <md-button ng-click="pv.shoutOut(pv.player._id)">Give Shout Out</md-button>
       </md-card-actions>
     </md-card>
 </md-content>

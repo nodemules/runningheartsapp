@@ -9,7 +9,7 @@ var Venues  = require('../models/venue'),
 
 var publicPlayer = {
   path : 'user',
-  select : 'local.username' 
+  select : 'local.username'
 }
 
 api.get('/', function(req, res) {
@@ -56,6 +56,16 @@ api.put('/notIn', function(req, res) {
       if (err)
         console.log(err.stack);
       res.send(players);
+    })
+})
+
+api.put('/:id/shoutOut', function(req, res) {
+  Players
+    .findByIdAndUpdate( { _id: req.params.id }, {$inc : { shoutOuts: 1} }, { "new" : true})
+    .exec(function(err, player){
+      if (err)
+        console.log(err.stack);
+      res.send(player);
     })
 })
 

@@ -19,6 +19,12 @@
       });
     }
 
+    vm.shoutOut = function(id) {
+      playersService.api(id).shoutOut(function(data){
+        vm.player.shoutOuts = data.shoutOuts;
+      })
+    }
+
     vm.save = function() {
       playersService.api().save(vm.player, function() {
         $state.transitionTo('players.list');
