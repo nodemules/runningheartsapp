@@ -19,6 +19,16 @@ api.get('/', function(req, res, next) {
     });
 });
 
+api.get('/count', function(req, res) {
+  Venues
+    .count({ statusId : 1 })
+    .exec(function(err, count) {
+      if (err)
+        res.send(err);
+      res.send( {count : count} );
+    })
+});
+
 api.get('/:id', function(req, res, next) {
   Venues
     .findById(req.params.id)

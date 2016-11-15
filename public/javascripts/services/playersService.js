@@ -37,6 +37,12 @@
           params : {
             action : 'shoutOut'
           }
+        },
+        'count': {
+          method: 'GET',
+          params: {
+            action: 'count'
+          }
         }
       });
     }

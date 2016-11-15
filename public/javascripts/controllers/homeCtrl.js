@@ -5,13 +5,23 @@
 
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
-  homeCtrl.$inject = ['$filter', '$state', '$scope', '$mdSidenav', '$mdMedia'];
+  homeCtrl.$inject = ['$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', 'eventsService', 'playersService', 'seasonsService', 'statsService', 'venuesService'];
 
-  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia) {
+  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia, eventsService, playersService, seasonsService, statsService, venuesService) {
 
     var vm = this;
 
     vm.mdMedia = $mdMedia;
+
+    vm.messages = {};
+
+    vm.getAllMessages = function(){
+      vm.messages = {
+        events  : eventsService.api().count(),
+        venues  : venuesService.api().count(),
+        players : playersService.api().count()
+      }
+    }
 
     vm.tabs = [{
       id: 0,

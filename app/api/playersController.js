@@ -23,6 +23,16 @@ api.get('/', function(req, res) {
     })
 });
 
+api.get('/count', function(req, res) {
+  Players
+    .count({ statusId : 1 })
+    .exec(function(err, count) {
+      if (err)
+        res.send(err);
+      res.send( {count : count} );
+    })
+});
+
 api.get('/:id', function(req, res) {
   Players
     .findById(req.params.id)

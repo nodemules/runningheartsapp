@@ -8,18 +8,18 @@ var Venues  = require('../models/venue'),
     Game    = require('../models/game');
 
   var publicEvent = [
-    { 
-      path : 'venue', 
-      select : 'name day' 
-    }, 
-    { 
-      path : 'td', 
-      select : 'name user', 
-      populate : { 
-        path : 'user', 
-        model : 'User', 
-        select : 'local.username' 
-      } 
+    {
+      path : 'venue',
+      select : 'name day'
+    },
+    {
+      path : 'td',
+      select : 'name user',
+      populate : {
+        path : 'user',
+        model : 'User',
+        select : 'local.username'
+      }
     },
     {
       path : 'games'
@@ -38,6 +38,16 @@ api.get('/', function(req, res) {
     })
 });
 
+api.get('/count', function(req, res) {
+  Event
+    .count({ statusId : 1 })
+    .exec(function(err, count) {
+      if (err)
+        res.send(err);
+      res.send( {count : count} );
+    })
+});
+
 api.get('/:id', function(req, res) {
   Event
     .findById(req.params.id)
@@ -49,6 +59,8 @@ api.get('/:id', function(req, res) {
       res.send(events);
     })
 });
+
+
 
 api.post('/', function(req, res) {
   if (req.body._id) {
