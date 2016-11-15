@@ -12,7 +12,6 @@
     var vm = this;
 
     function initialize() {
-      console.log('I am a statsPlayersCtrl');
       if ($stateParams.id) {
         vm.playerStats = statsService.api($stateParams.id).seasons();
       } else {

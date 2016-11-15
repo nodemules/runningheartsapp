@@ -33,7 +33,6 @@
       var nextRankOut = getNextRankOut() + 1;
       if (nextRankOut > 8) {
         // TODO -- Visually inform the user that they have too many players to finalize the game. @bh
-        console.log("You have more than 8 players, fuck off.");
         return false;
       }
       vm.game.finalTable = true;
@@ -46,7 +45,6 @@
       if (nextRankOut < 0) {
         vm.game.finalize = true;
       } else {
-        console.log('not done');
         return false;
       }
     }
@@ -68,7 +66,6 @@
       var counterPart = $filter('filter')(vm.game.players, { score : newScore })[0];
       counterPart.rank = oldRank;
       counterPart.score = getScore(oldRank - 1);
-      console.log(counterPart);
       player.score = newScore;
     }
 
@@ -79,9 +76,7 @@
     }
 
     vm.completeGame = function() {
-
       if (!vm.game.finalize){
-        console.log('twilight zone');
         return false;
       }
 
