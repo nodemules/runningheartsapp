@@ -30,7 +30,7 @@
             venues  : result[1].count,
             players : result[2].count,
             seasons : result[3].length,
-            stats   : result[4][0].name
+            stats   : result[4][0] ? result[4][0].name : 'No one'
           }
           vm.tabs = [{
             id: 0,
