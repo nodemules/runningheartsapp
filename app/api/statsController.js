@@ -23,6 +23,7 @@ var group = {
     'averageRank': { '$avg': '$players.rank'},
     'bestRank': {'$min': '$players.rank'},
     'worstRank': {'$max': '$players.rank'},
+    'shoutOuts': {'$first': '$players.shoutOuts'},
     'totalWins': { $sum: { $cond: [ { $eq: [ '$players.rank', 1 ] }, 1, 0 ] } },
     'games': {
       $push: {

@@ -22,7 +22,7 @@
         <div layout="row" class="stats-player-row" ng-if="touched">
           <div layout="row" flex>
             <div layout="column" flex>
-              <md-button class="md-raised md-warn" ng-click="touched = !touched; $parent.touched = !$parent.touched;">
+              <md-button class="md-raised md-warn" ng-click="touched = !touched; $parent.touched = !$parent.touched; vm.shoutOut(player._id);">
                 Shout Out
               </md-button>
             </div>

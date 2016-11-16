@@ -1,20 +1,20 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
   eventsListCtrl.$inject = [ '$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService' ];
 
   function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService) {
-    
+
     var vm = this;
 
     vm.getEvents = function() {
       vm.events = eventsService.api().query();
     }
-    
+
     vm.newEvent = function() {
       $state.transitionTo('events.manage');
     }
@@ -39,6 +39,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);

@@ -1,8 +1,21 @@
 <div>
-  <md-button ng-click="vm.newSeason()">Make a new Season</md-button>
-  <md-button ng-click="vm.getSeason()">Get all the fucking Seasons</md-button>
-  <div ng-repeat="season in vm.seasons">
-    {{season.seasonNumber}}
-    {{season.startDate}}
+  <div layout="column">
+    <md-button class="md-raised md-default" ng-click="vm.newSeason()">
+      Start New Season
+    </md-button>
   </div>
+  <md-list class="md-dense" layout="row" flex>
+    <md-virtual-repeat-container id="rhp-active-player-container" flex>
+      <md-list-item layout="column" class="rhp-active-player" md-virtual-repeat="season in vm.seasons">
+            <div layout="row" class="season-row">
+              <div layout="row" flex>
+                <i class="fa fa-hashtag"></i> {{season.seasonNumber}}
+              </div>
+              <div layout="row" flex>
+                  <i class="fa fa-calendar"></i> {{season.startDate | date}}
+              </div>
+            </div>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
 </div>

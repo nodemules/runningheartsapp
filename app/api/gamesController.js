@@ -9,22 +9,22 @@ var Venues  = require('../models/venue'),
 
 api.get('/', function(req, res) {
   var pOptions = [
-    { 
+    {
       path : 'event',
       select : 'venue td date',
       populate: [
         {
-          path : 'venue', 
+          path : 'venue',
           select : 'name day'
         },
-        { 
-          path : 'td', 
-          select : 'name user', 
-          populate : { 
-            path : 'user', 
-            model : 'User', 
-            select : 'local.username' 
-          } 
+        {
+          path : 'td',
+          select : 'name user',
+          populate : {
+            path : 'user',
+            model : 'User',
+            select : 'local.username'
+          }
         }
       ]
     }
@@ -42,21 +42,21 @@ api.get('/', function(req, res) {
 
 api.get('/:id', function(req, res) {
   var pOptions = [
-    { 
+    {
       path : 'event',
       populate: [
         {
-          path : 'venue', 
+          path : 'venue',
           select : 'name day'
         },
-        { 
-          path : 'td', 
-          select : 'name user', 
-          populate : { 
-            path : 'user', 
-            model : 'User', 
-            select : 'local.username' 
-          } 
+        {
+          path : 'td',
+          select : 'name user',
+          populate : {
+            path : 'user',
+            model : 'User',
+            select : 'local.username'
+          }
         },
         {
           path : 'games',
@@ -67,7 +67,7 @@ api.get('/:id', function(req, res) {
     {
       path : 'players',
       populate : {
-        path : 'player', 
+        path : 'player',
         select : 'name isTd'
       }
     }
@@ -83,24 +83,34 @@ api.get('/:id', function(req, res) {
     })
 });
 
+api.get('/count', function(req, res) {
+  Games
+    .count({ statusId : 1, completed: true })
+    .exec(function(err, count) {
+      if (err)
+        res.send(err);
+      res.send( {count : count} );
+    })
+});
+
 api.post('/', function(req, res) {
   if (req.body._id) {
     var pOptions = [
-      { 
+      {
         path : 'event',
         populate: [
           {
-            path : 'venue', 
+            path : 'venue',
             select : 'name day'
           },
-          { 
-            path : 'td', 
-            select : 'name user', 
-            populate : { 
-              path : 'user', 
-              model : 'User', 
-              select : 'local.username' 
-            } 
+          {
+            path : 'td',
+            select : 'name user',
+            populate : {
+              path : 'user',
+              model : 'User',
+              select : 'local.username'
+            }
           },
           {
             path : 'games',
@@ -111,7 +121,7 @@ api.post('/', function(req, res) {
       {
         path : 'players',
         populate : {
-          path : 'player', 
+          path : 'player',
           select : 'name isTd'
         }
       }

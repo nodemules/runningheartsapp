@@ -12,7 +12,17 @@
     var vm = this;
 
     vm.getPlayer = function(id) {
-      vm.player = statsService.api(id).player();
+      vm.player = statsService.api(id).player(function(){
+        if (!vm.player._id) {
+          vm.player = playersService.api(id).get();
+        }
+      });
+    }
+
+    vm.shoutOut = function(id) {
+      playersService.api(id).shoutOut(function(data){
+        vm.player.shoutOuts = data.shoutOuts;
+      })
     }
 
     vm.save = function() {

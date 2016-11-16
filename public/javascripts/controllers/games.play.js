@@ -23,7 +23,7 @@
 
     vm.playerOut = function(attendee) {
       var idx = getNextRankOut();
-      attendee.score = getScore(idx); 
+      attendee.score = getScore(idx);
       attendee.cashedOutTime = Date.now();
       attendee.rank = idx + 1;
       vm.game.$save();
@@ -33,7 +33,6 @@
       var nextRankOut = getNextRankOut() + 1;
       if (nextRankOut > 8) {
         // TODO -- Visually inform the user that they have too many players to finalize the game. @bh
-        console.log("You have more than 8 players, fuck off.");
         return false;
       }
       vm.game.finalTable = true;
@@ -46,7 +45,6 @@
       if (nextRankOut < 0) {
         vm.game.finalize = true;
       } else {
-        console.log('not done');
         return false;
       }
     }
@@ -61,11 +59,13 @@
         player.rank = oldRank;
         return false;
       }
+      if (player.rank > vm.game.players.length) {
+        player.rank = vm.game.players.length;
+      }
       var newScore = getScore(player.rank - 1);
       var counterPart = $filter('filter')(vm.game.players, { score : newScore })[0];
       counterPart.rank = oldRank;
       counterPart.score = getScore(oldRank - 1);
-      console.log(counterPart);
       player.score = newScore;
     }
 
@@ -76,16 +76,14 @@
     }
 
     vm.completeGame = function() {
-      
       if (!vm.game.finalize){
-        console.log('twilight zone');
         return false;
       }
-      
+
       vm.game.completed = true;
       vm.game.$save();
     }
-    
+
     vm.isFinalizeable = function() {
       return getNextRankOut() < 0;
     }
@@ -123,7 +121,7 @@
     }
 
     initialize();
-    
+
   }
 
 })(angular);

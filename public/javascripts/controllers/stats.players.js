@@ -11,8 +11,13 @@
 
     var vm = this;
 
+    vm.shoutOut = function(id) {
+      playersService.api(id).shoutOut(function(data){
+        vm.player.shoutOuts = data.shoutOuts;
+      })
+    }
+
     function initialize() {
-      console.log('I am a statsPlayersCtrl');
       if ($stateParams.id) {
         vm.playerStats = statsService.api($stateParams.id).seasons();
       } else {
