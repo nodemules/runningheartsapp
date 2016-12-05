@@ -36,14 +36,14 @@ var APP_NAME = 'runningHeartsApp';
           parent: 'home',
           templateUrl: '/views/login.html',
           controller: 'loginCtrl',
-          controllerAs: 'login',
+          controllerAs: 'lg',
         })
         .state('register', {
           url: 'register',
           parent: 'home',
           templateUrl: '/views/register.html',
           controller: 'registerCtrl',
-          controllerAs: 'register'
+          controllerAs: 'rg'
         })
 
       $stateProvider

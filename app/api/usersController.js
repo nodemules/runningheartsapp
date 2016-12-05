@@ -41,9 +41,30 @@ api.get('/type/:typeId', function(req, res, next) {
     });
 });
 
+api.post('/', function(req, res) {
+  if (req.body._id) {
+    Users
+      .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .select('-statusId')
+      .exec(function (err, user) {
+        if (err)
+          console.log(err.stack);
+        res.send(user);
+      });
+  } else {
+    Users
+      .create(req.body, function(err, user) {
+        console.log(req.body);
+        if (err)
+          console.log(err.stack);
+        res.send(user);
+      });
+  }
+});
+
 api.put('/', function(req, res){
   Users
-    .findOneAndUpdate({_id: req.body._id}, req.body, { "new" : true }) 
+    .findOneAndUpdate({_id: req.body._id}, req.body, { "new" : true })
     .exec(function (err, user) {
       if (err)
           res.send(err);

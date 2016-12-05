@@ -8,12 +8,10 @@ var Player   = require('./player')
 // define the schema for our user model
 var userSchema = mongoose.Schema({
     "statusId"  : { "type" : Number, "default" : 1 },
-    "local"            : {
-        "username"     : String,
-        "password"     : String
-    },
-    "usertype"         : Number,
-    "player"           : { "type" : Schema.Types.ObjectId, "ref" : "Player" }
+    "username"     : String,
+    "password"     : String,
+    "usertype"     : Number,
+    "player"       : { "type" : Schema.Types.ObjectId, "ref" : "Player" }
 });
 
 userSchema.pre('save', function(next) {
@@ -24,11 +22,11 @@ userSchema.pre('save', function(next) {
         if (err) return next(err);
 
         // hash the password using our new salt
-        bcrypt.hash(user.local.password, salt, null, function(err, hash) {
+        bcrypt.hash(user.password, salt, null, function(err, hash) {
             if (err) return next(err);
 
             // override the cleartext password with the hashed one
-            user.local.password = hash;
+            user.password = hash;
             next();
         });
     });
@@ -41,7 +39,7 @@ userSchema.methods.generateHash = function(password) {
 
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 // create the model for users and expose it to our app
