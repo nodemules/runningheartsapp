@@ -15,5 +15,8 @@
     "mongodb": "latest",
     "mongoose": "~4.4.17",
     "morgan": "~1.0.0",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*"
   }
 }
