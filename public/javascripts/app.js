@@ -31,6 +31,22 @@ var APP_NAME = 'runningHeartsApp';
       $urlRouterProvider.when('/players', '/players/list')
 
       $stateProvider
+        .state('login', {
+          url: 'login',
+          parent: 'home',
+          templateUrl: '/views/login.html',
+          controller: 'loginCtrl',
+          controllerAs: 'login',
+        })
+        .state('register', {
+          url: 'register',
+          parent: 'home',
+          templateUrl: '/views/register.html',
+          controller: 'registerCtrl',
+          controllerAs: 'register'
+        })
+
+      $stateProvider
         .state('venues', {
           url: 'venues',
           parent: 'home',
