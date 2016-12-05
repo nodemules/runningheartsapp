@@ -28,10 +28,11 @@ app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //authentication
+require('./config/passport')(passport); 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(flash());
 app.use(session({
-  secret: 'wouldyoupleasestopshiningthatthinginmyeyesnow',
+  secret: 'wouldyoupleasestopshiningthatthinginmyeyesnow', //I'm sure we need to pass this in from some ignored file for production since it's on git...
   saveUnitialized: true,
   resave: true
 }));

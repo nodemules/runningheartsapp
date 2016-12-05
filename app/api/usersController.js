@@ -1,5 +1,7 @@
 var express = require('express'),
     api     = express.Router();
+    passport = require('passport');
+    require('../../config/passport')(passport);
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
@@ -40,6 +42,11 @@ api.get('/type/:typeId', function(req, res, next) {
         res.json(users);
     });
 });
+
+api.post('/login', passport.authenticate('local-login', function(req, res) {
+  console.log("LOGIN ATTEMPT");
+  //resume here... 
+}));
 
 api.post('/', function(req, res) {
   if (req.body._id) {

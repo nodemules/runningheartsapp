@@ -11,6 +11,7 @@ var userSchema = mongoose.Schema({
     "username"     : String,
     "password"     : String,
     "usertype"     : Number,
+    "created"      : Date,
     "player"       : { "type" : Schema.Types.ObjectId, "ref" : "Player" }
 });
 
