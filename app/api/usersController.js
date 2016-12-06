@@ -1,13 +1,21 @@
 var express = require('express'),
-    api     = express.Router();
+    api     = express.Router(),
     passport = require('passport');
-    require('../../config/passport')(passport);
+
 
 var Venues  = require('../models/venue'),
     Users   = require('../models/user'),
     Players = require('../models/player'),
     Event   = require('../models/event'),
     Game    = require('../models/game');
+
+var auth = function(req, res, next){
+  console.log("Checking if user is logged in...");
+  if (!req.isAuthenticated())
+      res.send(401);
+  else
+      next();
+};
 
 api.get('/', function(req, res) {
   Users
@@ -20,10 +28,10 @@ api.get('/', function(req, res) {
     })
 });
 
-api.get('/:id', function(req, res) {
+api.get('/:id', auth, function(req, res) {
+  console.log(req.user);
   Users
     .findById(req.params.id)
-    .select('-statusId local.username usertype')
     .exec(function(err, user){
       if (err)
         console.log(err.stack);
@@ -43,10 +51,9 @@ api.get('/type/:typeId', function(req, res, next) {
     });
 });
 
-api.post('/login', passport.authenticate('local-login', function(req, res) {
-  console.log("LOGIN ATTEMPT");
-  //resume here... 
-}));
+api.post('/login', passport.authenticate('local'), function(req, res) {
+  res.send(res.req.session);
+});
 
 api.post('/', function(req, res) {
   if (req.body._id) {

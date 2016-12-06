@@ -23,7 +23,6 @@
       }, {
         'login' : {
           method : 'POST',
-          isArray : true,
           params : {
             action: 'login'
           }

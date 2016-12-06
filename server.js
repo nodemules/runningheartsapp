@@ -12,7 +12,6 @@ var bodyParser = require('body-parser');
 
 var session       = require('express-session');
 var passport      = require('passport');
-var LocalStrategy = require('passport-local'), Strategy;
 var flash         = require('connect-flash');
 var cookieParser  = require('cookie-parser');
 
@@ -20,6 +19,7 @@ var api = require('./app/api/main');
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
+require('./config/passport')(passport);
 mongoose.connect(configDB.url); // connect to our database
 
 // set up our express application
@@ -27,20 +27,18 @@ app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set('view engine', 'ejs'); // set up ejs for templating
+app.use(express.static(path.join(__dirname, 'public')));
+
 //authentication
-require('./config/passport')(passport); 
-app.use(cookieParser()); // read cookies (needed for auth)
+app.use(cookieParser('wouldyoupleasestopshiningthatthinginmyeyesnow')); // read cookies (needed for auth)
 app.use(flash());
 app.use(session({
-  secret: 'wouldyoupleasestopshiningthatthinginmyeyesnow', //I'm sure we need to pass this in from some ignored file for production since it's on git...
-  saveUnitialized: true,
-  resave: true
+  cookie : { httpOnly: true, maxAge: 2419200000 },
+  secret: 'wouldyoupleasestopshiningthatthinginmyeyesnow' //I'm sure we need to pass this in from some ignored file for production since it's on git...
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.set('view engine', 'ejs'); // set up ejs for templating
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
 

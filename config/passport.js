@@ -1,9 +1,12 @@
-var LocalStrategy   = require('passport-local').Strategy;
-var User       		= require('../app/models/user');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 module.exports = function(passport) {
 
     passport.serializeUser(function(user, done) {
+        console.log(user.id, user.req);
         done(null, user.id);
     });
 
@@ -13,7 +16,7 @@ module.exports = function(passport) {
         });
     });
 
-    passport.use('local-login', new LocalStrategy({
+    passport.use('local', new LocalStrategy({
         usernameField : 'username',
         passwordField : 'password',
         passReqToCallback : true
@@ -28,9 +31,12 @@ module.exports = function(passport) {
             if (!user)
                 return done(null, false); // no user
 
-            if (!user.validPassword(password))
-                return done(null, false); // password wrong
+            if (!user.validPassword(password)) {
+              console.log("FAILED LOGIN ATTEMPT! INVALID PASS FOR USER: ", user.username);
+              return done(null, false); // password wrong
+            }
 
+            console.log("SUCCESSFUL LOGIN OF USER: ", user.username);
             return done(null, user);
         });
 

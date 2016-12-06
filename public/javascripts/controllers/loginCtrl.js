@@ -12,7 +12,7 @@
     var vm = this;
 
     vm.login = function() {
-      usersService.api().login({user: vm.user}, function() {
+      usersService.api().login(vm.user, function(user) {
       $state.transitionTo('home'); //change to 'admin console' when the time comes
       })
     }
