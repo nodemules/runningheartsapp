@@ -37,6 +37,19 @@ var APP_NAME = 'runningHeartsApp';
           templateUrl: '/views/login.html',
           controller: 'loginCtrl',
           controllerAs: 'lg',
+          resolve: {
+            auth: function($q, $http) {
+              var deferred = $q.defer();
+              $http.get('/api/users/auth').then(function(res) {
+                deferred.reject({
+                  redirectTo: 'home'
+                });
+              }, function(err) {
+                deferred.resolve({});
+              })
+              return deferred.promise;
+            }
+          }
         })
         .state('register', {
           url: 'register',
@@ -235,4 +248,16 @@ var APP_NAME = 'runningHeartsApp';
       });
 
     })
+    .run(['$rootScope', '$state', function($rootScope, $state) {
+      $rootScope.$on('$stateChangeError', function(evt, to, toParams, from, fromParams, error) {
+        console.log(error);
+        if (error.redirectTo) {
+          $state.go(error.redirectTo);
+        } else {
+          $state.go('home', {
+            status: error.status
+          })
+        }
+      })
+    }])
 })(angular);
