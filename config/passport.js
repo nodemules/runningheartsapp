@@ -28,16 +28,18 @@ module.exports = function(passport) {
 
         if (err)
           return done(err);
-
-        if (!user)
+        if (!user) {
+          console.log(`No user found for username: [${username}]`);
           return done(null, false); // no user
+        }
 
         if (!user.validPassword(password)) {
-          console.log("FAILED LOGIN ATTEMPT! INVALID PASS FOR USER: ", user.username);
+          console.log(`FAILED LOGIN ATTEMPT! INVALID PASS FOR USER: [${user.username}]`);
           return done(null, false); // password wrong
         }
 
-        console.log("SUCCESSFUL LOGIN OF USER: ", user.username);
+        console.log(`SUCCESSFUL LOGIN OF USER: [${user.username}]`);
+        // TODO - authenticated session population logic RHP_61
         return done(null, user);
       });
 
