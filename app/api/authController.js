@@ -12,7 +12,7 @@
       })
     })
 
-    api.post('/login', passport.authenticate('local'), (req, res) => {
+    api.post('/login', passport.authenticate('local'), authService().setPermissions, (req, res) => {
       res.send({
         message: `User [${res.req.user.username}] has been logged in`
       })

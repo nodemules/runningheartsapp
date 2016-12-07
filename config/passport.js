@@ -39,7 +39,6 @@ module.exports = function(passport) {
         }
 
         console.log(`SUCCESSFUL LOGIN OF USER: [${user.username}]`);
-        // TODO - authenticated session population logic RHP_61
         return done(null, user);
       });
 

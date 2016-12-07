@@ -8,7 +8,8 @@ var venuesController = require('./venuesController'),
   playersController = require('./playersController'),
   statsController = require('./statsController'),
   seasonsController = require('./seasonsController'),
-  authController = require('./authController');
+  authController = require('./authController'),
+  authService = require(`./authService`);
 
 
 api.use(function(req, res, next) {
@@ -16,11 +17,14 @@ api.use(function(req, res, next) {
   next();
 });
 
+api.use('/auth', authController());
+
 api.use((req, res, next) => {
-  if (req.isAuthenticated()) {
-    // TODO - authenticated session population logic RHP_61
+  if (!req.isAuthenticated()) {
+    next();
+  } else {
+    authService().setPermissions(req, res, next)
   }
-  next();
 })
 
 api.use('/venues', venuesController);
@@ -30,6 +34,5 @@ api.use('/players', playersController);
 api.use('/users', usersController);
 api.use('/stats', statsController);
 api.use('/seasons', seasonsController);
-api.use('/auth', authController());
 
 module.exports = api;
