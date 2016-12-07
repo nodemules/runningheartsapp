@@ -34,35 +34,40 @@
           }
           vm.tabs = [{
             id: 0,
+            label: "Login",
+            message: "Admins Login Here",
+            path: "login"
+          }, {
+            id: 1,
             label: "Home",
             message: "This is the home page",
             path: "home"
           }, {
-            id: 1,
+            id: 2,
             label: "Events",
             message: "See upcoming events",
             alert: vm.messages.events + " Total Events",
             path: "events"
           }, {
-            id: 2,
+            id: 3,
             label: "Venues",
             message: "Check out active venues",
             alert: vm.messages.venues + " Total Venues",
             path: "venues"
           }, {
-            id: 3,
+            id: 4,
             label: "Players",
             message: "View player information",
             alert: vm.messages.players + " Total Registered Players",
             path: "players"
           }, {
-            id: 4,
+            id: 5,
             label: "Standings",
             message: "View Player Standings",
             alert: vm.messages.stats + " is currently leading!",
             path: "stats"
           }, {
-            id: 5,
+            id: 6,
             label: "Seasons",
             message: "View Season information",
             alert: "We are Currently in Season " + vm.messages.seasons,
