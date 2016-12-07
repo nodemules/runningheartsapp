@@ -2,22 +2,14 @@ var express = require('express'),
   api = express.Router(),
   passport = require('passport');
 
+var authService = require('./authService')
+
 
 var Venues = require('../models/venue'),
   Users = require('../models/user'),
   Players = require('../models/player'),
   Event = require('../models/event'),
   Game = require('../models/game');
-
-var auth = function(req, res, next) {
-  console.log("Checking if user is logged in...");
-  if (!req.isAuthenticated())
-    res.send(401);
-  else
-    next();
-};
-
-api.get('/auth', auth, (req, res) => res.send({}))
 
 api.get('/', function(req, res) {
   Users
@@ -30,8 +22,7 @@ api.get('/', function(req, res) {
     })
 });
 
-api.get('/:id', auth, function(req, res) {
-  console.log(req.user);
+api.get('/:id', authService().auth, function(req, res) {
   Users
     .findById(req.params.id)
     .exec(function(err, user) {

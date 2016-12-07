@@ -5,15 +5,15 @@
 
   angular.module(APP_NAME).controller('loginCtrl', loginCtrl);
 
-  loginCtrl.$inject = ['$state', 'usersService'];
+  loginCtrl.$inject = ['$state', 'authService'];
 
-  function loginCtrl($state, usersService) {
+  function loginCtrl($state, authService) {
 
     var vm = this;
 
     vm.login = function() {
-      usersService.api().login(vm.user, function(user) {
-      $state.transitionTo('home'); //change to 'admin console' when the time comes
+      authService.api().login(vm.user, function(user) {
+        $state.transitionTo('home'); //change to 'admin console' when the time comes
       })
     }
 

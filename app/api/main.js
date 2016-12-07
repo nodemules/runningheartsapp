@@ -6,8 +6,9 @@ var venuesController = require('./venuesController'),
   gamesController = require('./gamesController'),
   usersController = require('./usersController'),
   playersController = require('./playersController'),
-  statsController = require('./statsController',
-    seasonsController = require('./seasonsController'));
+  statsController = require('./statsController'),
+  seasonsController = require('./seasonsController'),
+  authController = require('./authController');
 
 
 api.use(function(req, res, next) {
@@ -22,5 +23,6 @@ api.use('/players', playersController);
 api.use('/users', usersController);
 api.use('/stats', statsController);
 api.use('/seasons', seasonsController);
+api.use('/auth', authController())
 
 module.exports = api;
