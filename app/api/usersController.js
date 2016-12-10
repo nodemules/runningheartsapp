@@ -22,18 +22,17 @@ api.get('/', function(req, res) {
     })
 });
 
-api.get('/:id', authService().auth, (req, res, next) => {
-  res.locals.requiredPermissions = [`Permission.SUPER_ADMIN`]; // TODO - figure out permission mapping and transport
-  authService().checkPermissions(req, res, next)
-}, function(req, res) {
-  Users
-    .findById(req.params.id)
-    .exec(function(err, user) {
-      if (err)
-        console.log(err.stack);
-      res.send(user);
-    })
-});
+api.get('/:id',
+  (req, res, next) => authService().checkPermissions(req, res, next, [`Permission.SUPER_ADMIN`]),
+  (req, res) => {
+    Users
+      .findById(req.params.id)
+      .exec((err, user) => {
+        if (err)
+          console.log(err.stack);
+        res.send(user);
+      })
+  });
 
 api.get('/type/:typeId', function(req, res, next) {
   Users

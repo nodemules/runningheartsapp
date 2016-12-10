@@ -54,15 +54,17 @@
       });
     }
 
-    function checkPermissions(req, res, next) {
-      let permissions = req.session.permissions;
-      let requiredPermissions = res.locals.requiredPermissions;
-      delete res.locals.requiredPermissions;
-      if (arrayContainsArray(permissions, requiredPermissions)) {
-        next();
-      } else {
-        res.send(401)
-      }
+    function checkPermissions(req, res, next, requiredPermissions) {
+      auth(req, res, () => {
+        let permissions = req.session.permissions;
+        if (arrayContainsArray(permissions, requiredPermissions)) {
+          next();
+        } else {
+          res.send(401, {
+            message: `No valid permissions`
+          })
+        }
+      });
     }
 
     return service;
