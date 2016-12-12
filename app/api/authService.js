@@ -15,7 +15,10 @@
       console.log(`Session ${req.isAuthenticated() ? `is` : `is not`} authenticated`);
 
       if (!req.isAuthenticated()) {
-        res.send(401);
+        res.send(401, {
+          message: `No valid user session`,
+          code: `NO_USER_FOUND`
+        });
       } else
         next();
     };
@@ -26,7 +29,7 @@
 
       if (!req.session.permissions || (req.session.permissionExpires && (new Date(req.session.permissionExpires).getTime() < now.getTime()))) {
         console.log(`Setting permissions for [${req.user.username}]`)
-        req.session.permissions = [`Permission.SUPER_ADMIN`];
+        req.session.permissions = [`Permission.SUPER_ADMIN`, `Permission.MANAGE_VENUE`];
 
         let then = now.getTime() + PERMISSIONS_TTL;
         console.log(then);
@@ -61,7 +64,8 @@
           next();
         } else {
           res.send(401, {
-            message: `No valid permissions`
+            message: `No valid permissions`,
+            code: `PERMISSIONS_INVALID`
           })
         }
       });

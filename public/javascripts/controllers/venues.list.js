@@ -1,15 +1,17 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('venuesListCtrl', venuesListCtrl);
 
-  venuesListCtrl.$inject = [ '$filter', '$state', '$stateParams', 'venuesService' ];
+  venuesListCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService'];
 
   function venuesListCtrl($filter, $state, $stateParams, venuesService) {
-    
+
     var vm = this;
+
+    vm.errors = [];
 
     vm.getVenues = function() {
       vm.venues = venuesService.api().query();
@@ -20,11 +22,15 @@
     }
 
     vm.viewVenue = function(venue) {
-      $state.transitionTo('venues.view', { id : venue._id });
+      $state.transitionTo('venues.view', {
+        id: venue._id
+      });
     }
 
     vm.editVenue = function(venue) {
-      $state.transitionTo('venues.manage', { id : venue._id });
+      $state.transitionTo('venues.manage', {
+        id: venue._id
+      });
     }
 
     vm.removeVenue = function(venue) {
@@ -35,10 +41,11 @@
 
     function initialize() {
       vm.getVenues();
+      $stateParams.reason ? vm.errors.push($stateParams.reason) : angular.noop;
     }
 
     initialize();
 
-  }    
+  }
 
 })(angular);

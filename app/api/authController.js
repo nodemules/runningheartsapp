@@ -27,6 +27,12 @@
       });
     })
 
+    api.post(`/permission`, (req, res, next) => authService().checkPermissions(req, res, next, req.body.permissions), (req, res) => {
+      res.send({
+        message: `Permission validated`
+      })
+    })
+
     return api;
   }
 }

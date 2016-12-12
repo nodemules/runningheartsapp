@@ -1,4 +1,5 @@
 <md-content layout="column">
+  <md-card ng-repeat="error in vl.errors">{{error}}</md-card>
   <rhp-list ng-model="vl.venues" rhp-list-size="5" rhp-text="vl.venueListText"
     rhp-list-set="vl.viewVenue(item)" rhp-list-edit="vl.editVenue(item)" rhp-list-del="vl.removeVenue(item)"></rhp-list>
 </md-content>

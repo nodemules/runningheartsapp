@@ -40,7 +40,7 @@ var APP_NAME = 'runningHeartsApp';
           resolve: {
             auth: function($q, $http) {
               var deferred = $q.defer();
-              $http.get('/api/users/auth').then(function(res) {
+              $http.get('/api/auth').then(function(res) {
                 deferred.reject({
                   redirectTo: 'home'
                 });
@@ -56,7 +56,20 @@ var APP_NAME = 'runningHeartsApp';
           parent: 'home',
           templateUrl: '/views/register.html',
           controller: 'registerCtrl',
-          controllerAs: 'rg'
+          controllerAs: 'rg',
+          resolve: {
+            auth: function($q, $http) {
+              var deferred = $q.defer();
+              $http.get('/api/auth').then(function(res) {
+                deferred.reject({
+                  redirectTo: 'home'
+                });
+              }, function(err) {
+                deferred.resolve({});
+              })
+              return deferred.promise;
+            }
+          }
         })
 
       $stateProvider
@@ -69,18 +82,38 @@ var APP_NAME = 'runningHeartsApp';
           redirectTo: 'venues.list'
         })
         .state('venues.list', {
+          params: {
+            reason: null
+          },
           url: '/list',
           parent: 'venues',
           templateUrl: '/views/venues.list.html',
           controller: 'venuesListCtrl',
-          controllerAs: 'vl'
+          controllerAs: 'vl',
         })
         .state('venues.manage', {
           url: '/manage/:id',
           parent: 'venues',
           templateUrl: '/views/venues.manage.html',
           controller: 'venuesManageCtrl',
-          controllerAs: 'vm'
+          controllerAs: 'vm',
+          resolve: {
+            auth: function($q, $http) {
+              var deferred = $q.defer();
+              $http.post('/api/auth/permission', {
+                permissions: [`Permission.MANAGE_VENUE`]
+              }).then(function(res) {
+                  deferred.resolve({});
+                },
+                function(err) {
+                  deferred.reject({
+                    redirectTo: `venues.list`,
+                    code: err.data.code
+                  });
+                })
+              return deferred.promise;
+            }
+          }
         })
         .state('venues.view', {
           url: '/view/:id',
@@ -241,7 +274,6 @@ var APP_NAME = 'runningHeartsApp';
           controllerAs: 'home'
         })
 
-
       $locationProvider.html5Mode({
         enabled: true,
         requireBase: true
@@ -251,12 +283,13 @@ var APP_NAME = 'runningHeartsApp';
     .run(['$rootScope', '$state', function($rootScope, $state) {
       $rootScope.$on('$stateChangeError', function(evt, to, toParams, from, fromParams, error) {
         console.log(error);
-        if (error.redirectTo) {
-          $state.go(error.redirectTo);
-        } else {
-          $state.go('home', {
-            status: error.status
-          })
+        if (error.code === `NO_USER_FOUND`) {
+          $state.go(`login`)
+        } else if (error.redirectTo) {
+          console.log(`Redirect to ${error.redirectTo} because ${error.code}`)
+          $state.transitionTo(error.redirectTo, {
+            reason: error.code
+          });
         }
       })
     }])
