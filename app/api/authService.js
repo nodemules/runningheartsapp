@@ -59,12 +59,15 @@
 
     function checkPermissions(req, res, next, requiredPermissions) {
       auth(req, res, () => {
+        console.log(`Checking permissions for ${req.user.username}`)
         let permissions = req.session.permissions;
         if (arrayContainsArray(permissions, requiredPermissions)) {
+          console.log(`${requiredPermissions.length} valid permissions for ${req.user.username}`)
           next();
         } else {
+          console.log(`Invalid permissions for ${req.user.username}`)
           res.send(401, {
-            message: `No valid permissions`,
+            message: `Invalid permissions`,
             code: `PERMISSIONS_INVALID`
           })
         }
