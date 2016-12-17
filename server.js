@@ -20,10 +20,12 @@ var configuration = require('./config/configuration.js');
 
 // configuration ===============================================================
 require('./config/passport')(passport);
-mongoose.connect(configuration.dburl); // connect to our configuration
+var env = !!process.env.npm_config_dev ? `dev` : `prod`;
+var db = configuration[env === `dev` ? `localdb` : `remotedb`];
+mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}`); // connect to our configuration
 
 // set up our express application
-app.use(morgan('dev')); // log every request to the console
+app.use(morgan(`[:date[clf]] :method :url :status :response-time ms - :res[content-length]`)); // log every request to the console
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({
   extended: true
@@ -44,9 +46,9 @@ app.use(session({
   store: new(require('express-sessions'))({
     storage: 'mongodb',
     instance: mongoose, // optional
-    host: configuration.db.host, // optional
-    port: configuration.db.port, // optional
-    db: configuration.db.name, // optional
+    host: db.host, // optional
+    port: db.port, // optional
+    db: db.name, // optional
     collection: 'sessions', // optional
     expire: 86400 // optional
   })

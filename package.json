@@ -1,7 +1,9 @@
 {
   "name": "running-hearts-poker",
   "version": "0.3.0",
-  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
