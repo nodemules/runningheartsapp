@@ -1,5 +1,7 @@
 {
   function exports() {
+    var Permissions = require('../enum/permissions');
+    var RoleService = require('./roleService')();
     var service = {
       auth,
       setPermissions,
@@ -29,17 +31,19 @@
 
       if (!req.session.permissions || (req.session.permissionExpires && (new Date(req.session.permissionExpires).getTime() < now.getTime()))) {
         console.log(`Setting permissions for [${req.user.username}]`)
-        req.session.permissions = [`Permission.SUPER_ADMIN`, `Permission.MANAGE_VENUE`];
-
-        let then = now.getTime() + PERMISSIONS_TTL;
-        console.log(then);
-        req.session.permissionExpires = new Date(then);
-        console.log(req.session.permissionExpires);
+        RoleService.getPermissionsForRole(req.user.roleId, (permissions) => {
+          req.session.permissions = permissions;
+          let then = now.getTime() + PERMISSIONS_TTL;
+          console.log(then);
+          req.session.permissionExpires = new Date(then);
+          console.log(req.session.permissionExpires);
+          console.log(`${req.session.permissions.length} permissions found for [${req.user.username}],
+            they will expire in ${new Date(req.session.permissionExpires).getTime() - now.getTime()}`)
+          next();
+        });
+      } else {
+        next();
       }
-      // console.log(`Permissions expire at ${req.session.permissionExpires.getTime()}`)
-      console.log(`${req.session.permissions.length} permissions found for [${req.user.username}],
-        they will expire in ${new Date(req.session.permissionExpires).getTime() - now.getTime()}`)
-      next();
     }
 
     /**
@@ -60,7 +64,7 @@
     function checkPermissions(req, res, next, requiredPermissions) {
       auth(req, res, () => {
         console.log(`Checking permissions for ${req.user.username}`)
-        let permissions = req.session.permissions;
+        let permissions = getPermissions(req.session.permissions);
         if (arrayContainsArray(permissions, requiredPermissions)) {
           console.log(`${requiredPermissions.length} valid permissions for ${req.user.username}`)
           next();
@@ -72,6 +76,14 @@
           })
         }
       });
+    }
+
+    function getPermissions(permissionsMap) {
+      var permissions = [];
+      for (var i in permissionsMap) {
+        permissions.push(Permissions.get(permissionsMap[i].value));
+      }
+      return permissions;
     }
 
     return service;

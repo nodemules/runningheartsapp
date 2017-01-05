@@ -18,6 +18,7 @@
       'DELETE_GAME': 15,
       'MODIFY_FINISHED_GAME': 16,
       'MAKE_DIRECTOR': 17,
+      'VIEW_USER_DETAILS': 18
     };
 
     var myEnum = new Enum(permissions)

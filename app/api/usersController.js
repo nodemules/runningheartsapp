@@ -2,7 +2,9 @@ var express = require('express'),
   api = express.Router(),
   passport = require('passport');
 
-var authService = require('./authService')
+var authService = require('./authService');
+
+var Permissions = require('../enum/permissions');
 
 
 var Venues = require('../models/venue'),
@@ -23,7 +25,7 @@ api.get('/', function(req, res) {
 });
 
 api.get('/:id',
-  (req, res, next) => authService().checkPermissions(req, res, next, [`Permission.SUPER_ADMIN`]),
+  (req, res, next) => authService().checkPermissions(req, res, next, [Permissions.VIEW_USER_DETAILS]),
   (req, res) => {
     Users
       .findById(req.params.id)

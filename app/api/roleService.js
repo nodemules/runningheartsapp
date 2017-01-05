@@ -3,7 +3,19 @@
     var Role = require(`../models/role`);
     var Permissions = require(`../enum/permissions`);
     var service = {
+      getPermissionsForRole,
       addPermissionToRole
+    }
+
+    function getPermissionsForRole(roleId, cb) {
+      Role.find({
+        roleId: roleId
+      }, (err, roles) => {
+        if (err)
+          return console.error(err);
+        var role = roles[0];
+        cb(role.permissions);
+      })
     }
 
     function addPermissionToRole(req, res, next) {
