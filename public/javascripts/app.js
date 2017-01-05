@@ -98,10 +98,12 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'venuesManageCtrl',
           controllerAs: 'vm',
           resolve: {
-            auth: function($q, $http) {
+            auth: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
+              var permissions = []
+              permissions.push(!!$stateParams.id ? `EDIT_VENUE` : `ADD_VENUE`);
               var deferred = $q.defer();
               $http.post('/api/auth/permission', {
-                permissions: [`Permission.MANAGE_VENUE`]
+                permissions: permissions
               }).then(function(res) {
                   deferred.resolve({});
                 },
@@ -112,7 +114,7 @@ var APP_NAME = 'runningHeartsApp';
                   });
                 })
               return deferred.promise;
-            }
+            }]
           }
         })
         .state('venues.view', {

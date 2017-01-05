@@ -5,7 +5,8 @@
     var service = {
       auth,
       setPermissions,
-      checkPermissions
+      checkPermissions,
+      getPermissions
     }
 
     const PERMISSIONS_TTL_MINUTES = 5;
@@ -64,7 +65,7 @@
     function checkPermissions(req, res, next, requiredPermissions) {
       auth(req, res, () => {
         console.log(`Checking permissions for ${req.user.username}`)
-        let permissions = getPermissions(req.session.permissions);
+        let permissions = getPermissionsFromMap(req.session.permissions);
         if (arrayContainsArray(permissions, requiredPermissions)) {
           console.log(`${requiredPermissions.length} valid permissions for ${req.user.username}`)
           next();
@@ -78,7 +79,16 @@
       });
     }
 
-    function getPermissions(permissionsMap) {
+    function getPermissions(permissions) {
+      var p = [];
+      for (var i in permissions) {
+        console.log(permissions[i])
+        p.push(Permissions.get(permissions[i]));
+      }
+      return p;
+    }
+
+    function getPermissionsFromMap(permissionsMap) {
       var permissions = [];
       for (var i in permissionsMap) {
         permissions.push(Permissions.get(permissionsMap[i].value));

@@ -34,7 +34,7 @@
       });
     })
 
-    api.post(`/permission`, (req, res, next) => authService().checkPermissions(req, res, next, req.body.permissions), (req, res) => {
+    api.post(`/permission`, (req, res, next) => authService().checkPermissions(req, res, next, authService().getPermissions(req.body.permissions)), (req, res) => {
       res.send({
         message: `Permission validated`
       })
