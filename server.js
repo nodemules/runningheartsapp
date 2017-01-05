@@ -1,5 +1,5 @@
 // server.js
-
+require('enum').register();
 // set up ======================================================================
 // get all the tools we need
 var express = require('express');
@@ -17,6 +17,7 @@ var cookieParser = require('cookie-parser');
 
 var api = require('./app/api/main');
 var configuration = require('./config/configuration.js');
+
 
 // configuration ===============================================================
 require('./config/passport')(passport);

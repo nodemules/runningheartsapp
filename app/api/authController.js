@@ -4,7 +4,14 @@
     var express = require('express'),
       api = express.Router(),
       passport = require('passport'),
-      authService = require('./authService');
+      authService = require('./authService'),
+      roleService = require('./roleService')();
+
+    api.get('/permission/add/:roleId/:permissionId', roleService.addPermissionToRole, (req, res) => {
+      res.send({
+        message: `Permission inserted`
+      })
+    })
 
     api.get('/', authService().auth, (req, res) => {
       res.send({
