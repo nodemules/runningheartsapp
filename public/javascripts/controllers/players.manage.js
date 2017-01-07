@@ -1,14 +1,14 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('playersManageCtrl', playersManageCtrl);
 
-  playersManageCtrl.$inject = [ '$filter', '$state', '$stateParams', 'playersService' ];
+  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService'];
 
   function playersManageCtrl($filter, $state, $stateParams, playersService) {
-    
+
     var vm = this;
 
     vm.getPlayer = function(id) {
@@ -29,6 +29,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);

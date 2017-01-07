@@ -7,18 +7,18 @@ var Player = require('./player')
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-  "statusId": {
-    "type": Number,
-    "default": 1
+  'statusId': {
+    'type': Number,
+    'default': 1
   },
-  "roleId": Number,
-  "username": String,
-  "password": String,
-  "usertype": Number,
-  "created": Date,
-  "player": {
-    "type": Schema.Types.ObjectId,
-    "ref": "Player"
+  'roleId': Number,
+  'username': String,
+  'password': String,
+  'usertype': Number,
+  'created': Date,
+  'player': {
+    'type': Schema.Types.ObjectId,
+    'ref': 'Player'
   }
 });
 

@@ -5,14 +5,14 @@
 
   angular.module(APP_NAME).controller('playersViewCtrl', playersViewCtrl);
 
-  playersViewCtrl.$inject = [ '$filter', '$state', '$stateParams', 'playersService', 'statsService' ];
+  playersViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'statsService'];
 
   function playersViewCtrl($filter, $state, $stateParams, playersService, statsService) {
 
     var vm = this;
 
     vm.getPlayer = function(id) {
-      vm.player = statsService.api(id).player(function(){
+      vm.player = statsService.api(id).player(function() {
         if (!vm.player._id) {
           vm.player = playersService.api(id).get();
         }
@@ -20,7 +20,7 @@
     }
 
     vm.shoutOut = function(id) {
-      playersService.api(id).shoutOut(function(data){
+      playersService.api(id).shoutOut(function(data) {
         vm.player.shoutOuts = data.shoutOuts;
       })
     }

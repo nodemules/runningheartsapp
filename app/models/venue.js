@@ -1,17 +1,22 @@
-var mongoose  = require('mongoose'),
-    Schema    = mongoose.Schema;
-
-// import schemas
-var Player    = require('./player'),
-    Event     = require('./event');
+var mongoose = require('mongoose'),
+  Schema = mongoose.Schema;
 
 // define the schema for our venue model
 var venueSchema = mongoose.Schema({
-  "statusId"  : { "type" : Number, "default" : 1 },
-  "name"      : String,
-  "day"       : String,
-  "td"        : { "type" : Schema.Types.ObjectId, "ref" : "Player" },
-  "events"    : [{ "type" : Schema.Types.ObjectId, "ref" : "Event" }]
+  'statusId': {
+    'type': Number,
+    'default': 1
+  },
+  'name': String,
+  'day': String,
+  'td': {
+    'type': Schema.Types.ObjectId,
+    'ref': 'Player'
+  },
+  'events': [{
+    'type': Schema.Types.ObjectId,
+    'ref': 'Event'
+  }]
 });
 
 

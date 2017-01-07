@@ -13,18 +13,18 @@
     const PERMISSIONS_TTL = PERMISSIONS_TTL_MINUTES * 60 * 1000;
 
     function auth(req, res, next) {
-      console.log(`Checking if user is logged in...`);
-      console.log(req.sessionID ? `Session found for ${req.sessionID}` : `No session found.`);
-      console.log(`Session ${req.isAuthenticated() ? `is` : `is not`} authenticated`);
+      console.log('Checking if user is logged in...');
+      console.log(req.sessionID ? `Session found for ${req.sessionID}` : 'No session found.');
+      console.log(`Session ${req.isAuthenticated() ? 'is' : 'is not'} authenticated`);
 
       if (!req.isAuthenticated()) {
         res.send(401, {
-          message: `No valid user session`,
-          code: `NO_USER_FOUND`
+          message: 'No valid user session',
+          code: 'NO_USER_FOUND'
         });
       } else
         next();
-    };
+    }
 
     function setPermissions(req, res, next) {
       let now = new Date();
@@ -56,8 +56,8 @@
      *
      * @returns {boolean}
      */
-    function arrayContainsArray (superset, subset) {
-      return subset.every(function (value) {
+    function arrayContainsArray(superset, subset) {
+      return subset.every(function(value) {
         return (superset.indexOf(value) >= 0);
       });
     }
@@ -72,8 +72,8 @@
         } else {
           console.log(`Invalid permissions for ${req.user.username}`)
           res.send(401, {
-            message: `Invalid permissions`,
-            code: `PERMISSIONS_INVALID`
+            message: 'Invalid permissions',
+            code: 'PERMISSIONS_INVALID'
           })
         }
       });

@@ -4,11 +4,11 @@
 
   // define the schema for our permission model
   var permissionSchema = mongoose.Schema({
-    "key": {
+    'key': {
       type: String,
       unique: true
     },
-    "value": {
+    'value': {
       type: Number,
       unique: true
     }

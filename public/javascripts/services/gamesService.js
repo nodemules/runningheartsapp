@@ -1,16 +1,16 @@
 // global angular
-(function (angular) {
-  
+(function(angular) {
+
   angular.module(APP_NAME).factory('gamesService', gamesService);
 
-  gamesService.$inject = [ '$resource' ];
+  gamesService.$inject = ['$resource'];
 
   function gamesService($resource) {
 
     var basePath = '/api/games'
-    
+
     var service = {
-      api : api
+      api: api
     }
 
     return service;
@@ -19,15 +19,15 @@
 
     function api(id) {
       return $resource(basePath + '/:id', {
-        id : id
+        id: id
       }, {
-        'create' : {
-          method : 'POST'
+        'create': {
+          method: 'POST'
         },
-        'save' : {
-          method : 'POST',
-          params : {
-            id : null
+        'save': {
+          method: 'POST',
+          params: {
+            id: null
           }
         }
       });

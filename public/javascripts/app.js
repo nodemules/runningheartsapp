@@ -100,16 +100,16 @@ var APP_NAME = 'runningHeartsApp';
           resolve: {
             auth: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
               var permissions = []
-              permissions.push(!!$stateParams.id ? `EDIT_VENUE` : `ADD_VENUE`);
+              permissions.push($stateParams.id ? 'EDIT_VENUE' : 'ADD_VENUE');
               var deferred = $q.defer();
               $http.post('/api/auth/permission', {
                 permissions: permissions
               }).then(function(res) {
-                  deferred.resolve({});
-                },
+                deferred.resolve({});
+              },
                 function(err) {
                   deferred.reject({
-                    redirectTo: `venues.list`,
+                    redirectTo: 'venues.list',
                     code: err.data.code
                   });
                 })
@@ -285,8 +285,8 @@ var APP_NAME = 'runningHeartsApp';
     .run(['$rootScope', '$state', function($rootScope, $state) {
       $rootScope.$on('$stateChangeError', function(evt, to, toParams, from, fromParams, error) {
         console.log(error);
-        if (error.code === `NO_USER_FOUND`) {
-          $state.go(`login`)
+        if (error.code === 'NO_USER_FOUND') {
+          $state.go('login')
         } else if (error.redirectTo) {
           console.log(`Redirect to ${error.redirectTo} because ${error.code}`)
           $state.transitionTo(error.redirectTo, {

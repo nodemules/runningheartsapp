@@ -5,7 +5,7 @@
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = [ '$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService' ];
+  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService'];
 
   function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService) {
 
@@ -20,11 +20,15 @@
     }
 
     vm.editEvent = function(event) {
-      $state.transitionTo('events.manage', { id : event._id });
+      $state.transitionTo('events.manage', {
+        id: event._id
+      });
     }
 
     vm.viewEvent = function(event) {
-      $state.transitionTo('events.view', { id : event._id });
+      $state.transitionTo('events.view', {
+        id: event._id
+      });
     }
 
     vm.removeEvent = function(event) {

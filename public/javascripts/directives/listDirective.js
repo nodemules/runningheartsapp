@@ -5,7 +5,7 @@
 
   angular.module(APP_NAME).directive('rhpList', rhpListDirective);
 
-  rhpListDirective.$inject = [ '$mdMedia' ];
+  rhpListDirective.$inject = ['$mdMedia'];
 
   function rhpListDirective($mdMedia) {
 
@@ -18,7 +18,7 @@
       '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
       '      <div class="md-list-item-text">', //
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
-      '        <h3 ng-if="item.venue">{{item.venue.name}}</h3>', // 
+      '        <h3 ng-if="item.venue">{{item.venue.name}}</h3>', //
       '        <p>{{item.day ? item.day : (item.date | date:\'fullDate\') + \' \' + (item.date | date:\'shortTime\')}}</p>', //     TODO - this based on a scope import
       '        <p ng-if="item.td">{{item.td.name}}</p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
@@ -39,13 +39,13 @@
 
     var directive = {
       restrict: 'E',
-      template : rhpListTemplate,
-      scope : {
-        list : '=ngModel',
-        size : '=rhpListSize',
-        setItem : '&rhpListSet',
-        editItem : '&rhpListEdit',
-        removeItem : '&rhpListDel'
+      template: rhpListTemplate,
+      scope: {
+        list: '=ngModel',
+        size: '=rhpListSize',
+        setItem: '&rhpListSet',
+        editItem: '&rhpListEdit',
+        removeItem: '&rhpListDel'
       },
       bindToController: true,
       controller: ctrlFn,
@@ -54,7 +54,7 @@
 
     return directive;
 
-    ctrlFn.$inject = [ '$scope', '$timeout' ];
+    ctrlFn.$inject = ['$scope', '$timeout'];
 
     function ctrlFn($scope, $mdMedia, $timeout) {
 

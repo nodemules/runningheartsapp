@@ -12,7 +12,7 @@
     var vm = this;
 
     vm.shoutOut = function(id) {
-      playersService.api(id).shoutOut(function(data){
+      playersService.api(id).shoutOut(function(data) {
         vm.player.shoutOuts = data.shoutOuts;
       })
     }

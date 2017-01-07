@@ -1,23 +1,25 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('venuesManageCtrl', venuesManageCtrl);
 
-  venuesManageCtrl.$inject = [ '$filter', '$state', '$stateParams', 'venuesService', 'playersService' ];
+  venuesManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'playersService'];
 
   function venuesManageCtrl($filter, $state, $stateParams, venuesService, playersService) {
-    
+
     var vm = this;
 
     vm.venue = {};
     vm.directors = [];
 
-    vm.days = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];
+    vm.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     vm.getDirectors = function() {
-      vm.directors = playersService.api().findBy({isTd : true}); 
+      vm.directors = playersService.api().findBy({
+        isTd: true
+      });
     }
 
     vm.newVenue = function() {
@@ -37,7 +39,9 @@
 
     vm.getVenue = function(id) {
       venuesService.api(id).get(function(venue) {
-        venue.td = $filter('filter')(vm.directors, { _id : venue.td._id })[0];
+        venue.td = $filter('filter')(vm.directors, {
+          _id: venue.td._id
+        })[0];
         vm.venue = venue;
       });
     }
@@ -57,6 +61,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);

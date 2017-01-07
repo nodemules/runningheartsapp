@@ -1,14 +1,14 @@
 var express = require('express'),
-    api     = express.Router(),
-    _       = require('lodash');
-    mongoose = require('mongoose');
+  api = express.Router(),
+  _ = require('lodash');
+mongoose = require('mongoose');
 
-var Venues  = require('../models/venue'),
-    Users   = require('../models/user'),
-    Players = require('../models/player'),
-    Event   = require('../models/event'),
-    Game    = require('../models/game'),
-    Season  = require('../models/season');
+var Venues = require('../models/venue'),
+  Users = require('../models/user'),
+  Players = require('../models/player'),
+  Event = require('../models/event'),
+  Game = require('../models/game'),
+  Season = require('../models/season');
 
 var unwind = {
   '$unwind': {
@@ -19,12 +19,28 @@ var unwind = {
 var group = {
   '$group': {
     '_id': '$players.player',
-    'totalPoints': { '$sum': '$players.score'},
-    'averageRank': { '$avg': '$players.rank'},
-    'bestRank': {'$min': '$players.rank'},
-    'worstRank': {'$max': '$players.rank'},
-    'shoutOuts': {'$first': '$players.shoutOuts'},
-    'totalWins': { $sum: { $cond: [ { $eq: [ '$players.rank', 1 ] }, 1, 0 ] } },
+    'totalPoints': {
+      '$sum': '$players.score'
+    },
+    'averageRank': {
+      '$avg': '$players.rank'
+    },
+    'bestRank': {
+      '$min': '$players.rank'
+    },
+    'worstRank': {
+      '$max': '$players.rank'
+    },
+    'shoutOuts': {
+      '$first': '$players.shoutOuts'
+    },
+    'totalWins': {
+      $sum: {
+        $cond: [{
+          $eq: ['$players.rank', 1]
+        }, 1, 0]
+      }
+    },
     'games': {
       $push: {
         '_id': '$_id',
@@ -49,7 +65,13 @@ var project = {
     'isTd': '$player.isTd',
     'totalPoints': '$totalPoints',
     'totalWins': '$totalWins',
-    'bonusChips': { $multiply: [ { $floor: { $divide: ['$totalPoints', 10] } }, 100] },
+    'bonusChips': {
+      $multiply: [{
+        $floor: {
+          $divide: ['$totalPoints', 10]
+        }
+      }, 100]
+    },
     'averageRank': '$averageRank',
     'bestRank': '$bestRank',
     'worstRank': '$worstRank',
@@ -58,7 +80,9 @@ var project = {
 }
 
 var sort = {
-  '$sort': { 'startTime': -1 }
+  '$sort': {
+    'startTime': -1
+  }
 }
 
 var lookupPlayer = {
@@ -106,74 +130,86 @@ var unwindVenue = {
   }
 }
 
-api.get('/players/:id', function(req, res){
+api.get('/players/:id', function(req, res) {
 
   var match = {
     '$match': {
-      'players.player' : mongoose.Types.ObjectId(req.params.id)
+      'players.player': mongoose.Types.ObjectId(req.params.id)
     }
   }
 
   var pipeline = [unwind, match, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
 
   Game
-  .aggregate(pipeline)
-  .exec(function(err, players){
-    if (err)
-      console.error(err.stack);
-    res.send(players[0]);
-  })
+    .aggregate(pipeline)
+    .exec(function(err, players) {
+      if (err)
+        console.error(err.stack);
+      res.send(players[0]);
+    })
 })
 
-api.get('/players', function(req, res){
+api.get('/players', function(req, res) {
 
   var sortBy = {
-    '$sort': { 'totalPoints': -1, 'averageRank': 1 }
+    '$sort': {
+      'totalPoints': -1,
+      'averageRank': 1
+    }
   }
   var pipeline = [unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
 
   Game
-  .aggregate(pipeline)
-  .exec(function(err, players){
-    if (err)
-      console.error(err.stack);
-    res.send(players);
-  })
-})
-
-api.get('/seasonalPlayers/:seasonNumber', function(req, res){
-
-  Season
-  .find( {seasonNumber : req.params.seasonNumber} )
-  .exec(function(err, season){
-    if (err)
-      console.log(err)
-
-    var sortBy = {
-      '$sort': { 'totalPoints': -1, 'averageRank': 1 }
-    }
-
-    var startTime = season[0].startDate;
-    var endTime = season[0].endDate;
-
-    var match = {
-      '$match': { 'startTime' : { '$gte' : new Date(startTime) } }
-    }
-
-    if (endTime) {
-      match.$match.startTime.$lt = new Date(endTime);
-    }
-
-    var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
-
-    Game
     .aggregate(pipeline)
-    .exec(function(err, players){
+    .exec(function(err, players) {
       if (err)
         console.error(err.stack);
       res.send(players);
     })
-  })
+})
+
+api.get('/seasonalPlayers/:seasonNumber', function(req, res) {
+
+  Season
+    .find({
+      seasonNumber: req.params.seasonNumber
+    })
+    .exec(function(err, season) {
+      if (err)
+        console.log(err)
+
+      var sortBy = {
+        '$sort': {
+          'totalPoints': -1,
+          'averageRank': 1
+        }
+      }
+
+      var startTime = season[0].startDate;
+      var endTime = season[0].endDate;
+
+      var match = {
+        '$match': {
+          'startTime': {
+            '$gte': new Date(startTime)
+          }
+        }
+      }
+
+      if (endTime) {
+        match.$match.startTime.$lt = new Date(endTime);
+      }
+
+      var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
+
+      Game
+        .aggregate(pipeline)
+        .exec(function(err, players) {
+          if (err)
+            console.error(err.stack);
+          res.send(players);
+        })
+    })
 
 
 })

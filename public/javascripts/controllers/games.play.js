@@ -5,7 +5,7 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = [ '$filter', '$state', '$stateParams', 'gamesService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', 'gamesService'];
 
   function gamesPlayCtrl($filter, $state, $stateParams, gamesService) {
 
@@ -15,7 +15,7 @@
       vm.game = gamesService.api(id).get(function() {
         if (!vm.game.inProgress) {
           vm.game.startTime = Date.now(),
-          vm.game.inProgress = true;
+            vm.game.inProgress = true;
           vm.game.$save();
         }
       });
@@ -52,7 +52,7 @@
     vm.checkScore = function(player) {
       var oldRank = getRank(player.score);
 
-      if ( !player.rank && player.rank !== 0 ) {
+      if (!player.rank && player.rank !== 0) {
         return false;
       }
       if (player.rank > 8 || player.rank < 1) {
@@ -63,20 +63,22 @@
         player.rank = vm.game.players.length;
       }
       var newScore = getScore(player.rank - 1);
-      var counterPart = $filter('filter')(vm.game.players, { score : newScore })[0];
+      var counterPart = $filter('filter')(vm.game.players, {
+        score: newScore
+      })[0];
       counterPart.rank = oldRank;
       counterPart.score = getScore(oldRank - 1);
       player.score = newScore;
     }
 
-    vm.noBlankAllowed = function(player){
-      if ( !player.rank ) {
+    vm.noBlankAllowed = function(player) {
+      if (!player.rank) {
         player.rank = getRank(player.score);
       }
     }
 
     vm.completeGame = function() {
-      if (!vm.game.finalize){
+      if (!vm.game.finalize) {
         return false;
       }
 
@@ -90,7 +92,9 @@
 
     function getNextRankOut() {
 
-      var unscoredPlayers = $filter('filter')(vm.game.players, { score : 1 }, function(a,e) {
+      var unscoredPlayers = $filter('filter')(vm.game.players, {
+        score: 1
+      }, function(a, e) {
         return a < e || a === undefined;
       })
       return unscoredPlayers.length - 1;

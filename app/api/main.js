@@ -9,7 +9,7 @@ var venuesController = require('./venuesController'),
   statsController = require('./statsController'),
   seasonsController = require('./seasonsController'),
   authController = require('./authController'),
-  authService = require(`./authService`);
+  authService = require('./authService');
 
 
 api.use(function(req, res, next) {

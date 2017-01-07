@@ -1,8 +1,8 @@
 // global angular
-(function (angular) {
+(function(angular) {
   angular.module(APP_NAME).directive('rhpTabs', rhpTabs);
 
-  function rhpTabs () {
+  function rhpTabs() {
 
     var rhpTabsTemplate = [
       '<md-tabs ng-show="tabs.tabVisibility()" md-stretch-tabs="always" class="md-primary md-fixed" md-selected="tabs.selectedTab">', //
@@ -15,17 +15,16 @@
     var directive = {
       restrict: 'E',
       template: rhpTabsTemplate,
-      scope : {
-      },
+      scope: {},
       bindToController: true,
       controller: rhpTabsController,
       controllerAs: 'tabs'
     }
     return directive;
 
-    rhpTabsController.$inject = [ '$scope', '$state', '$filter', '$timeout', '$stateParams' ];
+    rhpTabsController.$inject = ['$scope', '$state', '$filter', '$timeout', '$stateParams'];
 
-    function rhpTabsController ($scope, $state, $filter, $timeout, $stateParams) {
+    function rhpTabsController($scope, $state, $filter, $timeout, $stateParams) {
 
       var vm = this;
 
@@ -38,8 +37,10 @@
       vm.tabPath = function(path) {
         var pathArray = path.split('.');
 
-        if ($stateParams.id){
-          $state.transitionTo(path, { id: $stateParams.id});
+        if ($stateParams.id) {
+          $state.transitionTo(path, {
+            id: $stateParams.id
+          });
         } else if (pathArray[1] === 'list') {
           $state.transitionTo(path);
         }
@@ -52,13 +53,13 @@
         if (parent === 'home')
           return;
 
-        var tabsTypes = [ 'List', 'View', 'Manage' ];
+        var tabsTypes = ['List', 'View', 'Manage'];
 
         angular.forEach(tabsTypes, function(type) {
           var path = parent + '.' + type.toLowerCase();
           var tab = {
-            name : type,
-            path : path
+            name: type,
+            path: path
           };
 
           vm.tabs.push(tab);
@@ -70,7 +71,9 @@
 
       function setActiveTab(state) {
 
-        var activeTab = $filter('filter')(vm.tabs, { path : state.name })[0];
+        var activeTab = $filter('filter')(vm.tabs, {
+          path: state.name
+        })[0];
 
         vm.selectedTab = vm.tabs.indexOf(activeTab);
 
@@ -78,7 +81,7 @@
 
       $scope.$watch(function() {
         return $state.current;
-      }, function(n,o) {
+      }, function(n, o) {
         if (n.parent == o.parent && vm.tabs.length && n.parent != 'home') {
           setActiveTab(n);
         } else {
@@ -86,8 +89,7 @@
         }
       })
 
-      function initialize() {
-      }
+      function initialize() {}
 
       initialize();
 

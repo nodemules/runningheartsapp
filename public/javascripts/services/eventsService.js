@@ -1,16 +1,16 @@
 // global angular
-(function (angular) {
+(function(angular) {
 
   angular.module(APP_NAME).factory('eventsService', eventsService);
 
-  eventsService.$inject = [ '$resource' ];
+  eventsService.$inject = ['$resource'];
 
   function eventsService($resource) {
 
     var basePath = '/api/events'
 
     var service = {
-      api : api
+      api: api
     }
 
     return service;
@@ -19,7 +19,7 @@
 
     function api(id) {
       return $resource(basePath + '/:id/:action', {
-        id : id
+        id: id
       }, {
         'count': {
           method: 'GET',

@@ -5,12 +5,12 @@
 
   // define the schema for our role model
   var roleSchema = mongoose.Schema({
-    "name": String,
-    "roleId": {
+    'name': String,
+    'roleId': {
       type: Number,
       unique: true
     },
-    "permissions": [Permission.schema]
+    'permissions': [Permission.schema]
   });
 
   // create the model for roles and expose it to our app

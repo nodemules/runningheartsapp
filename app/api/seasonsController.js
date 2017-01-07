@@ -6,20 +6,26 @@ var Seasons = require('../models/season');
 api.post('/:seasonNumber', function(req, res) {
   var time = new Date();
   Seasons
-  .findOneAndUpdate({seasonNumber: (req.params.seasonNumber - 1)}, { $set: { endDate : time } })
-  .exec(function(err, season){
-    if (err)
-      console.log(err.stack);
-    Seasons
-      .create({
-        seasonNumber: req.params.seasonNumber,
-        startDate: time
-      }, function(err, season) {
-        if (err)
-          console.log(err.stack);
-        res.send(season);
-      })
-  })
+    .findOneAndUpdate({
+      seasonNumber: (req.params.seasonNumber - 1)
+    }, {
+      $set: {
+        endDate: time
+      }
+    })
+    .exec(function(err, season) {
+      if (err)
+        console.log(err.stack);
+      Seasons
+        .create({
+          seasonNumber: req.params.seasonNumber,
+          startDate: time
+        }, function(err, season) {
+          if (err)
+            console.log(err.stack);
+          res.send(season);
+        })
+    })
 
 });
 

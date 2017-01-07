@@ -3,12 +3,12 @@ var mongoose = require('mongoose'),
 
 // define the schema for our event model
 var seasonSchema = mongoose.Schema({
-  "seasonNumber": {
-    "type": Number,
-    "unique": true
+  'seasonNumber': {
+    'type': Number,
+    'unique': true
   },
-  "startDate": Date,
-  "endDate": Date
+  'startDate': Date,
+  'endDate': Date
 });
 
 // create the model for venues and expose it to our app

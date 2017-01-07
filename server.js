@@ -21,12 +21,12 @@ var configuration = require('./config/configuration.js');
 
 // configuration ===============================================================
 require('./config/passport')(passport);
-var env = !!process.env.npm_config_dev ? `dev` : `prod`;
-var db = configuration[env === `dev` ? `localdb` : `remotedb`];
+var env = process.env.npm_config_dev ? 'dev' : 'prod';
+var db = configuration[env === 'dev' ? 'localdb' : 'remotedb'];
 mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}/${db.name}`); // connect to our configuration
 
 // set up our express application
-app.use(morgan(`[:date[clf]] :method :url :status :response-time ms - :res[content-length]`)); // log every request to the console
+app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]')); // log every request to the console
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({
   extended: true

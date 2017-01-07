@@ -1,15 +1,17 @@
 var express = require('express'),
-    api     = express.Router();
+  api = express.Router();
 
-var Venues  = require('../models/venue'),
-    Users   = require('../models/user'),
-    Players = require('../models/player'),
-    Event   = require('../models/event'),
-    Game    = require('../models/game');
+var Venues = require('../models/venue'),
+  Users = require('../models/user'),
+  Players = require('../models/player'),
+  Event = require('../models/event'),
+  Game = require('../models/game');
 
 api.get('/', function(req, res, next) {
-    Venues
-    .find({ statusId : 1 })
+  Venues
+    .find({
+      statusId: 1
+    })
     .populate('td')
     .select('-statusId')
     .exec(function(err, venues) {
@@ -21,11 +23,15 @@ api.get('/', function(req, res, next) {
 
 api.get('/count', function(req, res) {
   Venues
-    .count({ statusId : 1 })
+    .count({
+      statusId: 1
+    })
     .exec(function(err, count) {
       if (err)
         res.send(err);
-      res.send( {count : count} );
+      res.send({
+        count: count
+      });
     })
 });
 
@@ -38,15 +44,19 @@ api.get('/:id', function(req, res, next) {
       if (err)
         console.log(err.stack);
       res.json(venue);
-  });
+    });
 });
 
 api.post('/', function(req, res) {
   if (req.body._id) {
     Venues
-      .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
+      .findOneAndUpdate({
+        _id: req.body._id
+      }, req.body, {
+        'new': true
+      })
       .select('-statusId')
-      .exec(function (err, venue) {
+      .exec(function(err, venue) {
         if (err)
           console.log(err.stack);
         res.send(venue);
@@ -61,10 +71,14 @@ api.post('/', function(req, res) {
   }
 });
 
-api.put('/', function(req, res){
+api.put('/', function(req, res) {
   Venues
-    .findOneAndUpdate({ _id : req.body._id }, req.body, { "new" : true })
-    .exec(function (err, venue) {
+    .findOneAndUpdate({
+      _id: req.body._id
+    }, req.body, {
+      'new': true
+    })
+    .exec(function(err, venue) {
       if (err)
         console.log(err.stack);
       res.send(venue);
@@ -75,7 +89,7 @@ api.delete('/:id', function(req, res) {
   req.body.statusId = 2;
   Venues
     .findByIdAndUpdate(req.params.id, req.body)
-    .exec(function (err) {
+    .exec(function(err) {
       if (err)
         console.log(err.stack);
       res.send();

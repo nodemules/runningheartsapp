@@ -1,7 +1,7 @@
 {
   function exports() {
-    var Role = require(`../models/role`);
-    var Permissions = require(`../enum/permissions`);
+    var Role = require('../models/role');
+    var Permissions = require('../enum/permissions');
     var service = {
       getPermissionsForRole,
       addPermissionToRole

@@ -1,14 +1,14 @@
 // global angular
 (function(angular) {
 
-  'use strict'; 
+  'use strict';
 
   angular.module(APP_NAME).controller('playersListCtrl', playersListCtrl);
 
-  playersListCtrl.$inject = [ '$filter', '$state', 'playersService' ];
+  playersListCtrl.$inject = ['$filter', '$state', 'playersService'];
 
   function playersListCtrl($filter, $state, playersService) {
-    
+
     var vm = this;
 
     vm.newPlayer = function() {
@@ -20,11 +20,15 @@
     }
 
     vm.editPlayer = function(player) {
-      $state.transitionTo('players.manage', { id : player._id });
+      $state.transitionTo('players.manage', {
+        id: player._id
+      });
     }
 
     vm.viewPlayer = function(player) {
-      $state.transitionTo('players.view', { id : player._id });
+      $state.transitionTo('players.view', {
+        id: player._id
+      });
     }
 
     vm.removePlayer = function(player) {
@@ -39,6 +43,6 @@
 
     initialize();
 
-  }    
+  }
 
 })(angular);

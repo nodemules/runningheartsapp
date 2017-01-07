@@ -18,7 +18,7 @@
     /////////////////////
 
     function api(id) {
-      return $resource('/api/seasons' + '/:id/:action', {
+      return $resource(basePath + '/:id/:action', {
         id: id
       }, {
         'findBy': {

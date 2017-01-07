@@ -13,7 +13,7 @@
 
     vm.register = function() {
       usersService.api().save(vm.user, function() {
-      $state.transitionTo('home'); //change to 'admin console' when the time comes
+        $state.transitionTo('home'); //change to 'admin console' when the time comes
       })
     }
 

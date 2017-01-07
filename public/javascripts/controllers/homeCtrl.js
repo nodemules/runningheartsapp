@@ -15,7 +15,7 @@
 
     vm.messages = {};
 
-    vm.loadTabs = function(){
+    vm.loadTabs = function() {
 
       return $q.all([
         eventsService.api().count().$promise,
@@ -23,55 +23,55 @@
         playersService.api().count().$promise,
         seasonsService.api().query().$promise,
         statsService.api().players().$promise
-       ])
-        .then( function(result){
+      ])
+        .then(function(result) {
           vm.messages = {
-            events  : result[0].count,
-            venues  : result[1].count,
-            players : result[2].count,
-            seasons : result[3].length,
-            stats   : result[4][0] ? result[4][0].name : 'No one'
+            events: result[0].count,
+            venues: result[1].count,
+            players: result[2].count,
+            seasons: result[3].length,
+            stats: result[4][0] ? result[4][0].name : 'No one'
           }
           vm.tabs = [{
             id: 0,
-            label: "Login",
-            message: "Admins Login Here",
-            path: "login"
+            label: 'Login',
+            message: 'Admins Login Here',
+            path: 'login'
           }, {
             id: 1,
-            label: "Home",
-            message: "This is the home page",
-            path: "home"
+            label: 'Home',
+            message: 'This is the home page',
+            path: 'home'
           }, {
             id: 2,
-            label: "Events",
-            message: "See upcoming events",
-            alert: vm.messages.events + " Total Events",
-            path: "events"
+            label: 'Events',
+            message: 'See upcoming events',
+            alert: vm.messages.events + ' Total Events',
+            path: 'events'
           }, {
             id: 3,
-            label: "Venues",
-            message: "Check out active venues",
-            alert: vm.messages.venues + " Total Venues",
-            path: "venues"
+            label: 'Venues',
+            message: 'Check out active venues',
+            alert: vm.messages.venues + ' Total Venues',
+            path: 'venues'
           }, {
             id: 4,
-            label: "Players",
-            message: "View player information",
-            alert: vm.messages.players + " Total Registered Players",
-            path: "players"
+            label: 'Players',
+            message: 'View player information',
+            alert: vm.messages.players + ' Total Registered Players',
+            path: 'players'
           }, {
             id: 5,
-            label: "Standings",
-            message: "View Player Standings",
-            alert: vm.messages.stats + " is currently leading!",
-            path: "stats"
+            label: 'Standings',
+            message: 'View Player Standings',
+            alert: vm.messages.stats + ' is currently leading!',
+            path: 'stats'
           }, {
             id: 6,
-            label: "Seasons",
-            message: "View Season information",
-            alert: "We are Currently in Season " + vm.messages.seasons,
-            path: "seasons.view"
+            label: 'Seasons',
+            message: 'View Season information',
+            alert: 'We are Currently in Season ' + vm.messages.seasons,
+            path: 'seasons.view'
           }];
           vm.activeTab = vm.tabs[0];
         })

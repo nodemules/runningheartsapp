@@ -1,16 +1,16 @@
 // global angular
-(function (angular) {
+(function(angular) {
 
   angular.module(APP_NAME).factory('playersService', playersService);
 
-  playersService.$inject = [ '$resource' ];
+  playersService.$inject = ['$resource'];
 
   function playersService($resource) {
 
     var basePath = '/api/players'
 
     var service = {
-      api : api
+      api: api
     }
 
     return service;
@@ -19,23 +19,23 @@
 
     function api(id) {
       return $resource(basePath + '/:id/:action', {
-        id : id
+        id: id
       }, {
-        'findBy' : {
-          method : 'PUT',
-          isArray : true
-         },
-        'notIn' : {
-          method : 'PUT',
-          params : {
-            action : 'notIn'
-          },
-          isArray : true
-        },
-        'shoutOut' : {
+        'findBy': {
           method: 'PUT',
-          params : {
-            action : 'shoutOut'
+          isArray: true
+        },
+        'notIn': {
+          method: 'PUT',
+          params: {
+            action: 'notIn'
+          },
+          isArray: true
+        },
+        'shoutOut': {
+          method: 'PUT',
+          params: {
+            action: 'shoutOut'
           }
         },
         'count': {

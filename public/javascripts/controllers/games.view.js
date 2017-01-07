@@ -5,7 +5,7 @@
 
   angular.module(APP_NAME).controller('gamesViewCtrl', gamesViewCtrl);
 
-  gamesViewCtrl.$inject = [ '$state', '$stateParams', 'gamesService' ];
+  gamesViewCtrl.$inject = ['$state', '$stateParams', 'gamesService'];
 
   function gamesViewCtrl($state, $stateParams, gamesService) {
 
@@ -22,7 +22,7 @@
     }
 
     initialize();
-    
+
   }
 
 })(angular);

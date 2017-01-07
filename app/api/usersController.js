@@ -60,7 +60,7 @@ api.post('/', function(req, res) {
       .findOneAndUpdate({
         _id: req.body._id
       }, req.body, {
-        "new": true
+        'new': true
       })
       .select('-statusId')
       .exec(function(err, user) {
@@ -84,7 +84,7 @@ api.put('/', function(req, res) {
     .findOneAndUpdate({
       _id: req.body._id
     }, req.body, {
-      "new": true
+      'new': true
     })
     .exec(function(err, user) {
       if (err)
