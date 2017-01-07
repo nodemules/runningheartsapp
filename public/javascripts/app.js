@@ -38,17 +38,9 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'loginCtrl',
           controllerAs: 'lg',
           resolve: {
-            auth: function($q, $http) {
-              var deferred = $q.defer();
-              $http.get('/api/auth').then(function(res) {
-                deferred.reject({
-                  redirectTo: 'home'
-                });
-              }, function(err) {
-                deferred.resolve({});
-              })
-              return deferred.promise;
-            }
+            auth: ['authProvider', function(authProvider) {
+              return authProvider.isLoggedIn('home', true);
+            }]
           }
         })
         .state('register', {
@@ -58,17 +50,9 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'registerCtrl',
           controllerAs: 'rg',
           resolve: {
-            auth: function($q, $http) {
-              var deferred = $q.defer();
-              $http.get('/api/auth').then(function(res) {
-                deferred.reject({
-                  redirectTo: 'home'
-                });
-              }, function(err) {
-                deferred.resolve({});
-              })
-              return deferred.promise;
-            }
+            auth: ['authProvider', function(authProvider) {
+              return authProvider.isLoggedIn('home', true);
+            }]
           }
         })
 
@@ -98,22 +82,10 @@ var APP_NAME = 'runningHeartsApp';
           controller: 'venuesManageCtrl',
           controllerAs: 'vm',
           resolve: {
-            auth: ['$q', '$http', '$stateParams', function($q, $http, $stateParams) {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               var permissions = []
               permissions.push($stateParams.id ? 'EDIT_VENUE' : 'ADD_VENUE');
-              var deferred = $q.defer();
-              $http.post('/api/auth/permission', {
-                permissions: permissions
-              }).then(function(res) {
-                deferred.resolve({});
-              },
-                function(err) {
-                  deferred.reject({
-                    redirectTo: 'venues.list',
-                    code: err.data.code
-                  });
-                })
-              return deferred.promise;
+              return authProvider.authWithPermissions('venues.list', permissions);
             }]
           }
         })
