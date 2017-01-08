@@ -4,6 +4,7 @@
     var RoleService = require('./roleService')();
     var service = {
       auth,
+      isAuth,
       setPermissions,
       checkPermissions,
       getPermissions
@@ -24,6 +25,10 @@
         });
       } else
         next();
+    }
+
+    function isAuth(req, next) {
+      return req.isAuthenticated();
     }
 
     function setPermissions(req, res, next) {

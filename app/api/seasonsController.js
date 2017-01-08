@@ -1,9 +1,11 @@
 var express = require('express'),
   api = express.Router();
 
-var Seasons = require('../models/season');
+var authService = require('./authService')(),
+  Permissions = require('../enum/permissions'),
+  Seasons = require('../models/season');
 
-api.post('/:seasonNumber', function(req, res) {
+api.post('/:seasonNumber', (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.START_NEW_SEASON]), (req, res) => {
   var time = new Date();
   Seasons
     .findOneAndUpdate({
@@ -13,14 +15,14 @@ api.post('/:seasonNumber', function(req, res) {
         endDate: time
       }
     })
-    .exec(function(err, season) {
+    .exec((err, season) => {
       if (err)
         console.log(err.stack);
       Seasons
         .create({
           seasonNumber: req.params.seasonNumber,
           startDate: time
-        }, function(err, season) {
+        }, (err, season) => {
           if (err)
             console.log(err.stack);
           res.send(season);
@@ -29,11 +31,11 @@ api.post('/:seasonNumber', function(req, res) {
 
 });
 
-api.get('/', function(req, res) {
+api.get('/', (req, res) => {
   Seasons
     .find()
     .sort('-startDate')
-    .exec(function(err, seasons) {
+    .exec((err, seasons) => {
       if (err)
         console.log(err.stack);
       res.send(seasons);

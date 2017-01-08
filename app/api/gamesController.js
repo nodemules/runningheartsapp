@@ -1,9 +1,8 @@
 var express = require('express'),
   api = express.Router();
 
-var Venues = require('../models/venue'),
-  Users = require('../models/user'),
-  Players = require('../models/player'),
+var authService = require('./authService')(),
+  Permissions = require('../enum/permissions'),
   Event = require('../models/event'),
   Game = require('../models/game');
 
@@ -14,18 +13,16 @@ api.get('/', function(req, res) {
     populate: [{
       path: 'venue',
       select: 'name day'
-    },
-    {
+    }, {
       path: 'td',
       select: 'name user',
       populate: {
         path: 'user',
         model: 'User',
-        select: 'local.username'
+        select: 'username'
       }
-    }
-    ]
-  }];
+    }]
+  }]
   Game
     .find({
       statusId: 1
@@ -37,7 +34,7 @@ api.get('/', function(req, res) {
         res.send(err);
       res.send(games);
     })
-});
+})
 
 api.get('/:id', function(req, res) {
   var pOptions = [{
@@ -45,30 +42,25 @@ api.get('/:id', function(req, res) {
     populate: [{
       path: 'venue',
       select: 'name day'
-    },
-    {
+    }, {
       path: 'td',
       select: 'name user',
       populate: {
         path: 'user',
         model: 'User',
-        select: 'local.username'
+        select: 'username'
       }
-    },
-    {
+    }, {
       path: 'games',
       select: 'event number'
-    }
-    ]
-  },
-  {
+    }]
+  }, {
     path: 'players',
     populate: {
       path: 'player',
       select: 'name isTd'
     }
-  }
-  ];
+  }]
   Game
     .findById(req.params.id)
     .populate(pOptions)
@@ -78,7 +70,7 @@ api.get('/:id', function(req, res) {
         res.send(err);
       res.send(games);
     })
-});
+})
 
 api.get('/count', function(req, res) {
   Games
@@ -91,91 +83,93 @@ api.get('/count', function(req, res) {
         res.send(err);
       res.send({
         count: count
-      });
+      })
     })
-});
+})
 
-api.post('/', function(req, res) {
-  if (req.body._id) {
-    var pOptions = [{
-      path: 'event',
-      populate: [{
-        path: 'venue',
-        select: 'name day'
-      },
-      {
-        path: 'td',
-        select: 'name user',
+api.post('/',
+  (req, res, next) => {
+    let permissions = [];
+    permissions.push(req.body._id ? Permissions.EDIT_GAME : Permissions.ADD_GAME);
+    authService.checkPermissions(req, res, next, permissions);
+  },
+  function(req, res) {
+    if (req.body._id) {
+      var pOptions = [{
+        path: 'event',
+        populate: [{
+          path: 'venue',
+          select: 'name day'
+        }, {
+          path: 'td',
+          select: 'name user',
+          populate: {
+            path: 'user',
+            model: 'User',
+            select: 'username'
+          }
+        }, {
+          path: 'games',
+          select: 'event number'
+        }]
+      }, {
+        path: 'players',
         populate: {
-          path: 'user',
-          model: 'User',
-          select: 'local.username'
+          path: 'player',
+          select: 'name isTd'
         }
-      },
-      {
-        path: 'games',
-        select: 'event number'
-      }
-      ]
-    },
-    {
-      path: 'players',
-      populate: {
-        path: 'player',
-        select: 'name isTd'
-      }
+      }]
+      Game
+        .findOneAndUpdate({
+          _id: req.body._id
+        }, req.body, {
+          'new': true
+        })
+        .populate(pOptions)
+        .select('-statusId')
+        .exec(function(err, game) {
+          if (err)
+            res.send(err);
+          res.send(game);
+        })
+    } else {
+      Game.create(req.body, function(err, game) {
+        if (err) {
+          console.log(err.stack);
+          res.status(500).send();
+        } else {
+          Event
+            .findOne({
+              _id: game['event']
+            })
+            .exec(function(err, e) {
+              if (err)
+                console.log(err.stack);
+              e.games.push(game._id);
+              e.save();
+              res.send(game);
+            })
+        }
+      })
     }
-    ];
+  })
+
+api.put('/', (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.EDIT_GAME]),
+  function(req, res) {
     Game
       .findOneAndUpdate({
         _id: req.body._id
       }, req.body, {
         'new': true
       })
-      .populate(pOptions)
-      .select('-statusId')
       .exec(function(err, game) {
         if (err)
           res.send(err);
         res.send(game);
       })
-  } else {
-    Game.create(req.body, function(err, game) {
-      if (err) {
-        console.log(err.stack);
-        res.status(500).send()
-      } else {
-        Event
-          .findOne({
-            _id: game['event']
-          })
-          .exec(function(err, e) {
-            if (err)
-              console.log(err.stack);
-            e.games.push(game._id);
-            e.save();
-            res.send(game);
-          })
-      }
-    })
-  }
-});
+  })
 
-api.put('/', function(req, res) {
-  Game
-    .findOneAndUpdate({
-      _id: req.body._id
-    }, req.body, {
-      'new': true
-    })
-    .exec(function(err, game) {
-      if (err)
-        res.send(err);
-      res.send(game);
-    })
-});
-
-api.delete('/:id', function(req, res) {
+api.delete('/:id', (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.DELETE_GAME]), function(req, res) {
   req.body.statusId = 2;
   Game
     .findByIdAndUpdate(req.params.id, req.body)

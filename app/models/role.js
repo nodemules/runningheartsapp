@@ -1,6 +1,5 @@
 {
   var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
     Permission = require('./permission');
 
   // define the schema for our role model

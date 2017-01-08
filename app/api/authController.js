@@ -4,22 +4,34 @@
     var express = require('express'),
       api = express.Router(),
       passport = require('passport'),
-      authService = require('./authService'),
-      roleService = require('./roleService')();
+      authService = require('./authService')(),
+      roleService = require('./roleService')(),
+      Permissions = require('../enum/permissions');
 
-    api.get('/permission/add/:roleId/:permissionId', roleService.addPermissionToRole, (req, res) => {
-      res.send({
-        message: 'Permission inserted'
+    api.get('/permission/add/all/:roleId',
+      (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.ADD_ALL_PERMISSIONS]),
+      roleService.addAllPermissionsToRole, (req, res) => {
+        res.send({
+          message: `All permissions added to Role [${res.locals.role.name}]`
+        })
       })
-    })
 
-    api.get('/', authService().auth, (req, res) => {
+    api.get('/permission/add/:roleId/:permissionId',
+      (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.ADD_PERMISSION]),
+      roleService.addPermissionToRole, (req, res) => {
+        let permissionId = parseInt(req.params.permissionId);
+        res.send({
+          message: `Permission [${Permissions.get(permissionId).key}] inserted into Role [${res.locals.role.name}]`
+        })
+      })
+
+    api.get('/', authService.auth, (req, res) => {
       res.send({
         message: `User [${res.req.user.username}] is authenticated`
       })
     })
 
-    api.post('/login', passport.authenticate('local'), authService().setPermissions, (req, res) => {
+    api.post('/login', passport.authenticate('local'), authService.setPermissions, (req, res) => {
       res.send({
         message: `User [${res.req.user.username}] has been logged in`
       })
@@ -34,7 +46,7 @@
       });
     })
 
-    api.post('/permission', (req, res, next) => authService().checkPermissions(req, res, next, authService().getPermissions(req.body.permissions)), (req, res) => {
+    api.post('/permission', (req, res, next) => authService.checkPermissions(req, res, next, authService.getPermissions(req.body.permissions)), (req, res) => {
       res.send({
         message: 'Permission validated'
       })

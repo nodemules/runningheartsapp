@@ -4,7 +4,8 @@
     var Permissions = require('../enum/permissions');
     var service = {
       getPermissionsForRole,
-      addPermissionToRole
+      addPermissionToRole,
+      addAllPermissionsToRole
     }
 
     function getPermissionsForRole(roleId, cb) {
@@ -21,7 +22,7 @@
     function addPermissionToRole(req, res, next) {
       var permission = Permissions.get(parseInt(req.params.permissionId));
 
-      Role.update({
+      Role.findOneAndUpdate({
         roleId: req.params.roleId
       }, {
         $addToSet: {
@@ -34,8 +35,39 @@
         upsert: true
       }, function(err, data) {
         if (err)
-          console.log(err);
-        console.log(data);
+          console.error(err);
+
+        res.locals.role = data;
+        next();
+      });
+
+    }
+
+    function addAllPermissionsToRole(req, res, next) {
+      var permissions = [];
+      Permissions.enums.forEach((permission) => {
+        let p = {
+          key: permission.key,
+          value: permission.value
+        }
+        permissions.push(p)
+      })
+
+      Role.findOneAndUpdate({
+        roleId: req.params.roleId
+      }, {
+        $addToSet: {
+          permissions: {
+            $each: permissions
+          }
+        }
+      }, {
+        upsert: true
+      }, function(err, data) {
+        if (err)
+          console.error(err);
+
+        res.locals.role = data;
         next();
       });
 

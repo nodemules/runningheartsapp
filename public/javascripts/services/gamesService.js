@@ -1,7 +1,8 @@
-// global angular
-(function(angular) {
-
-  angular.module(APP_NAME).factory('gamesService', gamesService);
+{
+  /* global angular, APP_NAME */
+  angular
+    .module(APP_NAME)
+    .factory('gamesService', gamesService);
 
   gamesService.$inject = ['$resource'];
 
@@ -35,4 +36,4 @@
 
   }
 
-})(angular);
+}

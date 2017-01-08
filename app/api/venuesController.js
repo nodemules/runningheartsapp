@@ -1,13 +1,12 @@
 var express = require('express'),
   api = express.Router();
 
-var Venues = require('../models/venue'),
-  Users = require('../models/user'),
-  Players = require('../models/player'),
-  Event = require('../models/event'),
-  Game = require('../models/game');
+var authService = require('./authService')(),
+  Permissions = require('../enum/permissions');
 
-api.get('/', function(req, res, next) {
+var Venues = require('../models/venue');
+
+api.get('/', function(req, res) {
   Venues
     .find({
       statusId: 1
@@ -17,7 +16,7 @@ api.get('/', function(req, res, next) {
     .exec(function(err, venues) {
       if (err)
         console.log(err.stack);
-      res.json(venues);
+      res.send(venues);
     });
 });
 
@@ -43,57 +42,67 @@ api.get('/:id', function(req, res, next) {
     .exec(function(err, venue) {
       if (err)
         console.log(err.stack);
-      res.json(venue);
+      res.send(venue);
     });
 });
 
-api.post('/', function(req, res) {
-  if (req.body._id) {
+api.post('/',
+  (req, res, next) => {
+    let permissions = [];
+    permissions.push(req.body._id ? Permissions.EDIT_VENUE : Permissions.ADD_VENUE);
+    authService.checkPermissions(req, res, next, permissions);
+  },
+  function(req, res) {
+    if (req.body._id) {
+      Venues
+        .findOneAndUpdate({
+          _id: req.body._id
+        }, req.body, {
+          'new': true
+        })
+        .select('-statusId')
+        .exec(function(err, venue) {
+          if (err)
+            console.log(err.stack);
+          res.send(venue);
+        });
+    } else {
+      Venues
+        .create(req.body, function(err, venue) {
+          if (err)
+            console.log(err.stack);
+          res.send(venue);
+        });
+    }
+  });
+
+api.put('/',
+  (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.EDIT_VENUE]),
+  function(req, res) {
     Venues
       .findOneAndUpdate({
         _id: req.body._id
       }, req.body, {
         'new': true
       })
-      .select('-statusId')
       .exec(function(err, venue) {
         if (err)
           console.log(err.stack);
         res.send(venue);
-      });
-  } else {
+      })
+  })
+
+api.delete('/:id',
+  (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.DELETE_VENUE]),
+  function(req, res) {
+    req.body.statusId = 2;
     Venues
-      .create(req.body, function(err, venue) {
+      .findByIdAndUpdate(req.params.id, req.body)
+      .exec(function(err) {
         if (err)
           console.log(err.stack);
-        res.send(venue);
-      });
-  }
-});
-
-api.put('/', function(req, res) {
-  Venues
-    .findOneAndUpdate({
-      _id: req.body._id
-    }, req.body, {
-      'new': true
-    })
-    .exec(function(err, venue) {
-      if (err)
-        console.log(err.stack);
-      res.send(venue);
-    });
-});
-
-api.delete('/:id', function(req, res) {
-  req.body.statusId = 2;
-  Venues
-    .findByIdAndUpdate(req.params.id, req.body)
-    .exec(function(err) {
-      if (err)
-        console.log(err.stack);
-      res.send();
-    })
-});
+        res.send();
+      })
+  });
 
 module.exports = api;
