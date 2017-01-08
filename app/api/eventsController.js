@@ -1,17 +1,12 @@
 var express = require('express'),
   api = express.Router();
 
-var Venues = require('../models/venue'),
-  Users = require('../models/user'),
-  Players = require('../models/player'),
-  Event = require('../models/event'),
-  Game = require('../models/game');
+var Event = require('../models/event');
 
 var publicEvent = [{
   path: 'venue',
   select: 'name day'
-},
-{
+}, {
   path: 'td',
   select: 'name user',
   populate: {
@@ -19,11 +14,9 @@ var publicEvent = [{
     model: 'User',
     select: 'local.username'
   }
-},
-{
+}, {
   path: 'games'
-}
-];
+}];
 
 api.get('/', function(req, res) {
   Event
@@ -87,8 +80,6 @@ api.post('/', function(req, res) {
     })
   }
 });
-
-api.put('/', function(req, res) {});
 
 api.delete('/:id', function(req, res) {
   req.body.statusId = 2;

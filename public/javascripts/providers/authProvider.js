@@ -1,10 +1,12 @@
 {
+  /* global angular, APP_NAME */
+  angular
+    .module(APP_NAME)
+    .service('authProvider', authProvider);
 
-  angular.module(APP_NAME).service('authProvider', authProvider);
+  authProvider.$inject = ['$http', '$q'];
 
-  authProvider.$inject = ['$http', '$q', '$stateParams'];
-
-  function authProvider($http, $q, $stateParams) {
+  function authProvider($http, $q) {
 
     var basePath = '/api/auth'
 
@@ -53,7 +55,7 @@
       var deferred = $q.defer();
       $http.post(`${basePath}/permission`, {
         permissions: permissions
-      }).then((res) => {
+      }).then(() => {
         deferred.resolve({});
       }, (err) => {
         deferred.reject({
