@@ -3,7 +3,9 @@
     /* global angular, APP_NAME */
     angular
       .module(APP_NAME)
-      .config(($stateProvider) => {
+      .config(($stateProvider, $urlRouterProvider) => {
+
+        $urlRouterProvider.when('/seasons', '/seasons/view')
 
         $stateProvider
           .state('seasons', {

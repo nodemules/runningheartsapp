@@ -28,6 +28,13 @@
           templateUrl: '/views/players.manage.html',
           controller: 'playersManageCtrl',
           controllerAs: 'pm',
+          resolve: {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              var permissions = []
+              permissions.push($stateParams.id ? 'EDIT_PLAYER' : 'ADD_PLAYER');
+              return authProvider.authWithPermissions('players.list', permissions);
+            }]
+          }
         })
         .state('players.view', {
           url: '/view/:id',

@@ -27,7 +27,14 @@
           parent: 'events',
           templateUrl: '/views/events.manage.html',
           controller: 'eventsManageCtrl',
-          controllerAs: 'em'
+          controllerAs: 'em',
+          resolve: {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              var permissions = []
+              permissions.push($stateParams.id ? 'EDIT_EVENT' : 'ADD_EVENT');
+              return authProvider.authWithPermissions('events.list', permissions);
+            }]
+          }
         })
         .state('events.view', {
           url: '/view/:id',
