@@ -28,4 +28,8 @@ var APP_NAME = 'runningHeartsApp'; {
       });
 
     })
+    //this fixes the unhandled rejection error ui-router is throwing but we should investigate further -jr
+    .config(function($qProvider) {
+      $qProvider.errorOnUnhandledRejections(false);
+    });
 }

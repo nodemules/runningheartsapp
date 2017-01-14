@@ -22,9 +22,12 @@
           $state.go('login')
         } else if (error.redirectTo) {
           console.log(`Redirect to ${error.redirectTo} because ${error.code}`)
-          $state.transitionTo(error.redirectTo, {
-            reason: error.code
-          });
+          var params = {}
+          if (error.redirectParams && false) {
+            angular.copy(error.redirectParams, params)
+          }
+          params.reason = error.code;
+          $state.transitionTo(error.redirectTo, params)
         }
       })
     })

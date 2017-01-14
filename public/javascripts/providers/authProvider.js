@@ -12,7 +12,8 @@
 
     var service = {
       isLoggedIn,
-      authWithPermissions
+      authWithPermissions,
+      authWithPermissionsPassParams
     }
 
     return service;
@@ -52,6 +53,10 @@
     }
 
     function authWithPermissions(redirectTo, permissions) {
+      return authWithPermissionsPassParams(redirectTo, null, permissions);
+    }
+
+    function authWithPermissionsPassParams(redirectTo, redirectParams, permissions) {
       var deferred = $q.defer();
       $http.post(`${basePath}/permission`, {
         permissions: permissions
@@ -60,6 +65,7 @@
       }, (err) => {
         deferred.reject({
           redirectTo: redirectTo,
+          redirectParams: redirectParams,
           code: err.data.code
         });
       })

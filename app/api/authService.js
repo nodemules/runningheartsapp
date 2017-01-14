@@ -68,6 +68,7 @@
     }
 
     function checkPermissions(req, res, next, requiredPermissions) {
+      console.log(`Checking if user has following permissions: ${requiredPermissions}`)
       auth(req, res, () => {
         console.log(`Checking permissions for ${req.user.username}`)
         let permissions = getPermissionsFromMap(req.session.permissions);
@@ -87,7 +88,6 @@
     function getPermissions(permissions) {
       var p = [];
       for (var i in permissions) {
-        console.log(permissions[i])
         p.push(Permissions.get(permissions[i]));
       }
       return p;

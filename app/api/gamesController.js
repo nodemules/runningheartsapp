@@ -73,7 +73,7 @@ api.get('/:id', function(req, res) {
 })
 
 api.get('/count', function(req, res) {
-  Games
+  Game
     .count({
       statusId: 1,
       completed: true

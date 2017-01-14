@@ -36,7 +36,6 @@
         _id: event.venue._id
       })[0];
       event.date = new Date(event.date);
-      console.log(event);
       vm.event = event;
     }
 
@@ -48,7 +47,6 @@
 
     vm.getEvent = function(id) {
       eventsService.api(id).get(function(event) {
-        console.log(event);
         vm.setEvent(event);
       });
     }

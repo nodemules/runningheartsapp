@@ -26,7 +26,14 @@
           parent: 'games',
           templateUrl: '/views/games.play.html',
           controller: 'gamesPlayCtrl',
-          controllerAs: 'gp'
+          controllerAs: 'gp',
+          resolve: {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              return authProvider.authWithPermissionsPassParams('games.view', {
+                id: $stateParams.id
+              }, ['PLAY_GAME']);
+            }]
+          }
         })
         .state('games.players', {
           url: '/players',
@@ -40,7 +47,14 @@
           parent: 'games',
           templateUrl: '/views/games.players.add.html',
           controller: 'gamesPlayersCtrl',
-          controllerAs: 'gp'
+          controllerAs: 'gp',
+          resolve: {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              return authProvider.authWithPermissionsPassParams('games.view', {
+                id: $stateParams.id
+              }, ['ADD_PLAYER_TO_GAME']);
+            }]
+          }
         })
 
     })
