@@ -8,7 +8,7 @@
 
   function authProvider($http, $q) {
 
-    var basePath = '/api/auth'
+    var basePath = '/api/auth';
 
     var service = {
       isLoggedIn,
@@ -18,20 +18,35 @@
 
     return service;
 
+
+    /**
+     * @private  {function}         resolveRedirect
+     *
+     * @description                 dynamically determines whether to resolve or
+     *   reject the promise
+     *
+     * @param  {object} deferred    the $q.defer() object
+     * @param  {object} promise     the promise to resolve or reject
+     * @param  {boolean} onSuccess  determines whether to resolve or reject the promise
+     *
+     * @returns {object}            the $q.defer() object, resolved or rejected
+     */
     function resolveRedirect(deferred, promise, onSuccess) {
       return onSuccess ? deferred.resolve({}) : deferred.reject(promise);
     }
 
     /**
+     * @public  {function}           isLoggedIn
      *
-     * Checks if the user is logged in, and performs a redirect if they
-     * are not. With the @param onSuccess boolean, the redirect is performed
-     * <em>if</em> the user <em>is</em> logged in.
-     * @param redirectTo - the $state uri to redirect to
-     * @param onSuccess - perform redirect when user <em>is</em> logged in
+     * @description                  checks if the user is logged in, and performs
+     *   a redirect if they are not. With the @param onSuccess boolean, the redirect
+     *   is performed <em>if</em> the user <em>is</em> logged in
      *
-     * @return the promise containing the authorization state and potentially
-     *         a redirect for the $state
+     * @param  {object} redirectTo   the angular $state uri to redirect to
+     * @param  {boolean} onSuccess   perform redirect when user <em>is</em> logged in
+     *
+     * @returns  {object}            the promise containing the authorization state
+     *   and potentially a redirect for the $state
      */
     function isLoggedIn(redirectTo, onSuccess) {
       var deferred = $q.defer();
@@ -52,10 +67,35 @@
       return deferred.promise;
     }
 
+    /**
+     * @public {function}             authWithPermissions
+     *
+     * @description                   performs a redirect if the user does
+     *   not pass the authorization check with the given permissions
+     *
+     * @param  {object} redirectTo    the angular $state uri to redirect to
+     * @param  {array} permissions    an array of permission names
+     *
+     * @returns  {object}             the promise containing the authorization
+     *   state and a potential redirect
+     */
     function authWithPermissions(redirectTo, permissions) {
       return authWithPermissionsPassParams(redirectTo, null, permissions);
     }
 
+    /**
+     * @public {function}                 authWithPermissionsPassParams
+     *
+     * @description                       perform a redirect to an
+     *   angular $state requiring a param (e.g. :id) if the user does
+     *   not pass the authorization check with the given permissions
+     *
+     * @param  {object} redirectTo        the angular $state uri to redirect to
+     * @param  {object} redirectParams    the parameters to pass to the $state uri
+     * @param  {array} permissions        an array of permission names
+     * @returns  {object}                 the promise containing the authorization
+     *   state and a potential redirect
+     */
     function authWithPermissionsPassParams(redirectTo, redirectParams, permissions) {
       var deferred = $q.defer();
       $http.post(`${basePath}/permission`, {
