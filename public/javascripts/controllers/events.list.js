@@ -5,11 +5,13 @@
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService'];
+  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService', 'permissionsService'];
 
-  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService) {
+  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService, permissionsService) {
 
     var vm = this;
+
+    vm.permissions = {};
 
     vm.getEvents = function() {
       vm.events = eventsService.api().query();
@@ -37,7 +39,15 @@
       });
     }
 
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions
+        console.log(vm.permissions);
+      });
+    }
+
     function initialize() {
+      getPermissions();
       vm.getEvents();
     }
 

@@ -11,7 +11,12 @@
           url: '/',
           templateUrl: '/views/home.html',
           controller: 'homeCtrl',
-          controllerAs: 'home'
+          controllerAs: 'home',
+          resolve: {
+            permissions: ['permissionsService', (permissionsService) => {
+              //    return permissionsService.setPermissions();
+            }]
+          }
         })
 
     })

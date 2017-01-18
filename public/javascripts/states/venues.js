@@ -33,6 +33,7 @@
           controllerAs: 'vm',
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              console.log('brah')
               var permissions = []
               permissions.push($stateParams.id ? 'EDIT_VENUE' : 'ADD_VENUE');
               return authProvider.authWithPermissions('venues.list', permissions);

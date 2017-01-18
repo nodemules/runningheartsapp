@@ -8,7 +8,7 @@
       roleService = require('./roleService')(),
       Permissions = require('../enum/permissions');
 
-    api.get('/permission/add/all/:roleId',
+    api.get('/permissions/add/all/:roleId',
       (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.ADD_ALL_PERMISSIONS]),
       roleService.addAllPermissionsToRole, (req, res) => {
         res.send({
@@ -16,7 +16,7 @@
         })
       })
 
-    api.get('/permission/add/:roleId/:permissionId',
+    api.get('/permissions/add/:roleId/:permissionId',
       (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.ADD_PERMISSION]),
       roleService.addPermissionToRole, (req, res) => {
         let permissionId = parseInt(req.params.permissionId);
@@ -24,6 +24,18 @@
           message: `Permission [${Permissions.get(permissionId).key}] inserted into Role [${res.locals.role.name}]`
         })
       })
+
+    api.get('/permissions', authService.auth, (req, res, next) => {
+      var permissions = {},
+        p = req.session.permissions;
+
+      for (let i in p) {
+        permissions[p[i].key] = true;
+      }
+
+      res.send(permissions);
+
+    })
 
     api.get('/', authService.auth, (req, res) => {
       res.send({

@@ -5,9 +5,16 @@
 
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
-  homeCtrl.$inject = ['$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q', 'eventsService', 'playersService', 'seasonsService', 'statsService', 'venuesService', 'gamesService'];
+  homeCtrl.$inject = ['$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q', 'eventsService', 'playersService', 'seasonsService', 'statsService', 'venuesService', 'gamesService', 'permissionsService'];
 
-  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia, $q, eventsService, playersService, seasonsService, statsService, venuesService, gamesService) {
+  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia, $q, eventsService, playersService, seasonsService, statsService, venuesService, gamesService, permissionsService) {
+
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions
+        console.log(vm.permissions);
+      });
+    }
 
     var vm = this;
 
@@ -94,6 +101,12 @@
         reload: true
       })
     }
+
+    function initialize() {
+      getPermissions();
+    }
+
+    initialize();
 
 
 

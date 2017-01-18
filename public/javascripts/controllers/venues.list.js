@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('venuesListCtrl', venuesListCtrl);
 
-  venuesListCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService'];
+  venuesListCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'permissionsService'];
 
-  function venuesListCtrl($filter, $state, $stateParams, venuesService) {
+  function venuesListCtrl($filter, $state, $stateParams, venuesService, permissionsService) {
 
     var vm = this;
 
@@ -39,7 +39,15 @@
       });
     }
 
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions
+        console.log(vm.permissions);
+      });
+    }
+
     function initialize() {
+      getPermissions();
       vm.getVenues();
       $stateParams.reason ? vm.errors.push($stateParams.reason) : angular.noop;
     }
