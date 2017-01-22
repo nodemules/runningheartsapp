@@ -54,10 +54,8 @@
           getPermissionsFromMemory(PERMISSIONS_ATTEMPT_COUNT, cb);
         }, interval)
       } else if (cb && typeof cb === 'function') {
-        console.log(`${Object.keys(permissions).length} permissions found`)
         return cb(permissions);
       }
-      console.log(`Getting permissions for the ${PERMISSIONS_ATTEMPT_COUNT} time`);
     }
 
 

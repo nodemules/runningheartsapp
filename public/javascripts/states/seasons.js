@@ -13,7 +13,7 @@
             parent: 'home',
             templateUrl: '/views/seasons.html',
             controller: 'seasonsCtrl',
-            controllerAs: 'vm',
+            controllerAs: 'seasons',
             redirectTo: 'seasons.view'
           })
           .state('seasons.view', {

@@ -23,10 +23,10 @@
       '        <p ng-if="item.td">{{item.td.name}}</p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
       '      </div>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.editItem({item : item})">', //
+      '      <md-button class="md-warn md-icon-button" ng-click="list.editItem({item : item})" ng-if="list.canEdit(list.entityType)">', //
       '        <md-icon md-font-set="material-icons">edit</md-icon>', //
       '      </md-button>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item}); $event.stopPropagation()">', //
+      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item}); $event.stopPropagation()" ng-if="list.canDelete(list.entityType)">', //
       '        <md-icon md-font-set="material-icons">clear</md-icon>', //
       '      </md-button>', //
       '    </md-list-item>', //
@@ -45,7 +45,8 @@
         size: '=rhpListSize',
         setItem: '&rhpListSet',
         editItem: '&rhpListEdit',
-        removeItem: '&rhpListDel'
+        removeItem: '&rhpListDel',
+        entityType: '='
       },
       bindToController: true,
       controller: ctrlFn,
@@ -54,16 +55,52 @@
 
     return directive;
 
-    ctrlFn.$inject = ['$scope', '$timeout'];
+    ctrlFn.$inject = ['$scope', '$mdMedia', '$timeout', 'permissionsService', 'RHP_ENTITY_TYPE'];
 
-    function ctrlFn($scope, $mdMedia, $timeout) {
+    function ctrlFn($scope, $mdMedia, $timeout, permissionsService, RHP_ENTITY_TYPE) {
 
       var vm = this;
 
       vm.mdMedia = $mdMedia;
+      vm.permissions = {};
+
+      var userPermissions = {};
+
+      function getPermissions() {
+        permissionsService.getPermissions((permissions) => {
+          userPermissions = permissions;
+        })
+      }
+
+      vm.canEdit = function(entityType) {
+        switch (entityType) {
+          case RHP_ENTITY_TYPE.PLAYER:
+            return userPermissions.EDIT_PLAYER;
+          case RHP_ENTITY_TYPE.VENUE:
+            return userPermissions.EDIT_VENUE;
+          case RHP_ENTITY_TYPE.EVENT:
+            return userPermissions.EDIT_EVENT;
+          default:
+            return false;
+        }
+      }
+
+      vm.canDelete = function(entityType) {
+        switch (entityType) {
+          case RHP_ENTITY_TYPE.PLAYER:
+            return userPermissions.DELETE_PLAYER;
+          case RHP_ENTITY_TYPE.VENUE:
+            return userPermissions.DELETE_VENUE;
+          case RHP_ENTITY_TYPE.EVENT:
+            return userPermissions.DELETE_EVENT;
+          default:
+            return false;
+        }
+      }
 
       function initialize() {
         vm.first5();
+        getPermissions();
       }
 
       vm.next5 = function() {

@@ -1,8 +1,5 @@
-// global angular
-(function(angular) {
-
-  'use strict';
-
+{
+  /* global angular, APP_NAME */
   angular.module(APP_NAME).controller('playersListCtrl', playersListCtrl);
 
   playersListCtrl.$inject = ['$filter', '$state', 'playersService'];
@@ -45,4 +42,4 @@
 
   }
 
-})(angular);
+}

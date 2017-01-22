@@ -1,22 +1,25 @@
-// global angular
-(function(angular) {
-
-  'use strict';
-
+{
+  /* global angular, APP_NAME */
   angular.module(APP_NAME).controller('gamesCtrl', gamesCtrl);
 
-  gamesCtrl.$inject = [];
+  gamesCtrl.$inject = ['permissionsService'];
 
-  function gamesCtrl() {
+  function gamesCtrl(permissionsService) {
 
     var vm = this;
 
-    function initialize() {
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions
+      });
+    }
 
+    function initialize() {
+      getPermissions();
     }
 
     initialize();
 
   }
 
-})(angular);
+}

@@ -1,6 +1,6 @@
 <div>
   <div layout="column">
-    <md-button class="md-raised md-default" ng-click="vm.newSeason()">
+    <md-button class="md-raised md-default" ng-click="vm.newSeason()" ng-if="seasons.permissions.START_NEW_SEASON">
       Start New Season
     </md-button>
   </div>
