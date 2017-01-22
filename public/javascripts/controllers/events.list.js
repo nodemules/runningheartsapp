@@ -39,15 +39,7 @@
       });
     }
 
-    function getPermissions() {
-      permissionsService.getPermissions((permissions) => {
-        vm.permissions = permissions
-        console.log(vm.permissions);
-      });
-    }
-
     function initialize() {
-      getPermissions();
       vm.getEvents();
     }
 

@@ -39,15 +39,7 @@
       });
     }
 
-    function getPermissions() {
-      permissionsService.getPermissions((permissions) => {
-        vm.permissions = permissions
-        console.log(vm.permissions);
-      });
-    }
-
     function initialize() {
-      getPermissions();
       vm.getVenues();
       $stateParams.reason ? vm.errors.push($stateParams.reason) : angular.noop;
     }

@@ -7,13 +7,15 @@
   homeCtrl.$inject = [
     '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
     'eventsService', 'playersService', 'seasonsService', 'statsService',
-    'venuesService', 'gamesService', 'permissionsService', 'authApiService'
+    'venuesService', 'gamesService', 'permissionsService', 'authApiService',
+    'authService'
   ];
 
   function homeCtrl(
     $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
     eventsService, playersService, seasonsService, statsService,
-    venuesService, gamesService, permissionsService, authApiService
+    venuesService, gamesService, permissionsService, authApiService,
+    authService
   ) {
 
     var vm = this;
@@ -39,12 +41,23 @@
             seasons: result[3].length,
             stats: result[4][0] ? result[4][0].name : 'No one'
           }
-          vm.tabs = [{
+          var isLoggedIn = authService.isAuth();
+          var loginTab = {
             id: 0,
             label: 'Login',
             message: 'Admins Login Here',
             path: 'login'
-          }, {
+          }
+          var logoutTab = {
+            id: -1,
+            label: 'Logout',
+            message: 'Logout of the application',
+            path: 'home',
+            options: {
+              reload: true
+            }
+          }
+          vm.tabs = [{
             id: 1,
             label: 'Home',
             message: 'This is the home page',
@@ -79,15 +92,8 @@
             message: 'View Season information',
             alert: 'We are Currently in Season ' + vm.messages.seasons,
             path: 'seasons.view'
-          }, {
-            id: -1,
-            label: 'Logout',
-            message: 'Logout of the application',
-            path: 'home',
-            options: {
-              reload: true
-            }
           }];
+          isLoggedIn ? vm.tabs.push(logoutTab) : vm.tabs.unshift(loginTab);
           vm.activeTab = vm.tabs[0];
         })
     }
