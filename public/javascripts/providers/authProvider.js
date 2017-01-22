@@ -4,9 +4,9 @@
     .module(APP_NAME)
     .service('authProvider', authProvider);
 
-  authProvider.$inject = ['$http', '$q'];
+  authProvider.$inject = ['$http', '$q', 'authService', 'permissionsService'];
 
-  function authProvider($http, $q) {
+  function authProvider($http, $q, authService, permissionsService) {
 
     var basePath = '/api/auth';
 
@@ -18,6 +18,10 @@
 
     return service;
 
+    function authFailure() {
+      authService.authenticate(false);
+      permissionsService.clearPermissions();
+    }
 
     /**
      * @private  {function}         resolveRedirect
@@ -57,6 +61,7 @@
         }
         deferred = resolveRedirect(deferred, promise, !onSuccess);
       }, (err) => {
+        authFailure();
         let promise = {
           redirectTo: redirectTo,
           code: err.data.code
@@ -103,6 +108,7 @@
       }).then(() => {
         deferred.resolve({});
       }, (err) => {
+        authFailure();
         deferred.reject({
           redirectTo: redirectTo,
           redirectParams: redirectParams,

@@ -1,38 +1,33 @@
 {
-
+  /* global angular, APP_NAME */
   angular.module(APP_NAME).factory('authService', authService);
 
-  authService.$inject = ['$resource'];
+  authService.$inject = [];
 
-  function authService($resource) {
+  function authService() {
 
-    var basePath = '/api/auth'
+    var isAuthenticated;
 
     var service = {
-      api
+      isAuth,
+      hasAuthenticated,
+      authenticate
     }
 
     return service;
 
     /////////////////////
 
-    function api(id) {
-      return $resource(basePath + '/:action', {
-        id: id
-      }, {
-        'login': {
-          method: 'POST',
-          params: {
-            action: 'login'
-          }
-        },
-        'logout': {
-          method: 'GET',
-          params: {
-            action: 'logout'
-          }
-        }
-      });
+    function hasAuthenticated() {
+      return isAuthenticated !== undefined;
+    }
+
+    function isAuth() {
+      return !!isAuthenticated;
+    }
+
+    function authenticate(authState) {
+      isAuthenticated = false || !!authState;
     }
 
   }

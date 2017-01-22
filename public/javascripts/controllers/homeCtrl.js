@@ -1,20 +1,20 @@
-// global angular
-(function(angular) {
-
+{
+  /* global angular, APP_NAME */
   'use strict';
 
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
-  homeCtrl.$inject = ['$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q', 'eventsService', 'playersService', 'seasonsService', 'statsService', 'venuesService', 'gamesService', 'permissionsService'];
+  homeCtrl.$inject = [
+    '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
+    'eventsService', 'playersService', 'seasonsService', 'statsService',
+    'venuesService', 'gamesService', 'permissionsService', 'authApiService'
+  ];
 
-  function homeCtrl($filter, $state, $scope, $mdSidenav, $mdMedia, $q, eventsService, playersService, seasonsService, statsService, venuesService, gamesService, permissionsService) {
-
-    function getPermissions() {
-      permissionsService.getPermissions((permissions) => {
-        vm.permissions = permissions
-        console.log(vm.permissions);
-      });
-    }
+  function homeCtrl(
+    $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
+    eventsService, playersService, seasonsService, statsService,
+    venuesService, gamesService, permissionsService, authApiService
+  ) {
 
     var vm = this;
 
@@ -79,16 +79,30 @@
             message: 'View Season information',
             alert: 'We are Currently in Season ' + vm.messages.seasons,
             path: 'seasons.view'
+          }, {
+            id: -1,
+            label: 'Logout',
+            message: 'Logout of the application',
+            path: 'home',
+            options: {
+              reload: true
+            }
           }];
           vm.activeTab = vm.tabs[0];
         })
     }
 
-
-
     vm.selectTab = function(tab) {
+      if (tab.id === -1) {
+        authApiService.api().logout(function() {
+          $state.transitionTo(tab.path, {}, {
+            reload: true
+          });
+        });
+        return vm.toggleMenu();
+      }
       vm.activeTab = tab;
-      $state.go(tab.path);
+      $state.go(tab.path, tab.params, tab.options);
       vm.toggleMenu();
     }
 
@@ -102,6 +116,12 @@
       })
     }
 
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions;
+      });
+    }
+
     function initialize() {
       getPermissions();
     }
@@ -112,4 +132,4 @@
 
   }
 
-})(angular);
+}

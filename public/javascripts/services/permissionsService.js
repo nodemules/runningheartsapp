@@ -6,14 +6,17 @@
 
   function permissionsService($resource, $timeout, authService) {
 
-    var basePath = '/api/auth/permissions';
+    var basePath, permissions;
 
-    var permissions = {};
+    basePath = '/api/auth/permissions';
+
+    permissions = {};
 
     var service = {
       getPermissions,
       setPermissions,
-      checkPermissions
+      checkPermissions,
+      clearPermissions
     }
 
     setPermissions();
@@ -25,21 +28,43 @@
     function api(id) {
       return $resource(basePath, {
         id
+      }, {
+        'get': {
+          method: 'GET',
+          transformResponse: (data, headers, status) => {
+            authService.authenticate((status === 200));
+            return angular.fromJson(data);
+          }
+        }
       })
     }
 
-    function getPermissions(cb) {
-      var interval = 250;
-      if (!permissions || !Object.keys(permissions).length) {
+    function getPermissionsFromMemory(PERMISSIONS_ATTEMPT_COUNT, cb) {
+      var interval, AUTHENTICATION_STATUS, PERMISSIONS_MAX_ATTEMPTS, PERMISSIONS_INVALID, PERMISSIONS_POPULATED;
+
+      interval = 1000;
+      PERMISSIONS_MAX_ATTEMPTS = 10;
+      AUTHENTICATION_STATUS = (!authService.hasAuthenticated() || (authService.hasAuthenticated() && authService.isAuth()));
+      PERMISSIONS_POPULATED = !!Object.keys(permissions).length;
+      PERMISSIONS_INVALID = (PERMISSIONS_ATTEMPT_COUNT === PERMISSIONS_MAX_ATTEMPTS);
+
+      PERMISSIONS_ATTEMPT_COUNT++;
+      if ((!permissions || !PERMISSIONS_POPULATED) && AUTHENTICATION_STATUS && !PERMISSIONS_INVALID) {
         $timeout(() => {
-          getPermissions(cb);
-
+          getPermissionsFromMemory(PERMISSIONS_ATTEMPT_COUNT, cb);
         }, interval)
-
       } else if (cb && typeof cb === 'function') {
+        console.log(`${Object.keys(permissions).length} permissions found`)
         return cb(permissions);
       }
+      console.log(`Getting permissions for the ${PERMISSIONS_ATTEMPT_COUNT} time`);
+    }
 
+
+    function getPermissions(cb) {
+      var PERMISSIONS_ATTEMPT_COUNT = 0;
+
+      return getPermissionsFromMemory(PERMISSIONS_ATTEMPT_COUNT, cb);
     }
 
     function setPermissions() {
@@ -50,6 +75,10 @@
 
     function checkPermissions() {
 
+    }
+
+    function clearPermissions() {
+      permissions = {};
     }
 
   }

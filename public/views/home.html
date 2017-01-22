@@ -33,5 +33,9 @@
       </md-list-item>
     </md-list>
   </md-sidenav>
-  <md-content flex ui-view></md-content>
+  <md-content flex ui-view>
+    <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
+      <h2>DO YOU WANT TO PLAY A GAME?</h2>
+    </div>
+  </md-content>
 </md-content>
