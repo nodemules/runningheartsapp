@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
-  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService'];
+  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService'];
 
-  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService) {
+  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService) {
 
     var vm = this;
 
@@ -43,6 +43,10 @@
       eventsService.api().save(vm.event, function() {
         $state.transitionTo('events.list')
       });
+    }
+
+    vm.cancel = function() {
+      historyService.goPrevious();
     }
 
     vm.getEvent = function(id) {

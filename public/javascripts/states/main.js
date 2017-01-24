@@ -15,7 +15,10 @@
         })
 
     })
-    .run(($rootScope, $state, authService) => {
+    .run(($rootScope, $state, authService, historyService) => {
+      $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
+        historyService.pushState(fromState, fromParams);
+      })
       $rootScope.$on('$stateChangeError', (evt, to, toParams, from, fromParams, error) => {
         switch (error.code) {
           case 'NO_USER_FOUND':

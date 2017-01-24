@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('playersManageCtrl', playersManageCtrl);
 
-  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService'];
+  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'historyService'];
 
-  function playersManageCtrl($filter, $state, $stateParams, playersService) {
+  function playersManageCtrl($filter, $state, $stateParams, playersService, historyService) {
 
     var vm = this;
 
@@ -19,6 +19,10 @@
       playersService.api().save(vm.player, function() {
         $state.transitionTo('players.list');
       })
+    }
+
+    vm.cancel = function() {
+      historyService.goPrevious();
     }
 
     function initialize() {

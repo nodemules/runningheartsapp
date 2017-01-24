@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('venuesManageCtrl', venuesManageCtrl);
 
-  venuesManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'playersService'];
+  venuesManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'playersService', 'historyService'];
 
-  function venuesManageCtrl($filter, $state, $stateParams, venuesService, playersService) {
+  function venuesManageCtrl($filter, $state, $stateParams, venuesService, playersService, historyService) {
 
     var vm = this;
 
@@ -29,6 +29,10 @@
 
     vm.resetVenue = function() {
       vm.venue = {};
+    }
+
+    vm.cancel = function() {
+      historyService.goPrevious();
     }
 
     vm.save = function() {
