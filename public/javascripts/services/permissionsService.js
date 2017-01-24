@@ -71,8 +71,17 @@
       })
     }
 
-    function checkPermissions() {
+    function checkPermission(requiredPermission) {
+      return permissions[requiredPermission];
+    }
 
+    function checkPermissions(requiredPermissions) {
+      for (let i in requiredPermissions) {
+        if (!checkPermission(requiredPermissions[i])) {
+          return false;
+        }
+      }
+      return true;
     }
 
     function clearPermissions() {
