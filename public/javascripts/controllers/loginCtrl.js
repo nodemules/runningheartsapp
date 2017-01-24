@@ -17,6 +17,10 @@
       })
     }
 
+    vm.cancel = function() {
+      historyService.goPrevious();
+    }
+
     function initialize() {
 
     }
