@@ -32,7 +32,6 @@
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               var permissions = []
               permissions.push($stateParams.id ? 'EDIT_EVENT' : 'ADD_EVENT');
-              console.log(`pushing permissions ${permissions}`)
               return authProvider.authWithPermissions('events.list', permissions);
             }]
           }
