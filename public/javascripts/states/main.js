@@ -2,7 +2,7 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($urlRouterProvider, $stateProvider) => {
+    .config(['$urlRouterProvider', '$stateProvider', ($urlRouterProvider, $stateProvider) => {
 
       $urlRouterProvider.otherwise('/');
 
@@ -14,8 +14,8 @@
           controllerAs: 'home'
         })
 
-    })
-    .run(($rootScope, $state, authService, historyService) => {
+    }])
+    .run(['$rootScope', '$state', 'authService', 'historyService', ($rootScope, $state, authService, historyService) => {
       $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
         if (!fromState.abstract) {
           historyService.pushState(fromState, fromParams);
@@ -39,6 +39,6 @@
             break;
         }
       })
-    })
+    }])
 
 }

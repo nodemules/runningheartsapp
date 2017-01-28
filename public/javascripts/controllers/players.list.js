@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular.module(APP_NAME).controller('playersListCtrl', playersListCtrl);
 
-  playersListCtrl.$inject = ['$filter', '$state', 'playersService'];
+  playersListCtrl.$inject = ['$state', 'playersService'];
 
-  function playersListCtrl($filter, $state, playersService) {
+  function playersListCtrl($state, playersService) {
 
     var vm = this;
 

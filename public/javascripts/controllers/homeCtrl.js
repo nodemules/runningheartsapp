@@ -1,6 +1,6 @@
 {
   /* global angular, APP_NAME */
-  'use strict';
+  
 
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 

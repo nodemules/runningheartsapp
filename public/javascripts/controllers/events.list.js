@@ -1,17 +1,11 @@
-// global angular
-(function(angular) {
-
-  'use strict';
-
+{
+  eventsListCtrl.$inject = ['$state', 'eventsService'];
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService', 'permissionsService'];
 
-  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService, permissionsService) {
+  function eventsListCtrl($state, eventsService) {
 
     var vm = this;
-
-    vm.permissions = {};
 
     vm.getEvents = function() {
       vm.events = eventsService.api().query();
@@ -47,4 +41,4 @@
 
   }
 
-})(angular);
+}

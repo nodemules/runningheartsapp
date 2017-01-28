@@ -1,8 +1,8 @@
 {
   /* global angular, APP_NAME */
+  eventsCtrl.$inject = ['$filter', '$state', '$mdMedia', 'permissionsService', 'RHP_ENTITY_TYPE'];
   angular.module(APP_NAME).controller('eventsCtrl', eventsCtrl);
 
-  eventsCtrl.$inject = ['$filter', '$state', '$mdMedia', 'permissionsService', 'RHP_ENTITY_TYPE'];
 
   function eventsCtrl($filter, $state, $mdMedia, permissionsService, RHP_ENTITY_TYPE) {
 

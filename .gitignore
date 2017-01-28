@@ -19,3 +19,5 @@ config/configuration.js
 config/auth.js
 
 public/bower_components
+public/app.js
+pubic/vendor.js

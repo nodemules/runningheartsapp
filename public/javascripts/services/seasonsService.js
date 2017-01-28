@@ -1,6 +1,4 @@
-// global angular
-(function(angular) {
-
+{
   angular.module(APP_NAME).factory('seasonsService', seasonsService);
 
   seasonsService.$inject = ['$resource'];
@@ -37,4 +35,4 @@
 
   }
 
-})(angular);
+}

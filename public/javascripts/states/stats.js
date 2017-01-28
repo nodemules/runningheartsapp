@@ -2,7 +2,7 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($stateProvider) => {
+    .config(['$stateProvider', ($stateProvider) => {
 
       $stateProvider
         .state('stats', {
@@ -27,5 +27,5 @@
           controllerAs: 'vm'
         })
 
-    })
+    }])
 }

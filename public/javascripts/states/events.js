@@ -2,7 +2,7 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($stateProvider, $urlRouterProvider) => {
+    .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
 
       $urlRouterProvider.when('/events', '/events/list')
 
@@ -44,5 +44,5 @@
           controllerAs: 'ev'
         })
 
-    })
+    }])
 }

@@ -1,8 +1,4 @@
-// global angular
-(function(angular) {
-
-  'use strict';
-
+{
   angular.module(APP_NAME).directive('rhpList', rhpListDirective);
 
   rhpListDirective.$inject = ['$mdMedia'];
@@ -120,4 +116,4 @@
 
   }
 
-})(angular);
+}

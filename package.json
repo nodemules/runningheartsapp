@@ -2,9 +2,10 @@
   "name": "running-hearts-poker",
   "version": "0.3.0",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "grunt"
   },
   "dependencies": {
+    "babel-preset-es2015": "^6.22.0",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
     "connect-flash": "~0.1.1",
@@ -14,6 +15,17 @@
     "express": "~4.0.0",
     "express-session": "~1.0.0",
     "express-sessions": "^1.0.6",
+    "grunt": "latest",
+    "grunt-babel": "^6.0.0",
+    "grunt-concurrent": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-ng-annotate": "^3.0.0",
+    "grunt-nodemon": "latest",
     "lodash": "^4.15.0",
     "method-override": "~1.0.0",
     "mongodb": "latest",
