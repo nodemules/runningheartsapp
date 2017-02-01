@@ -18,13 +18,12 @@
       'MAKE_DIRECTOR': 17,
       'VIEW_DIRECTORS': 18,
       'VIEW_USER_DETAILS': 19,
-      'ADD_PLAYER_TO_GAME': 20,
+      'PLAY_GAME': 20,
       'ADD_PERMISSION': 21,
       'ADD_ALL_PERMISSIONS': 22,
       'START_NEW_SEASON': 23,
       'ADD_USER': 24,
-      'EDIT_USER': 25,
-      'PLAY_GAME': 26
+      'EDIT_USER': 25
     }
 
     var myEnum = new Enum(permissions);

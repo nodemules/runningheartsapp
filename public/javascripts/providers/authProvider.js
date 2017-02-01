@@ -108,7 +108,6 @@
       }).then(() => {
         deferred.resolve({});
       }, (err) => {
-        authFailure();
         deferred.reject({
           redirectTo: redirectTo,
           redirectParams: redirectParams,

@@ -88,11 +88,7 @@ api.get('/count', function(req, res) {
 })
 
 api.post('/',
-  (req, res, next) => {
-    let permissions = [];
-    permissions.push(req.body._id ? Permissions.EDIT_GAME : Permissions.ADD_GAME);
-    authService.checkPermissions(req, res, next, permissions);
-  },
+  (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.PLAY_GAME]),
   function(req, res) {
     if (req.body._id) {
       var pOptions = [{
@@ -121,7 +117,8 @@ api.post('/',
       }]
       Game
         .findOneAndUpdate({
-          _id: req.body._id
+          _id: req.body._id,
+          completed: false
         }, req.body, {
           'new': true
         })
@@ -154,7 +151,7 @@ api.post('/',
     }
   })
 
-api.put('/', (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.EDIT_GAME]),
+api.put('/', (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.MODIFY_FINISHED_GAME]),
   function(req, res) {
     Game
       .findOneAndUpdate({

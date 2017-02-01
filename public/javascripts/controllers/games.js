@@ -10,7 +10,7 @@
 
     function getPermissions() {
       permissionsService.getPermissions((permissions) => {
-        vm.permissions = permissions
+        vm.permissions = permissions;
       });
     }
 
