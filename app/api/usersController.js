@@ -3,7 +3,7 @@
     api = express.Router(),
     passport = require('passport');
 
-  var authService = require('./authService'),
+  var authService = require('./authService')(),
     Permissions = require('../enum/permissions'),
     Users = require('../models/user');
 
@@ -19,7 +19,7 @@
   });
 
   api.get('/:id',
-    (req, res, next) => authService().checkPermissions(req, res, next, [Permissions.VIEW_USER_DETAILS]),
+    (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.VIEW_USER_DETAILS]),
     (req, res) => {
       Users
         .findById(req.params.id)
@@ -57,26 +57,28 @@
       let permissions = [];
       console.log('Creating or modifying a user...');
       console.log(`User is logged in [${authService.isAuth(req)}]`);
-      switch (req.body._id) {
-      case !undefined:
-        console.log(`User is editing a User [${(req.body._id)}]`);
-        break;
-      case req.user._id:
-        console.log(`User is modifying own User [${(req.body._id === req.user._id)}]`);
-        break;
-      default:
-        console.log('User is creating a new user')
-        break;
-      }
-      if (authService.isAuth(req)) {
-        permissions.push(req.body._id ? Permissions.EDIT_USER : Permissions.ADD_USER);
-        authService.checkPermissions(req, res, next, permissions);
-      } else if (req.body._id === req.user._id) {
-        permissions.push(Permissions.EDIT_OWN_USER);
-        authService.checkPermissions(req, res, next, permissions);
-      } else if (req.body._id) {
-        permissions.push(Permissions.EDIT_USER);
-        authService.checkPermissions(req, res, next, permissions);
+      if (req.body._id) {
+        switch (req.body._id) {
+          case !undefined:
+            console.log(`User is editing a User [${(req.body._id)}]`);
+            break;
+          case req.user._id:
+            console.log(`User is modifying own User [${(req.body._id === req.user._id)}]`);
+            break;
+          default:
+            console.log('User is creating a new user')
+            break;
+        }
+        if (authService.isAuth(req)) {
+          permissions.push(req.body._id ? Permissions.EDIT_USER : Permissions.ADD_USER);
+          authService.checkPermissions(req, res, next, permissions);
+        } else if (req.body._id === req.user._id) {
+          permissions.push(Permissions.EDIT_OWN_USER);
+          authService.checkPermissions(req, res, next, permissions);
+        } else if (req.body._id) {
+          permissions.push(Permissions.EDIT_USER);
+          authService.checkPermissions(req, res, next, permissions);
+        }
       } else {
         next()
       }

@@ -51,6 +51,11 @@
 
     api.get('/logout', (req, res) => {
       let sessionUser = req.user;
+      if (!sessionUser) {
+        return res.send({
+          message: 'No user found.'
+        })
+      }
       console.log(`Logging out [${sessionUser.username}]`)
       req.logout();
       res.send({

@@ -15,7 +15,7 @@
         if (err)
           return console.error(err);
         var role = roles[0];
-        cb(role.permissions);
+        cb(role ? role.permissions : []);
       })
     }
 
