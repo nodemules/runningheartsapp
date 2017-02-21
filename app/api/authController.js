@@ -37,6 +37,14 @@
 
     })
 
+    // TODO - Remove this endpoint, for DEBUG use only
+    api.get('/permissions/flush', (req, res, next) => {
+      req.session.permissions = null;
+      res.send({
+        message: `Permissions flushed. There are ${req.session.permissions ? req.session.permissions.length : 'No'} permissions.`
+      })
+    })
+
     api.get('/', authService.auth, (req, res) => {
       res.send({
         message: `User [${res.req.user.username}] is authenticated`
