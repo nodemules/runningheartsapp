@@ -8,7 +8,7 @@
 
   var publicEvent = [{
     path: 'venue',
-    select: 'name day'
+    select: 'name day numberOfGames'
   }, {
     path: 'td',
     select: 'name user',

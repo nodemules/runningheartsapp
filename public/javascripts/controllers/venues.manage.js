@@ -11,7 +11,12 @@
 
     var vm = this;
 
-    vm.venue = {};
+    vm.forms = {};
+
+    vm.venue = {
+      numberOfGames: 1
+    }
+
     vm.directors = [];
 
     vm.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

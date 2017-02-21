@@ -26,7 +26,7 @@
       <md-button class="md-raised md-primary" ng-click="ev.viewGame(game)">View Game</md-button>
     </md-card-actions>
   </md-card>
-  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME">
+  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && ev.event.games.length < ev.event.venue.numberOfGames">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game #{{ev.event.games.length + 1}}</span>

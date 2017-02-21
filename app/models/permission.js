@@ -1,6 +1,5 @@
 {
-  var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  var mongoose = require('mongoose');
 
   // define the schema for our permission model
   var permissionSchema = mongoose.Schema({

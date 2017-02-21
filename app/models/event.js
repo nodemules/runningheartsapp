@@ -1,11 +1,6 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-// import schemas
-var Player = require('./player'),
-  Venue = require('./venue'),
-  Game = require('./game');
-
 // define the schema for our event model
 var eventSchema = mongoose.Schema({
   'statusId': {
