@@ -24,7 +24,8 @@
       'START_NEW_SEASON': 23,
       'ADD_USER': 24,
       'EDIT_USER': 25,
-      'NO_GAME_LIMIT': 26
+      'NO_GAME_LIMIT': 26,
+      'CREATE_REGISTRATION_TOKEN': 27
     }
 
     var myEnum = new Enum(permissions);

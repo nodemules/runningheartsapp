@@ -3,7 +3,8 @@
     var Token = require('../models/token');
 
     var service = {
-      validateToken
+      validateToken,
+      createToken
     }
 
     function validateToken(req, res, next) {
@@ -22,6 +23,12 @@
             })
           }
         })
+    }
+
+    function createToken(req, res, next) {
+      Token.create(req.body, (err, tokens) => {
+        next();
+      })
     }
 
     return service;

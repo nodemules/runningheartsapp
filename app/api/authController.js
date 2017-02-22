@@ -46,12 +46,14 @@
       })
     })
 
-    // TODO - Remove this endpoint, for DEBUG use only
-    api.post('/token', tokenService.validateToken, (req, res, next) => {
-      res.send({
-        message: 'Token Validated'
+    api.post('/token',
+      (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.CREATE_REGISTRATION_TOKEN]),
+      tokenService.createToken,
+      (req, res, next) => {
+        res.send({
+          message: 'Token Created'
+        })
       })
-    })
 
     api.get('/', authService.auth, (req, res) => {
       res.send({
