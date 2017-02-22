@@ -16,7 +16,7 @@
           if (token[0].tokenId === req.body.tokenId) {
             next();
           } else {
-            res.send({
+            res.send(401, {
               message: 'Token Not Valid',
               validated: false
             })

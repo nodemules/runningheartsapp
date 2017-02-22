@@ -14,6 +14,8 @@
     vm.register = function() {
       usersService.api().save(vm.user, function() {
         $state.transitionTo('home'); //change to 'admin console' when the time comes
+      }, (err) => {
+        vm.forms.registerForm.token.$setValidity('invalidToken', false)
       })
     }
 
