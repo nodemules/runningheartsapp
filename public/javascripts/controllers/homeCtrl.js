@@ -57,6 +57,12 @@
               reload: true
             }
           }
+          var registerTab = {
+            id: -2,
+            label: 'Register',
+            message: 'Click here to register',
+            path: 'register'
+          }
           vm.tabs = [{
             id: 1,
             label: 'Home',
@@ -93,7 +99,12 @@
             alert: 'We are Currently in Season ' + vm.messages.seasons,
             path: 'seasons.view'
           }];
-          isLoggedIn ? vm.tabs.push(logoutTab) : vm.tabs.unshift(loginTab);
+          if (isLoggedIn) {
+            vm.tabs.push(logoutTab)
+          } else {
+            vm.tabs.unshift(registerTab);
+            vm.tabs.unshift(loginTab);
+          }
           vm.activeTab = vm.tabs[0];
         })
     }
