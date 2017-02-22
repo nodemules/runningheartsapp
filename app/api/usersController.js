@@ -4,6 +4,7 @@
     passport = require('passport');
 
   var authService = require('./authService')(),
+    tokenService = require('./tokenService')(),
     Permissions = require('../enum/permissions'),
     Users = require('../models/user');
 
@@ -83,6 +84,7 @@
         next()
       }
     },
+    tokenService.validateToken,
     function(req, res) {
       if (req.body._id) {
         Users

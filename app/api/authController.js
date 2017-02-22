@@ -6,6 +6,7 @@
       passport = require('passport'),
       authService = require('./authService')(),
       roleService = require('./roleService')(),
+      tokenService = require('./tokenService')(),
       Permissions = require('../enum/permissions');
 
     api.get('/permissions/add/all/:roleId',
@@ -42,6 +43,13 @@
       req.session.permissions = null;
       res.send({
         message: `Permissions flushed. There are ${req.session.permissions ? req.session.permissions.length : 'No'} permissions.`
+      })
+    })
+
+    // TODO - Remove this endpoint, for DEBUG use only
+    api.post('/token', tokenService.validateToken, (req, res, next) => {
+      res.send({
+        message: 'Token Validated'
       })
     })
 
