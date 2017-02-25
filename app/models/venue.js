@@ -10,10 +10,10 @@ var venueSchema = mongoose.Schema({
   'name': String,
   'day': String,
   'numberOfGames': Number,
-  'td': {
+  'td': [{
     'type': Schema.Types.ObjectId,
     'ref': 'Player'
-  },
+  }],
   'events': [{
     'type': Schema.Types.ObjectId,
     'ref': 'Event'

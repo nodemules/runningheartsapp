@@ -47,12 +47,7 @@
     }
 
     vm.getVenue = function(id) {
-      venuesService.api(id).get(function(venue) {
-        venue.td = $filter('filter')(vm.directors, {
-          _id: venue.td._id
-        })[0];
-        vm.venue = venue;
-      });
+      vm.venue = venuesService.api(id).get();
     }
 
     vm.removeVenue = function(venue) {

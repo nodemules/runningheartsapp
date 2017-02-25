@@ -20,7 +20,11 @@
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
       '        <h3 ng-if="item.venue">{{item.venue.name}}</h3>', //
       '        <p>{{item.day ? item.day : (item.date | date:\'fullDate\') + \' \' + (item.date | date:\'shortTime\')}}</p>', //     TODO - this based on a scope import
-      '        <p ng-if="item.td">{{item.td.name}}</p>', // TODO - from the directive attribute
+      '        <p ng-if="item.td">',
+      '          <span ng-repeat="td in item.td">',
+      '            {{($index + 1) == item.td.length ? \'and/or \' : \'\'}}{{td.name}}{{($index + 1) < item.td.length ? \', \' : \'\'}}',
+      '          </span>',
+      '        </p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
       '      </div>', //
       '      <md-button class="md-warn md-icon-button" ng-click="list.editItem({item : item})" ng-if="list.canEdit(list.entityType)">', //

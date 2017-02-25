@@ -23,8 +23,8 @@
     <div layout-gt-xs="row">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Tournament Director</label>
-        <md-select ng-model="vm.venue.td" ng-model-option="{trackBy: 'vm.venue.td._id' }">
-          <md-option ng-value="td" ng-repeat="td in vm.directors track by td._id">{{td.name}}</md-option>
+        <md-select ng-model="vm.venue.td" ng-model-options="{trackBy: '$value._id'}" multiple>
+          <md-option ng-value="td" ng-repeat="td in vm.directors">{{td.name}}</md-option>
         </md-select>
       </md-input-container>
     </div>
