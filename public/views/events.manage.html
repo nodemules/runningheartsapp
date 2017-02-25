@@ -1,17 +1,17 @@
-<div layout="column" class="md-inline-form">
-  <md-content>
+<div layout="column">
+  <form name="em.forms.manageEvent">
     <div layout-gt-xs="row">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Venue</label>
-        <md-select ng-model="em.event.venue" ng-model-option="{trackBy: 'em.event.venue._id' }">
-          <md-option ng-value="venue" ng-repeat="venue in em.venues track by venue._id">{{venue.name}}</md-option>
+        <md-select ng-model="em.event.venue" ng-model-options="{trackBy: '$value._id' }">
+          <md-option ng-value="venue" ng-repeat="venue in em.venues">{{venue.name}}</md-option>
         </md-select>
       </md-input-container>
       <md-datepicker ng-model="em.event.date" md-placeholder="Enter date"></md-datepicker>
       <md-input-container class="md-block" flex-gt-xs>
         <label>Tournament Director</label>
-        <md-select ng-model="em.event.td" ng-model-option="{trackBy: 'em.event.td._id' }">
-          <md-option ng-value="td" ng-repeat="td in em.directors track by td._id">{{td.name}}</md-option>
+        <md-select ng-model="em.event.td" ng-model-options="{trackBy: '$value._id'}" multiple>
+          <md-option ng-value="td" ng-repeat="td in em.directors">{{td.name}}</md-option>
         </md-select>
       </md-input-container>
     </div>
@@ -20,5 +20,5 @@
       <md-button class="md-raised md-default" ng-click="em.resetVenue()" ng-show="em.new">Reset</md-button>
       <md-button class="md-raised md-primary" ng-click="em.save()">Save</md-button>
     </div>
-  </md-content>
+  </form>
 </div>

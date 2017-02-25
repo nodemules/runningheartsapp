@@ -11,12 +11,7 @@
     select: 'name day numberOfGames'
   }, {
     path: 'td',
-    select: 'name user',
-    populate: {
-      path: 'user',
-      model: 'User',
-      select: 'local.username'
-    }
+    select: '-statusId'
   }, {
     path: 'games'
   }];

@@ -1,8 +1,5 @@
-// global angular
-(function(angular) {
-
-  'use strict';
-
+{
+  /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
   eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService'];
@@ -10,6 +7,8 @@
   function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService) {
 
     var vm = this;
+
+    vm.forms = {};
 
     vm.event = {};
     vm.directors = [];
@@ -28,17 +27,6 @@
       vm.event = {};
     }
 
-    vm.setEvent = function(event) {
-      event.td = $filter('filter')(vm.directors, {
-        _id: event.td._id
-      })[0];
-      event.venue = $filter('filter')(vm.venues, {
-        _id: event.venue._id
-      })[0];
-      event.date = new Date(event.date);
-      vm.event = event;
-    }
-
     vm.save = function() {
       eventsService.api().save(vm.event, function() {
         $state.transitionTo('events.list')
@@ -51,7 +39,8 @@
 
     vm.getEvent = function(id) {
       eventsService.api(id).get(function(event) {
-        vm.setEvent(event);
+        event.date = new Date(event.date);
+        vm.event = event;
       });
     }
 
@@ -73,4 +62,4 @@
 
   }
 
-})(angular);
+}
