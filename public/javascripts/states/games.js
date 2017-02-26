@@ -35,6 +35,20 @@
             }]
           }
         })
+        .state('games.ft', {
+          url: '/play/:id/ft',
+          parent: 'games',
+          templateUrl: '/views/games.ft.html',
+          controller: 'gamesFinalTableCtrl',
+          controllerAs: 'vm',
+          resolve: {
+            auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
+              return authProvider.authWithPermissionsPassParams('games.view', {
+                id: $stateParams.id
+              }, ['PLAY_GAME']);
+            }]
+          }
+        })
         .state('games.players', {
           url: '/players',
           parent: 'games.play',

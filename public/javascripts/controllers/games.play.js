@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', 'gamesService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService'];
 
-  function gamesPlayCtrl($filter, $state, $stateParams, gamesService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService) {
 
     var vm = this;
 
@@ -32,8 +32,17 @@
     vm.finalTable = function() {
       var nextRankOut = getNextRankOut() + 1;
       if (nextRankOut > 8) {
-        // TODO -- Visually inform the user that they have too many players to finalize the game. @bh
-        return false;
+        var dialog = $mdDialog.confirm({
+          title: 'Warning',
+          textContent: 'You have more than 8 players remaining. Do you want to just select members of the final table?',
+          ok: 'Yes',
+          cancel: 'No'
+        })
+        return $mdDialog.show(dialog).then(() => {
+          $state.go('games.ft', {
+            id: vm.game._id
+          })
+        })
       }
       vm.game.finalTable = true;
       vm.game.$save();
