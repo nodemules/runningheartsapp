@@ -2,9 +2,9 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('gamesFinalTableCtrl', gamesFinalTableCtrl)
 
-  gamesFinalTableCtrl.$inject = ['$filter', '$stateParams', 'gamesService']
+  gamesFinalTableCtrl.$inject = ['$filter', '$state', '$stateParams', 'gamesService']
 
-  function gamesFinalTableCtrl($filter, $stateParams, gamesService) {
+  function gamesFinalTableCtrl($filter, $state, $stateParams, gamesService) {
 
     var vm = this;
 
@@ -19,9 +19,7 @@
     }
 
     vm.setFinalTablePlayers = function() {
-      var notFinalTablePlayers = $filter('filter')(vm.game.players, {
-        goingToFinalTable: '!'
-      })
+      var notFinalTablePlayers = getNotFinalTablePlayers();
 
       var cashedOutPlayers = notFinalTablePlayers.length
       var totalPlayers = vm.game.players.length
@@ -30,15 +28,34 @@
       if (totalPlayers > cashedOutPlayers + 8 || finalTablePlayers < 8) {
         return false;
       }
-      angular.forEach(notFinalTablePlayers, function(player) {
-        var idx = getNextRankOut();
-        player.cashedOutTime = Date.now()
-        player.rank = idx + 1
-        player.score = 1
-      })
 
+      angular.forEach(notFinalTablePlayers, function(player) {
+        if (!player.cashedOutTime) {
+          var idx = getNextRankOut();
+          player.cashedOutTime = Date.now()
+          player.rank = idx + 1
+          player.score = 1
+        }
+      })
       vm.game.finalTable = true;
-      vm.game.$save();
+      vm.game.$save(function() {
+        $state.go('games.play', {
+          id: vm.game._id
+        })
+      });
+    }
+
+    vm.selectionsComplete = function() {
+      if (!vm.game || !vm.game.players) {
+        return false;
+      }
+      return vm.game.players.length - getNotFinalTablePlayers().length === 8;
+    }
+
+    function getNotFinalTablePlayers() {
+      return $filter('filter')(vm.game.players, {
+        goingToFinalTable: '!'
+      })
     }
 
     function getNextRankOut() {

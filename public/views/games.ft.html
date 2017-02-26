@@ -9,13 +9,15 @@
   </div>
   <md-list class="md-dense" ng-class="{ 'rhp-dense-list':vm.mdMedia('xs') }" layout="row" flex="85">
     <md-virtual-repeat-container id="vertical-container" flex>
-      <md-list-item md-virtual-repeat="player in vm.game.players">
-        <md-checkbox ng-model="player.goingToFinalTable" ng-click="vm.toggleSelection(player)"></md-checkbox>
+      <md-list-item md-virtual-repeat="player in vm.game.players | filter: { cashedOutTime: '!' } ">
+        <md-checkbox
+          ng-model="player.goingToFinalTable" ng-click="vm.toggleSelection(player)"
+          ng-false-value="undefined" ng-disabled="vm.selectionsComplete() && !player.goingToFinalTable"></md-checkbox>
         <p>{{player.player.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
 </md-content>
 <md-content layout="column" layout-align="end" flex>
-  <md-button class="md-raised md-primary" ng-click="vm.setFinalTablePlayers()">Choose These Players</md-button>
+  <md-button class="md-raised md-primary" ng-click="vm.setFinalTablePlayers()" ng-disabled="!vm.selectionsComplete()">Choose These Players</md-button>
 </md-content>
