@@ -1,6 +1,7 @@
 <md-content layout="column" flex>
   <div class="rhp-list-actions" layout="row" layout-align="start" flex="15">
     <div layout="row" flex>
+      <!-- TODO: RHP_88 add in functionality to show players that are already cashed out -->
       <md-checkbox ng-model="vm.showAllPlayers" ng-change="vm.getPlayers()" ng-if="!vm.game.inProgress">Show All Players</md-checkbox>
     </div>
     <div layout="row" layout-align="end" flex>

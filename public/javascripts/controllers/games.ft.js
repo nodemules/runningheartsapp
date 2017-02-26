@@ -19,6 +19,7 @@
     }
 
     vm.setFinalTablePlayers = function() {
+      //TODO: RHP_88 if a player is one of the final table players and has a cashed out time, remove his cashed out time score and rank
       var notFinalTablePlayers = getNotFinalTablePlayers();
 
       var cashedOutPlayers = notFinalTablePlayers.length
