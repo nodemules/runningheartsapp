@@ -41,7 +41,7 @@ app.use(flash());
 app.use(session({
   cookie: {
     httpOnly: true,
-    maxAge: 86400
+    maxAge: 86400000
   },
   secret: configuration.secret,
   store: new(require('express-sessions'))({
