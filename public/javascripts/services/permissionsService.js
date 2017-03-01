@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular.module(APP_NAME).factory('permissionsService', permissionsService);
 
-  permissionsService.$inject = ['$resource', '$timeout', 'authService'];
+  permissionsService.$inject = ['$q', '$resource', '$timeout', 'authService'];
 
-  function permissionsService($resource, $timeout, authService) {
+  function permissionsService($q, $resource, $timeout, authService) {
 
     var basePath, permissions;
 
@@ -71,17 +71,26 @@
       })
     }
 
-    function checkPermission(requiredPermission) {
+    function checkPermission(requiredPermission, permissions) {
       return permissions[requiredPermission];
     }
 
     function checkPermissions(requiredPermissions) {
-      for (let i in requiredPermissions) {
-        if (!checkPermission(requiredPermissions[i])) {
-          return false;
+      var deferred = $q.defer();
+      getPermissions((permissions) => {
+        console.log(permissions);
+        let rejected = false;
+        for (let i in requiredPermissions) {
+          if (!checkPermission(requiredPermissions[i], permissions)) {
+            deferred.reject({});
+            rejected = true;
+          }
         }
-      }
-      return true;
+        if (!rejected) {
+          deferred.resolve({});
+        }
+      })
+      return deferred.promise;
     }
 
     function clearPermissions() {

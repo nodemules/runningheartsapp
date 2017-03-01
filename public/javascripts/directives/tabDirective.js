@@ -22,9 +22,9 @@
      }
      return directive;
 
-     rhpTabsController.$inject = ['$scope', '$state', '$filter', '$timeout', '$stateParams', 'permissionsService'];
+     rhpTabsController.$inject = ['$scope', '$q', '$state', '$filter', '$timeout', '$stateParams', 'permissionsService'];
 
-     function rhpTabsController($scope, $state, $filter, $timeout, $stateParams, permissionsService) {
+     function rhpTabsController($scope, $q, $state, $filter, $timeout, $stateParams, permissionsService) {
 
        var vm = this;
 
@@ -50,15 +50,22 @@
        function buildTabArray(state) {
 
          vm.tabs = [];
-         var parent = state.parent;
-         if (parent === 'home')
-           return;
 
          var tabsTypes = ['List', 'View'];
 
-         if (addManageTab(state.parent)) {
+         $q.all([addManageTab(state.parent)]).then((data) => {
            tabsTypes.push('Manage');
-         }
+           doTabStuff(tabsTypes, state);
+         })
+
+         doTabStuff(tabsTypes, state);
+
+       }
+
+       function doTabStuff(tabsTypes, state) {
+         var parent = state.parent;
+         if (parent === 'home')
+           return;
 
          angular.forEach(tabsTypes, function(type) {
            var path = parent + '.' + type.toLowerCase();
@@ -67,10 +74,17 @@
              path: path
            };
 
-           vm.tabs.push(tab);
+           var isTabInArray = !!$filter('filter')(vm.tabs, {
+             path: tab.path
+           })[0];
+           if (!isTabInArray) {
+             vm.tabs.push(tab);
+           }
          })
 
-         setActiveTab(state);
+         if (state) {
+           setActiveTab(state);
+         }
 
        }
 
