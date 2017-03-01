@@ -27,10 +27,10 @@
       '        </p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
       '      </div>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.editItem({item : item})" ng-if="list.canEdit(list.entityType)">', //
+      '      <md-button class="md-warn md-icon-button md-secondary" ng-click="list.editItem({item : item})" ng-if="list.canEdit(list.entityType)">', //
       '        <md-icon md-font-set="material-icons">edit</md-icon>', //
       '      </md-button>', //
-      '      <md-button class="md-warn md-icon-button" ng-click="list.removeItem({item : item}); $event.stopPropagation()" ng-if="list.canDelete(list.entityType)">', //
+      '      <md-button class="md-warn md-icon-button md-secondary" ng-click="list.removeItem({item : item}); $event.stopPropagation()" ng-if="list.canDelete(list.entityType)">', //
       '        <md-icon md-font-set="material-icons">clear</md-icon>', //
       '      </md-button>', //
       '    </md-list-item>', //
