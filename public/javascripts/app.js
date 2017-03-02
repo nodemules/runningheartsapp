@@ -6,19 +6,13 @@ var APP_NAME = 'runningHeartsApp'; {
   angular
     .module(APP_NAME, APP_DEPENDENCIES)
     .config(function($mdThemingProvider) {
-      var whiteMap = $mdThemingProvider.extendPalette('red', {
-        '500': '#ffffff'
-      })
-      $mdThemingProvider.definePalette('white', whiteMap);
 
       $mdThemingProvider.theme('default')
         .primaryPalette('deep-orange')
         .accentPalette('deep-orange', {
           'default': '900'
         })
-        .backgroundPalette('grey', {
-          'hue-1': '400'
-        });
+        .backgroundPalette('grey');
     })
     .config(function($locationProvider) {
 

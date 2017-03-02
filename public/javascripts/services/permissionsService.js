@@ -78,7 +78,6 @@
     function checkPermissions(requiredPermissions) {
       var deferred = $q.defer();
       getPermissions((permissions) => {
-        console.log(permissions);
         let rejected = false;
         for (let i in requiredPermissions) {
           if (!checkPermission(requiredPermissions[i], permissions)) {
