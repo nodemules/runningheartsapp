@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular.module(APP_NAME).controller('playersListCtrl', playersListCtrl);
 
-  playersListCtrl.$inject = ['$filter', '$state', 'playersService'];
+  playersListCtrl.$inject = ['$filter', '$state', 'playersService', 'dialogService'];
 
-  function playersListCtrl($filter, $state, playersService) {
+  function playersListCtrl($filter, $state, playersService, dialogService) {
 
     var vm = this;
 
@@ -29,8 +29,10 @@
     }
 
     vm.removePlayer = function(player) {
-      playersService.api(player._id).remove(function() {
-        vm.getPlayers();
+      dialogService.confirm('Are you sure you want to delete this player?').then(() => {
+        playersService.api(player._id).remove(function() {
+          vm.getPlayers();
+        });
       });
     }
 

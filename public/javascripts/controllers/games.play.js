@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService'];
 
-  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService) {
 
     var vm = this;
 
@@ -31,31 +31,32 @@
 
     vm.finalTable = function() {
       var nextRankOut = getNextRankOut() + 1;
+      var message;
       if (nextRankOut > 8) {
-        var dialog = $mdDialog.confirm({
-          title: 'Warning',
-          textContent: 'You have more than 8 players remaining. Do you want to just select members of the final table?',
-          ok: 'Yes',
-          cancel: 'No'
-        })
-        return $mdDialog.show(dialog).then(() => {
+        message = `You have more than 8 players remaining. Do you want to
+        just select members of the final table?`
+        return dialogService.confirm(message).then(() => {
           $state.go('games.ft', {
             id: vm.game._id
           })
         })
       }
-      vm.game.finalTable = true;
-      vm.game.$save();
+      message = `Are you sure you want to start the final table? Players
+      cannot buy back in but you will be able to edit the final standings later.`
+      dialogService.confirm(message).then(() => {
+        vm.game.finalTable = true;
+        vm.game.$save();
+      })
+
     }
 
     vm.finalizeGame = function() {
-      var nextRankOut = getNextRankOut();
-
-      if (nextRankOut < 0) {
+      var message = `Are you sure you want to finalize the game? The next screen
+      will allow you to edit standings if there was a mistake or press complete
+      to finish.`
+      dialogService.confirm(message).then(() => {
         vm.game.finalize = true;
-      } else {
-        return false;
-      }
+      })
     }
 
     vm.checkScore = function(player) {
@@ -90,9 +91,12 @@
       if (!vm.game.finalize) {
         return false;
       }
-
-      vm.game.completed = true;
-      vm.game.$save();
+      var message = `Game will be marked complete and scores cannot be changed. 
+      Scores will be submitted to season standings.`
+      dialogService.confirm(message).then(() => {
+        vm.game.completed = true;
+        vm.game.$save();
+      })
     }
 
     vm.isFinalizeable = function() {

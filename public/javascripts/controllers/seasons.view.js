@@ -5,22 +5,24 @@
 
   angular.module(APP_NAME).controller('seasonsViewCtrl', gamesViewCtrl);
 
-  gamesViewCtrl.$inject = ['$state', '$stateParams', 'seasonsService'];
+  gamesViewCtrl.$inject = ['$state', '$stateParams', 'seasonsService', 'dialogService'];
 
-  function gamesViewCtrl($state, $stateParams, seasonsService) {
+  function gamesViewCtrl($state, $stateParams, seasonsService, dialogService) {
 
     var vm = this;
 
     vm.newSeason = function() {
       var seasonNumber;
-      if (vm.seasons && vm.seasons.length) {
-        seasonNumber = vm.seasons[0].seasonNumber + 1;
-      } else {
-        seasonNumber = 1;
-      }
-      vm.season = seasonsService.api(seasonNumber).save(function() {
-        vm.getSeason();
-      });
+      dialogService.confirm('Are you sure you want to start a new season?').then(() => {
+        if (vm.seasons && vm.seasons.length) {
+          seasonNumber = vm.seasons[0].seasonNumber + 1;
+        } else {
+          seasonNumber = 1;
+        }
+        vm.season = seasonsService.api(seasonNumber).save(function() {
+          vm.getSeason();
+        });
+      })
     }
 
     vm.getSeason = function(id) {

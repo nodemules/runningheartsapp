@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService', 'permissionsService'];
+  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService', 'permissionsService', 'dialogService'];
 
-  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService, permissionsService) {
+  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService, permissionsService, dialogService) {
 
     var vm = this;
 
@@ -34,9 +34,12 @@
     }
 
     vm.removeEvent = function(event) {
-      eventsService.api(event._id).remove(function() {
-        vm.getEvents();
-      });
+      dialogService.confirm('Are you sure you want to delete this event?').then(() => {
+        eventsService.api(event._id).remove(function() {
+          vm.getEvents();
+        });
+      })
+
     }
 
     function initialize() {

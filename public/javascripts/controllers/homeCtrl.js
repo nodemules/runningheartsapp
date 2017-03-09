@@ -8,14 +8,14 @@
     '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
     'eventsService', 'playersService', 'seasonsService', 'statsService',
     'venuesService', 'gamesService', 'permissionsService', 'authApiService',
-    'authService'
+    'authService', 'dialogService'
   ];
 
   function homeCtrl(
     $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
     eventsService, playersService, seasonsService, statsService,
     venuesService, gamesService, permissionsService, authApiService,
-    authService
+    authService, dialogService
   ) {
 
     var vm = this;
@@ -111,12 +111,15 @@
 
     vm.selectTab = function(tab) {
       if (tab.id === -1) {
-        authApiService.api().logout(function() {
-          $state.transitionTo(tab.path, {}, {
-            reload: true
+        var message = 'Are you sure you want to logout?'
+        return dialogService.confirm(message).then(() => {
+          authApiService.api().logout(function() {
+            $state.transitionTo(tab.path, {}, {
+              reload: true
+            });
           });
-        });
-        return vm.toggleMenu();
+          return vm.toggleMenu();
+        })
       }
       vm.activeTab = tab;
       $state.go(tab.path, tab.params, tab.options);
