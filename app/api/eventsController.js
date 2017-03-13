@@ -48,7 +48,6 @@
     Event
       .findById(req.params.id)
       .populate(publicEvent)
-      .select('-statusId')
       .exec((err, events) => {
         if (err)
           res.send(err);
