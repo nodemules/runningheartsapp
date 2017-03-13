@@ -10,7 +10,7 @@
       <md-card-content>
         <p>Usually Hosted on {{vv.venue.day}} by:
           <span ng-repeat="td in vv.venue.td">
-          {{($index + 1) == vv.venue.td.length ? 'and/or ' : ''}}{{td.name}}{{($index + 1) < vv.venue.td.length ? ', ' : ''}}
+          {{($index + 1) == vv.venue.td.length && vv.venue.td.length > 1 ? 'and/or ' : ''}}{{td.name}}{{($index + 1) < vv.venue.td.length ? ', ' : ''}}
           </span>
         </p>
         <p>Events at this venue usually have {{vv.venue.numberOfGames}} games.</p>

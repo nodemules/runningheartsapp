@@ -5,7 +5,7 @@
         <span class="md-headline">Poker @ {{ev.event.venue.name}}</span>
         <span class="md-subhead">Hosted by
           <span ng-repeat="td in ev.event.td">
-          {{($index + 1) == ev.event.td.length ? 'and/or ' : ''}}{{td.name}}{{($index + 1) < ev.event.td.length ? ', ' : ''}}
+          {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}{{td.name}}{{($index + 1) < ev.event.td.length ? ', ' : ''}}
           </span>
         </span>
       </md-card-title-text>
