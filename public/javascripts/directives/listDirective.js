@@ -22,7 +22,7 @@
       '        <p>{{item.day ? item.day : (item.date | date:\'fullDate\') + \' \' + (item.date | date:\'shortTime\')}}</p>', //     TODO - this based on a scope import
       '        <p ng-if="item.td">',
       '          <span ng-repeat="td in item.td">',
-      '            {{($index + 1) == item.td.length ? \'and/or \' : \'\'}}{{td.name}}{{($index + 1) < item.td.length ? \', \' : \'\'}}',
+      '            {{($index + 1) == item.td.length && item.td.length > 1 ? \'and/or \' : \'\'}}{{td.name}}{{($index + 1) < item.td.length ? \', \' : \'\'}}',
       '          </span>',
       '        </p>', // TODO - from the directive attribute
       '        <p ng-if="item.isTd">{{item.isTd ? \'Tournament Director\' : \'\'}}</p>', //
