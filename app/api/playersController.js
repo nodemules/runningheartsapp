@@ -42,6 +42,9 @@
   api.get('/:id', (req, res) => {
     Players
       .findById(req.params.id)
+      .where({
+        statusId: 1
+      })
       .populate(publicPlayer)
       .select('-statusId')
       .exec((err, player) => {
@@ -84,7 +87,8 @@
       .find({
         _id: {
           '$nin': req.body.players
-        }
+        },
+        statusId: 1
       })
       .select('-statusId')
       .exec(function(err, players) {

@@ -59,6 +59,7 @@
       '_id': '$_id',
       'name': '$player.name',
       'isTd': '$player.isTd',
+      'statusId': '$player.statusId',
       'totalPoints': '$totalPoints',
       'totalWins': '$totalWins',
       'bonusChips': {

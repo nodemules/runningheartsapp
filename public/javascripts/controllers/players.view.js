@@ -14,7 +14,11 @@
     vm.getPlayer = function(id) {
       vm.player = statsService.api(id).player(function() {
         if (!vm.player._id) {
-          vm.player = playersService.api(id).get();
+          vm.player = playersService.api(id).get(() => {
+            if (!vm.player._id) {
+              $state.transitionTo('players.list');
+            }
+          });
         }
       });
     }
