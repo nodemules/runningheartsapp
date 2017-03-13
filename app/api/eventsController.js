@@ -69,7 +69,9 @@
         Event
           .findOneAndUpdate({
             _id: req.body._id
-          }, req.body)
+          }, req.body, {
+            'new': true
+          })
           .select('-statusId')
           .exec((err, e) => {
             if (err)

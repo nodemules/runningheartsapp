@@ -17,5 +17,5 @@
   </md-list>
 </md-content>
 <md-content layout="column" layout-align="end" flex>
-  <md-button class="md-raised md-primary" ng-click="gp.addPlayersToGame()">Add Players</md-button>
+  <md-button class="md-raised md-primary" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">Add Players</md-button>
 </md-content>

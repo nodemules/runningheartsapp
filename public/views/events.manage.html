@@ -18,7 +18,7 @@
     <div layout="row" layout-align="end">
       <md-button class="md-raised md-default" ng-click="em.cancel()">Cancel</md-button>
       <md-button class="md-raised md-default" ng-click="em.resetVenue()" ng-show="em.new">Reset</md-button>
-      <md-button class="md-raised md-primary" ng-click="em.save()">Save</md-button>
+      <md-button class="md-raised md-primary" ng-click="em.save()" ng-disabled="em.event.$$saving">Save</md-button>
     </div>
   </form>
 </div>

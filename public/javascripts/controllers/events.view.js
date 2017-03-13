@@ -22,11 +22,11 @@
     }
 
     vm.newGame = function() {
-      var newGame = {
+      vm.game = {
         event: vm.event,
         number: vm.event.games.length + 1
       }
-      gamesService.api().create(newGame, function(game) {
+      gamesService.api().create(vm.game, function(game) {
         vm.viewGame(game);
       })
 

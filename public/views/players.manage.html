@@ -14,7 +14,7 @@
     <div layout="row" layout-align="end">
       <md-button class="md-raised md-default" ng-click="pm.cancel()">Cancel</md-button>
       <md-button class="md-raised md-default" ng-click="pm.resetVenue()" ng-show="pm.new">Reset</md-button>
-      <md-button class="md-raised md-primary" ng-click="pm.save()">Save</md-button>
+      <md-button class="md-raised md-primary" ng-click="pm.save()" ng-disabled="pm.player.$$saving">Save</md-button>
     </div>
   </md-content>
 </div>

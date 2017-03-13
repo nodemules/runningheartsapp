@@ -31,7 +31,7 @@
     <div layout="row" layout-align="end">
       <md-button class="md-raised md-default" ng-click="vm.cancel()">Cancel</md-button>
       <md-button class="md-raised md-default" ng-click="vm.resetVenue()" ng-show="vm.new">Reset</md-button>
-      <md-button class="md-raised md-primary" ng-click="vm.save()" ng-disabled="vm.forms.manageVenue.$invalid">Save</md-button>
+      <md-button class="md-raised md-primary" ng-click="vm.save()" ng-disabled="vm.forms.manageVenue.$invalid || vm.venue.$$saving">Save</md-button>
     </div>
   </form>
 </div>

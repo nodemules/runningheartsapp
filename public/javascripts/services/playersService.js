@@ -21,6 +21,17 @@
       return $resource(basePath + '/:id/:action', {
         id: id
       }, {
+        'save': {
+          method: 'POST',
+          transformRequest: function(data) {
+            data.$$saving = true;
+            return angular.toJson(data);
+          },
+          transformResponse: function(data) {
+            data.$$saving = false;
+            return angular.fromJson(data);
+          }
+        },
         'findBy': {
           method: 'PUT',
           isArray: true

@@ -23,12 +23,28 @@
         id: id
       }, {
         'create': {
-          method: 'POST'
+          method: 'POST',
+          transformRequest: function(data) {
+            data.$$saving = true;
+            return angular.toJson(data);
+          },
+          transformResponse: function(data) {
+            data.$$saving = false;
+            return angular.fromJson(data);
+          }
         },
         'save': {
           method: 'POST',
           params: {
             id: null
+          },
+          transformRequest: function(data) {
+            data.$$saving = true;
+            return angular.toJson(data);
+          },
+          transformResponse: function(data) {
+            data.$$saving = false;
+            return angular.fromJson(data);
           }
         }
       });

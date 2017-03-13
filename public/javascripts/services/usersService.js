@@ -20,6 +20,18 @@
     function api(id) {
       return $resource(basePath + '/:action', {
         id
+      }, {
+        'save': {
+          method: 'POST',
+          transformRequest: function(data) {
+            data.$$saving = true;
+            return angular.toJson(data);
+          },
+          transformResponse: function(data) {
+            data.$$saving = false;
+            return angular.fromJson(data);
+          }
+        },
       });
     }
 
