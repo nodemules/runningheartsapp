@@ -127,15 +127,22 @@
     }
   }
 
+  var matchEvent = {
+    '$match': {
+      'event.statusId': 1
+    }
+  }
+
   api.get('/players/:id', function(req, res) {
 
     var match = {
       '$match': {
-        'players.player': mongoose.Types.ObjectId(req.params.id)
+        'players.player': mongoose.Types.ObjectId(req.params.id),
+        'completed': true
       }
     }
 
-    var pipeline = [unwind, match, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
+    var pipeline = [unwind, match, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
 
     Game
       .aggregate(pipeline)
@@ -148,13 +155,19 @@
 
   api.get('/players', function(req, res) {
 
+    var match = {
+      '$match': {
+        'completed': true
+      }
+    }
+
     var sortBy = {
       '$sort': {
         'totalPoints': -1,
         'averageRank': 1
       }
     }
-    var pipeline = [unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
+    var pipeline = [unwind, match, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
 
     Game
       .aggregate(pipeline)
@@ -189,7 +202,8 @@
           '$match': {
             'startTime': {
               '$gte': new Date(startTime)
-            }
+            },
+            'completed': true
           }
         }
 
@@ -197,7 +211,7 @@
           match.$match.startTime.$lt = new Date(endTime);
         }
 
-        var pipeline = [match, unwind, sort, lookupEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
+        var pipeline = [match, unwind, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
 
         Game
           .aggregate(pipeline)
