@@ -30,7 +30,7 @@
 
         //set the form control to valid if both
         //passwords are the same, else invalid
-        control.$setValidity('passwordMatch', n);
+        control.$setValidity('passwordMatch', n || false);
       });
     }
 
