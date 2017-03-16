@@ -15,12 +15,24 @@
       usersService.api().save(vm.user, function() {
         $state.transitionTo('home'); //change to 'admin console' when the time comes
       }, (err) => {
-        vm.forms.registerForm.token.$setValidity('invalidToken', false)
+        switch (err.data.code) {
+          case 'INVALID_TOKEN':
+            vm.forms.registerForm.token.$setValidity('invalidToken', false)
+            break;
+          case 'DUPLICATE_KEY_ERROR':
+            vm.forms.registerForm.username.$setValidity('userTaken', false)
+            break;
+          default:
+            break;
+        }
+
       })
     }
 
     vm.reset = function(elem, validator) {
-      elem.$setValidity(validator, true);
+      if (elem.$invalid) {
+        elem.$setValidity(validator, true);
+      }
     }
 
     vm.cancel = function() {

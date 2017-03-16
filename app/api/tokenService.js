@@ -19,6 +19,7 @@
           } else {
             res.send(401, {
               message: 'Token Not Valid',
+              code: 'INVALID_TOKEN',
               validated: false
             })
           }

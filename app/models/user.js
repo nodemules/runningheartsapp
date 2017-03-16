@@ -12,7 +12,10 @@ var userSchema = mongoose.Schema({
     'default': 1
   },
   'roleId': Number,
-  'username': String,
+  'username': {
+    'type': String,
+    'unique': true
+  },
   'password': String,
   'usertype': Number,
   'created': Date,

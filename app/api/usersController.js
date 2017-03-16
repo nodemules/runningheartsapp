@@ -102,9 +102,15 @@
       } else {
         Users
           .create(req.body, function(err, user) {
-            console.log(req.body);
-            if (err)
-              console.log(err.stack);
+            if (err) {
+              var errorResponse = {};
+              if (err.code === 11000) {
+                errorResponse.message = `Cannot create a user [${req.body.username}] that already exists`;
+                errorResponse.code = 'DUPLICATE_KEY_ERROR';
+              }
+              return res.send(401, errorResponse);
+
+            }
             res.send(user);
           });
       }
