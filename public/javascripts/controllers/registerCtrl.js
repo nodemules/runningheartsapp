@@ -19,6 +19,10 @@
       })
     }
 
+    vm.reset = function(elem, validator) {
+      elem.$setValidity(validator, true);
+    }
+
     vm.cancel = function() {
       historyService.goPrevious();
     }
