@@ -128,3 +128,8 @@ md-ink-bar {
 .rhp-player-heading {
   min-height: 48px;
 }
+
+.rhp-messages-active .md-input-message-animation:not(.ng-animate) {
+  opacity: 1;
+  margin-top: 0;
+}
