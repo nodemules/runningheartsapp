@@ -22,6 +22,9 @@
         }
       })
       $rootScope.$on('$stateChangeError', (evt, to, toParams, from, fromParams, error) => {
+        if (!historyService.hasHistory()) {
+          historyService.pushState(to, toParams);
+        }
         switch (error.code) {
           case 'NO_USER_FOUND':
             authService.authenticate(false);

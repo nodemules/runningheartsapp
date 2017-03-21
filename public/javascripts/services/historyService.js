@@ -8,10 +8,15 @@
 
     var service = {
       goPrevious,
-      pushState
+      pushState,
+      hasHistory
     }
 
     var stateHistory = [];
+
+    function hasHistory() {
+      return !!stateHistory && stateHistory.length != 0;
+    }
 
     function goPrevious() {
       var previousState = stateHistory[stateHistory.length - 1];
