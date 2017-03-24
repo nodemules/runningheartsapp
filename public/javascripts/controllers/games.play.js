@@ -30,12 +30,16 @@
     }
 
     vm.playerBackIn = function(attendee) {
-      var rankedPlayers = $filter('filter')(vm.game.players, function(player) {
-        return player.rank < attendee.rank;
-      });
-      zeroOutAttendee(attendee);
-      adjustAttendeeScores(rankedPlayers);
-      vm.game.$save();
+      var message = `Marking a player back in will adjust all currently ranked
+        players and remove this player's score and rank. Is this okay?`
+      dialogService.confirm(message).then(() => {
+        var rankedPlayers = $filter('filter')(vm.game.players, function(player) {
+          return player.rank < attendee.rank;
+        });
+        zeroOutAttendee(attendee);
+        adjustAttendeeScores(rankedPlayers);
+        vm.game.$save();
+      })
     }
 
     vm.finalTable = function() {
