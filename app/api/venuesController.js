@@ -2,22 +2,18 @@ var express = require('express'),
   api = express.Router();
 
 var authService = require('./authService')(),
-  Permissions = require('../enum/permissions');
+  Permissions = require('../enum/permissions'),
+  venuesService = require('./venuesService')();
 
 var Venues = require('../models/venue');
 
 api.get('/', function(req, res) {
-  Venues
-    .find({
-      statusId: 1
-    })
-    .populate('td')
-    .select('-statusId')
-    .exec(function(err, venues) {
-      if (err)
-        console.log(err.stack);
-      res.send(venues);
-    });
+  venuesService.getVenues(function(err, venues) {
+    if (err) {
+      return res.send(err)
+    }
+    res.send(venues);
+  });
 });
 
 api.get('/count', function(req, res) {

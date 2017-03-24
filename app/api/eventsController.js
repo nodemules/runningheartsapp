@@ -4,6 +4,7 @@
 
   var authService = require('./authService')(),
     Permissions = require('../enum/permissions'),
+    eventsService = require('./eventsService')(),
     Event = require('../models/event');
 
   var publicEvent = [{
@@ -78,10 +79,11 @@
             res.send(e);
           })
       } else {
-        Event.create(req.body, (err, e) => {
-          if (err)
-            console.log(err.stack);
-          res.send(e);
+        eventsService.createEvent(req.body, (error, e) => {
+          if (error) {
+            return res.send(error)
+          }
+          res.send(e)
         })
       }
     });
