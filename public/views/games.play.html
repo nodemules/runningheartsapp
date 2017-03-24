@@ -23,7 +23,9 @@
             <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee); touched = !touched; $parent.touched = !$parent.touched;" ng-disabled="attendee.score">
               OUT
             </md-button>
-            <!-- TODO: RHP_87 need a way to make someone not out and clear their rank/score  -->
+            <md-button class="md-raised md-warn" ng-click="gp.playerBackIn(attendee); touched = !touched; $parent.touched = !$parent.touched;" ng-if="attendee.score">
+              UNDO
+            </md-button>
           </div>
         </div>
       </md-list-item>

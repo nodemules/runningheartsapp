@@ -29,6 +29,15 @@
       vm.game.$save();
     }
 
+    vm.playerBackIn = function(attendee) {
+      var rankedPlayers = $filter('filter')(vm.game.players, function(player) {
+        return player.rank < attendee.rank;
+      });
+      zeroOutAttendee(attendee);
+      adjustAttendeeScores(rankedPlayers);
+      vm.game.$save();
+    }
+
     vm.finalTable = function() {
       var nextRankOut = getNextRankOut() + 1;
       var message;
@@ -91,7 +100,7 @@
       if (!vm.game.finalize) {
         return false;
       }
-      var message = `Game will be marked complete and scores cannot be changed. 
+      var message = `Game will be marked complete and scores cannot be changed.
       Scores will be submitted to season standings.`
       dialogService.confirm(message).then(() => {
         vm.game.completed = true;
@@ -131,6 +140,20 @@
       } else {
         return 9;
       }
+    }
+
+    function zeroOutAttendee(attendee) {
+      delete attendee.score;
+      delete attendee.cashedOutTime;
+      delete attendee.rank;
+    }
+
+    function adjustAttendeeScores(rankedPlayers) {
+      angular.forEach(rankedPlayers, function(player) {
+        player.score = getScore(player.rank);
+        player.rank = player.rank + 1;
+      })
+
     }
 
     function initialize() {
