@@ -17,7 +17,9 @@ var cookieParser = require('cookie-parser');
 
 var api = require('./app/api/main');
 var configuration = require('./config/configuration.js');
+var automation = require('./app/automation/main');
 
+automation();
 
 // configuration ===============================================================
 require('./config/passport')(passport);
