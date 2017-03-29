@@ -9,7 +9,7 @@
 
     function createNewEvents() {
       venuesService.getVenues(function(error, venues) {
-        eventsCreator.generateNewEvents(venues, () => {});
+        eventsCreator.generateNewEvents(venues);
       })
     }
 
