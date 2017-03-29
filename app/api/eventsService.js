@@ -34,7 +34,6 @@
       return new Promise(function(resolve, reject) {
         Event
           .find({
-            statusId: 1,
             venue: venue,
             date: {
               $gte: new Date(startOfDay),
