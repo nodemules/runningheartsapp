@@ -28,7 +28,7 @@
         var dates = dateUtil.getNextDays(dateUtil.getDayByName(venues[h].day), 3)
         for (var i in dates) {
           eventsService.checkIfEventExists(venues[h], dates[i]).then(function(resultEvent) {
-            if (!resultEvent.event.length) {
+            if (!resultEvent.event) {
               var event = {
                 td: resultEvent.venue.td,
                 venue: resultEvent.venue._id,

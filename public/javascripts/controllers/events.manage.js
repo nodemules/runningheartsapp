@@ -30,6 +30,14 @@
     vm.save = function() {
       eventsService.api().save(vm.event, function() {
         $state.transitionTo('events.list')
+      }, (err) => {
+        switch (err.data.code) {
+          case 'EVENT_ALREADY_EXISTS':
+            vm.forms.manageEvent.date.$setValidity('eventAlreadyExists', false)
+            break;
+          default:
+            break;
+        }
       });
     }
 

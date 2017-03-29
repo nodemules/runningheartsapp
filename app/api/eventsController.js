@@ -79,11 +79,20 @@
             res.send(e);
           })
       } else {
-        eventsService.createEvent(req.body, (error, e) => {
-          if (error) {
-            return res.send(error)
+        eventsService.checkIfEventExists(req.body.venue, req.body.date, true).then((eventInfo) => {
+          if (!eventInfo.event) {
+            eventsService.createEvent(req.body, (error, e) => {
+              if (error) {
+                return res.send(error)
+              }
+              res.send(e)
+            });
+          } else {
+            res.send(416, {
+              message: 'An event already exists.',
+              code: 'EVENT_ALREADY_EXISTS'
+            })
           }
-          res.send(e)
         })
       }
     });
