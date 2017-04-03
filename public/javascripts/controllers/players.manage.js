@@ -11,6 +11,8 @@
 
     var vm = this;
 
+    vm.forms = {};
+
     vm.getPlayer = function(id) {
       vm.player = playersService.api(id).get();
     }

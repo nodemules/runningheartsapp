@@ -1,9 +1,15 @@
-<div layout="column" class="md-inline-form">
-  <md-content>
-    <div layout-gt-xs="row">
+<div>
+  <form name="pm.forms.playerForm">
+    <div layout-gt-xs="row" class="rhp-input-group">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Name</label>
-        <input ng-model="pm.player.name">
+        <input required ng-model="pm.player.name" name="name">
+        <div ng-class="{ 'rhp-messages-active' : pm.forms.playerForm.name.$dirty }"
+          ng-messages="pm.forms.playerForm.name.$error" ng-if="pm.forms.playerForm.name.$dirty">
+          <div ng-message="required">
+            You must provide a player name.
+          </div>
+        </div>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-xs>
           <md-switch ng-model="pm.player.isTd" aria-label="Tournament Director">
@@ -13,8 +19,8 @@
     </div>
     <div layout="row" layout-align="end">
       <md-button class="md-raised md-default" ng-click="pm.cancel()">Cancel</md-button>
-      <md-button class="md-raised md-default" ng-click="pm.resetVenue()" ng-show="pm.new">Reset</md-button>
-      <md-button class="md-raised md-primary" ng-click="pm.save()" ng-disabled="pm.player.$$saving">Save</md-button>
+      <md-button class="md-raised md-default" ng-click="pm.resetPlayer()" ng-show="pm.new">Reset</md-button>
+      <md-button class="md-raised md-primary" ng-click="pm.save()" ng-disabled="pm.forms.playerForm.$invalid || pm.player.$$saving;">Save</md-button>
     </div>
-  </md-content>
+  </form>
 </div>
