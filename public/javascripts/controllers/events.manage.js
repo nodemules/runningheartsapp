@@ -42,6 +42,7 @@
       }, (err) => {
         switch (err.data.code) {
           case 'EVENT_ALREADY_EXISTS':
+            err.config.data.$$saving = false; //$$saving isn't getting set back to false on error for some reason
             vm.forms.manageEvent.date.$setValidity('eventAlreadyExists', false)
             break;
           default:

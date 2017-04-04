@@ -17,9 +17,11 @@
       }, (err) => {
         switch (err.data.code) {
           case 'INVALID_TOKEN':
+            err.config.data.$$saving = false;
             vm.forms.registerForm.token.$setValidity('invalidToken', false)
             break;
           case 'DUPLICATE_KEY_ERROR':
+            err.config.data.$$saving = false;
             vm.forms.registerForm.username.$setValidity('userTaken', false)
             break;
           default:
