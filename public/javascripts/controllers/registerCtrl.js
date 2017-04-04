@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('registerCtrl', registerCtrl);
 
-  registerCtrl.$inject = ['$state', 'usersService', 'historyService'];
+  registerCtrl.$inject = ['$state', 'usersService', 'historyService', 'formService'];
 
-  function registerCtrl($state, usersService, historyService) {
+  function registerCtrl($state, usersService, historyService, formService) {
 
     var vm = this;
 
@@ -30,9 +30,7 @@
     }
 
     vm.reset = function(elem, validator) {
-      if (elem.$invalid) {
-        elem.$setValidity(validator, true);
-      }
+      formService.resetValidity(elem, validator);
     }
 
     vm.cancel = function() {

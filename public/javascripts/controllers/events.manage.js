@@ -2,9 +2,9 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
-  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService'];
+  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService'];
 
-  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService) {
+  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService) {
 
     var vm = this;
 
@@ -27,7 +27,16 @@
       vm.event = {};
     }
 
+    vm.reset = function(elem, validator) {
+      formService.resetValidity(elem, validator);
+    }
+
     vm.save = function() {
+      //prevent a bug where user sets a td then unselects it is valid
+      if (!vm.event.td) {
+        vm.forms.manageEvent.td.$setValidity('required', false)
+        return false;
+      }
       eventsService.api().save(vm.event, function() {
         $state.transitionTo('events.list')
       }, (err) => {

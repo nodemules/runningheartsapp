@@ -3,7 +3,7 @@
     <div layout-gt-xs="row">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Venue</label>
-        <md-select required ng-model="em.event.venue" ng-model-options="{trackBy: '$value._id' }" name="venue">
+        <md-select required ng-model="em.event.venue" ng-model-options="{trackBy: '$value._id' }" name="venue" ng-change="em.reset(em.forms.manageEvent.venue, 'required')">
           <md-option ng-value="venue" ng-repeat="venue in em.venues">{{venue.name}}</md-option>
         </md-select>
         <div ng-class="{ 'rhp-messages-active' : em.forms.manageEvent.venue.$dirty }"
@@ -14,17 +14,20 @@
         </div>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-xs>
-        <md-datepicker ng-model="em.event.date" md-placeholder="Enter date" name="date"></md-datepicker>
+        <md-datepicker required ng-model="em.event.date" md-placeholder="Enter date" name="date" ng-change="em.reset(em.forms.manageEvent.date, 'eventAlreadyExists')"></md-datepicker>
         <div ng-class="{ 'rhp-messages-active' : em.forms.manageEvent.date.$dirty }"
           ng-messages="em.forms.manageEvent.date.$error" ng-if="em.forms.manageEvent.date.$dirty">
           <div ng-message="eventAlreadyExists">
             There is already an event scheduled for this day.
           </div>
+          <div ng-message="required">
+            You must select a day for this event.
+          </div>
         </div>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-xs>
         <label>Tournament Director</label>
-        <md-select required ng-model="em.event.td" ng-model-options="{trackBy: '$value._id'}" multiple name="td">
+        <md-select required ng-model="em.event.td" ng-model-options="{trackBy: '$value._id'}" multiple name="td" ng-change="em.reset(em.forms.manageEvent.td, 'required')">
           <md-option ng-value="td" ng-repeat="td in em.directors">{{td.name}}</md-option>
         </md-select>
         <div ng-class="{ 'rhp-messages-active' : em.forms.manageEvent.td.$dirty }"
