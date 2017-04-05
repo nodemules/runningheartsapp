@@ -24,13 +24,39 @@
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game #{{$index + 1}}</span>
+        <span class="md-subhead">
+          This game is {{game.completed ? 'finished' : game.inProgress ? 'in progress' : 'waiting to begin'}}.
+          <span ng-if="game.completed">This game had {{ game.players.length }} players.</span>
+        </span>
+        <span class="md-subhead" ng-if="game.completed">
+          {{(game.players | filter: { rank : 1})[0].player.name}} is the winner!
+        </span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <p>This game is {{game.completed ? 'finished' : 'in progress'}}.</p>
+      <p ng-if="game.finalTable && !game.completed">
+          <strong>This game is at the Final Table!</strong>
+          <span ng-if="(game.players | filter:{ score: '!' }).length === 0">No</span>
+          <span ng-if="(game.players | filter:{ score: '!' }).length !== 0">
+            <strong>{{ (game.players | filter:{ score: '!' }).length }}</strong> out of the <strong>{{ game.players.length }}</strong>
+          </span>
+          players are remaining.
+      </p>
+      <p ng-if="!game.finalTable && !game.completed && game.inProgress">
+        There are
+        <span ng-if="(game.players | filter:{ score: '!' }).length === 0">no</span>
+        <span ng-if="(game.players | filter:{ score: '!' }).length !== 0">
+          <strong>{{ (game.players | filter:{ score: '!' }).length }}</strong> out of the <strong>{{ game.players.length }}</strong>
+        </span>
+        players remaining.
+      </p>
     </md-card-content>
     <md-card-actions layout="column">
       <md-button class="md-raised md-primary" ng-click="ev.viewGame(game)">View Game</md-button>
+      <md-button class="md-raised md-primary" ng-click="ev.completeGame(game)"
+        ng-if="!game.completed && (game.players | filter:{ score: '!' }).length === 0 && events.permissions.PLAY_GAME">
+        Complete Game
+      </md-button>
     </md-card-actions>
   </md-card>
   <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && (ev.event.games.length < ev.event.venue.numberOfGames || events.permissions.NO_GAME_LIMIT) && ev.event.statusId == 1">

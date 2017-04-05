@@ -14,6 +14,23 @@
     path: 'td',
     select: '-statusId'
   }, {
+    path: 'games',
+    populate: {
+      path: 'players',
+      populate: {
+        path: 'player',
+        model: 'Player'
+      }
+    }
+  }];
+
+  var publicEventForList = [{
+    path: 'venue',
+    select: 'name day numberOfGames'
+  }, {
+    path: 'td',
+    select: '-statusId'
+  }, {
     path: 'games'
   }];
 
@@ -22,7 +39,7 @@
       .find({
         statusId: 1
       })
-      .populate(publicEvent)
+      .populate(publicEventForList)
       .select('-statusId')
       .exec((err, events) => {
         if (err)

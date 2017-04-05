@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
-  eventsViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService'];
+  eventsViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService', 'dialogService'];
 
-  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService) {
+  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService, dialogService) {
 
     var vm = this;
 
@@ -46,6 +46,15 @@
     vm.viewGame = function(game) {
       $state.transitionTo('games.view', {
         id: game._id
+      })
+    }
+
+    vm.completeGame = function(game) {
+      var message = `Game will be marked complete and scores cannot be changed.
+      Scores will be submitted to season standings.`
+      dialogService.confirm(message).then(() => {
+        game.completed = true;
+        game.$save();
       })
     }
 
