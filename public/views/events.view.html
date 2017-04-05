@@ -2,12 +2,15 @@
   <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">Poker @ {{ev.event.venue.name}}</span>
+        <span class="md-headline">Poker @ <a class="md-primary" ui-sref="venues.view({ id : ev.event.venue._id })">{{ev.event.venue.name}}</a></span>
         <span class="md-subhead">Hosted by
           <span ng-repeat="td in ev.event.td">
-          {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}{{td.name}}{{($index + 1) < ev.event.td.length ? ', ' : ''}}
+          {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+          <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+          {{($index + 1) < ev.event.td.length ? ', ' : ''}}
           </span>
         </span>
+        <span class="md-subhead">Takes place on: {{ ev.event.date | date:'short'}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>

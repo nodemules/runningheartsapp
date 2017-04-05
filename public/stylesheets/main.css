@@ -8,6 +8,10 @@ html, body {
   padding: 0px;
 }
 
+a {
+  text-decoration: none;
+}
+
 #appContainer {
   height: 100%;
 }
