@@ -34,7 +34,6 @@ csv
     headers: true
   })
   .on('data', function(data) {
-
     /* PLAYERS */
     //reduce amount of times this has to process
     if (row === 1) {
@@ -64,12 +63,12 @@ csv
 
   .on('end', function() {
     console.log('\n\n\nVenues, Games, Players Loaded!');
-    process.exit()
+    //need to only exit when all functions complete, this is firing before everything is done
+    //process.exit()
   });
 
 function formatGame(data, players) {
   var game = {};
-
   game.completed = true;
   game.inProgress = false;
   game.statusId = 1;
@@ -83,19 +82,17 @@ function formatGame(data, players) {
 }
 
 function upsertGame(game) {
-
-  Games.update({
+  Games.findOneAndUpdate({
     startTime: game.startTime
   }, game, {
-    upsert: true
+    upsert: true,
+    returnNewDocument: true
   }, (err, g) => {
     if (err)
       console.log(err.stack);
   });
 
 }
-
-
 
 function formatPlayers(data) {
 
@@ -120,7 +117,6 @@ function formatPlayers(data) {
 }
 
 function upsertPlayers(players) {
-
   _.forEach(players, function(player) {
     Players.update({
       name: player.name
@@ -141,13 +137,11 @@ function formatPlayersForGame(data) {
 
   _.forEach(data, function(value, key) {
     var player = {};
-    //player.player = {};
 
     if (key === 'venue' || key === 'date' || key === 'number') {
       return;
     }
 
-    //player.player.name = key;
     player.rank = getRank(value);
     player.score = value;
     players.push(player);
@@ -161,7 +155,8 @@ function formatPlayersForGame(data) {
 function formatEvent(venueName, date) {
   var event = {};
 
-  event.date = date;
+  //events shouldn't have a time, games should have times
+  event.date = moment(date).startOf('day');
   event.games = [];
   event.statusId = 1;
   event.td = [];
@@ -171,14 +166,16 @@ function formatEvent(venueName, date) {
 }
 
 function upsertEvent(event) {
-  Events.update({
+  Events.findOneAndUpdate({
     date: event.date,
     venue: event.venue
   }, event, {
-    upsert: true
+    upsert: true,
+    returnNewDocument: true
   }, (err, p) => {
     if (err)
       console.log(err.stack);
+
   });
 }
 
