@@ -37,6 +37,13 @@
           params: {
             action: 'count'
           }
+        },
+        'byDate': {
+          method: 'GET',
+          params: {
+            action: 'date'
+          },
+          isArray: true
         }
       });
     }

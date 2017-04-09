@@ -48,6 +48,34 @@
       })
   })
 
+  api.get('/date', function(req, res) {
+    var startDate = new Date(req.query.startDate);
+    startDate = startDate.setHours(0, 0, 0, 0);
+    var endDate;
+    if (req.query.endDate) {
+      endDate = new Date(req.query.endDate);
+    } else {
+      endDate = new Date(startDate);
+    }
+    endDate = endDate.setHours(23, 59, 59, 999)
+
+    Event
+      .find({
+        date: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate)
+        },
+        statusId: 1
+      })
+      .populate(publicEvent)
+      .select('-statusId')
+      .exec(function(err, events) {
+        if (err)
+          res.send(err);
+        res.send(events);
+      })
+  })
+
   api.get('/count', (req, res) => {
     Event
       .count({

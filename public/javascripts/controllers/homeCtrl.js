@@ -136,6 +136,12 @@
       })
     }
 
+    function getTodaysEvents() {
+      vm.todaysEvents = eventsService.api().byDate({
+        startDate: new Date()
+      });
+    }
+
     function getPermissions() {
       permissionsService.getPermissions((permissions) => {
         vm.permissions = permissions;
@@ -144,6 +150,7 @@
 
     function initialize() {
       getPermissions();
+      getTodaysEvents();
     }
 
     initialize();

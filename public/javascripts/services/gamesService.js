@@ -19,7 +19,7 @@
     /////////////////////
 
     function api(id) {
-      return $resource(basePath + '/:id', {
+      return $resource(basePath + '/:id/:action', {
         id: id
       }, {
         'create': {
@@ -46,6 +46,13 @@
             data.$$saving = false;
             return angular.fromJson(data);
           }
+        },
+        'byDate': {
+          method: 'GET',
+          params: {
+            action: 'date'
+          },
+          isArray: true
         }
       });
     }

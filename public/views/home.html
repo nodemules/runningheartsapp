@@ -37,5 +37,24 @@
     <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
       <h2>DO YOU WANT TO PLAY A GAME?</h2>
     </div>
+    <md-card>
+      <div layout="row" layout-align="center center">
+        <h4>Tonight's Games</h4>
+      </div>
+      <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
+        <md-list-item class="md-3-line md-hue-1">
+          <div class="md-list-item-text" layout="column">
+            <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
+            <h4>Hosted by
+              <span ng-repeat="td in event.td">
+                {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+                <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+                {{($index + 1) < ev.event.td.length ? ', ' : ''}}
+              </span>
+            </h4>
+          </div>
+        </md-list-item>
+      </md-list>
+    </md-card>
   </md-content>
 </md-content>

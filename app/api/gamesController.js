@@ -36,6 +36,51 @@ api.get('/', function(req, res) {
     })
 })
 
+api.get('/date', function(req, res) {
+  var startDate = new Date(req.query.startDate);
+  startDate = startDate.setHours(0, 0, 0, 0);
+  var endDate;
+  if (req.query.endDate) {
+    endDate = new Date(req.query.endDate);
+  } else {
+    endDate = new Date(startDate);
+  }
+  endDate = endDate.setHours(23, 59, 59, 999)
+
+  var pOptions = [{
+    path: 'event',
+    select: 'venue td date',
+    populate: [{
+      path: 'venue',
+      select: 'name day'
+    }, {
+      path: 'td',
+      select: 'name user',
+      populate: {
+        path: 'user',
+        model: 'User',
+        select: 'username'
+      }
+    }]
+  }]
+  Game
+    .find({
+      date: {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      },
+      statusId: 1
+    })
+    .populate(pOptions)
+    .select('-statusId')
+    .exec(function(err, games) {
+      if (err)
+        res.send(err);
+      console.log(games);
+      res.send(games);
+    })
+})
+
 api.get('/:id', function(req, res) {
   var pOptions = [{
     path: 'event',
