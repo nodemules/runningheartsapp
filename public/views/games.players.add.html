@@ -16,6 +16,13 @@
     </md-virtual-repeat-container>
   </md-list>
 </md-content>
+<md-content layout-padding layout="row"  layout-align="start end">
+  <md-input-container flex-gt-xs="80" flex-xs="65">
+    <label>Player Name</label>
+    <input required ng-model="player.name" name="name" />
+  </md-input-container>
+  <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);player=null;" ng-disabled="!player.name">Create Player</md-button>
+</md-content>
 <md-content layout="column" layout-align="end" flex>
-  <md-button class="md-raised md-primary" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">Add Players</md-button>
+  <md-button class="md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">Add Players</md-button>
 </md-content>

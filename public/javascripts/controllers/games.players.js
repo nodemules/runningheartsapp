@@ -21,12 +21,12 @@
       });
     }
 
-    vm.getPlayers = function() {
+    vm.getPlayers = function(getAllPlayers) {
       var players = [];
       angular.forEach(vm.game.players, function(player) {
         players.push(player.player._id);
       })
-      if (vm.showAllPlayers) {
+      if (vm.showAllPlayers || getAllPlayers) {
         vm.players = playersService.api().query(function() {
           ready();
         });
@@ -73,6 +73,15 @@
       gamesService.api().save(vm.game, function() {
         $state.transitionTo('games.view', {
           id: vm.game._id
+        })
+      })
+    }
+
+    vm.createPlayer = function(player) {
+      playersService.api().save(player, function(player) {
+        vm.getPlayers(true);
+        vm.game.players.push({
+          player: player
         })
       })
     }
