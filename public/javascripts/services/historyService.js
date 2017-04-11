@@ -20,10 +20,15 @@
 
     function goPrevious() {
       var previousState = stateHistory[stateHistory.length - 1];
-      previousState = !previousState ? {
-        state: 'home',
-        params: {}
-      } : previousState;
+      if (previousState && previousState.state.redirectTo) {
+        previousState = stateHistory[stateHistory.length - 2];
+      }
+      if (!previousState) {
+        previousState = {
+          state: 'home',
+          params: {}
+        }
+      }
       $state.go(previousState.state, previousState.params);
     }
 
