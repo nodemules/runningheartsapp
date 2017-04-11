@@ -91,7 +91,6 @@ function formatDataForGame(player, data) {
 
 function addPlayersToGame(playerData) {
   _.forEach(playerData, function(player) {
-    console.log(player.date)
     Games.update({
       startTime: player.date
     }, {

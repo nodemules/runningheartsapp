@@ -13,6 +13,16 @@ mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}/${db.name
 //Models
 var Players = require('../models/player');
 
+//*****************************//
+// Run in the following Order: \\
+// playerLoader.js (this file) //
+// venueLoader.js              \\
+// eventLoader.js              //
+// gameLoader.js               \\
+// addGamesToEvent.js          //
+// addPlayersToGame.js         \\
+//*****************************//
+
 //----------------------------------------------------------------------------\\
 
 var file = process.argv.slice(2)[0];
