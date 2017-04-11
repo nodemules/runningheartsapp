@@ -8,14 +8,14 @@
     '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
     'eventsService', 'playersService', 'seasonsService', 'statsService',
     'venuesService', 'gamesService', 'permissionsService', 'authApiService',
-    'authService', 'dialogService'
+    'authService', 'dialogService', 'historyService'
   ];
 
   function homeCtrl(
     $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
     eventsService, playersService, seasonsService, statsService,
     venuesService, gamesService, permissionsService, authApiService,
-    authService, dialogService
+    authService, dialogService, historyService
   ) {
 
     var vm = this;
@@ -134,6 +134,10 @@
       $state.go($state.current, {}, {
         reload: true
       })
+    }
+
+    vm.back = function() {
+      historyService.goPrevious()
     }
 
     function getTodaysEvents() {
