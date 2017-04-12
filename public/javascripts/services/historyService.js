@@ -8,19 +8,24 @@
 
     var service = {
       goPrevious,
+      isGoingBack,
       pushState,
       hasHistory
     }
 
     var stateHistory = [];
+    var goingBack = false;
 
     function hasHistory() {
       return !!stateHistory && stateHistory.length != 0;
     }
 
     function goPrevious() {
+
       var previousState = stateHistory[stateHistory.length - 1];
-      if (previousState && previousState.state.redirectTo) {
+      var hasRedirect = previousState && previousState.state.redirectTo;
+
+      if (hasRedirect) {
         previousState = stateHistory[stateHistory.length - 2];
       }
       if (!previousState) {
@@ -28,8 +33,20 @@
           state: 'home',
           params: {}
         }
+      } else if (hasRedirect) {
+        stateHistory.slice(stateHistory.length - 2, 2)
+      } else {
+        stateHistory.pop()
       }
-      $state.go(previousState.state, previousState.params);
+
+      goingBack = true;
+      $state.go(previousState.state, previousState.params).then(() => {
+        goingBack = false;
+      });
+    }
+
+    function isGoingBack() {
+      return goingBack;
     }
 
     function pushState(fromState, fromParams) {
