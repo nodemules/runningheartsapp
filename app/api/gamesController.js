@@ -86,7 +86,7 @@ api.get('/:id', function(req, res) {
     path: 'event',
     populate: [{
       path: 'venue',
-      select: 'name day'
+      select: 'name day numberOfGames'
     }, {
       path: 'td',
       select: 'name user',
@@ -140,7 +140,7 @@ api.post('/',
         path: 'event',
         populate: [{
           path: 'venue',
-          select: 'name day'
+          select: 'name day numberOfGames'
         }, {
           path: 'td',
           select: 'name user',

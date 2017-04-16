@@ -59,7 +59,7 @@
       </md-button>
     </md-card-actions>
   </md-card>
-  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && (ev.event.games.length < ev.event.venue.numberOfGames || events.permissions.NO_GAME_LIMIT) && ev.event.statusId == 1">
+  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && ((ev.event.games.length < ev.event.venue.numberOfGames && !ev.event.completed) || events.permissions.NO_GAME_LIMIT) && ev.event.statusId == 1">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game #{{ev.event.games.length + 1}}</span>
