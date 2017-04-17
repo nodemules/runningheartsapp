@@ -69,6 +69,7 @@ function formatEvents(data, venues) {
       event.statusId = 1;
       event.td = [];
       event.venue = mongoose.Types.ObjectId(venueId);
+      event.completed = true;
       events.push(event);
 
     }
