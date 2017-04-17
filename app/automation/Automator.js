@@ -1,15 +1,24 @@
 {
   function exports() {
     var venuesService = require('../api/venuesService')(),
-      eventsCreator = require('./eventsCreator')();
+      eventsService = require('../api/eventsService')(),
+      eventsCreator = require('./eventsCreator')(),
+      eventsCompleter = require('./eventsCompleter')();
 
     var service = {
-      createNewEvents
+      createNewEvents,
+      completeEvents
     }
 
     function createNewEvents() {
       venuesService.getVenues(function(error, venues) {
         eventsCreator.generateNewEvents(venues);
+      })
+    }
+
+    function completeEvents() {
+      eventsService.getEvents(function(error, events) {
+        eventsCompleter.markEventsCompleted(events);
       })
     }
 

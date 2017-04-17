@@ -24,29 +24,14 @@
     }
   }];
 
-  var publicEventForList = [{
-    path: 'venue',
-    select: 'name day numberOfGames'
-  }, {
-    path: 'td',
-    select: '-statusId'
-  }, {
-    path: 'games'
-  }];
-
-  api.get('/', (req, res) => {
-    Event
-      .find({
-        statusId: 1
-      })
-      .populate(publicEventForList)
-      .select('-statusId')
-      .exec((err, events) => {
-        if (err)
-          res.send(err);
-        res.send(events);
-      })
-  })
+  api.get('/', function(req, res) {
+    eventsService.getEvents(function(err, events) {
+      if (err) {
+        return res.send(err)
+      }
+      res.send(events);
+    });
+  });
 
   api.get('/date', function(req, res) {
     var startDate = new Date(req.query.startDate);
