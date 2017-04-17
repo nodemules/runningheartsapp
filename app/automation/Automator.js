@@ -17,7 +17,7 @@
     }
 
     function completeEvents() {
-      eventsService.getEvents(function(error, events) {
+      eventsService.getPastEvents(function(error, events) {
         eventsCompleter.markEventsCompleted(events);
       })
     }

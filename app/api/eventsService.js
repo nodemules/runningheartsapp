@@ -5,7 +5,8 @@
       createEvent,
       createEvents,
       checkIfEventExists,
-      getEvents
+      getEvents,
+      getPastEvents
     }
 
     function createEvent(event, cb) {
@@ -40,6 +41,23 @@
           statusId: 1
         })
         .populate(publicEventForList)
+        .select('-statusId')
+        .exec(function(err, events) {
+          if (err) {
+            return cb(err);
+          }
+          cb(null, events);
+        });
+    }
+
+    function getPastEvents(cb) {
+      Event
+        .find({
+          date: {
+            $lt: new Date()
+          },
+          completed: false
+        })
         .select('-statusId')
         .exec(function(err, events) {
           if (err) {

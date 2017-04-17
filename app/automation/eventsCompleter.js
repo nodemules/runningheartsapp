@@ -10,21 +10,19 @@
 
     function markEventsCompleted(events) {
       events.forEach((event) => {
-        if (event.date < new Date() && !event.completed) {
-          event.completed = true;
-          Event
-            .findOneAndUpdate({
-              _id: event._id
-            }, event, {
-              'new': true
-            })
-            .select('-statusId')
-            .exec((err, e) => {
-              if (err)
-                console.log(err);
-              console.log(`Event ${event._id} Marked Completed`);
-            })
-        }
+        event.completed = true;
+        Event
+          .findOneAndUpdate({
+            _id: event._id
+          }, event, {
+            'new': true
+          })
+          .select('-statusId')
+          .exec((err, e) => {
+            if (err)
+              console.log(err);
+            console.log(`Event ${event._id} Marked Completed`);
+          })
       })
     }
 
