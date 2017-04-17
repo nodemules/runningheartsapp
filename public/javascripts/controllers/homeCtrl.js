@@ -8,14 +8,14 @@
     '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
     'eventsService', 'playersService', 'seasonsService', 'statsService',
     'venuesService', 'gamesService', 'permissionsService', 'authApiService',
-    'authService', 'dialogService'
+    'authService', 'dialogService', 'historyService'
   ];
 
   function homeCtrl(
     $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
     eventsService, playersService, seasonsService, statsService,
     venuesService, gamesService, permissionsService, authApiService,
-    authService, dialogService
+    authService, dialogService, historyService
   ) {
 
     var vm = this;
@@ -136,6 +136,16 @@
       })
     }
 
+    vm.back = function() {
+      historyService.goPrevious()
+    }
+
+    function getTodaysEvents() {
+      vm.todaysEvents = eventsService.api().byDate({
+        startDate: new Date()
+      });
+    }
+
     function getPermissions() {
       permissionsService.getPermissions((permissions) => {
         vm.permissions = permissions;
@@ -144,6 +154,7 @@
 
     function initialize() {
       getPermissions();
+      getTodaysEvents();
     }
 
     initialize();

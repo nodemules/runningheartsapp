@@ -7,6 +7,10 @@ var eventSchema = mongoose.Schema({
     'type': Number,
     'default': 1
   },
+  'completed': {
+    'type': Boolean,
+    'default': false
+  },
   'date': {
     'type': Date,
     'default': Date.now

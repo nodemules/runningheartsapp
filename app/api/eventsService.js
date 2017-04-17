@@ -4,7 +4,9 @@
     var service = {
       createEvent,
       createEvents,
-      checkIfEventExists
+      checkIfEventExists,
+      getEvents,
+      getPastEvents
     }
 
     function createEvent(event, cb) {
@@ -21,6 +23,48 @@
           return cb(err);
         return cb(null, e);
       })
+    }
+
+    var publicEventForList = [{
+      path: 'venue',
+      select: 'name day numberOfGames'
+    }, {
+      path: 'td',
+      select: '-statusId'
+    }, {
+      path: 'games'
+    }];
+
+    function getEvents(cb) {
+      Event
+        .find({
+          statusId: 1
+        })
+        .populate(publicEventForList)
+        .select('-statusId')
+        .exec(function(err, events) {
+          if (err) {
+            return cb(err);
+          }
+          cb(null, events);
+        });
+    }
+
+    function getPastEvents(cb) {
+      Event
+        .find({
+          date: {
+            $lt: new Date()
+          },
+          completed: false
+        })
+        .select('-statusId')
+        .exec(function(err, events) {
+          if (err) {
+            return cb(err);
+          }
+          cb(null, events);
+        });
     }
 
     function checkIfEventExists(venue, date, manual) {

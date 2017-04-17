@@ -5,17 +5,17 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService', 'eventsService'];
 
-  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService, eventsService) {
 
     var vm = this;
 
     vm.getGame = function(id) {
       vm.game = gamesService.api(id).get(function() {
         if (!vm.game.inProgress) {
-          vm.game.startTime = Date.now(),
-            vm.game.inProgress = true;
+          vm.game.startTime = Date.now();
+          vm.game.inProgress = true;
           vm.game.$save();
         }
       });
@@ -109,6 +109,10 @@
       dialogService.confirm(message).then(() => {
         vm.game.completed = true;
         vm.game.$save();
+        if (vm.game.number === vm.game.event.venue.numberOfGames) {
+          vm.game.event.completed = true;
+          eventsService.api().save(vm.game.event);
+        }
       })
     }
 
