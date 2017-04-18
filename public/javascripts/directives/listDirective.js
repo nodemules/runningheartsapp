@@ -19,7 +19,7 @@
       '      <div class="md-list-item-text">', //
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
       '        <h3 ng-if="item.venue">{{item.venue.name}}</h3>', //
-      '        <p>{{item.day ? item.day : (item.date | date:\'fullDate\') + \' \' + (item.date | date:\'shortTime\')}}</p>', //     TODO - this based on a scope import
+      '        <p>{{item.day ? item.day : (item.date | date:\'fullDate\')}} at {{item.time ? item.time : item.venue.time}}</p>', //     TODO - this based on a scope import
       '        <p ng-if="item.td">',
       '          <span ng-repeat="td in item.td">',
       '            {{($index + 1) == item.td.length && item.td.length > 1 ? \'and/or \' : \'\'}}{{td.name}}{{($index + 1) < item.td.length ? \', \' : \'\'}}',

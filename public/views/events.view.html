@@ -10,7 +10,7 @@
           {{($index + 1) < ev.event.td.length ? ', ' : ''}}
           </span>
         </span>
-        <span class="md-subhead">Takes place on: {{ ev.event.date | date:'short'}}</span>
+        <span class="md-subhead">Takes place on: {{ ev.event.date | date:'shortDate'}} at {{ev.event.venue.time}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
