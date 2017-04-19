@@ -56,8 +56,7 @@ function formatVenues(data) {
 
       venue.name = venueData[0];
       venue.day = moment(venueData[1]).format('dddd');
-      //TODO: make dynamic
-      venue.numberOfGames = 2;
+      venue.time = '7:30 PM'
       venue.events = [];
       venue.statusId = 1;
       venue.td = [];
