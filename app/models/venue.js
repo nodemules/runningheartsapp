@@ -9,6 +9,7 @@ var venueSchema = mongoose.Schema({
   },
   'name': String,
   'day': String,
+  'time': String,
   'numberOfGames': Number,
   'td': [{
     'type': Schema.Types.ObjectId,

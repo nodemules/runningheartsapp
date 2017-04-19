@@ -27,7 +27,7 @@
 
     var publicEventForList = [{
       path: 'venue',
-      select: 'name day numberOfGames'
+      select: 'name day time numberOfGames'
     }, {
       path: 'td',
       select: '-statusId'
