@@ -21,7 +21,7 @@ var Players = require('../models/player');
 
 var file = process.argv.slice(2)[0];
 
-console.log(`\n\nLoading ${file}...\n\n`)
+console.log('\n\nStarting Add Players to Games Process...\n\n')
 
 var stream = fs.createReadStream(file);
 
@@ -54,8 +54,10 @@ csv
   })
 
   .on('end', function() {
-    //need to only exit when all functions complete, this is firing before everything is done
-    //process.exit()
+    setTimeout(function() {
+      console.log('Finished adding players to games...')
+      process.exit();
+    }, 10000)
   });
 
 function getPlayerIds(data) {

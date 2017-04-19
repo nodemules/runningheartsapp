@@ -22,9 +22,14 @@ var Venues = require('../models/venue');
 //TODO: Make historical TD player for events?
 //TODO: Make this file exit.
 
+console.log('Starting Misc Chores...')
 
 getVenues().then((venues) => {
   correctNumberOfGames(venues);
+  setTimeout(function() {
+    console.log('Finished misc chores...')
+    process.exit();
+  }, 10000)
 })
 
 
@@ -52,6 +57,7 @@ function correctNumberOfGames(venues) {
       (err, v) => {
         if (err)
           console.log(err.stack);
+
       });
   })
 }

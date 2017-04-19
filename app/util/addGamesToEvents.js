@@ -20,7 +20,7 @@ var Events = require('../models/event');
 
 var file = process.argv.slice(2)[0];
 
-console.log(`\n\nLoading ${file}...\n\n`)
+console.log('\n\nStarting Add Games To Events Process...\n\n')
 
 var stream = fs.createReadStream(file);
 
@@ -43,8 +43,10 @@ csv
   })
 
   .on('end', function() {
-    //need to only exit when all functions complete, this is firing before everything is done
-    //process.exit()
+    setTimeout(function() {
+      console.log('Finished adding games to events...')
+      process.exit();
+    }, 10000)
   });
 
 function getGameIds() {
