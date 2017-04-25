@@ -22,5 +22,11 @@
       <md-button class="md-raised md-default" ng-click="pm.resetPlayer()" ng-show="pm.new">Reset</md-button>
       <md-button class="md-raised md-primary" ng-click="pm.save()" ng-disabled="pm.forms.playerForm.$invalid || pm.player.$$saving;">Save</md-button>
     </div>
+    <div layout="row" layout-align="end" ng-show="pm.player.$$error">
+      <p>
+        {{pm.player.$$error.message}}. There was an error saving this player.
+        <span ng-show="pm.player.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+      </p>
+    </div>
   </form>
 </div>

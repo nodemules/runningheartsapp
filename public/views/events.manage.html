@@ -43,5 +43,11 @@
       <md-button class="md-raised md-default" ng-click="em.resetVenue()" ng-show="em.new">Reset</md-button>
       <md-button class="md-raised md-primary" ng-click="em.save()" ng-disabled="em.forms.manageEvent.$invalid || em.event.$$saving">Save</md-button>
     </div>
+    <div layout="row" layout-align="end" ng-show="em.event.$$error">
+      <p>
+        {{em.event.$$error.message}}. There was an error saving this event.
+        <span ng-show="em.event.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+      </p>
+    </div>
   </form>
 </div>

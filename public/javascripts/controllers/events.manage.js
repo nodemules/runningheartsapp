@@ -2,9 +2,9 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
-  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService'];
+  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService', 'errorService'];
 
-  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService) {
+  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService, errorService) {
 
     var vm = this;
 
@@ -46,6 +46,7 @@
             vm.forms.manageEvent.date.$setValidity('eventAlreadyExists', false)
             break;
           default:
+            errorService.handleApiError(err);
             break;
         }
       });

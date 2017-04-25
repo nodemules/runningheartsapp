@@ -25,6 +25,9 @@
         'create': {
           method: 'POST',
           transformRequest: function(data) {
+            if (data.$$error) {
+              delete data.$$error;
+            }
             data.$$saving = true;
             return angular.toJson(data);
           },
@@ -39,6 +42,9 @@
             id: null
           },
           transformRequest: function(data) {
+            if (data.$$error) {
+              delete data.$$error;
+            }
             data.$$saving = true;
             return angular.toJson(data);
           },

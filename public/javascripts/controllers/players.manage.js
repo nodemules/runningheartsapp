@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('playersManageCtrl', playersManageCtrl);
 
-  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'historyService', 'formService'];
+  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'historyService', 'formService', 'errorService'];
 
-  function playersManageCtrl($filter, $state, $stateParams, playersService, historyService, formService) {
+  function playersManageCtrl($filter, $state, $stateParams, playersService, historyService, formService, errorService) {
 
     var vm = this;
 
@@ -20,6 +20,8 @@
     vm.save = function() {
       playersService.api().save(vm.player, function() {
         $state.transitionTo('players.list');
+      }, (err) => {
+        errorService.handleApiError(err);
       })
     }
 
