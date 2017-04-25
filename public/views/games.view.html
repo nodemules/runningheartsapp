@@ -1,16 +1,13 @@
 <md-content layout="column">
-  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch layout-align="center center">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game @ {{gv.game.event.venue.name}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <p>Some information about this game.</p>
+      {{gv.game.event.date | date:'fullDate'}}
     </md-card-content>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button class="md-raised md-primary" ui-sref="events.view({ id : gv.game.event._id })">Back to Event</md-button>
-    </md-card-actions>
   </md-card>
   <div ng-if="games.permissions.PLAY_GAME">
     <md-content layout="column" ng-show="!gv.game.completed">
@@ -28,6 +25,9 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
+      <div ng-show="!gv.game.players.length">
+        There are no players for this game... yet.
+      </div>
       <md-card ui-sref="players.view({ id: player.player._id})" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']">
         <md-card-title>
           <div layout="row" class="stats-player-row" layout-align="center center">
