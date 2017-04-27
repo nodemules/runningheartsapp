@@ -54,7 +54,7 @@
     <md-card-actions layout="column">
       <md-button class="md-raised md-primary" ng-click="ev.viewGame(game)">View Game</md-button>
       <md-button class="md-raised md-primary" ng-click="ev.completeGame(game)"
-        ng-if="!game.completed && (game.players | filter:{ score: '!' }).length === 0 && events.permissions.PLAY_GAME">
+        ng-if="!game.completed && game.players.length !== 0 && (game.players | filter:{ score: '!' }).length === 0 && events.permissions.PLAY_GAME">
         Complete Game
       </md-button>
     </md-card-actions>

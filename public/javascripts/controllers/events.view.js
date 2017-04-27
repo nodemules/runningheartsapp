@@ -54,7 +54,7 @@
       Scores will be submitted to season standings.`
       dialogService.confirm(message).then(() => {
         game.completed = true;
-        game.$save();
+        gamesService.api().save(game);
       })
     }
 
