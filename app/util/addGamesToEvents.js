@@ -18,36 +18,17 @@ var Events = require('../models/event');
 
 //----------------------------------------------------------------------------\\
 
-var file = process.argv.slice(2)[0];
 
 console.log('\n\nStarting Add Games To Events Process...\n\n')
 
-var stream = fs.createReadStream(file);
+getGameIds().then((games) => {
+  addGamesToEvent(games);
+});
 
-var row = 1;
-
-csv
-  .fromStream(stream, {
-    headers: true
-  })
-  .on('data', function(data) {
-
-    if (row === 1) {
-      getGameIds().then((games) => {
-        addGamesToEvent(games);
-      })
-
-    }
-
-    row++;
-  })
-
-  .on('end', function() {
-    setTimeout(function() {
-      console.log('Finished adding games to events...')
-      process.exit();
-    }, 10000)
-  });
+setTimeout(function() {
+  console.log('Finished adding games to events...')
+  process.exit();
+}, 10000)
 
 function getGameIds() {
 
@@ -67,7 +48,7 @@ function addGamesToEvent(games) {
     Events.update({
       _id: game.event
     }, {
-      $push: {
+      $addToSet: {
         games: mongoose.Types.ObjectId(game._id)
       }
     },

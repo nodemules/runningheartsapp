@@ -96,7 +96,7 @@ function addPlayersToGame(playerData) {
     Games.update({
       startTime: player.date
     }, {
-      $push: {
+      $addToSet: {
         players: player
       }
     },
