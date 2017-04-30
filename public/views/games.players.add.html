@@ -21,8 +21,20 @@
     <label>Player Name</label>
     <input required ng-model="player.name" name="name" />
   </md-input-container>
-  <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);player=null;" ng-disabled="!player.name">Create Player</md-button>
+  <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name">Create Player</md-button>
 </md-content>
+<div layout="row" layout-align="end" ng-show="player.$$error">
+  <p>
+    {{player.$$error.message}}. There was an error adding player.
+    <span ng-show="player.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+  </p>
+</div>
 <md-content layout="column" layout-align="end" flex>
   <md-button class="md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">Add Players</md-button>
+  <div layout="row" layout-align="end" ng-show="gp.game.$$error">
+    <p>
+      {{gp.game.$$error.message}}. There was an error adding players to the game.
+      <span ng-show="gp.game.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+    </p>
+  </div>
 </md-content>

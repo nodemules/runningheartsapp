@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayersCtrl', gamesPlayersCtrl);
 
-  gamesPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdMedia', 'playersService', 'gamesService'];
+  gamesPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdMedia', 'playersService', 'gamesService', 'errorService'];
 
-  function gamesPlayersCtrl($filter, $state, $stateParams, $mdMedia, playersService, gamesService) {
+  function gamesPlayersCtrl($filter, $state, $stateParams, $mdMedia, playersService, gamesService, errorService) {
 
     var vm = this;
 
@@ -74,15 +74,20 @@
         $state.transitionTo('games.view', {
           id: vm.game._id
         })
+      }, function(err) {
+        errorService.handleApiError(err)
       })
     }
 
     vm.createPlayer = function(player) {
-      playersService.api().save(player, function(player) {
+      playersService.api().save(player, function(resPlayer) {
         vm.getPlayers(true);
         vm.game.players.push({
-          player: player
+          player: resPlayer
         })
+        player.name = null;
+      }, function(err) {
+        errorService.handleApiError(err)
       })
     }
 
