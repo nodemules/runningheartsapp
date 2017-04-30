@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
-  eventsViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService', 'dialogService'];
+  eventsViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'playersService', 'venuesService', 'gamesService', 'dialogService', 'errorService'];
 
-  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService, dialogService) {
+  function eventsViewCtrl($filter, $state, $stateParams, eventsService, playersService, venuesService, gamesService, dialogService, errorService) {
 
     var vm = this;
 
@@ -28,7 +28,9 @@
       }
       gamesService.api().create(vm.game, function(game) {
         vm.viewGame(game);
-      })
+      }, function(err) {
+        errorService.handleApiError(err);
+      });
 
     }
 

@@ -1,9 +1,9 @@
 {
   angular.module(APP_NAME).factory('errorService', errorService);
 
-  errorService.$inject = ['$resource', '$state'];
+  errorService.$inject = ['$state', 'authService'];
 
-  function errorService($resource, $state) {
+  function errorService($state, authService) {
 
     var service = {
       handleApiError
@@ -17,6 +17,14 @@
       var requestData = error.config.data;
       requestData.$$saving = false;
       requestData.$$error = error.data;
+      switch (error.data.code) {
+        case 'NO_USER_FOUND':
+          authService.authenticate(false);
+          break;
+        default:
+          break;
+
+      }
     }
 
   }

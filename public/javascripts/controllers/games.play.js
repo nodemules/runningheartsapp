@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService', 'eventsService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService', 'eventsService', 'errorService'];
 
-  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService, eventsService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService, eventsService, errorService) {
 
     var vm = this;
 
