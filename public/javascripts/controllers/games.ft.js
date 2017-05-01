@@ -2,20 +2,14 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('gamesFinalTableCtrl', gamesFinalTableCtrl)
 
-  gamesFinalTableCtrl.$inject = ['$filter', '$state', '$stateParams', 'gamesService']
+  gamesFinalTableCtrl.$inject = ['$filter', '$state', '$stateParams', 'gamesService', 'errorService']
 
-  function gamesFinalTableCtrl($filter, $state, $stateParams, gamesService) {
+  function gamesFinalTableCtrl($filter, $state, $stateParams, gamesService, errorService) {
 
     var vm = this;
 
     vm.getGame = function(id) {
-      vm.game = gamesService.api(id).get(function() {
-        if (!vm.game.inProgress) {
-          vm.game.startTime = Date.now(),
-            vm.game.inProgress = true;
-          vm.game.$save();
-        }
-      });
+      vm.game = gamesService.api(id).get();
     }
 
     vm.setFinalTablePlayers = function() {
@@ -43,6 +37,8 @@
         $state.go('games.play', {
           id: vm.game._id
         })
+      }, function(err) {
+        errorService.handleApiError(err);
       });
     }
 
