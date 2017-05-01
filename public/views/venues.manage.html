@@ -58,5 +58,11 @@
       <md-button class="md-raised md-default" ng-click="vm.resetVenue()" ng-show="vm.new">Reset</md-button>
       <md-button class="md-raised md-primary" ng-click="vm.save()" ng-disabled="vm.forms.manageVenue.$invalid || vm.venue.$$saving">Save</md-button>
     </div>
+    <div layout="row" layout-align="end" ng-show="vm.venue.$$error">
+      <p>
+        {{vm.venue.$$error.message}}. There was an error saving this venue.
+        <span ng-show="vm.venue.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+      </p>
+    </div>
   </form>
 </div>

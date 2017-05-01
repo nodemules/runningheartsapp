@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('gamesPlayCtrl', gamesPlayCtrl);
 
-  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService', 'eventsService'];
+  gamesPlayCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdDialog', 'gamesService', 'dialogService', 'eventsService', 'errorService'];
 
-  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService, eventsService) {
+  function gamesPlayCtrl($filter, $state, $stateParams, $mdDialog, gamesService, dialogService, eventsService, errorService) {
 
     var vm = this;
 
@@ -16,7 +16,7 @@
         if (!vm.game.inProgress) {
           vm.game.startTime = Date.now();
           vm.game.inProgress = true;
-          vm.game.$save();
+          saveGame();
         }
       });
     }
@@ -26,10 +26,13 @@
       attendee.score = getScore(idx);
       attendee.cashedOutTime = Date.now();
       attendee.rank = idx + 1;
-      vm.game.$save();
+      saveGame(angular.noop, function() {
+        zeroOutAttendee(attendee);
+      });
     }
 
     vm.playerBackIn = function(attendee) {
+      var attendeeCopy = angular.copy(attendee);
       var message = `Marking a player back in will adjust all currently ranked
         players and remove this player's score and rank. Is this okay?`
       dialogService.confirm(message).then(() => {
@@ -38,7 +41,13 @@
         });
         zeroOutAttendee(attendee);
         adjustAttendeeScores(rankedPlayers);
-        vm.game.$save();
+        saveGame(angular.noop, function() {
+          var test = $filter('filter')(vm.game.players, function(player) {
+            return player.rank <= attendeeCopy.rank;
+          });
+          angular.copy(attendeeCopy, attendee);
+          adjustAttendeeScores(test, true);
+        });
       })
     }
 
@@ -58,7 +67,9 @@
       cannot buy back in but you will be able to edit the final standings later.`
       dialogService.confirm(message).then(() => {
         vm.game.finalTable = true;
-        vm.game.$save();
+        saveGame(angular.noop, function() {
+          vm.game.finalTable = false;
+        });
       })
 
     }
@@ -108,11 +119,14 @@
       Scores will be submitted to season standings.`
       dialogService.confirm(message).then(() => {
         vm.game.completed = true;
-        vm.game.$save();
-        if (vm.game.number === vm.game.event.venue.numberOfGames) {
-          vm.game.event.completed = true;
-          eventsService.api().save(vm.game.event);
-        }
+        saveGame(function() {
+          if (vm.game.number === vm.game.event.venue.numberOfGames) {
+            vm.game.event.completed = true;
+            eventsService.api().save(vm.game.event);
+          }
+        }, function() {
+          vm.game.completed = false;
+        });
       })
     }
 
@@ -156,8 +170,11 @@
       delete attendee.rank;
     }
 
-    function adjustAttendeeScores(rankedPlayers) {
+    function adjustAttendeeScores(rankedPlayers, reverse) {
       angular.forEach(rankedPlayers, function(player) {
+        if (reverse) {
+          player.rank = player.rank - 2;
+        }
         player.score = getScore(player.rank);
         player.rank = player.rank + 1;
       })
@@ -166,6 +183,19 @@
 
     function initialize() {
       vm.getGame($stateParams.id);
+    }
+
+    function saveGame(cb, errCb) {
+      vm.game.$save(function() {
+        if (cb && typeof cb === 'function') {
+          cb();
+        }
+      }, function(err) {
+        errorService.handleApiError(err);
+        if (errCb && typeof errCb === 'function') {
+          errCb();
+        }
+      })
     }
 
     initialize();

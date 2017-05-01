@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('venuesManageCtrl', venuesManageCtrl);
 
-  venuesManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'playersService', 'historyService', 'formService'];
+  venuesManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'venuesService', 'playersService', 'historyService', 'formService', 'errorService'];
 
-  function venuesManageCtrl($filter, $state, $stateParams, venuesService, playersService, historyService, formService) {
+  function venuesManageCtrl($filter, $state, $stateParams, venuesService, playersService, historyService, formService, errorService) {
 
     var vm = this;
 
@@ -48,6 +48,8 @@
       }
       venuesService.api().save(vm.venue, function() {
         $state.go('venues.list')
+      }, function(err) {
+        errorService.handleApiError(err);
       });
     }
 

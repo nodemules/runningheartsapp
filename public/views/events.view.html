@@ -68,5 +68,11 @@
     <md-card-actions layout="column">
       <md-button class="md-raised md-primary" ng-click="ev.newGame()" ng-disabled="ev.game.$$saving">Start {{ev.event.games.length ? 'Another' : ''}} Game</md-button>
     </md-card-actions>
+    <md-card-content layout="row" layout-align="end" ng-show="ev.game.$$error">
+      <p>
+        {{ev.game.$$error.message}}. There was an error creating this game.
+        <span ng-show="ev.game.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+      </p>
+    </md-card-content>
   </md-card>
 </md-content>
