@@ -17,6 +17,9 @@
           vm.game.startTime = Date.now();
           vm.game.inProgress = true;
           saveGame();
+        } else {
+          console.log('not in progress')
+          adjustScores(vm.game.players);
         }
       });
     }
@@ -164,10 +167,19 @@
       }
     }
 
-    function zeroOutAttendee(attendee) {
+    function zeroOutAttendee(attendee, keepTime) {
       delete attendee.score;
-      delete attendee.cashedOutTime;
       delete attendee.rank;
+      if (!keepTime) {
+        delete attendee.cashedOutTime;
+      }
+    }
+
+    function rankAttendee(attendee) {
+      var idx = getNextRankOut();
+      attendee.score = getScore(idx);
+      attendee.cashedOutTime = Date.now();
+      attendee.rank = getRank(attendee.score);
     }
 
     function adjustAttendeeScores(rankedPlayers, reverse) {
@@ -179,6 +191,22 @@
         player.rank = player.rank + 1;
       })
 
+    }
+
+    function adjustScores(players) {
+      var orderedPlayers = $filter('orderBy')(players, 'cashedOutTime');
+      angular.forEach(vm.game.players, function(player) {
+        if (player.cashedOutTime) {
+          zeroOutAttendee(player, true);
+        }
+      })
+      angular.forEach(orderedPlayers, function(player) {
+        if (player.cashedOutTime) {
+          rankAttendee(player);
+        }
+      })
+      vm.game.players = orderedPlayers;
+      saveGame();
     }
 
     function initialize() {
