@@ -17,7 +17,7 @@
     })
     .run(($rootScope, $state, authService, historyService) => {
       $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
-        if (!fromState.abstract && !historyService.isGoingBack()) {
+        if (!fromState.abstract && !historyService.isGoingBack() && !fromState.historyIgnore) {
           historyService.pushState(fromState, fromParams);
         }
       })

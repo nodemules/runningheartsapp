@@ -28,6 +28,7 @@
           templateUrl: '/views/events.manage.html',
           controller: 'eventsManageCtrl',
           controllerAs: 'em',
+          historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               var permissions = []

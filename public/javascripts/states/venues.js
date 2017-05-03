@@ -31,6 +31,7 @@
           templateUrl: '/views/venues.manage.html',
           controller: 'venuesManageCtrl',
           controllerAs: 'vm',
+          historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               var permissions = []

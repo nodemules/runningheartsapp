@@ -28,6 +28,7 @@
           templateUrl: '/views/players.manage.html',
           controller: 'playersManageCtrl',
           controllerAs: 'pm',
+          historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               var permissions = []

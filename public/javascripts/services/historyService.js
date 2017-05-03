@@ -25,6 +25,11 @@
       var previousState = stateHistory[stateHistory.length - 1];
       var hasRedirect = previousState && previousState.state.redirectTo;
 
+      while (previousState && $state.current.name === previousState.state.name) {
+        stateHistory.pop();
+        previousState = stateHistory[stateHistory.length - 1];
+      }
+
       if (hasRedirect) {
         previousState = stateHistory[stateHistory.length - 2];
       }
@@ -34,9 +39,9 @@
           params: {}
         }
       } else if (hasRedirect) {
-        stateHistory.slice(stateHistory.length - 2, 2)
+        stateHistory.slice(stateHistory.length - 2, 2);
       } else {
-        stateHistory.pop()
+        stateHistory.pop();
       }
 
       goingBack = true;

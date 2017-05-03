@@ -41,6 +41,7 @@
           templateUrl: '/views/games.ft.html',
           controller: 'gamesFinalTableCtrl',
           controllerAs: 'vm',
+          historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               return authProvider.authWithPermissionsPassParams('games.view', {
@@ -54,7 +55,8 @@
           parent: 'games.play',
           templateUrl: '/views/games.players.html',
           controller: 'gamesPlayersCtrl',
-          controllerAs: 'gp'
+          controllerAs: 'gp',
+          historyIgnore: true
         })
         .state('games.players.add', {
           url: '/:gameId/players/add',
@@ -62,6 +64,7 @@
           templateUrl: '/views/games.players.add.html',
           controller: 'gamesPlayersCtrl',
           controllerAs: 'gp',
+          historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
               return authProvider.authWithPermissionsPassParams('games.view', {
