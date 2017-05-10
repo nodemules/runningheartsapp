@@ -16,12 +16,14 @@
     </md-virtual-repeat-container>
   </md-list>
 </md-content>
-<md-content layout-padding layout="row"  layout-align="start end">
-  <md-input-container flex-gt-xs="80" flex-xs="65">
+<md-content layout="row" flex>
+  <md-input-container class="rhp-add-player" flex-gt-xs="80" flex-xs="65">
     <label>Player Name</label>
     <input required ng-model="player.name" name="name" />
   </md-input-container>
-  <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name">Create Player</md-button>
+  <div>
+    <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name">Create Player</md-button>
+  </div>
 </md-content>
 <div layout="row" layout-align="end" ng-show="player.$$error">
   <p>
