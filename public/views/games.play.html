@@ -12,7 +12,8 @@
       <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" layout-align="center center" >
         <div ng-click="!gp.game.finalize ? touched=!touched : null"layout="row" class="rhp-list-row" layout-align="center center">
           <div ng-click="gp.game.finalize ? changeRank=!changeRank : null" ng-show="!changeRank" layout="row" flex="10" layout-align="center center">
-            <i class="fa fa-hashtag"></i>   {{attendee.rank}}
+            <span ng-show="attendee.rank <= 8"> <i class="fa fa-hashtag"></i>   {{attendee.rank}}</span>
+            <span ng-show="gp.game.finalize && attendee.rank > 8"><i class="fa fa-hashtag"></i></span>
           </div>
           <div layout="row" flex="10" layout-align="center center" ng-show="changeRank">
             <md-input-container>
