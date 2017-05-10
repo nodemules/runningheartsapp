@@ -32,11 +32,6 @@
     }
 
     vm.save = function() {
-      //prevent a bug where user sets a td then unselects it is valid
-      if (!vm.event.td) {
-        vm.forms.manageEvent.td.$setValidity('required', false)
-        return false;
-      }
       eventsService.api().save(vm.event, function() {
         $state.transitionTo('events.list')
       }, (err) => {
