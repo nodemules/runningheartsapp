@@ -29,10 +29,10 @@
         <md-card-title>
           <div layout="row" class="stats-player-row" layout-align="center center">
             <div layout="row" flex="10" layout-align="start center">
-              <i class="fa fa-hashtag"></i>   {{$index + 1}}
+              <span ng-show="player.rank <= 8" class="player-row"><i class="fa fa-hashtag"></i>   {{player.rank}}</span>
             </div>
             <div layout="row" flex layout-align="center center">
-                {{player.player.name}}
+              {{player.player.name}}
             </div>
           </div>
         </md-card-title>
