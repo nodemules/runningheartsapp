@@ -110,11 +110,15 @@ md-ink-bar {
 }
 
 #vertical-container {
-  height: 70vh;
+  height: 60vh;
 }
 
 #rhp-active-player-container {
   height: 74vh;
+}
+
+.rhp-add-player {
+  margin-bottom: 0;
 }
 
 .rhp-active-player md-input-container {
