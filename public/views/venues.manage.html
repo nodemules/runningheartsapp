@@ -48,7 +48,7 @@
     <div layout-gt-xs="row">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Tournament Director</label>
-        <md-select required ng-model="vm.venue.td" ng-model-options="{trackBy: '$value._id'}" multiple name="td" ng-change="vm.reset(vm.forms.manageVenue.td, 'required')">
+        <md-select required ng-model="vm.venue.td" ng-model-options="{trackBy: '$value._id'}" multiple name="td">
           <md-option ng-value="td" ng-repeat="td in vm.directors">{{td.name}}</md-option>
         </md-select>
         <div ng-class="{ 'rhp-messages-active' : vm.forms.manageVenue.td.$dirty }"

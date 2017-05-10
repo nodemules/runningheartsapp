@@ -41,11 +41,6 @@
     }
 
     vm.save = function() {
-      //prevent a bug where user sets a td then unselects it is valid
-      if (!vm.venue.td) {
-        vm.forms.manageVenue.td.$setValidity('required', false)
-        return false;
-      }
       venuesService.api().save(vm.venue, function() {
         $state.go('venues.list')
       }, function(err) {
