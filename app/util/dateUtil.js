@@ -9,7 +9,12 @@
     function getNextDays(dayOfWeek, weeks) {
       var days = [];
       for (var i = 0; i < weeks; i++) {
-        var day = moment().day(getDayOfWeek(dayOfWeek) + (7 * i)).format();
+        var day = moment().day(getDayOfWeek(dayOfWeek) + (7 * i)).set({
+          hour: 19,
+          minute: 30,
+          second: 0,
+          millisecond: 0
+        }).format();
         days.push(day);
       }
       return days;
