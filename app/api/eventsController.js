@@ -1,6 +1,7 @@
 {
   var express = require('express'),
-    api = express.Router();
+    api = express.Router(),
+    moment = require('moment-timezone');
 
   var authService = require('./authService')(),
     Permissions = require('../enum/permissions'),
@@ -34,21 +35,19 @@
   });
 
   api.get('/date', function(req, res) {
-    var startDate = new Date(req.query.startDate);
-    startDate = startDate.setHours(0, 0, 0, 0);
+    var startDate = moment(req.query.startDate).startOf('day').format();
     var endDate;
     if (req.query.endDate) {
-      endDate = new Date(req.query.endDate);
+      endDate = moment(req.query.endDate).endOf('day').format();
     } else {
-      endDate = new Date(startDate);
+      endDate = moment(startDate).endOf('day').format();
     }
-    endDate = endDate.setHours(23, 59, 59, 999)
 
     Event
       .find({
         date: {
-          $gte: new Date(startDate),
-          $lte: new Date(endDate)
+          $gte: startDate,
+          $lte: endDate
         },
         statusId: 1
       })

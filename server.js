@@ -9,6 +9,7 @@ var port = process.env.RHP_PORT || 8080;
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var moment = require('moment-timezone');
 
 var session = require('express-session');
 var passport = require('passport');
@@ -20,6 +21,8 @@ var configuration = require('./config/configuration.js');
 var automation = require('./app/automation/main');
 
 automation();
+
+moment.tz.setDefault('America/New_York');
 
 // configuration ===============================================================
 require('./config/passport')(passport);

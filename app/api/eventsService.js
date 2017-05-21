@@ -1,5 +1,6 @@
 {
   function exports() {
+    var moment = require('moment-timezone')
     var Event = require('../models/event');
     var service = {
       createEvent,
@@ -54,7 +55,7 @@
       Event
         .find({
           date: {
-            $lt: new Date()
+            $lt: moment().startOf('day').format()
           },
           completed: false
         })
@@ -68,19 +69,12 @@
     }
 
     function checkIfEventExists(venue, date, manual) {
-
-      //fix this date garbage
-      //need to normalize all dates in the app to avoid this kind of nonsense
-      var startOfDay = new Date(date);
-      startOfDay = startOfDay.setHours(0, 0, 0, 0);
-      var endOfDay = new Date(date);
-      endOfDay = endOfDay.setHours(23, 59, 59, 999)
       return new Promise(function(resolve, reject) {
         var event = {
           venue: venue,
           date: {
-            $gte: new Date(startOfDay),
-            $lte: new Date(endOfDay)
+            $gte: moment(date).startOf('day').format(),
+            $lte: moment(date).endOf('day').format()
           }
         }
         if (manual) {
