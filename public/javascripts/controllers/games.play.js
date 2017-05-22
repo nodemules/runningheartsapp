@@ -18,7 +18,6 @@
           vm.game.inProgress = true;
           saveGame();
         } else {
-          console.log('not in progress')
           adjustScores(vm.game.players);
         }
       });

@@ -37,11 +37,10 @@
   api.get('/date', function(req, res) {
     var startDate = moment(req.query.startDate).startOf('day').format();
     var endDate;
-    if (req.query.endDate) {
-      endDate = moment(req.query.endDate).endOf('day').format();
-    } else {
-      endDate = moment(startDate).endOf('day').format();
+    if (!req.query.endDate) {
+      endDate = req.query.startDate;
     }
+    endDate = moment(endDate).endOf('day').format();
 
     Event
       .find({
@@ -78,10 +77,10 @@
     Event
       .findById(req.params.id)
       .populate(publicEvent)
-      .exec((err, events) => {
+      .exec((err, event) => {
         if (err)
           res.send(err);
-        res.send(events);
+        res.send(event);
       })
   })
 
@@ -110,7 +109,14 @@
       } else {
         eventsService.checkIfEventExists(req.body.venue, req.body.date, true).then((eventInfo) => {
           if (!eventInfo.event) {
-            eventsService.createEvent(req.body, (error, e) => {
+            var event = req.body;
+            event.date = moment(event.date).set({
+              hour: 19,
+              minute: 30,
+              second: 0,
+              millisecond: 0
+            }).format();
+            eventsService.createEvent(event, (error, e) => {
               if (error) {
                 return res.send(error)
               }

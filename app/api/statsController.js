@@ -1,7 +1,8 @@
 {
   var express = require('express'),
     api = express.Router(),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    moment = require('moment-timezone');
 
   var Game = require('../models/game'),
     Season = require('../models/season');
@@ -201,14 +202,14 @@
         var match = {
           '$match': {
             'startTime': {
-              '$gte': new Date(startTime)
+              '$gte': moment(startTime).toDate()
             },
             'completed': true
           }
         }
 
         if (endTime) {
-          match.$match.startTime.$lt = new Date(endTime);
+          match.$match.startTime.$lt = moment(endTime).toDate()
         }
 
         var pipeline = [match, unwind, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
