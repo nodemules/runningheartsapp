@@ -3,13 +3,14 @@
     var moment = require('moment-timezone');
 
     var service = {
-      getNextDays,
+      getNextDays
     }
 
     function getNextDays(dayOfWeek, weeks) {
+      var startNextWeek = moment().day(getDayOfWeek(dayOfWeek)).isBefore(moment().format());
       var days = [];
       for (var i = 0; i < weeks; i++) {
-        var day = moment().day(getDayOfWeek(dayOfWeek) + (7 * i)).set({
+        var day = moment().day(getDayOfWeek(dayOfWeek) + (7 * i) + (startNextWeek ? 7 : 0)).set({
           hour: 19,
           minute: 30,
           second: 0,
@@ -25,7 +26,9 @@
     }
 
     return service;
+
   }
+
   module.exports = exports;
 
 }
