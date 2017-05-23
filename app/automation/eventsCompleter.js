@@ -20,7 +20,7 @@
           .select('-statusId')
           .exec((err, e) => {
             if (err)
-              console.log(err);
+              return console.error(err);
             console.log(`Event ${event._id} Marked Completed`);
           })
       })
