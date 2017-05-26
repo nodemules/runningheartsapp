@@ -17,7 +17,7 @@
       <p>From here you can start your game or edit the event if you need to change TDs.</p>
     </md-card-content>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button class="md-raised md-primary" ng-click="ev.editEvent(ev.event)">Edit Event</md-button>
+      <md-button class="md-raised md-primary" ng-click="ev.editEvent(ev.event)" ng-if="events.permissions.EDIT_EVENT">Edit Event</md-button>
     </md-card-actions>
   </md-card>
   <md-card class="rhp-card-xs" ng-repeat="game in ev.event.games">
