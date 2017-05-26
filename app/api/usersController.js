@@ -100,6 +100,8 @@
             res.send(user);
           });
       } else {
+        //make all usernames lowercase in Db for login ease
+        req.body.username = req.body.username.toLowerCase();
         Users
           .create(req.body, function(err, user) {
             if (err) {
