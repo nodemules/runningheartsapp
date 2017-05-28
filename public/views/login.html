@@ -2,13 +2,6 @@
   <form name="lg.forms.loginForm">
     <md-content>
       <div layout-gt-xs="row">
-        <div ng-class="{ 'rhp-messages-active' : lg.forms.loginForm.$dirty }" ng-messages="lg.forms.loginForm.$error" ng-if="lg.forms.loginForm.username.$dirty || lg.forms.loginForm.password.$dirty">
-          <div ng-message="wrongCreds">
-            Username or password is incorrect.
-          </div>
-        </div>
-      </div>
-      <div layout-gt-xs="row">
         <md-input-container class="md-block" flex-gt-xs>
           <label>User Name</label>
           <input ng-model="lg.user.username" required name="username" ng-change="lg.reset(lg.forms.loginForm.username, 'wrongCreds')">
@@ -26,6 +19,11 @@
           <div ng-class="{ 'rhp-messages-active' : lg.forms.loginForm.password.$dirty }" ng-messages="lg.forms.loginForm.password.$error" ng-if="lg.forms.loginForm.password.$dirty">
             <div ng-message="required">
               You must provide a password.
+            </div>
+          </div>
+          <div ng-class="{ 'rhp-messages-active' : lg.forms.loginForm.$dirty }" ng-messages="lg.forms.loginForm.$error" ng-if="lg.forms.loginForm.username.$dirty || lg.forms.loginForm.password.$dirty">
+            <div ng-message="wrongCreds">
+              Username or password is incorrect.
             </div>
           </div>
         </md-input-container>
