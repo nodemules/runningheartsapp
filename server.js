@@ -20,7 +20,7 @@ var api = require('./app/api/main');
 var configuration = require('./config/configuration.js');
 var automation = require('./app/automation/main');
 
-automation();
+automation(configuration.automation);
 
 moment.tz.setDefault('America/New_York');
 
