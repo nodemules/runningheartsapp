@@ -30,7 +30,12 @@
             if (authService.isAuth()) {
               permissionsService.setPermissions();
             }
-            return data;
+            if (status === 401) {
+              data = {
+                message: data
+              }
+            }
+            return angular.fromJson(data);
           }
         },
         'logout': {

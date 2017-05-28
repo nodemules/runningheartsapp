@@ -14,8 +14,7 @@
     vm.login = function() {
       authApiService.api().login(vm.user, function(user) {
         historyService.goPrevious();
-      }, (err) => {
-        err.config.data.$$saving = false;
+      }, () => {
         vm.forms.loginForm.username.$setValidity('wrongCreds', false)
         vm.forms.loginForm.password.$setValidity('wrongCreds', false)
       })
