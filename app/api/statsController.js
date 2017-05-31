@@ -226,5 +226,51 @@
 
   })
 
+  api.get('/winners', function(req, res) {
+
+    var match = {
+      '$match': {
+        'completed': true
+      }
+    }
+
+    var group = {
+      '$group': {
+        '_id': '$players.player',
+        'totalPoints': {
+          '$sum': '$players.score'
+        }
+      }
+    }
+
+    var project = {
+      '$project': {
+        '_id': '$_id',
+        'name': '$player.name',
+        'totalPoints': '$totalPoints',
+      }
+    }
+
+    var sort = {
+      '$sort': {
+        'totalPoints': -1
+      }
+    }
+
+    var limit = {
+      '$limit': 1
+    }
+
+    var pipeline = [unwind, match, group, lookupPlayer, unwindPlayer, project, sort]
+
+    Game
+      .aggregate(pipeline)
+      .exec(function(err, players) {
+        if (err)
+          console.error(err.stack);
+        res.send(players);
+      })
+  })
+
   module.exports = api;
 }
