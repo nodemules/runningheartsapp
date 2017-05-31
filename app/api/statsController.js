@@ -258,17 +258,27 @@
     }
 
     var limit = {
-      '$limit': 1
+      '$limit': 5
     }
 
-    var pipeline = [unwind, match, group, lookupPlayer, unwindPlayer, project, sort]
+    var pipeline = [unwind, match, group, lookupPlayer, unwindPlayer, project, sort, limit]
 
     Game
       .aggregate(pipeline)
       .exec(function(err, players) {
-        if (err)
-          console.error(err.stack);
-        res.send(players);
+        if (err) {
+          return console.error(err.stack)
+        }
+        var scores = players.map((player) => {
+          return player.totalPoints
+        })
+        var max = scores.reduce((a, b) => {
+          return a > b ? a : b;
+        })
+        var winners = players.filter((player) => {
+          return player.totalPoints === max
+        })
+        res.send(winners);
       })
   })
 
