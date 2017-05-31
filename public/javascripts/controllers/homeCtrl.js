@@ -31,7 +31,7 @@
         venuesService.api().count().$promise,
         playersService.api().count().$promise,
         seasonsService.api().query().$promise,
-        statsService.api().players().$promise
+        statsService.api().winners().$promise
       ])
         .then(function(result) {
           vm.messages = {
@@ -39,7 +39,9 @@
             venues: result[1].count,
             players: result[2].count,
             seasons: result[3].length,
-            stats: result[4][0] ? result[4][0].name : 'No one'
+            stats: result[4].map(function(player) {
+              return player.name
+            })
           }
           var isLoggedIn = authService.isAuth();
           var loginTab = {

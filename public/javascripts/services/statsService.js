@@ -32,6 +32,13 @@
           },
           isArray: true
         },
+        'winners': {
+          method: 'get',
+          params: {
+            action: 'winners'
+          },
+          isArray: true
+        },
         'seasons': {
           method: 'get',
           params: {
