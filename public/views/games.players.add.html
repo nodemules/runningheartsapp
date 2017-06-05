@@ -9,7 +9,7 @@
   </div>
   <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }" layout="row" flex="85">
     <md-virtual-repeat-container id="vertical-container" flex>
-      <md-list-item md-virtual-repeat="player in gp.players">
+      <md-list-item md-virtual-repeat="player in gp.players | orderBy: 'name'">
         <md-checkbox ng-checked="gp.isSelected(player)" ng-click="gp.toggleSelection(player)"></md-checkbox>
         <p>{{player.name}}</p>
       </md-list-item>
