@@ -1,13 +1,16 @@
 <md-content layout="column">
-  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch layout-align="center center">
+  <md-card>
     <md-card-title>
-      <md-card-title-text>
+      <md-card-title-text layout="row" layout-align="center center">
         <span class="md-headline">Game @ {{gv.game.event.venue.name}}</span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-content>
-      {{gv.game.event.date | date:'fullDate'}}
+    <md-card-content layout="row" layout-align="center center">
+        {{gv.game.event.date | date:'fullDate'}}
     </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button class="md-raised md-primary" ui-sref="events.view({ id : gv.game.event._id })">Back to Event</md-button>
+    </md-card-actions>
   </md-card>
   <div ng-if="games.permissions.PLAY_GAME">
     <md-content layout="column" ng-show="!gv.game.completed">
