@@ -132,6 +132,15 @@
       $mdSidenav('appSidenav').toggle();
     }
 
+    vm.swipeOpen = function() {
+      $mdSidenav('appSidenav').open();
+    }
+
+    vm.swipeClose = function() {
+      //unpredictable behavior so far
+      //$mdSidenav('appSidenav').close();
+    }
+
     vm.refresh = function() {
       $state.go($state.current, {}, {
         reload: true
