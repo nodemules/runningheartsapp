@@ -14,7 +14,7 @@
       '  <md-button class="md-secondary" ng-disabled="list.listIndex == 0" aria-label="last-five-list" ng-click="list.last5()">', //
       '    Last 5 list', //
       '  </md-button>', //
-      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | orderBy:\'-date\' | limitTo:5:list.listIndex">', //
+      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | orderBy: list.sort | limitTo:5:list.listIndex">', //
       '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
       '      <div class="md-list-item-text">', //
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
@@ -47,6 +47,7 @@
       scope: {
         list: '=ngModel',
         size: '=rhpListSize',
+        sort: '=rhpListSort',
         setItem: '&rhpListSet',
         editItem: '&rhpListEdit',
         removeItem: '&rhpListDel',

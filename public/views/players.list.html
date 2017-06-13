@@ -1,5 +1,5 @@
 <md-content layout="column">
-  <rhp-list ng-model="pl.players" rhp-list-size="5" entity-type="players.ENTITY_TYPE.PLAYER"
-    rhp-list-set="pl.viewPlayer(item)" rhp-list-edit="pl.editPlayer(item)" rhp-list-del="pl.removePlayer(item)"></rhp-list>
+  <rhp-list ng-model="pl.players" rhp-list-size="6" entity-type="players.ENTITY_TYPE.PLAYER"
+    rhp-list-set="pl.viewPlayer(item)" rhp-list-edit="pl.editPlayer(item)" rhp-list-del="pl.removePlayer(item)" rhp-list-sort="'name'"></rhp-list>
 </md-content>
 <md-button class="md-fab md-fab-bottom-right md-primary" ng-click="pl.newPlayer()" ng-if="players.permissions.ADD_PLAYER"><md-icon md-font-set="material-icons">add</md-icon></md-button>
