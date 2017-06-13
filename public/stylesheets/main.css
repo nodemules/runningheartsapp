@@ -32,6 +32,10 @@ a {
   font-size: 16px;
 }
 
+.rhp-sidenav {
+  position: fixed
+}
+
 .rhp-dense-list {
   padding: 3px 0px;
 }

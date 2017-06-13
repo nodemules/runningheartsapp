@@ -11,50 +11,52 @@
     </div>
   </div>
 </md-toolbar>
-<md-content id="appContainer" class="container" layout="row">
-  <md-sidenav class="md-whiteframe-z2" md-component-id="appSidenav">
-    <md-toolbar id="appToolbar" class="md-primary" layout="row">
-      <div class="md-toolbar-tools" layout="row" flex="80">
-        <h1>Navigation Menu</h1>
-      </div>
-      <div class="md-toolbar-tools" layout="row" layout-align="end center" flex>
-        <md-button class="md-icon-button" ng-click="home.toggleMenu()">
-          <md-icon md-font-set="material-icons">menu</md-icon>
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-list flex>
-      <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
-        <div class="md-list-item-text" layout="column">
-          <h3>{{tab.label}}</h3>
-          <h4>{{tab.message}}</h4>
-          <p>{{tab.alert}}</p>
+<md-content flex>
+  <md-content id="appContainer" class="container" layout="row">
+    <md-sidenav class="md-whiteframe-z2 rhp-sidenav" md-component-id="appSidenav">
+      <md-toolbar id="appToolbar" class="md-primary" layout="row">
+        <div class="md-toolbar-tools" layout="row" flex="80">
+          <h1>Navigation Menu</h1>
         </div>
-      </md-list-item>
-    </md-list>
-  </md-sidenav>
-  <md-content flex ui-view>
-    <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
-      <h2>DO YOU WANT TO PLAY A GAME?</h2>
-    </div>
-    <md-card>
-      <div layout="row" layout-align="center center">
-        <h4>Tonight's Games</h4>
-      </div>
-      <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
-        <md-list-item class="md-3-line md-hue-1">
+        <div class="md-toolbar-tools" layout="row" layout-align="end center" flex>
+          <md-button class="md-icon-button" ng-click="home.toggleMenu()">
+            <md-icon md-font-set="material-icons">menu</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-list flex>
+        <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
           <div class="md-list-item-text" layout="column">
-            <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
-            <h4>Hosted by
-              <span ng-repeat="td in event.td">
-                {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
-                <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
-                {{($index + 1) < ev.event.td.length ? ', ' : ''}}
-              </span>
-            </h4>
+            <h3>{{tab.label}}</h3>
+            <h4>{{tab.message}}</h4>
+            <p>{{tab.alert}}</p>
           </div>
         </md-list-item>
       </md-list>
-    </md-card>
+    </md-sidenav>
+    <md-content flex ui-view>
+      <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
+        <h2>DO YOU WANT TO PLAY A GAME?</h2>
+      </div>
+      <md-card>
+        <div layout="row" layout-align="center center">
+          <h4>Tonight's Games</h4>
+        </div>
+        <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
+          <md-list-item class="md-3-line md-hue-1">
+            <div class="md-list-item-text" layout="column">
+              <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
+              <h4>Hosted by
+                <span ng-repeat="td in event.td">
+                  {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+                  <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+                  {{($index + 1) < ev.event.td.length ? ', ' : ''}}
+                </span>
+              </h4>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-card>
+    </md-content>
   </md-content>
 </md-content>
