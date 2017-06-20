@@ -25,19 +25,19 @@
             </md-button>
           </div>
         </md-toolbar>
-        <md-list flex>
-          <md-list-item class="md-3-line" ng-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
+        <md-virtual-repeat-container id="rhp-sidenav-list" flex>
+          <md-list-item class="md-3-line" md-virtual-repeat="tab in home.tabs" ng-click="home.selectTab(tab)">
             <div class="md-list-item-text" layout="column">
               <h3>{{tab.label}}</h3>
               <h4>{{tab.message}}</h4>
               <p>{{tab.alert}}</p>
             </div>
           </md-list-item>
-        </md-list>
+        </md-virtual-repeat-container>
       </md-sidenav>
       <md-content flex ui-view>
         <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
-          <h2>DO YOU WANT TO PLAY A GAME?</h2>
+          <h2>WELCOME TO RUNNING HEARTS!</h2>
         </div>
         <md-card>
           <div layout="row" layout-align="center center">

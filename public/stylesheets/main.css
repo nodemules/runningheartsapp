@@ -121,6 +121,10 @@ md-ink-bar {
   height: 74vh;
 }
 
+#rhp-sidenav-list {
+  height: 85vh;
+}
+
 .rhp-add-player {
   margin-bottom: 0;
 }
