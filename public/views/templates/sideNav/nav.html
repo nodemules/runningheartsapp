@@ -4,18 +4,75 @@
       <h1>Navigation Menu</h1>
     </div>
     <div class="md-toolbar-tools" layout="row" layout-align="end center" flex>
-      <md-button class="md-icon-button" ng-click="toggleMenu()">
+      <md-button class="md-icon-button" ng-click="home.toggleMenu()">
         <md-icon md-font-set="material-icons">menu</md-icon>
       </md-button>
     </div>
   </md-toolbar>
   <md-virtual-repeat-container id="rhp-sidenav-list" flex>
-    <md-list-item class="md-3-line" md-virtual-repeat="tab in tabs" ng-click="selectTab(tab)">
+    <md-list-item class="md-3-line" ui-sref="login()" ng-click="toggleMenu()" ng-show="!isLoggedIn()">
       <div class="md-list-item-text" layout="column">
-        <h3>{{tab.label}}</h3>
-        <h4>{{tab.message}}</h4>
-        <p>{{tab.alert}}</p>
+        <h3>Login</h3>
+        <h4>Admins Login Here</h4>
       </div>
     </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="register()" ng-click="toggleMenu()" ng-show="!isLoggedIn()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Register</h3>
+        <h4>Click here to register</h4>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="home()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Home</h3>
+        <h4>This is the home page</h4>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="events()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Events</h3>
+        <h4>See upcoming events</h4>
+        <p>{{ messages.events.count }} Total Events</p>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="venues()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Venues</h3>
+        <h4>Check out active venuess</h4>
+        <p>{{ messages.venues.count }} Total Venues</p>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="players()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Players</h3>
+        <h4>View player information</h4>
+        <p>{{ messages.players.count }} Total Registered Players</p>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="stats()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Standings</h3>
+        <h4>View Player Standings</h4>
+        <p>
+          <span ng-repeat="player in messages.stats">
+            {{player.name}}<span ng-show="$index === 0">, </span>
+          </span>
+          {{ messages.stats.length > 1 ? 'are' : 'is' }} currently leading!
+        </p>
+      </div>
+    </md-list-item>
+    <md-list-item class="md-3-line" ui-sref="seasons.view()" ng-click="toggleMenu()">
+      <div class="md-list-item-text" layout="column">
+        <h3>Seasons</h3>
+        <h4>View Season information</h4>
+        <p>We are Currently in Season {{messages.seasons.length}}</p>
+      </div>
+    </md-list-item>
+      <md-list-item class="md-3-line" ng-click="logout()" ng-show="isLoggedIn()">
+        <div class="md-list-item-text" layout="column">
+          <h3>Logout</h3>
+          <h4>Logout of the application</h4>
+        </div>
+      </md-list-item>
   </md-virtual-repeat-container>
 </md-sidenav>

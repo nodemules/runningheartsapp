@@ -5,17 +5,15 @@
   angular.module(APP_NAME).controller('homeCtrl', homeCtrl);
 
   homeCtrl.$inject = [
-    '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia', '$q',
-    'eventsService', 'playersService', 'seasonsService', 'statsService',
-    'venuesService', 'gamesService', 'permissionsService', 'authApiService',
-    'authService', 'dialogService', 'historyService'
+    '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia',
+    'eventsService', 'permissionsService', 'authApiService',
+    'authService', 'dialogService', 'historyService', 'navService'
   ];
 
   function homeCtrl(
-    $filter, $state, $scope, $mdSidenav, $mdMedia, $q,
-    eventsService, playersService, seasonsService, statsService,
-    venuesService, gamesService, permissionsService, authApiService,
-    authService, dialogService, historyService
+    $filter, $state, $scope, $mdSidenav, $mdMedia,
+    eventsService, permissionsService, authApiService,
+    authService, dialogService, historyService, navService
   ) {
 
     var vm = this;
@@ -35,7 +33,7 @@
     }
 
     vm.toggleMenu = function() {
-      $mdSidenav('appSidenav').toggle();
+      navService.mainMenu().toggle();
     }
 
     function getTodaysEvents() {
