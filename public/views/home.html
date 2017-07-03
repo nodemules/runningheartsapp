@@ -1,44 +1,42 @@
-<div md-swipe-right="home.swipeOpen(); home.loadTabs();" md-swipe-left="home.swipeClose()">
-  <md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary" layout="row">
-    <div class="md-toolbar-tools" layout="row">
-      <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu();">
-        <md-icon md-font-set="material-icons">menu</md-icon>
+<md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary" layout="row">
+  <div class="md-toolbar-tools" layout="row">
+    <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu();">
+      <md-icon md-font-set="material-icons">menu</md-icon>
+    </md-button>
+    <h1>{{ 'Running Hearts Poker' | uppercase}}</h1>
+    <div layout="row" layout-align="end" flex>
+      <md-button class="md-icon-button" aria-label="Back" ng-click="home.back()">
+        <md-icon md-font-set="material-icons">arrow_back</md-icon>
       </md-button>
-      <h1>{{ 'Running Hearts Poker' | uppercase}}</h1>
-      <div layout="row" layout-align="end" flex>
-        <md-button class="md-icon-button" aria-label="Back" ng-click="home.back()">
-          <md-icon md-font-set="material-icons">arrow_back</md-icon>
-        </md-button>
-      </div>
     </div>
-  </md-toolbar>
-  <md-content flex>
-    <md-content id="appContainer" class="container" layout="row">
-      <rhp-side-nav></rhp-side-nav>
-      <md-content flex ui-view>
-        <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
-          <h2>WELCOME TO RUNNING HEARTS!</h2>
+  </div>
+</md-toolbar>
+<md-content flex>
+  <md-content id="appContainer" class="container" layout="row">
+    <rhp-side-nav></rhp-side-nav>
+    <md-content flex ui-view>
+      <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
+        <h2>WELCOME TO RUNNING HEARTS!</h2>
+      </div>
+      <md-card>
+        <div layout="row" layout-align="center center">
+          <h4>Tonight's Games</h4>
         </div>
-        <md-card>
-          <div layout="row" layout-align="center center">
-            <h4>Tonight's Games</h4>
-          </div>
-          <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
-            <md-list-item class="md-3-line md-hue-1">
-              <div class="md-list-item-text" layout="column">
-                <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
-                <h4>Hosted by
-                  <span ng-repeat="td in event.td">
-                    {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
-                    <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
-                    {{($index + 1) < ev.event.td.length ? ', ' : ''}}
-                  </span>
-                </h4>
-              </div>
-            </md-list-item>
-          </md-list>
-        </md-card>
-      </md-content>
+        <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
+          <md-list-item class="md-3-line md-hue-1">
+            <div class="md-list-item-text" layout="column">
+              <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
+              <h4>Hosted by
+                <span ng-repeat="td in event.td">
+                  {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+                  <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+                  {{($index + 1) < ev.event.td.length ? ', ' : ''}}
+                </span>
+              </h4>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-card>
     </md-content>
   </md-content>
-</div>
+</md-content>

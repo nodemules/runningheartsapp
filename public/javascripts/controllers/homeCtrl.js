@@ -33,7 +33,7 @@
     }
 
     vm.toggleMenu = function() {
-      navService.mainMenu().toggle();
+      navService.mainMenu().toggle(true);
     }
 
     function getTodaysEvents() {

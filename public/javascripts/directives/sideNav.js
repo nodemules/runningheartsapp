@@ -16,14 +16,40 @@
     return directive;
 
     controllerFn.$inject = [
-      '$scope', '$q', '$mdSidenav', '$state', 'eventsService',
+      '$scope', '$mdSidenav', '$state', 'eventsService',
       'venuesService', 'playersService', 'seasonsService', 'statsService',
-      'authService', 'dialogService', 'authApiService'
+      'authService', 'dialogService', 'authApiService', 'navService'
     ];
 
-    function controllerFn($scope, $q, $mdSidenav, $state, eventsService,
+    function controllerFn($scope, $mdSidenav, $state, eventsService,
       venuesService, playersService, seasonsService, statsService, authService,
-      dialogService, authApiService) {
+      dialogService, authApiService, navService) {
+
+      navService.onRefreshNavData($scope, (data) => {
+        reloadData();
+      })
+
+      function handleData(param, data) {
+        $scope.messages[param] = data;
+      }
+
+      function reloadData() {
+        venuesService.api().count((data) => {
+          handleData('venues', data);
+        });
+        eventsService.api().count((data) => {
+          handleData('events', data);
+        });
+        playersService.api().count((data) => {
+          handleData('players', data);
+        });
+        seasonsService.api().query((data) => {
+          handleData('seasons', data);
+        });
+        statsService.api().winners((data) => {
+          handleData('stats', data);
+        });
+      }
 
       $scope.loadTabs = function() {
         $scope.messages = {
