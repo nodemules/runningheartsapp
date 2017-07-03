@@ -23,10 +23,10 @@
       var sideNav;
       sideNav = $mdSidenav('appSidenav', asyncx);
       return {
-        toggle: function(refresh) {
+        toggle: function(refresh, entities) {
           return sideNav.toggle().then(() => {
             if (refresh && sideNav.isOpen()) {
-              refreshNavData();
+              refreshNavData(entities);
             }
           });
         },

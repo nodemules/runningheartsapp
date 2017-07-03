@@ -60,9 +60,9 @@
 
     return directive;
 
-    ctrlFn.$inject = ['$scope', '$mdMedia', '$timeout', 'permissionsService', 'RHP_ENTITY_TYPE'];
+    ctrlFn.$inject = ['$scope', '$mdMedia', '$timeout', 'permissionsService', 'Entities'];
 
-    function ctrlFn($scope, $mdMedia, $timeout, permissionsService, RHP_ENTITY_TYPE) {
+    function ctrlFn($scope, $mdMedia, $timeout, permissionsService, Entities) {
 
       var vm = this;
 
@@ -79,11 +79,11 @@
 
       vm.canEdit = function(entityType) {
         switch (entityType) {
-          case RHP_ENTITY_TYPE.PLAYER:
+          case Entities.PLAYER:
             return userPermissions.EDIT_PLAYER;
-          case RHP_ENTITY_TYPE.VENUE:
+          case Entities.VENUE:
             return userPermissions.EDIT_VENUE;
-          case RHP_ENTITY_TYPE.EVENT:
+          case Entities.EVENT:
             return userPermissions.EDIT_EVENT;
           default:
             return false;
@@ -92,11 +92,11 @@
 
       vm.canDelete = function(entityType) {
         switch (entityType) {
-          case RHP_ENTITY_TYPE.PLAYER:
+          case Entities.PLAYER:
             return userPermissions.DELETE_PLAYER;
-          case RHP_ENTITY_TYPE.VENUE:
+          case Entities.VENUE:
             return userPermissions.DELETE_VENUE;
-          case RHP_ENTITY_TYPE.EVENT:
+          case Entities.EVENT:
             return userPermissions.DELETE_EVENT;
           default:
             return false;

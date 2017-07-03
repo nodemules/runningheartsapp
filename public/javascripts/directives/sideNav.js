@@ -18,36 +18,55 @@
     controllerFn.$inject = [
       '$scope', '$mdSidenav', '$state', 'eventsService',
       'venuesService', 'playersService', 'seasonsService', 'statsService',
-      'authService', 'dialogService', 'authApiService', 'navService'
+      'authService', 'dialogService', 'authApiService', 'navService', 'Entities'
     ];
 
     function controllerFn($scope, $mdSidenav, $state, eventsService,
       venuesService, playersService, seasonsService, statsService, authService,
-      dialogService, authApiService, navService) {
+      dialogService, authApiService, navService, Entities) {
 
-      navService.onRefreshNavData($scope, (data) => {
-        reloadData();
+      navService.onRefreshNavData($scope, (entities) => {
+        reloadData(entities);
       })
 
       function handleData(param, data) {
         $scope.messages[param] = data;
       }
 
-      function reloadData() {
-        venuesService.api().count((data) => {
-          handleData('venues', data);
-        });
-        eventsService.api().count((data) => {
-          handleData('events', data);
-        });
-        playersService.api().count((data) => {
-          handleData('players', data);
-        });
-        seasonsService.api().query((data) => {
-          handleData('seasons', data);
-        });
-        statsService.api().winners((data) => {
-          handleData('stats', data);
+      function handleEntityData(entity) {
+        switch (entity) {
+          case Entities.VENUE:
+            venuesService.api().count((data) => {
+              handleData('venues', data);
+            });
+            break;
+          case Entities.EVENT:
+            eventsService.api().count((data) => {
+              handleData('events', data);
+            });
+            break;
+          case Entities.PLAYER:
+            playersService.api().count((data) => {
+              handleData('players', data);
+            });
+            break;
+          case Entities.SEASON:
+            seasonsService.api().query((data) => {
+              handleData('seasons', data);
+            });
+          case Entities.GAME:
+            statsService.api().winners((data) => {
+              handleData('stats', data);
+            });
+            break;
+          default:
+            break;
+        }
+      }
+
+      function reloadData(entities) {
+        angular.forEach(entities, (entity) => {
+          handleEntityData(entity);
         });
       }
 

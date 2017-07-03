@@ -4,11 +4,11 @@
     .module(APP_NAME)
     .factory('gamesService', gamesService);
 
-  gamesService.$inject = ['$resource'];
+  gamesService.$inject = ['$resource', 'entityService', 'Entities'];
 
-  function gamesService($resource) {
+  function gamesService($resource, entityService, Entities) {
 
-    var basePath = '/api/games'
+    const basePath = '/api/games';
 
     var service = {
       api: api
@@ -42,6 +42,7 @@
             id: null
           },
           transformRequest: function(data) {
+            entityService.changeEntity(Entities.GAME);
             if (data.$$error) {
               delete data.$$error;
             }

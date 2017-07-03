@@ -7,13 +7,13 @@
   homeCtrl.$inject = [
     '$filter', '$state', '$scope', '$mdSidenav', '$mdMedia',
     'eventsService', 'permissionsService', 'authApiService',
-    'authService', 'dialogService', 'historyService', 'navService'
+    'authService', 'dialogService', 'historyService', 'navService', 'entityService'
   ];
 
   function homeCtrl(
     $filter, $state, $scope, $mdSidenav, $mdMedia,
     eventsService, permissionsService, authApiService,
-    authService, dialogService, historyService, navService
+    authService, dialogService, historyService, navService, entityService
   ) {
 
     var vm = this;
@@ -33,7 +33,7 @@
     }
 
     vm.toggleMenu = function() {
-      navService.mainMenu().toggle(true);
+      navService.mainMenu().toggle(true, entityService.getChangedEntites());
     }
 
     function getTodaysEvents() {
