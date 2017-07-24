@@ -67,9 +67,6 @@
       }
 
       function reloadData(entities) {
-        if (!entities || !entities.length) {
-          entities = entityService.getStaleEntities();
-        }
         angular.forEach(entities, (entity) => {
           handleEntityData(entity);
         });
