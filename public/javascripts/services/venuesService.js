@@ -1,13 +1,13 @@
-// global angular
-(function(angular) {
+// global angular, APP_NAME
+{
 
   angular.module(APP_NAME).factory('venuesService', venuesService);
 
-  venuesService.$inject = ['$resource'];
+  venuesService.$inject = ['$resource', 'entityService', 'Entities'];
 
-  function venuesService($resource) {
+  function venuesService($resource, entityService, Entities) {
 
-    var basePath = '/api/venues'
+    const basePath = '/api/venues';
 
     var service = {
       api: api
@@ -24,6 +24,7 @@
         'save': {
           method: 'POST',
           transformRequest: function(data) {
+            entityService.changeEntity(Entities.VENUE);
             if (data.$$error) {
               delete data.$$error;
             }
@@ -46,4 +47,4 @@
 
   }
 
-})(angular);
+}

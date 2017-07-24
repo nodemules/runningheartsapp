@@ -18,12 +18,13 @@
     controllerFn.$inject = [
       '$scope', '$mdSidenav', '$state', 'eventsService',
       'venuesService', 'playersService', 'seasonsService', 'statsService',
-      'authService', 'dialogService', 'authApiService', 'navService', 'Entities'
+      'authService', 'dialogService', 'authApiService', 'navService',
+      'entityService', 'Entities'
     ];
 
     function controllerFn($scope, $mdSidenav, $state, eventsService,
       venuesService, playersService, seasonsService, statsService, authService,
-      dialogService, authApiService, navService, Entities) {
+      dialogService, authApiService, navService, entityService, Entities) {
 
       navService.onRefreshNavData($scope, (entities) => {
         reloadData(entities);
@@ -54,6 +55,7 @@
             seasonsService.api().query((data) => {
               handleData('seasons', data);
             });
+            break;
           case Entities.GAME:
             statsService.api().winners((data) => {
               handleData('stats', data);
@@ -65,9 +67,15 @@
       }
 
       function reloadData(entities) {
+        if (!entities || !entities.length) {
+          entities = entityService.getStaleEntities();
+        }
         angular.forEach(entities, (entity) => {
           handleEntityData(entity);
         });
+        if (entities && entities.length) {
+          entityService.clearEntities(entities);
+        }
       }
 
       $scope.loadTabs = function() {
@@ -78,7 +86,7 @@
           seasons: seasonsService.api().query(),
           stats: statsService.api().winners()
         }
-
+        entityService.startEntityTimers();
       }
 
       $scope.isLoggedIn = function() {

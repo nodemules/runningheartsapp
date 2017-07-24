@@ -1,13 +1,13 @@
-// global angular
-(function(angular) {
+// global angular, APP_NAME
+{
 
   angular.module(APP_NAME).factory('eventsService', eventsService);
 
-  eventsService.$inject = ['$resource'];
+  eventsService.$inject = ['$resource', 'entityService', 'Entities'];
 
-  function eventsService($resource) {
+  function eventsService($resource, entityService, Entities) {
 
-    var basePath = '/api/events'
+    const basePath = '/api/events';
 
     var service = {
       api: api
@@ -24,6 +24,7 @@
         'save': {
           method: 'POST',
           transformRequest: function(data) {
+            entityService.changeEntity(Entities.EVENT);
             if (data.$$error) {
               delete data.$$error;
             }
@@ -53,4 +54,4 @@
 
   }
 
-})(angular);
+}
