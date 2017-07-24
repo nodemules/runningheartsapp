@@ -12,7 +12,9 @@
     var vm = this;
 
     vm.getEvent = function(id) {
-      vm.event = eventsService.api(id).get();
+      vm.event = eventsService.api(id).get(() => {
+        vm.event.isToday = moment().isSame(vm.event.date, 'd');
+      });
     }
 
     vm.removeEvent = function(event) {

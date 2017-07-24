@@ -66,7 +66,7 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-actions layout="column">
-      <md-button class="md-raised md-primary" ng-click="ev.newGame()" ng-disabled="ev.game.$$saving">Start {{ev.event.games.length ? 'Another' : ''}} Game</md-button>
+      <md-button class="md-raised md-primary" ng-click="ev.newGame()" ng-disabled="ev.game.$$saving || (!ev.event.isToday && !events.permissions.START_ANY_GAME)">Start {{ev.event.games.length ? 'Another' : ''}} Game</md-button>
     </md-card-actions>
     <md-card-content layout="row" layout-align="end" ng-show="ev.game.$$error">
       <p>
