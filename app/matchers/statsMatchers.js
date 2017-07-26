@@ -170,6 +170,38 @@
             'averageRank': 1
           }
         }
+      },
+      GET_WINNERS: {
+        match: function() {
+          return {
+            '$match': {
+              'completed': true
+            }
+          }
+        },
+        group: {
+          '$group': {
+            '_id': '$players.player',
+            'totalPoints': {
+              '$sum': '$players.score'
+            }
+          }
+        },
+        project: {
+          '$project': {
+            '_id': '$_id',
+            'name': '$player.name',
+            'totalPoints': '$totalPoints',
+          }
+        },
+        sort: {
+          '$sort': {
+            'totalPoints': -1
+          }
+        },
+        limit: {
+          '$limit': 5
+        }
       }
     }
   }

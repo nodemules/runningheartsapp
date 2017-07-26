@@ -9,7 +9,8 @@
     var service = {
       getPlayerStats,
       getAllPlayerStats,
-      getSeasonPlayerStats
+      getSeasonPlayerStats,
+      getWinners
     }
 
     function getAllPlayerStats() {
@@ -116,6 +117,41 @@
                 }
                 return resolve(players);
               })
+          })
+      })
+    }
+
+    function getWinners() {
+      return new Promise((resolve, reject) => {
+
+        var pipeline = [
+          GlobalMatcher.unwind,
+          StatsMatcher.GET_WINNERS.match(),
+          StatsMatcher.GET_WINNERS.group,
+          GlobalMatcher.lookupPlayer,
+          GlobalMatcher.unwindPlayer,
+          StatsMatcher.GET_WINNERS.project,
+          StatsMatcher.GET_WINNERS.sort,
+          StatsMatcher.GET_WINNERS.limit
+        ]
+
+        Game
+          .aggregate(pipeline)
+          .exec(function(err, players) {
+            if (err) {
+              console.error(err.stack);
+              return reject(err);
+            }
+            var scores = players.map((player) => {
+              return player.totalPoints
+            })
+            var max = scores.reduce((a, b) => {
+              return a > b ? a : b;
+            })
+            var winners = players.filter((player) => {
+              return player.totalPoints === max;
+            })
+            return resolve(winners);
           })
       })
     }
