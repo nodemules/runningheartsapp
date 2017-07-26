@@ -123,13 +123,22 @@
         }
       },
       GET_PLAYER_STATS: {
-        match: function(id) {
-          return {
+        match: function(id, season) {
+          var match = {
             '$match': {
               'players.player': mongoose.Types.ObjectId(id),
               'completed': true
             }
           }
+          if (season) {
+            match.$match.startTime = {
+              '$gte': moment(season.startDate).toDate()
+            }
+            if (season.endDate) {
+              match.$match.startTime.$lt = moment(season.endDate).toDate()
+            }
+          }
+          return match;
         }
       },
       GET_ALL_PLAYER_STATS: {

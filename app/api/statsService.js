@@ -45,12 +45,12 @@
       })
     }
 
-    function getPlayerStats(playerId) {
+    function getPlayerStats(playerId, season) {
       return new Promise((resolve, reject) => {
 
         var pipeline = [
           GlobalMatcher.unwind,
-          StatsMatcher.GET_PLAYER_STATS.match(playerId),
+          StatsMatcher.GET_PLAYER_STATS.match(playerId, season),
           GlobalMatcher.sort,
           GlobalMatcher.lookupEvent,
           GlobalMatcher.matchEvent,

@@ -5,16 +5,24 @@
   var statsService = require('./statsService')(),
     seasonsService = require('./seasonsService')();
 
+  api.get('/players', function(req, res) {
+    statsService.getAllPlayerStats().then((players) => {
+      res.send(players);
+    })
+  })
+
   api.get('/players/:id', function(req, res) {
     statsService.getPlayerStats(req.params.id).then((player) => {
       res.send(player);
     })
   })
 
-  api.get('/players', function(req, res) {
-    statsService.getAllPlayerStats().then((players) => {
-      res.send(players);
-    })
+  api.get('/seasons/:seasonNumber/players/:id', function(req, res) {
+    seasonsService.getSeason(req.params.seasonNumber).then((season) => {
+      statsService.getPlayerStats(req.params.id, season).then((player) => {
+        res.send(player);
+      })
+    });
   })
 
   api.get('/seasons/:seasonNumber/players', function(req, res) {
