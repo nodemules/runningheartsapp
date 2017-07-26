@@ -57,7 +57,7 @@
             });
             break;
           case Entities.GAME:
-            statsService.api().winners((data) => {
+            statsService.api().currentSeasonWinners((data) => {
               handleData('stats', data);
             });
             break;
@@ -81,7 +81,7 @@
           venues: venuesService.api().count(),
           players: playersService.api().count(),
           seasons: seasonsService.api().query(),
-          stats: statsService.api().winners()
+          stats: statsService.api().currentSeasonWinners()
         }
         entityService.startEntityTimers();
       }

@@ -16,7 +16,7 @@
     /////////////////////
 
     function api(id) {
-      return $resource(basePath + '/:action/:id', {
+      return $resource(basePath + '/:action/:id/:action2/:action3', {
         id: id
       }, {
         'player': {
@@ -42,7 +42,25 @@
         'seasons': {
           method: 'get',
           params: {
-            action: 'seasonalPlayers'
+            action: 'seasons',
+            action2: 'players'
+          },
+          isArray: true
+        },
+        'seasonWinners': {
+          method: 'get',
+          params: {
+            action: 'seasons',
+            actions2: 'winners'
+          },
+          isArray: true
+        },
+        'currentSeasonWinners': {
+          method: 'get',
+          params: {
+            action: 'seasons',
+            action2: 'winners',
+            action3: 'current'
           },
           isArray: true
         }

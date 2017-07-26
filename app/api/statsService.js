@@ -121,12 +121,12 @@
       })
     }
 
-    function getWinners() {
+    function getWinners(season) {
       return new Promise((resolve, reject) => {
 
         var pipeline = [
+          StatsMatcher.GET_WINNERS.match(season),
           GlobalMatcher.unwind,
-          StatsMatcher.GET_WINNERS.match(),
           StatsMatcher.GET_WINNERS.group,
           GlobalMatcher.lookupPlayer,
           GlobalMatcher.unwindPlayer,
@@ -142,20 +142,26 @@
               console.error(err.stack);
               return reject(err);
             }
-            var scores = players.map((player) => {
-              return player.totalPoints
-            })
-            var max = scores.reduce((a, b) => {
-              return a > b ? a : b;
-            })
-            var winners = players.filter((player) => {
-              return player.totalPoints === max;
-            })
-            return resolve(winners);
+            return resolve(calculateWinners(players));
           })
       })
     }
 
+    function calculateWinners(players) {
+      var winners = [];
+      var scores = players.map((player) => {
+        return player.totalPoints
+      })
+      if (scores && scores.length) {
+        var max = scores.reduce((a, b) => {
+          return a > b ? a : b;
+        })
+        winners = players.filter((player) => {
+          return player.totalPoints === max;
+        })
+      }
+      return winners;
+    }
 
     return service;
   }

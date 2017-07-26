@@ -12,9 +12,21 @@
     });
   });
 
+  api.get('/:seasonNumber', (req, res) => {
+    seasonsService.getSeason(req.params.seasonNumber).then((seasons) => {
+      res.send(seasons);
+    });
+  });
+
   api.get('/', (req, res) => {
     seasonsService.getSeasons().then((seasons) => {
       res.send(seasons);
+    });
+  });
+
+  api.get('/latest', (req, res) => {
+    seasonsService.getLatestSeason().then((season) => {
+      res.send(season);
     });
   });
 

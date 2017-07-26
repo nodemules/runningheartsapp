@@ -159,9 +159,8 @@
           }
 
           if (endTime) {
-            match.$match.startTime.$lt = moment(endTime).toDate()
+            match.$match.startTime.$lt = moment(endTime).toDate();
           }
-          console.log(match)
           return match;
         },
         sortBy: {
@@ -172,12 +171,21 @@
         }
       },
       GET_WINNERS: {
-        match: function() {
-          return {
+        match: function(season) {
+          var match = {
             '$match': {
               'completed': true
             }
           }
+          if (season) {
+            match.$match.startTime = {
+              '$gte': moment(season.startDate).toDate()
+            }
+            if (season.endDate) {
+              match.$match.startTime.$lt = moment(season.endDate).toDate()
+            }
+          }
+          return match;
         },
         group: {
           '$group': {
