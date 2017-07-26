@@ -143,75 +143,15 @@
   })
 
   api.get('/players', function(req, res) {
-
-    var match = {
-      '$match': {
-        'completed': true
-      }
-    }
-
-    var sortBy = {
-      '$sort': {
-        'totalPoints': -1,
-        'averageRank': 1
-      }
-    }
-    var pipeline = [unwind, match, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
-
-    Game
-      .aggregate(pipeline)
-      .exec(function(err, players) {
-        if (err)
-          console.error(err.stack);
-        res.send(players);
-      })
+    statsService.getAllPlayerStats().then((players) => {
+      res.send(players);
+    })
   })
 
   api.get('/seasonalPlayers/:seasonNumber', function(req, res) {
-
-    Season
-      .find({
-        seasonNumber: req.params.seasonNumber
-      })
-      .exec(function(err, season) {
-        if (err)
-          console.log(err)
-
-        var sortBy = {
-          '$sort': {
-            'totalPoints': -1,
-            'averageRank': 1
-          }
-        }
-
-        var startTime = season[0].startDate;
-        var endTime = season[0].endDate;
-
-        var match = {
-          '$match': {
-            'startTime': {
-              '$gte': moment(startTime).toDate()
-            },
-            'completed': true
-          }
-        }
-
-        if (endTime) {
-          match.$match.startTime.$lt = moment(endTime).toDate()
-        }
-
-        var pipeline = [match, unwind, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project, sortBy];
-
-        Game
-          .aggregate(pipeline)
-          .exec(function(err, players) {
-            if (err)
-              console.error(err.stack);
-            res.send(players);
-          })
-      })
-
-
+    statsService.getSeasonPlayerStats(req.params.seasonNumber).then((players) => {
+      res.send(players);
+    })
   })
 
   api.get('/winners', function(req, res) {

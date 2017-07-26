@@ -1,5 +1,6 @@
 {
   var mongoose = require('mongoose');
+  var moment = require('moment-timezone');
 
   function exports() {
     return {
@@ -128,6 +129,45 @@
               'players.player': mongoose.Types.ObjectId(id),
               'completed': true
             }
+          }
+        }
+      },
+      GET_ALL_PLAYER_STATS: {
+        match: function() {
+          return {
+            '$match': {
+              'completed': true
+            }
+          }
+        },
+        sortBy: {
+          '$sort': {
+            'totalPoints': -1,
+            'averageRank': 1
+          }
+        }
+      },
+      GET_SEASON_PLAYER_STATS: {
+        match: function(startTime, endTime) {
+          var match = {
+            '$match': {
+              'startTime': {
+                '$gte': moment(startTime).toDate()
+              },
+              'completed': true
+            }
+          }
+
+          if (endTime) {
+            match.$match.startTime.$lt = moment(endTime).toDate()
+          }
+          console.log(match)
+          return match;
+        },
+        sortBy: {
+          '$sort': {
+            'totalPoints': -1,
+            'averageRank': 1
           }
         }
       }

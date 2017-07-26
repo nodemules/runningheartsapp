@@ -7,7 +7,41 @@
     const GlobalMatcher = StatsMatcher.GLOBAL;
 
     var service = {
-      getPlayerStats
+      getPlayerStats,
+      getAllPlayerStats,
+      getSeasonPlayerStats
+    }
+
+    function getAllPlayerStats() {
+      return new Promise((resolve, reject) => {
+
+        var pipeline = [
+          GlobalMatcher.unwind,
+          StatsMatcher.GET_ALL_PLAYER_STATS.match(),
+          GlobalMatcher.sort,
+          GlobalMatcher.lookupEvent,
+          GlobalMatcher.matchEvent,
+          GlobalMatcher.unwindEvent,
+          GlobalMatcher.lookupVenue,
+          GlobalMatcher.unwindVenue,
+          GlobalMatcher.group,
+          GlobalMatcher.lookupPlayer,
+          GlobalMatcher.unwindPlayer,
+          GlobalMatcher.project,
+          StatsMatcher.GET_ALL_PLAYER_STATS.sortBy
+        ];
+
+        Game
+          .aggregate(pipeline)
+          .exec(function(err, players) {
+            if (err) {
+              console.error(err.stack);
+              return reject(err)
+            }
+            resolve(players);
+          })
+
+      })
     }
 
     function getPlayerStats(playerId) {
@@ -41,7 +75,50 @@
 
     }
 
+    function getSeasonPlayerStats(seasonNumber) {
+      return new Promise((resolve, reject) => {
 
+        Season
+          .find({
+            seasonNumber: seasonNumber
+          })
+          .exec(function(err, seasons) {
+            if (err) {
+              console.log(err)
+              return reject(err)
+            }
+            console.log(seasons)
+
+            var season = seasons[0];
+
+            var pipeline = [
+              StatsMatcher.GET_SEASON_PLAYER_STATS.match(season.startDate, season.endDate),
+              GlobalMatcher.unwind,
+              GlobalMatcher.sort,
+              GlobalMatcher.lookupEvent,
+              GlobalMatcher.matchEvent,
+              GlobalMatcher.unwindEvent,
+              GlobalMatcher.lookupVenue,
+              GlobalMatcher.unwindVenue,
+              GlobalMatcher.group,
+              GlobalMatcher.lookupPlayer,
+              GlobalMatcher.unwindPlayer,
+              GlobalMatcher.project,
+              StatsMatcher.GET_SEASON_PLAYER_STATS.sortBy
+            ];
+
+            Game
+              .aggregate(pipeline)
+              .exec(function(err, players) {
+                if (err) {
+                  console.error(err.stack);
+                  return reject(err)
+                }
+                return resolve(players);
+              })
+          })
+      })
+    }
 
 
     return service;
