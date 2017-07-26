@@ -7,6 +7,8 @@
   var Game = require('../models/game'),
     Season = require('../models/season');
 
+  var statsService = require('./statsService')();
+
   var unwind = {
     '$unwind': {
       'path': '$players'
@@ -135,23 +137,9 @@
   }
 
   api.get('/players/:id', function(req, res) {
-
-    var match = {
-      '$match': {
-        'players.player': mongoose.Types.ObjectId(req.params.id),
-        'completed': true
-      }
-    }
-
-    var pipeline = [unwind, match, sort, lookupEvent, matchEvent, unwindEvent, lookupVenue, unwindVenue, group, lookupPlayer, unwindPlayer, project];
-
-    Game
-      .aggregate(pipeline)
-      .exec(function(err, players) {
-        if (err)
-          console.error(err.stack);
-        res.send(players[0]);
-      })
+    statsService.getPlayerStats(req.params.id).then((player) => {
+      res.send(player);
+    })
   })
 
   api.get('/players', function(req, res) {
