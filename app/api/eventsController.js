@@ -41,31 +41,16 @@
   })
 
   api.get('/count', (req, res) => {
-    Event
-      .count({
-        statusId: 1
-      })
-      .exec((err, count) => {
-        if (err)
-          res.send(err);
-        res.send({
-          count: count
-        });
-      })
+    eventsService.getCount().then((count) => {
+      res.send(count)
+    })
   })
 
   api.get('/:id', (req, res) => {
-    Event
-      .findById(req.params.id)
-      .populate(publicEvent)
-      .exec((err, event) => {
-        if (err)
-          res.send(err);
-        res.send(event);
-      })
+    eventsService.getEvent(req.params.id).then((event) => {
+      res.send(event);
+    })
   })
-
-
 
   api.post('/',
     (req, res, next) => {
@@ -116,14 +101,9 @@
   api.delete('/:id',
     (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.DELETE_PLAYER]),
     (req, res) => {
-      req.body.statusId = 2;
-      Event
-        .findByIdAndUpdate(req.params.id, req.body)
-        .exec((err) => {
-          if (err)
-            console.log(err.stack);
-          res.send();
-        })
+      eventsService.deleteEvent(req.params.id).then(() => {
+        res.send(200);
+      })
     })
 
   module.exports = api;

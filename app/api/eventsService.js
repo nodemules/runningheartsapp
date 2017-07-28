@@ -7,8 +7,11 @@
       createEvents,
       checkIfEventExists,
       getEvents,
+      getEvent,
       getPastEvents,
-      getByDate
+      getByDate,
+      getCount,
+      deleteEvent
     }
 
     function createEvent(event, cb) {
@@ -69,6 +72,21 @@
         });
     }
 
+    function getEvent(id) {
+      return new Promise((resolve, reject) => {
+        Event
+          .findById(id)
+          .populate(publicEvent)
+          .exec((err, event) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve(event);
+          })
+      })
+    }
+
     function getPastEvents(cb) {
       Event
         .find({
@@ -108,12 +126,48 @@
           .exec(function(err, events) {
             if (err) {
               console.error(err);
-              reject(err);
+              return reject(err);
             }
-            resolve(events);
+            return resolve(events);
           })
       })
     }
+
+    function getCount() {
+      return new Promise((resolve, reject) => {
+        Event
+          .count({
+            statusId: 1
+          })
+          .exec((err, count) => {
+            if (err) {
+              console.log(err);
+              return reject(err);
+            }
+            return resolve({
+              count: count
+            });
+          })
+      })
+    }
+
+    function deleteEvent(id) {
+      return new Promise((resolve, reject) => {
+
+        Event
+          .findByIdAndUpdate(id, {
+            statusId: 2
+          })
+          .exec((err) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve();
+          })
+      })
+    }
+
 
     /* Private Functions */
     function checkIfEventExists(venue, date, manual) {
