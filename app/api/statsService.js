@@ -1,6 +1,6 @@
 {
   function exports() {
-    var moment = require('moment-timezone');
+
     var Season = require('../models/season'),
       Game = require('../models/game');
     var StatsMatcher = require('../matchers/statsMatchers')();
@@ -48,6 +48,13 @@
     function getPlayerStats(playerId, season) {
       return new Promise((resolve, reject) => {
 
+        var project = {
+          $project: Object.assign({}, GlobalMatcher.project.$project)
+        }
+        if (!season) {
+          delete project.$project.bonusChips;
+        }
+
         var pipeline = [
           GlobalMatcher.unwind,
           StatsMatcher.GET_PLAYER_STATS.match(playerId, season),
@@ -60,7 +67,7 @@
           GlobalMatcher.group,
           GlobalMatcher.lookupPlayer,
           GlobalMatcher.unwindPlayer,
-          GlobalMatcher.project
+          project
         ];
 
         Game

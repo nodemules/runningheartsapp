@@ -11,23 +11,25 @@
 
     var vm = this;
 
+    vm.currentSeasonStats = true;
+
     vm.getPlayer = function(id) {
       vm.player = playersService.api(id).get(() => {
         if (!vm.player._id) {
           return $state.transitionTo('players.list');
         }
-        vm.getPlayerStats();
+        vm.getPlayerStats(vm.currentSeasonStats);
       })
     }
 
-    vm.getPlayerStats = function(allTime) {
-      if (allTime) {
-        statsService.api(vm.player._id).player((stats) => {
-          angular.merge(vm.player, stats)
+    vm.getPlayerStats = function(currentSeason) {
+      if (currentSeason) {
+        statsService.api(vm.player._id).playerSeason((player) => {
+          vm.player = player;
         });
       } else {
-        statsService.api(vm.player._id).playerSeason((stats) => {
-          angular.merge(vm.player, stats)
+        statsService.api(vm.player._id).player((player) => {
+          vm.player = player;
         });
       }
     }

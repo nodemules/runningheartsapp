@@ -57,6 +57,7 @@
             'name': '$player.name',
             'isTd': '$player.isTd',
             'statusId': '$player.statusId',
+            'shoutOuts': '$player.shoutOuts',
             'totalPoints': '$totalPoints',
             'totalWins': '$totalWins',
             'bonusChips': {

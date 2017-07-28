@@ -7,20 +7,24 @@
             <md-subheader ng-show="pv.player.statusId == 2">(Inactive)</md-subheader>
           </span>
           <span class="md-subhead player-info">{{pv.player.isTd ? 'Tournament Director' : ''}}</span>
+          <md-switch ng-model="pv.currentSeasonStats" ng-change="pv.getPlayerStats(pv.currentSeasonStats)">Show Current Season Stats</md-switch>
         </md-card-title-text>
       </md-card-title>
       <md-card-content>
+        <center>
+          <h3>{{pv.currentSeasonStats ? 'Current Season' : 'All Time'}}</h3>
+        </center>
         <p ng-show="!pv.player.games.length">This player hasn't played any games yet!</p>
         <div ng-show="pv.player.games.length">
           <p>Total Points: {{pv.player.totalPoints}}</p>
           <p>Total Wins: {{pv.player.totalWins}}</p>
-          <p>Bonus Chips: {{pv.player.bonusChips}}</p>
+          <p ng-show="pv.currentSeasonStats">Bonus Chips: {{pv.player.bonusChips}}</p>
           <p>Average Rank: {{pv.player.averageRank}}</p>
           <p>Best Rank: {{pv.player.bestRank}}</p>
           <p>Worst Rank: {{pv.player.worstRank}}</p>
         </div>
         <p>Shout Outs: {{pv.player.shoutOuts}}</p>
-        <md-button ng-repeat="game in pv.player.games | limitTo: 5" ui-sref="games.view({ id : game._id })">
+        <md-button ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 5" ui-sref="games.view({ id : game._id })">
           {{game.event.venue.name}} -- {{game.gameStartTime | date: 'short'}}
         </md-button>
       </md-card-content>
