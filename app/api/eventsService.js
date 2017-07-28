@@ -12,7 +12,8 @@
       getPastEvents,
       getByDate,
       getCount,
-      deleteEvent
+      deleteEvent,
+      persistEvent
     }
 
     var publicEvent = [{
@@ -194,8 +195,33 @@
       })
     }
 
+    function persistEvent(ev) {
+      return new Promise((resolve, reject) => {
+        if (ev._id) {
+          updateEvent(ev).then((ev) => {
+            return resolve(ev);
+          })
+        } else {
+          checkIfEventExists(ev.venue, ev.date, true).then((eventInfo) => {
+            if (!eventInfo.event) {
+              createEvent(ev, (error, e) => {
+                if (error) {
+                  console.error(error);
+                  return reject();
+                }
+                return resolve(e);
+              });
+            } else {
+              return reject({
+                message: 'An event already exists.',
+                code: 'EVENT_ALREADY_EXISTS'
+              })
+            }
+          })
+        }
+      })
+    }
 
-    /* Private Functions */
     function checkIfEventExists(venue, date, manual) {
       return new Promise(function(resolve, reject) {
         var event = {

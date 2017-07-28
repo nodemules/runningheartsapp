@@ -1,29 +1,10 @@
 {
   var express = require('express'),
-    api = express.Router(),
-    moment = require('moment-timezone');
+    api = express.Router();
 
   var authService = require('./authService')(),
     Permissions = require('../enum/permissions'),
-    eventsService = require('./eventsService')(),
-    Event = require('../models/event');
-
-  var publicEvent = [{
-    path: 'venue',
-    select: 'name day time numberOfGames'
-  }, {
-    path: 'td',
-    select: '-statusId'
-  }, {
-    path: 'games',
-    populate: {
-      path: 'players',
-      populate: {
-        path: 'player',
-        model: 'Player'
-      }
-    }
-  }];
+    eventsService = require('./eventsService')();
 
   api.get('/', function(req, res) {
     eventsService.getEvents(function(err, events) {
@@ -59,27 +40,11 @@
       authService.checkPermissions(req, res, next, permissions);
     },
     (req, res) => {
-      if (req.body._id) {
-        eventsService.updateEvent(req.body).then((ev) => {
-          res.send(ev);
-        })
-      } else {
-        eventsService.checkIfEventExists(req.body.venue, req.body.date, true).then((eventInfo) => {
-          if (!eventInfo.event) {
-            eventsService.createEvent(req.body, (error, e) => {
-              if (error) {
-                return res.send(error)
-              }
-              res.send(e)
-            });
-          } else {
-            res.send(416, {
-              message: 'An event already exists.',
-              code: 'EVENT_ALREADY_EXISTS'
-            })
-          }
-        })
-      }
+      eventsService.persistEvent(req.body).then((ev) => {
+        res.send(ev);
+      }, (err) => {
+        return res.send(416, err);
+      })
     });
 
   api.delete('/:id',
