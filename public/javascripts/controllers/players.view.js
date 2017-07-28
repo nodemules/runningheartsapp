@@ -11,25 +11,52 @@
 
     var vm = this;
 
-    vm.currentSeasonStats = true;
+    vm.stats = {
+      currentSeason: true,
+      specificSeason: false,
+      seasonNumber: null
+    }
 
-    vm.getPlayer = function(id) {
+    function mergePlayerStats(player) {
+      if (player.name) {
+        vm.player = player;
+      } else {
+        vm.player = angular.copy(vm.originalPlayer);
+      }
+    }
+
+    vm.getPlayer = function(id, seasonNumber) {
       vm.player = playersService.api(id).get(() => {
+        vm.originalPlayer = angular.copy(vm.player);
         if (!vm.player._id) {
           return $state.transitionTo('players.list');
         }
-        vm.getPlayerStats(vm.currentSeasonStats);
+        if (seasonNumber) {
+          return vm.getPlayerStatsForSeason(seasonNumber);
+        }
+        vm.getPlayerStats(vm.stats.currentSeason);
       })
     }
 
+    vm.getPlayerStatsForSeason = function(seasonNumber) {
+      vm.stats.currentSeason = false;
+      vm.stats.specificSeason = true;
+      vm.stats.seasonNumber = seasonNumber;
+      statsService.api(vm.player._id, seasonNumber).playerSeason((player) => {
+        mergePlayerStats(player);
+      });
+    }
+
     vm.getPlayerStats = function(currentSeason) {
+      vm.stats.currentSeason = currentSeason;
+      vm.stats.specificSeason = false;
       if (currentSeason) {
         statsService.api(vm.player._id).playerSeason((player) => {
-          vm.player = player;
+          mergePlayerStats(player);
         });
       } else {
         statsService.api(vm.player._id).player((player) => {
-          vm.player = player;
+          mergePlayerStats(player);
         });
       }
     }
@@ -54,7 +81,7 @@
 
     function initialize() {
       if ($stateParams.id) {
-        vm.getPlayer($stateParams.id);
+        vm.getPlayer($stateParams.id, $stateParams.season);
       }
     }
 

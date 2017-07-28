@@ -1,7 +1,5 @@
-// global angular
-(function(angular) {
-
-  'use strict';
+{
+  /* global angular, APP_NAME */
 
   angular.module(APP_NAME).controller('statsPlayersCtrl', statsPlayersCtrl);
 
@@ -19,6 +17,7 @@
 
     function initialize() {
       if ($stateParams.id) {
+        vm.seasonNumber = $stateParams.id;
         vm.playerStats = statsService.api($stateParams.id).seasons();
       } else {
         vm.playerStats = statsService.api().players();
@@ -29,4 +28,4 @@
 
   }
 
-})(angular);
+}

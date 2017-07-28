@@ -39,6 +39,9 @@
         })
         .state('players.view', {
           url: '/view/:id',
+          params: {
+            season: null
+          },
           parent: 'players',
           templateUrl: '/views/players.view.html',
           controller: 'playersViewCtrl',
