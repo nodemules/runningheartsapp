@@ -1,5 +1,5 @@
-// global angular
-(function(angular) {
+{
+  /* global angular, APP_NAME */
 
   'use strict';
 
@@ -12,15 +12,24 @@
     var vm = this;
 
     vm.getPlayer = function(id) {
-      vm.player = statsService.api(id).player(function() {
+      vm.player = playersService.api(id).get(() => {
         if (!vm.player._id) {
-          vm.player = playersService.api(id).get(() => {
-            if (!vm.player._id) {
-              $state.transitionTo('players.list');
-            }
-          });
+          return $state.transitionTo('players.list');
         }
-      });
+        vm.getPlayerStats();
+      })
+    }
+
+    vm.getPlayerStats = function(allTime) {
+      if (allTime) {
+        statsService.api(vm.player._id).player((stats) => {
+          angular.merge(vm.player, stats)
+        });
+      } else {
+        statsService.api(vm.player._id).playerSeason((stats) => {
+          angular.merge(vm.player, stats)
+        });
+      }
     }
 
     vm.shoutOut = function(id) {
@@ -51,4 +60,4 @@
 
   }
 
-})(angular);
+}

@@ -17,7 +17,15 @@
     })
   })
 
-  api.get('/seasons/:seasonNumber/players/:id', function(req, res) {
+  api.get('/players/:id/season', function(req, res) {
+    seasonsService.getLatestSeason().then((season) => {
+      statsService.getPlayerStats(req.params.id, season).then((player) => {
+        res.send(player);
+      })
+    });
+  })
+
+  api.get('/players/:id/season/:seasonNumber', function(req, res) {
     seasonsService.getSeason(req.params.seasonNumber).then((season) => {
       statsService.getPlayerStats(req.params.id, season).then((player) => {
         res.send(player);

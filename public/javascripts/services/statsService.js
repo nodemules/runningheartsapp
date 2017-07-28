@@ -1,5 +1,5 @@
-// global angular
-(function(angular) {
+{
+  /* global angular, APP_NAME */
   angular.module(APP_NAME).factory('statsService', statsService);
 
   statsService.$inject = ['$resource'];
@@ -15,14 +15,22 @@
 
     /////////////////////
 
-    function api(id) {
-      return $resource(basePath + '/:action/:id/:action2/:action3', {
-        id: id
+    function api(id, id2) {
+      return $resource(basePath + '/:action/:id/:action2/:id2/:action3', {
+        id: id,
+        id2: id2
       }, {
         'player': {
           method: 'get',
           params: {
             action: 'players'
+          }
+        },
+        'playerSeason': {
+          method: 'get',
+          params: {
+            action: 'players',
+            action2: 'season'
           }
         },
         'players': {
@@ -69,4 +77,4 @@
 
   }
 
-})(angular);
+}
