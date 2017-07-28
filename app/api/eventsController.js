@@ -21,6 +21,17 @@
     })
   })
 
+  api.get('/season/:seasonNumber', function(req, res) {
+    var seasonNumber = req.params.seasonNumber;
+    if (seasonNumber === 'current') {
+      seasonNumber = null;
+    }
+    eventsService.getEventsBySeason(seasonNumber).then((events) => {
+      res.send(events);
+    })
+
+  })
+
   api.get('/count', (req, res) => {
     eventsService.getCount().then((count) => {
       res.send(count)

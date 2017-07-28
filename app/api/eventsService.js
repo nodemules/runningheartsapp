@@ -2,6 +2,8 @@
   function exports() {
     var moment = require('moment-timezone')
     var Event = require('../models/event');
+    var seasonsService = require('./seasonsService')();
+
     var service = {
       createEvent,
       createEvents,
@@ -11,6 +13,7 @@
       getEvent,
       getPastEvents,
       getByDate,
+      getEventsBySeason,
       getCount,
       deleteEvent,
       persistEvent
@@ -157,6 +160,25 @@
             }
             return resolve(events);
           })
+      })
+    }
+
+    function getEventsBySeason(seasonNumber) {
+      return new Promise((resolve) => {
+        var endOfTime = moment().add(1000, 'y').format();
+        if (seasonNumber) {
+          seasonsService.getSeason(seasonNumber).then((season) => {
+            getByDate(season.startDate, season.endDate ? season.endDate : endOfTime).then((events) => {
+              resolve(events);
+            })
+          })
+        } else {
+          seasonsService.getLatestSeason().then((season) => {
+            getByDate(season.startDate, endOfTime).then((events) => {
+              resolve(events);
+            })
+          })
+        }
       })
     }
 
