@@ -5,6 +5,7 @@
     var service = {
       createEvent,
       createEvents,
+      updateEvent,
       checkIfEventExists,
       getEvents,
       getEvent,
@@ -12,22 +13,6 @@
       getByDate,
       getCount,
       deleteEvent
-    }
-
-    function createEvent(event, cb) {
-      Event.create(event, (err, e) => {
-        if (err)
-          return cb(err);
-        return cb(null, e);
-      })
-    }
-
-    function createEvents(events, cb) {
-      Event.insertMany(events, (err, e) => {
-        if (err)
-          return cb(err);
-        return cb(null, e);
-      })
     }
 
     var publicEvent = [{
@@ -56,6 +41,47 @@
     }, {
       path: 'games'
     }];
+
+    function createEvent(event, cb) {
+      event.date = moment(event.date).set({
+        hour: 19,
+        minute: 30,
+        second: 0,
+        millisecond: 0
+      }).format();
+      Event.create(event, (err, e) => {
+        if (err)
+          return cb(err);
+        return cb(null, e);
+      })
+    }
+
+    function createEvents(events, cb) {
+      Event.insertMany(events, (err, e) => {
+        if (err)
+          return cb(err);
+        return cb(null, e);
+      })
+    }
+
+    function updateEvent(ev) {
+      return new Promise((resolve, reject) => {
+        Event
+          .findOneAndUpdate({
+            _id: ev._id
+          }, ev, {
+            'new': true
+          })
+          .select('-statusId')
+          .exec((err, ev) => {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve(ev);
+          })
+      })
+    }
 
     function getEvents(cb) {
       Event

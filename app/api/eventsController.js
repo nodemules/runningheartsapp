@@ -60,29 +60,13 @@
     },
     (req, res) => {
       if (req.body._id) {
-        Event
-          .findOneAndUpdate({
-            _id: req.body._id
-          }, req.body, {
-            'new': true
-          })
-          .select('-statusId')
-          .exec((err, e) => {
-            if (err)
-              res.send(err);
-            res.send(e);
-          })
+        eventsService.updateEvent(req.body).then((ev) => {
+          res.send(ev);
+        })
       } else {
         eventsService.checkIfEventExists(req.body.venue, req.body.date, true).then((eventInfo) => {
           if (!eventInfo.event) {
-            var event = req.body;
-            event.date = moment(event.date).set({
-              hour: 19,
-              minute: 30,
-              second: 0,
-              millisecond: 0
-            }).format();
-            eventsService.createEvent(event, (error, e) => {
+            eventsService.createEvent(req.body, (error, e) => {
               if (error) {
                 return res.send(error)
               }
