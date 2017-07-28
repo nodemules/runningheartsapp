@@ -35,28 +35,9 @@
   });
 
   api.get('/date', function(req, res) {
-    var startDate = moment(req.query.startDate).startOf('day').format();
-    var endDate;
-    if (!req.query.endDate) {
-      endDate = req.query.startDate;
-    }
-    endDate = moment(endDate).endOf('day').format();
-
-    Event
-      .find({
-        date: {
-          $gte: startDate,
-          $lte: endDate
-        },
-        statusId: 1
-      })
-      .populate(publicEvent)
-      .select('-statusId')
-      .exec(function(err, events) {
-        if (err)
-          res.send(err);
-        res.send(events);
-      })
+    eventsService.getByDate(req.query.startDate, req.query.endDate).then((events) => {
+      res.send(events);
+    })
   })
 
   api.get('/count', (req, res) => {

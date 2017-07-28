@@ -7,7 +7,8 @@
       createEvents,
       checkIfEventExists,
       getEvents,
-      getPastEvents
+      getPastEvents,
+      getByDate
     }
 
     function createEvent(event, cb) {
@@ -25,6 +26,23 @@
         return cb(null, e);
       })
     }
+
+    var publicEvent = [{
+      path: 'venue',
+      select: 'name day time numberOfGames'
+    }, {
+      path: 'td',
+      select: '-statusId'
+    }, {
+      path: 'games',
+      populate: {
+        path: 'players',
+        populate: {
+          path: 'player',
+          model: 'Player'
+        }
+      }
+    }];
 
     var publicEventForList = [{
       path: 'venue',
@@ -68,6 +86,36 @@
         });
     }
 
+    function getByDate(start, end) {
+      return new Promise((resolve, reject) => {
+        var startDate = moment(start).startOf('day').format();
+        var endDate;
+        if (!end) {
+          endDate = moment(start).endOf('day').format();
+        } else {
+          endDate = moment(end).endOf('day').format();
+        }
+        Event
+          .find({
+            date: {
+              $gte: startDate,
+              $lte: endDate
+            },
+            statusId: 1
+          })
+          .populate(publicEvent)
+          .select('-statusId')
+          .exec(function(err, events) {
+            if (err) {
+              console.error(err);
+              reject(err);
+            }
+            resolve(events);
+          })
+      })
+    }
+
+    /* Private Functions */
     function checkIfEventExists(venue, date, manual) {
       return new Promise(function(resolve, reject) {
         var event = {
