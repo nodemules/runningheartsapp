@@ -17,10 +17,9 @@
 
     /////////////////////
 
-    function api(id, id2) {
-      return $resource(basePath + '/:id/:action/:id2', {
-        id,
-        id2
+    function api(id) {
+      return $resource(basePath + '/:id/:action', {
+        id
       }, {
         'save': {
           method: 'POST',
@@ -52,9 +51,7 @@
         },
         'season': {
           method: 'GET',
-          params: {
-            action: 'season'
-          },
+          url: basePath + '/season/:id',
           isArray: true
         }
       });
