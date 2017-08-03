@@ -7,10 +7,7 @@
     eventsService = require('./eventsService')();
 
   api.get('/', function(req, res) {
-    eventsService.getEvents(function(err, events) {
-      if (err) {
-        return res.send(err)
-      }
+    eventsService.getEvents().then((events) => {
       return res.send(events);
     });
   });

@@ -96,19 +96,23 @@
       })
     }
 
-    function getEvents(cb) {
-      Event
-        .find({
-          statusId: 1
-        })
-        .populate(publicEventForList)
-        .select('-statusId')
-        .exec(function(err, events) {
-          if (err) {
-            return cb(err);
-          }
-          cb(null, events);
-        });
+    function getEvents() {
+      return new Promise((resolve, reject) => {
+        Event
+          .find({
+            statusId: 1
+          })
+          .populate(publicEventForList)
+          .select('-statusId')
+          .exec(function(err, events) {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve(events);
+          });
+
+      })
     }
 
     function getEvent(id) {
@@ -126,21 +130,24 @@
       })
     }
 
-    function getPastEvents(cb) {
-      Event
-        .find({
-          date: {
-            $lt: moment().startOf('day').format()
-          },
-          completed: false
-        })
-        .select('-statusId')
-        .exec(function(err, events) {
-          if (err) {
-            return cb(err);
-          }
-          cb(null, events);
-        });
+    function getPastEvents() {
+      return new Promise((resolve, reject) => {
+        Event
+          .find({
+            date: {
+              $lt: moment().startOf('day').format()
+            },
+            completed: false
+          })
+          .select('-statusId')
+          .exec(function(err, events) {
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve(events);
+          });
+      })
     }
 
     function getByDate(start, end) {
