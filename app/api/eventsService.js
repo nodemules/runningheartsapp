@@ -46,25 +46,34 @@
       path: 'games'
     }];
 
-    function createEvent(event, cb) {
-      event.date = moment(event.date).set({
-        hour: 19,
-        minute: 30,
-        second: 0,
-        millisecond: 0
-      }).format();
-      Event.create(event, (err, e) => {
-        if (err)
-          return cb(err);
-        return cb(null, e);
+    function createEvent(ev) {
+      return new Promise((resolve, reject) => {
+        ev.date = moment(ev.date).set({
+          hour: 19,
+          minute: 30,
+          second: 0,
+          millisecond: 0
+        }).format();
+
+        Event.create(ev, (err, e) => {
+          if (err) {
+            console.error(err);
+            return reject(err);
+          }
+          return resolve(e)
+        })
       })
     }
 
-    function createEvents(events, cb) {
-      Event.insertMany(events, (err, e) => {
-        if (err)
-          return cb(err);
-        return cb(null, e);
+    function createEvents(events) {
+      return new Promise((resolve, reject) => {
+        Event.insertMany(events, (err, createdEvents) => {
+          if (err) {
+            console.error(err);
+            return reject(err);
+          }
+          return resolve(createdEvents);
+        })
       })
     }
 
@@ -226,11 +235,7 @@
         } else {
           checkIfEventExists(ev.venue, ev.date, true).then((eventInfo) => {
             if (!eventInfo.event) {
-              createEvent(ev, (error, e) => {
-                if (error) {
-                  console.error(error);
-                  return reject();
-                }
+              createEvent(ev).then((e) => {
                 return resolve(e);
               });
             } else {

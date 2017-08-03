@@ -2,7 +2,6 @@
   function exports() {
     var eventsService = require('../api/eventsService')(),
       dateUtil = require('../util/dateUtil')();
-    var moment = require('moment-timezone');
     var service = {
       generateNewEvents,
       generateNewEventsForVenue
@@ -12,15 +11,15 @@
       var events = [];
       var dates = dateUtil.getNextDays(venue.day, 3)
       for (var i in dates) {
-        var event = {
+        var ev = {
           td: venue.td,
           venue: venue._id,
           date: dates[i]
         }
-        events.push(event)
+        events.push(ev)
       }
-      eventsService.createEvents(events, function(error, events) {
-        cb(error, events);
+      eventsService.createEvents(events).then((events) => {
+        cb(events)
       });
     }
 
@@ -30,15 +29,12 @@
         for (var i in dates) {
           eventsService.checkIfEventExists(venues[h], dates[i]).then(function(resultEvent) {
             if (!resultEvent.event) {
-              var event = {
+              var ev = {
                 td: resultEvent.venue.td,
                 venue: resultEvent.venue._id,
                 date: resultEvent.date
               }
-              eventsService.createEvent(event, (error, e) => {
-                if (error) {
-                  console.log(error)
-                }
+              eventsService.createEvent(ev).then((e) => {
                 console.log('CREATING EVENT: ', e)
               })
             }
