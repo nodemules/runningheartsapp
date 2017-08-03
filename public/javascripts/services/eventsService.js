@@ -1,5 +1,5 @@
-// global angular, APP_NAME
 {
+  /* global angular, APP_NAME */
 
   angular.module(APP_NAME).factory('eventsService', eventsService);
 
@@ -17,9 +17,10 @@
 
     /////////////////////
 
-    function api(id) {
-      return $resource(basePath + '/:id/:action', {
-        id: id
+    function api(id, id2) {
+      return $resource(basePath + '/:id/:action/:id2', {
+        id,
+        id2
       }, {
         'save': {
           method: 'POST',
@@ -46,6 +47,13 @@
           method: 'GET',
           params: {
             action: 'date'
+          },
+          isArray: true
+        },
+        'season': {
+          method: 'GET',
+          params: {
+            action: 'season'
           },
           isArray: true
         }
