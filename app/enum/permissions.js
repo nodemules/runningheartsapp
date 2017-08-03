@@ -26,7 +26,8 @@
       'EDIT_USER': 25,
       'NO_GAME_LIMIT': 26,
       'CREATE_REGISTRATION_TOKEN': 27,
-      'START_ANY_GAME': 28
+      'START_ANY_GAME': 28,
+      'CREATE_ANY_EVENT': 29
     }
 
     var myEnum = new Enum(permissions);
