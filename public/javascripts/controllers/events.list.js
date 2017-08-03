@@ -14,7 +14,7 @@
     vm.permissions = {};
 
     vm.getEvents = function() {
-      vm.events = eventsService.api().query();
+      vm.events = eventsService.api().season();
     }
 
     vm.newEvent = function() {
