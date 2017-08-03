@@ -2,14 +2,14 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
-  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService', 'errorService'];
+  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService', 'errorService', 'permissionsService'];
 
-  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService, errorService) {
+  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService, errorService, permissionsService) {
 
     var vm = this;
 
     vm.forms = {};
-
+    vm.permissions = {};
     vm.event = {};
     vm.directors = [];
 
@@ -64,7 +64,18 @@
       });
     }
 
+    vm.canCreateEvent = function(date) {
+      return vm.permissions.CREATE_ANY_EVENT || date >= new Date();
+    }
+
+    function getPermissions() {
+      permissionsService.getPermissions((permissions) => {
+        vm.permissions = permissions
+      });
+    }
+
     function initialize() {
+      getPermissions();
       vm.getDirectors();
       vm.getVenues();
       if ($stateParams.id) {

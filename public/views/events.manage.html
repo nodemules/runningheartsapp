@@ -14,7 +14,7 @@
         </div>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-xs>
-        <md-datepicker required ng-model="em.event.date" md-placeholder="Enter date" name="date" ng-change="em.reset(em.forms.manageEvent.date, 'eventAlreadyExists')"></md-datepicker>
+        <md-datepicker md-date-filter="em.canCreateEvent" required ng-model="em.event.date" md-placeholder="Enter date" name="date" ng-change="em.reset(em.forms.manageEvent.date, 'eventAlreadyExists')"></md-datepicker>
         <div ng-class="{ 'rhp-messages-active' : em.forms.manageEvent.date.$dirty }"
           ng-messages="em.forms.manageEvent.date.$error" ng-if="em.forms.manageEvent.date.$dirty">
           <div ng-message="eventAlreadyExists">
