@@ -169,13 +169,13 @@
         if (seasonNumber) {
           seasonsService.getSeason(seasonNumber).then((season) => {
             getByDate(season.startDate, season.endDate ? season.endDate : endOfTime).then((events) => {
-              resolve(events);
+              return resolve(events);
             })
           })
         } else {
           seasonsService.getLatestSeason().then((season) => {
             getByDate(season.startDate, endOfTime).then((events) => {
-              resolve(events);
+              return resolve(events);
             })
           })
         }
@@ -190,7 +190,7 @@
           })
           .exec((err, count) => {
             if (err) {
-              console.log(err);
+              console.error(err);
               return reject(err);
             }
             return resolve({
@@ -259,7 +259,11 @@
         Event
           .find(event)
           .exec((err, events) => {
-            resolve({
+            if (err) {
+              console.error(err);
+              return reject(err);
+            }
+            return resolve({
               venue: venue,
               date: date,
               event: events[0]
