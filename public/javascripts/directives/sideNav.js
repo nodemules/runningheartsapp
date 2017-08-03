@@ -102,18 +102,8 @@
         })
       }
 
-
       $scope.toggleMenu = function() {
         $mdSidenav('appSidenav').toggle();
-      }
-
-      $scope.swipeOpen = function() {
-        $mdSidenav('appSidenav').open();
-      }
-
-      $scope.swipeClose = function() {
-        //unpredictable behavior so far
-        //$mdSidenav('appSidenav').close();
       }
 
       function initialize() {
