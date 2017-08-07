@@ -3,9 +3,9 @@
 
   angular.module(APP_NAME).controller('statsSeasonCtrl', statsSeasonCtrl);
 
-  statsSeasonCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService', 'venuesService'];
+  statsSeasonCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService', 'venuesService', 'seasonsService'];
 
-  function statsSeasonCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService) {
+  function statsSeasonCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService, seasonsService) {
 
     var vm = this;
 
@@ -15,6 +15,12 @@
       })
     }
 
+    function getSeasons() {
+      vm.seasons = seasonsService.api().query(function() {
+        vm.currentSeason = vm.seasons[0];
+      });
+    }
+
     function initialize() {
       if ($stateParams.id) {
         vm.seasonNumber = $stateParams.id;
@@ -22,6 +28,7 @@
       } else {
         vm.playerStats = statsService.api().players();
       }
+      getSeasons();
     }
 
     initialize();

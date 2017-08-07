@@ -16,6 +16,10 @@ a {
   height: 100%;
 }
 
+#rhp-virtual-repeat-container {
+  height: 95vh;
+}
+
 .rhp-tab-content {
   padding-left: 10px;
   padding-right: 10px;
