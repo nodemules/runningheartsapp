@@ -1,11 +1,11 @@
 {
   /* global angular, APP_NAME */
 
-  angular.module(APP_NAME).controller('statsPlayersCtrl', statsPlayersCtrl);
+  angular.module(APP_NAME).controller('statsSeasonCtrl', statsSeasonCtrl);
 
-  statsPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService', 'venuesService'];
+  statsSeasonCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService', 'venuesService'];
 
-  function statsPlayersCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService) {
+  function statsSeasonCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService) {
 
     var vm = this;
 

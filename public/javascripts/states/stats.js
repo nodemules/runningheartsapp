@@ -12,18 +12,18 @@
           controller: 'statsCtrl',
           controllerAs: 'vm'
         })
-        .state('stats.players', {
-          url: '/players',
+        .state('stats.season', {
+          url: '/season',
           parent: 'stats',
-          templateUrl: '/views/stats.players.html',
-          controller: 'statsPlayersCtrl',
+          templateUrl: '/views/stats.season.html',
+          controller: 'statsSeasonCtrl',
           controllerAs: 'vm'
         })
         .state('stats.seasons', {
           url: '/seasons/:id',
           parent: 'stats',
-          templateUrl: '/views/stats.players.html',
-          controller: 'statsPlayersCtrl',
+          templateUrl: '/views/stats.season.html',
+          controller: 'statsSeasonCtrl',
           controllerAs: 'vm'
         })
 
