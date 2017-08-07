@@ -1,7 +1,7 @@
 <md-list flex>
   <md-virtual-repeat-container id="rhp-virtual-repeat-container">
     <md-list-item class="md-3-line"
-    md-virtual-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalPoints']"
+    md-virtual-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints']"
     ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
     <span class="md-avatar">
       <i class="fa fa-hashtag"></i>   {{$index + 1}}

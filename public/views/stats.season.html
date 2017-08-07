@@ -7,12 +7,12 @@
   </md-card-title>
   <md-divider></md-divider>
   <md-card-content class="rhp-card-list">
-    <div ng-show="!vm.playerStats.length">
+    <div ng-show="!vm.seasonStats.length">
       There are no stats to show for this season.
     </div>
     <md-list flex>
       <md-list-item class="md-3-line"
-      ng-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
+      ng-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
       ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
       <span class="md-avatar">
         <i class="fa fa-hashtag"></i>   {{$index + 1}}
@@ -53,7 +53,7 @@
       </md-button>
     </div>
     <div layout="column">
-      <md-button class="md-raised md-primary" ui-sref="stats.season">
+      <md-button class="md-raised md-primary" ng-click="vm.getSeasonStats()">
         View All Time Standings
       </md-button>
     </div>

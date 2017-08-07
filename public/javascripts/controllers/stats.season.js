@@ -15,20 +15,25 @@
       })
     }
 
-    function getSeasons() {
+    function getSeasons(seasonId) {
       vm.seasons = seasonsService.api().query(function() {
         vm.currentSeason = vm.seasons[0];
+        vm.getSeasonStats(seasonId ? seasonId : vm.currentSeason.seasonNumber);
       });
     }
 
-    function initialize() {
-      if ($stateParams.id) {
-        vm.seasonNumber = $stateParams.id;
-        vm.playerStats = statsService.api($stateParams.id).seasons();
+    vm.getSeasonStats = function(id) {
+      if (id) {
+        vm.seasonNumber = id;
+        vm.seasonStats = statsService.api(id).seasons();
       } else {
-        vm.playerStats = statsService.api().players();
+        vm.seasonNumber = null;
+        vm.seasonStats = statsService.api().players();
       }
-      getSeasons();
+    }
+
+    function initialize() {
+      getSeasons($stateParams.id);
     }
 
     initialize();
