@@ -1,44 +1,38 @@
-<div layout="column">
-  <div ng-show="!vm.playerStats.length">
-    There are no stats to show for this season.
-  </div>
-  <md-list class="md-dense" layout="row" flex>
-    <md-virtual-repeat-container id="rhp-active-player-container" flex>
-      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalPoints']" layout-align="center center">
-            <div ng-click="touched=!touched" layout="row" layout-align="center center" class="stats-player-row">
-              {{player.name | uppercase}}
-            </div>
-            <div layout="row" class="stats-player-row" layout-align="center center">
-              <div layout="row" flex layout-align="center center">
-                <i class="fa fa-hashtag"></i>   {{$index + 1}}
-              </div>
-              <div layout="row" flex layout-align="center center">
-                  <i class="fa fa-usd"></i>  {{player.bonusChips}}
-              </div>
-              <div layout="row" flex layout-align="center center">
-                  {{player.totalWins}}  <i class="fa fa-trophy"></i>
-              </div>
-            </div>
-        <div layout="row" class="stats-player-row" ng-if="touched">
-          <div layout="row" flex>
-            <div layout="column" flex>
-              <md-button class="md-raised md-warn" ng-click="touched = !touched; $parent.touched = !$parent.touched; vm.shoutOut(player._id);">
-                Shout Out
-              </md-button>
-            </div>
-          </div>
-          <div layout="row" flex>
-            <div layout="column" flex>
-              <md-button class="md-raised md-primary"  ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
-                View Profile
-              </md-button>
-            </div>
-          </div>
-        </div>
-      </md-list-item>
-    </md-virtual-repeat-container>
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Season {{vm.seasonNumber}} Standings</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-divider></md-divider>
+  <md-card-content class="rhp-card-list">
+    <div ng-show="!vm.playerStats.length">
+      There are no stats to show for this season.
+    </div>
+    <md-list flex>
+      <md-list-item class="md-3-line"
+      ng-repeat="player in vm.playerStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
+      ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
+      <span class="md-avatar">
+        <i class="fa fa-hashtag"></i>   {{$index + 1}}
+      </span>
+      <div class="md-list-item-text" layout="column">
+        <h3>{{player.name}}</h3>
+        <h4>
+          <i class="fa fa-usd"></i>  {{player.bonusChips}}
+        </h4>
+        <p>
+          {{player.totalWins}}  <i class="fa fa-trophy"></i>
+        </p>
+      </div>
+      <md-divider ng-if="!$last"></md-divider>
+    </md-list-item>
   </md-list>
-  <md-button class="md-raised md-default" ui-sref="stats">
-    Back to Stats Home
-  </md-button>
-</div>
+</md-card-content>
+  <md-divider></md-divider>
+  <md-card-actions>
+    <md-button ui-sref="allstats">
+      View All Standings <i class="fa fa-chevron-right"></i>
+    </md-button>
+  </md-card-actions>
+</md-card>

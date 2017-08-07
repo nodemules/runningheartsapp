@@ -1,15 +1,23 @@
 <div ui-view layout="column" flex></div>
-<h2>View Specific Season</h2>
-<md-button class="md-raised md-default" ng-repeat="season in vm.seasons | orderBy:'startDate'" ui-sref="stats.seasons({ id: season.seasonNumber })">
-  {{season.seasonNumber}}
-</md-button>
-<div layout="column">
-  <md-button class="md-raised md-primary" ui-sref="stats.seasons({ id: vm.currentSeason.seasonNumber })">
-    View Current Season ({{vm.currentSeason.seasonNumber}}) Standings
-  </md-button>
-</div>
-<div layout="column">
-  <md-button class="md-raised md-primary" ui-sref="stats.players">
-    View All Time Standings
-  </md-button>
-</div>
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">View Specific Season</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <md-button class="md-raised md-default" ng-repeat="season in vm.seasons | orderBy:'startDate'" ui-sref="stats.seasons({ id: season.seasonNumber })">
+      {{season.seasonNumber}}
+    </md-button>
+    <div layout="column">
+      <md-button class="md-raised md-primary" ui-sref="stats.seasons({ id: vm.currentSeason.seasonNumber })">
+        View Current Season ({{vm.currentSeason.seasonNumber}}) Standings
+      </md-button>
+    </div>
+    <div layout="column">
+      <md-button class="md-raised md-primary" ui-sref="stats.players">
+        View All Time Standings
+      </md-button>
+    </div>
+  </md-card-content>
+</md-card>

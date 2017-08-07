@@ -40,6 +40,14 @@ a {
   padding: 3px 0px;
 }
 
+md-card-content.rhp-card-list {
+  padding: 0;
+}
+
+md-card-content.rhp-card-list md-list {
+  padding: 0;
+}
+
 .rhp-dense-list md-list-item,
 .rhp-dense-list md-list-item .md-list-item-inner {
   min-height: 24px;
