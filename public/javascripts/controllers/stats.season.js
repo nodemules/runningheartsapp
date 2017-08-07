@@ -17,19 +17,35 @@
 
     function getSeasons(seasonId) {
       vm.seasons = seasonsService.api().query(function() {
-        vm.currentSeason = vm.seasons[0];
-        vm.getSeasonStats(seasonId ? seasonId : vm.currentSeason.seasonNumber);
+        vm.latestSeason = vm.seasons[0];
+        vm.getSeasonStats(seasonId ? seasonId : vm.latestSeason.seasonNumber);
       });
     }
 
     vm.getSeasonStats = function(id) {
       if (id) {
-        vm.seasonNumber = id;
-        vm.seasonStats = statsService.api(id).seasons();
+        vm.season = $filter('filter')(vm.seasons, {
+          seasonNumber: id
+        })[0]
+        vm.seasonStats = statsService.api(id).seasons(() => {
+          getHighestScore();
+        });
       } else {
-        vm.seasonNumber = null;
-        vm.seasonStats = statsService.api().players();
+        vm.season = null;
+        vm.seasonStats = statsService.api().players(() => {
+          getHighestScore();
+        });
       }
+    }
+
+    function getHighestScore() {
+      if (!vm.seasonStats) {
+        return 0;
+      }
+      var totalPoints = vm.seasonStats.map((o) => {
+        return o.totalPoints;
+      })
+      vm.highestScore = Math.max.apply(null, totalPoints);
     }
 
     function initialize() {

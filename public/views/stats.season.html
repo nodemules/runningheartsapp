@@ -1,8 +1,8 @@
 <md-card>
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline" ng-if="vm.seasonNumber">Season {{vm.seasonNumber}} Standings</span>
-      <span class="md-headline" ng-if="!vm.seasonNumber">All Time Standings</span>
+      <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Standings</span>
+      <span class="md-headline" ng-if="!vm.season.seasonNumber">All Time Standings</span>
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
@@ -13,7 +13,7 @@
     <md-list flex>
       <md-list-item class="md-3-line"
       ng-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
-      ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
+      ui-sref="players.view({ id : player._id, season : vm.season.seasonNumber })">
       <span class="md-avatar">
         <i class="fa fa-hashtag"></i>   {{$index + 1}}
       </span>
@@ -32,10 +32,29 @@
 </md-card-content>
   <md-divider></md-divider>
   <md-card-actions>
-    <md-button ui-sref="stats.season.all({id: vm.seasonNumber})">
+    <md-button ui-sref="stats.season.all({id: vm.season.seasonNumber})">
       View All Standings <i class="fa fa-chevron-right"></i>
     </md-button>
   </md-card-actions>
+</md-card>
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Info</span>
+      <span class="md-headline" ng-if="!vm.season.seasonNumber">All Time Info</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <p>
+      There were {{vm.seasonStats.length}} players this season.
+    </p>
+    <p>
+      The highest score was {{vm.highestScore}}.
+    </p>
+    <p>
+      The season started on {{vm.season.startDate | date}}.
+    </p>
+  </md-card-content>
 </md-card>
 <md-card>
   <md-card-title>
@@ -48,8 +67,8 @@
       {{season.seasonNumber}}
     </md-button>
     <div layout="column">
-      <md-button class="md-raised md-primary" ui-sref="stats.seasons({ id: vm.currentSeason.seasonNumber })">
-        View Current Season ({{vm.currentSeason.seasonNumber}}) Standings
+      <md-button class="md-raised md-primary" ui-sref="stats.seasons({ id: vm.latestSeason.seasonNumber })">
+        View Current Season ({{vm.latestSeason.seasonNumber}}) Standings
       </md-button>
     </div>
     <div layout="column">
