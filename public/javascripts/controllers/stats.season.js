@@ -12,6 +12,8 @@
 
     var vm = this;
 
+    vm.stats = {};
+
     vm.shoutOut = function(id) {
       playersService.api(id).shoutOut(function(data) {
         vm.player.shoutOuts = data.shoutOuts;
@@ -33,6 +35,7 @@
         vm.season = $filter('filter')(vm.seasons, {
           seasonNumber: id
         })[0];
+        vm.stats.isCurrentSeason = vm.season.seasonNumber === vm.latestSeason.seasonNumber;
         vm.seasonStats = statsService.api(id).seasons(() => {
           getHighestScore();
         });
@@ -55,6 +58,7 @@
     }
 
     function initialize() {
+      vm.stats.showAll = !!$stateParams.all;
       getSeasons($stateParams.id);
     }
 

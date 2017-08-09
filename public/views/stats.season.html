@@ -37,22 +37,33 @@
     </md-button>
   </md-card-actions>
 </md-card>
-<md-card>
+<md-card ng-show="!vm.stats.showAll">
   <md-card-title>
     <md-card-title-text>
       <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Info</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <p>
+      There {{ vm.stats.isCurrentSeason ? 'are' : 'were' }} {{vm.seasonStats.length}} players this season.
+      The highest score {{ vm.stats.isCurrentSeason ? 'is' : 'was' }} {{vm.highestScore}}.
+      The season started on {{vm.season.startDate | date}}.
+      <span ng-show="!vm.stats.isCurrentSeason && vm.season.endDate">
+        The season ended on {{vm.season.endDate | date}}
+      </span>
+    </p>
+  </md-card-content>
+</md-card>
+<md-card ng-show="vm.stats.showAll">
+  <md-card-title>
+    <md-card-title-text>
       <span class="md-headline" ng-if="!vm.season.seasonNumber">All Time Info</span>
     </md-card-title-text>
   </md-card-title>
   <md-card-content>
     <p>
-      There were {{vm.seasonStats.length}} players this season.
-    </p>
-    <p>
-      The highest score was {{vm.highestScore}}.
-    </p>
-    <p>
-      The season started on {{vm.season.startDate | date}}.
+      {{vm.seasonStats.length}} players have participated in the Running Hearts Poker League.
+      The all time high score is {{vm.highestScore}}.
     </p>
   </md-card-content>
 </md-card>
