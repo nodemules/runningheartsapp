@@ -6,34 +6,29 @@
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
-  <md-card-content class="rhp-card-list">
+  <md-card-content ng-class="{ 'rhp-card-list' : vm.seasonStats.length }">
     <div ng-show="!vm.seasonStats.length">
       There are no stats to show for this season.
     </div>
-    <md-list flex>
-      <md-list-item class="md-3-line"
-      ng-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
-      ui-sref="players.view({ id : player._id, season : vm.season.seasonNumber })">
-      <span class="md-avatar">
+    <md-list flex ng-show="vm.seasonStats.length">
+      <md-list-item class="md-3-line" ng-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
+          ui-sref="players.view({ id : player._id, season : vm.season.seasonNumber })">
+        <span class="md-avatar">
         <i class="fa fa-hashtag"></i>   {{$index + 1}}
       </span>
-      <div class="md-list-item-text" layout="column">
-        <h3>{{player.name}}</h3>
-        <h4>
-          <i class="fa fa-usd"></i>  {{player.bonusChips}}
-        </h4>
-        <p>
-          {{player.totalWins}}  <i class="fa fa-trophy"></i>
-        </p>
-      </div>
-      <md-divider ng-if="!$last"></md-divider>
-    </md-list-item>
-  </md-list>
-</md-card-content>
+        <div class="md-list-item-text" layout="column">
+          <h3>{{player.name}}</h3>
+          <h4><i class="fa fa-usd"></i>  {{player.bonusChips}}</h4>
+          <p>{{player.totalWins}} <i class="fa fa-trophy"></i></p>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
   <md-divider></md-divider>
-  <md-card-actions>
+  <md-card-actions ng-show="vm.seasonStats.length">
     <md-button ui-sref="stats.season.all({id: vm.season.seasonNumber})">
-      View All Standings <i class="fa fa-chevron-right"></i>
+      View All <i class="fa fa-chevron-right"></i>
     </md-button>
   </md-card-actions>
 </md-card>
@@ -43,13 +38,17 @@
       <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Info</span>
     </md-card-title-text>
   </md-card-title>
+  <md-divider></md-divider>
   <md-card-content>
     <p>
-      There {{ vm.stats.isCurrentSeason ? 'are' : 'were' }} {{vm.seasonStats.length}} players this season.
-      The highest score {{ vm.stats.isCurrentSeason ? 'is' : 'was' }} {{vm.highestScore}}.
-      The season started on {{vm.season.startDate | date}}.
-      <span ng-show="!vm.stats.isCurrentSeason && vm.season.endDate">
-        The season ended on {{vm.season.endDate | date}}
+      There {{ vm.stats.isCurrentSeason ? 'are' : 'were' }} {{vm.seasonStats.length ? vm.seasonStats.length : 'no' }} players this
+      season.
+      <span ng-if="vm.seasonStats.length">
+        The highest score {{ vm.stats.isCurrentSeason ? 'is' : 'was' }} {{vm.highestScore}}.
+        The season started on {{vm.season.startDate | date}}.
+        <span ng-show="!vm.stats.isCurrentSeason && vm.season.endDate">
+          The season ended on {{vm.season.endDate | date}}
+        </span>
       </span>
     </p>
   </md-card-content>
@@ -60,11 +59,9 @@
       <span class="md-headline" ng-if="!vm.season.seasonNumber">All Time Info</span>
     </md-card-title-text>
   </md-card-title>
+  <md-divider></md-divider>
   <md-card-content>
-    <p>
-      {{vm.seasonStats.length}} players have participated in the Running Hearts Poker League.
-      The all time high score is {{vm.highestScore}}.
-    </p>
+    <p>{{vm.seasonStats.length}} players have participated in the Running Hearts Poker League. The all time high score is {{vm.highestScore}}.</p>
   </md-card-content>
 </md-card>
 <md-card>
@@ -73,6 +70,7 @@
       <span class="md-headline">View Specific Season</span>
     </md-card-title-text>
   </md-card-title>
+  <md-divider></md-divider>
   <md-card-content>
     <md-button class="md-raised md-default" ng-repeat="season in vm.seasons | orderBy:'startDate'" ui-sref="stats.seasons({ id: season.seasonNumber })">
       {{season.seasonNumber}}
@@ -83,7 +81,7 @@
       </md-button>
     </div>
     <div layout="column">
-      <md-button class="md-raised md-primary" ui-sref="stats.season({ all : true })"">
+      <md-button class="md-raised md-primary" ui-sref="stats.season({ all : true })" ">
         View All Time Standings
       </md-button>
     </div>
