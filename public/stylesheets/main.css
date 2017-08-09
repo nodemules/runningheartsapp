@@ -16,6 +16,10 @@ a {
   height: 100%;
 }
 
+#rhp-virtual-repeat-container {
+  height: 95vh;
+}
+
 .rhp-tab-content {
   padding-left: 10px;
   padding-right: 10px;
@@ -38,6 +42,14 @@ a {
 
 .rhp-dense-list {
   padding: 3px 0px;
+}
+
+md-card-content.rhp-card-list {
+  padding: 0;
+}
+
+md-card-content.rhp-card-list md-list {
+  padding: 0;
 }
 
 .rhp-dense-list md-list-item,
