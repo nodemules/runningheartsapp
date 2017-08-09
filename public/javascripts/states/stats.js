@@ -4,7 +4,7 @@
     .module(APP_NAME)
     .config(($stateProvider, $urlRouterProvider) => {
 
-      $urlRouterProvider.when('/stats', '/stats/season')
+      $urlRouterProvider.when('/stats', '/stats/season');
 
       $stateProvider
         .state('stats', {
@@ -33,11 +33,14 @@
           controllerAs: 'vm'
         })
         .state('stats.season.all', {
-          url: '/seasons/:id/all',
+          url: '/seasons/all/:id',
           parent: 'stats',
+          params: {
+            all: null
+          },
           templateUrl: '/views/stats.season.all.html',
           controller: 'statsSeasonCtrl',
           controllerAs: 'vm'
-        })
-    })
+        });
+    });
 }
