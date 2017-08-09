@@ -18,6 +18,9 @@
         .state('stats.season', {
           url: '/season',
           parent: 'stats',
+          params: {
+            all: null
+          },
           templateUrl: '/views/stats.season.html',
           controller: 'statsSeasonCtrl',
           controllerAs: 'vm'

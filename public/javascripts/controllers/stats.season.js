@@ -3,22 +3,28 @@
 
   angular.module(APP_NAME).controller('statsSeasonCtrl', statsSeasonCtrl);
 
-  statsSeasonCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService', 'venuesService', 'seasonsService'];
+  statsSeasonCtrl.$inject = ['$filter', '$state', '$stateParams', 'statsService', 'usersService', 'playersService',
+    'venuesService', 'seasonsService'
+  ];
 
-  function statsSeasonCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService, seasonsService) {
+  function statsSeasonCtrl($filter, $state, $stateParams, statsService, usersService, playersService, venuesService,
+    seasonsService) {
 
     var vm = this;
 
     vm.shoutOut = function(id) {
       playersService.api(id).shoutOut(function(data) {
         vm.player.shoutOuts = data.shoutOuts;
-      })
-    }
+      });
+    };
 
     function getSeasons(seasonId) {
       vm.seasons = seasonsService.api().query(function() {
         vm.latestSeason = vm.seasons[0];
-        vm.getSeasonStats(seasonId ? seasonId : vm.latestSeason.seasonNumber);
+        if (!seasonId && !$stateParams.all) {
+          seasonId = vm.latestSeason.seasonNumber;
+        }
+        vm.getSeasonStats(seasonId);
       });
     }
 
@@ -26,7 +32,7 @@
       if (id) {
         vm.season = $filter('filter')(vm.seasons, {
           seasonNumber: id
-        })[0]
+        })[0];
         vm.seasonStats = statsService.api(id).seasons(() => {
           getHighestScore();
         });
@@ -36,7 +42,7 @@
           getHighestScore();
         });
       }
-    }
+    };
 
     function getHighestScore() {
       if (!vm.seasonStats) {
