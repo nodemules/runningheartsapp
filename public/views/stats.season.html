@@ -1,8 +1,8 @@
 <md-card>
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Standings</span>
-      <span class="md-headline" ng-if="!vm.season.seasonNumber && vm.stats.showAll">All Time Standings</span>
+      <span class="md-title" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Standings</span>
+      <span class="md-title" ng-if="!vm.season.seasonNumber && vm.stats.showAll">All Time Standings</span>
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
@@ -46,7 +46,7 @@
 <md-card ng-show="!vm.stats.showAll">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Info</span>
+      <span class="md-title" ng-if="vm.season.seasonNumber">Season {{vm.season.seasonNumber}} Info</span>
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
@@ -67,7 +67,7 @@
 <md-card ng-show="vm.stats.showAll">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline" ng-if="!vm.season.seasonNumber">All Time Info</span>
+      <span class="md-title" ng-if="!vm.season.seasonNumber">All Time Info</span>
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
@@ -78,7 +78,7 @@
 <md-card>
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">View Specific Season</span>
+      <span class="md-title">View Specific Season</span>
     </md-card-title-text>
   </md-card-title>
   <md-divider></md-divider>
