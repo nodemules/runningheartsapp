@@ -40,6 +40,11 @@ a {
   padding: 3px 0px;
 }
 
+.rhp-search-input {
+  padding: 0;
+  margin: 0;
+}
+
 md-card-content.rhp-card-list {
   padding: 0;
 }

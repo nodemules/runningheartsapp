@@ -11,14 +11,14 @@
 
     var rhpListTemplate = [
       '<md-content layout="column">', //
-      '  <md-button class="md-secondary" ng-disabled="list.listIndex == 0" aria-label="last-five-list" ng-click="list.last5()">', //
-      '    Last 5 list', //
+      '  <md-button class="md-secondary" ng-disabled="list.listIndex == 0" aria-label="last-four-list" ng-click="list.last()">', //
+      '    Last {{list.size}} list', //
       '  </md-button>', //
-      '  <md-input-container class="rhp-add-player" flex-gt-xs="80" flex-xs="65">', //
+      '  <md-input-container class="rhp-search-input" flex-gt-xs="80" flex-xs="65">', //
       '    <label>{{list.getEntityName(list.entityType)}} search</label>', //
       '    <input ng-model="listSearch" name="name" />', //
       '  </md-input-container>', //
-      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | filter: listSearch | orderBy: list.sort | limitTo:5:list.listIndex">', //
+      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | filter: listSearch | orderBy: list.sort | limitTo:list.size:list.listIndex">', //
       '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
       '      <div class="md-list-item-text">', //
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
@@ -39,8 +39,8 @@
       '      </md-button>', //
       '    </md-list-item>', //
       '  </md-list>', //
-      '  <md-button class="md-secondary" aria-label="more-list" ng-click="list.list.length > list.listIndex + 5 ? list.next5() : list.first5()">', //
-      '    {{ list.list.length > list.listIndex + 5 ? \'And \' + (list.list.length - list.listIndex - 5) + \' more...\' : \'Back to Start\' }}', //
+      '  <md-button class="md-secondary" aria-label="more-list" ng-click="list.list.length > list.listIndex + list.size ? list.next() : list.first()">', //
+      '    {{ list.list.length > list.listIndex + list.size ? \'And \' + (list.list.length - list.listIndex - list.size) + \' more...\' : \'Back to Start\' }}', //
       '  </md-button>', //
       '</md-content>'
     ].join('');
@@ -112,19 +112,19 @@
       }
 
       function initialize() {
-        vm.first5();
+        vm.first();
         getPermissions();
       }
 
-      vm.next5 = function() {
+      vm.next = function() {
         vm.listIndex += vm.size;
       }
 
-      vm.last5 = function() {
+      vm.last = function() {
         vm.listIndex += -vm.size;
       }
 
-      vm.first5 = function() {
+      vm.first = function() {
         vm.listIndex = 0;
       }
 

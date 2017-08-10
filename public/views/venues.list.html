@@ -1,6 +1,6 @@
 <md-content layout="column">
   <md-card ng-repeat="error in vl.errors">{{error}}</md-card>
-  <rhp-list ng-model="vl.venues" rhp-list-size="5" rhp-text="vl.venueListText" entity-type="venues.ENTITY_TYPE.VENUE"
+  <rhp-list ng-model="vl.venues" rhp-list-size="4" rhp-text="vl.venueListText" entity-type="venues.ENTITY_TYPE.VENUE"
     rhp-list-set="vl.viewVenue(item)" rhp-list-edit="vl.editVenue(item)" rhp-list-del="vl.removeVenue(item)" rhp-list-sort="'name'"></rhp-list>
 </md-content>
 <md-button class="md-fab md-fab-bottom-right md-primary" ng-click="vl.newVenue()" ng-if="venues.permissions.ADD_VENUE"><md-icon md-font-set="material-icons">add</md-icon></md-button>
