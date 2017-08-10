@@ -32,10 +32,9 @@
 
     vm.getSeasonStats = function(id) {
       if (id) {
-        vm.season = $filter('filter')(vm.seasons, {
-          seasonNumber: id
-        })[0];
-        vm.stats.isCurrentSeason = vm.season.seasonNumber === vm.latestSeason.seasonNumber;
+        vm.season = statsService.api(id).season(() => {
+          vm.stats.isCurrentSeason = vm.season.seasonNumber === vm.latestSeason.seasonNumber;
+        });
         vm.seasonStats = statsService.api(id).seasons(() => {
           getHighestScore();
         });
@@ -54,7 +53,7 @@
       var totalPoints = vm.seasonStats.map((o) => {
         return o.totalPoints;
       })
-      vm.highestScore = Math.max.apply(null, totalPoints);
+      vm.stats.highestScore = Math.max.apply(null, totalPoints);
     }
 
     function initialize() {

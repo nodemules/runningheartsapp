@@ -55,7 +55,7 @@
         <h4>View Player Standings</h4>
         <p>
           <span ng-repeat="player in messages.stats">
-            {{player.name}}<span ng-show="$index === 0">, </span>
+            {{player.name}}<span ng-show="!$last && messages.stats.length > 1">, </span>
           </span>
           {{ messages.stats.length > 1 ? 'are' : 'is' }} currently leading!
         </p>
@@ -68,7 +68,7 @@
         <p>We are Currently in Season {{messages.seasons.length}}</p>
       </div>
     </md-list-item>
-      <md-list-item class="md-3-line" ng-click="logout()" ng-show="isLoggedIn()">
+    <md-list-item class="md-3-line" ng-click="logout()" ng-show="isLoggedIn()">
         <div class="md-list-item-text" layout="column">
           <h3>Logout</h3>
           <h4>Logout of the application</h4>
