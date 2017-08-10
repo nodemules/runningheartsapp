@@ -259,6 +259,11 @@
             '_id': '$players.player',
             'totalPoints': {
               '$sum': '$players.score'
+            },
+            'games': {
+              '$push': {
+                '_id': '$_id'
+              }
             }
           }
         },
@@ -267,6 +272,9 @@
             '_id': '$_id',
             'name': '$player.name',
             'totalPoints': '$totalPoints',
+            'gamesPlayed': {
+              '$size': '$games'
+            }
           }
         },
         sort: {

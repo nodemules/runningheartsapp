@@ -170,8 +170,10 @@
       return new Promise((resolve, reject) => {
 
         var pipeline = [
-          StatsMatcher.GET_WINNERS.match(season),
           GlobalMatcher.unwind,
+          StatsMatcher.GET_WINNERS.match(season),
+          GlobalMatcher.lookupEvent,
+          GlobalMatcher.matchEvent,
           StatsMatcher.GET_WINNERS.group,
           GlobalMatcher.lookupPlayer,
           GlobalMatcher.unwindPlayer,
