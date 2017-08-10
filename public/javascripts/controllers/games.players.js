@@ -91,6 +91,20 @@
       })
     }
 
+    vm.validatePlayerName = function(playerName) {
+      if (!playerName || !vm.players) {
+        return false;
+      }
+
+      var players = angular.copy(vm.players);
+      var names = players.map((player) => {
+        return player.name.toLowerCase();
+      })
+
+      return $filter('filter')(names, playerName.toLowerCase(), true).length > 0;
+
+    }
+
     function ready() {
       vm.ready = true;
     }

@@ -9,20 +9,20 @@
   </div>
   <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }" layout="row" flex="85">
     <md-virtual-repeat-container id="vertical-container" flex>
-      <md-list-item md-virtual-repeat="player in gp.players | orderBy: 'name'">
-        <md-checkbox ng-checked="gp.isSelected(player)" ng-click="gp.toggleSelection(player)"></md-checkbox>
-        <p>{{player.name}}</p>
+      <md-list-item md-virtual-repeat="p in gp.players | filter: { name: player.name } | orderBy: 'name'">
+        <md-checkbox ng-checked="gp.isSelected(p)" ng-click="gp.toggleSelection(p)"></md-checkbox>
+        <p>{{p.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
 </md-content>
 <md-content layout="row" flex>
   <md-input-container class="rhp-add-player" flex-gt-xs="80" flex-xs="65">
-    <label>Player Name</label>
+    <label>Player Search</label>
     <input required ng-model="player.name" name="name" />
   </md-input-container>
   <div>
-    <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name">Create Player</md-button>
+    <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name || gp.validatePlayerName(player.name)">Create Player</md-button>
   </div>
 </md-content>
 <div layout="row" layout-align="end" ng-show="player.$$error">
