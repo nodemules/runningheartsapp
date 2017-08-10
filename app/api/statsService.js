@@ -3,18 +3,56 @@
 
     var Season = require('../models/season'),
       Game = require('../models/game');
+    var seasonsService = require('./seasonsService')();
     var StatsMatcher = require('../matchers/statsMatchers')();
     const GlobalMatcher = StatsMatcher.GLOBAL;
 
     var service = {
+      getSeasonStats,
       getPlayerStats,
       getAllPlayerStats,
       getSeasonPlayerStats,
       getWinners
     }
 
+    function getSeasonStats(seasonNumber) {
+      return new Promise((resolve, reject) => {
+        seasonsService.getSeason(seasonNumber).then((season) => {
+
+          var pipeline = [
+            StatsMatcher.GET_SEASON_STATS.match(season.startDate, season.endDate),
+            StatsMatcher.GET_SEASON_STATS.group,
+            StatsMatcher.GET_SEASON_STATS.project
+          ];
+
+          Game
+            .aggregate(pipeline)
+            .exec(function(err, arr) {
+              if (err) {
+                console.error(err.stack);
+                return reject(err);
+              }
+              var seasonWithStats = season;
+              if (arr.length) {
+                var stats = arr[0];
+                delete stats._id;
+                seasonWithStats = Object.assign(stats, season._doc)
+              }
+              return resolve(seasonWithStats);
+            });
+        });
+      }, (err) => {
+        return reject(err);
+      });
+    }
+
     function getAllPlayerStats() {
       return new Promise((resolve, reject) => {
+
+        var project = {
+          $project: Object.assign({}, GlobalMatcher.project.$project)
+        }
+        delete project.$project.bonusChips;
 
         var pipeline = [
           GlobalMatcher.unwind,
@@ -28,7 +66,7 @@
           GlobalMatcher.group,
           GlobalMatcher.lookupPlayer,
           GlobalMatcher.unwindPlayer,
-          GlobalMatcher.project,
+          project,
           StatsMatcher.GET_ALL_PLAYER_STATS.sortBy
         ];
 
@@ -54,6 +92,7 @@
         if (!season) {
           delete project.$project.bonusChips;
         }
+        project.$project.games = '$games';
 
         var pipeline = [
           GlobalMatcher.unwind,
@@ -92,10 +131,9 @@
           })
           .exec(function(err, seasons) {
             if (err) {
-              console.log(err)
-              return reject(err)
+              console.error(err);
+              return reject(err);
             }
-            console.log(seasons)
 
             var season = seasons[0];
 

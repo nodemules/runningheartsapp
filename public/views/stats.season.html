@@ -12,23 +12,31 @@
     </div>
     <md-list flex ng-show="vm.seasonStats.length">
       <md-list-item class="md-3-line" ng-repeat="player in vm.seasonStats | orderBy: ['-bonusChips', '-totalPoints'] | limitTo: 3"
-          ui-sref="players.view({ id : player._id, season : vm.season.seasonNumber })">
+        ui-sref="players.view({ id : player._id, season : vm.season.seasonNumber })">
         <span class="md-avatar">
           <i class="fa fa-hashtag"></i>   {{$index + 1}}
         </span>
         <div class="md-list-item-text" layout="column">
-          <h3>{{player.name}}</h3>
+          <h3 layout="row" layout-align="start center">
+            <span flex>{{player.name}}</span>
+            <span flex layout="column" layout-align="center end" ng-show="!vm.stats.showAll">
+              <span><i class="fa fa-usd"></i>  {{player.bonusChips}}</span>
+            </span>
+          </h3>
           <h4 layout="row" layout-align="start center">
-            <span flex>{{player.totalWins}} <i class="fa fa-trophy"></i></span>
+            <span flex>
+              <span>{{player.ranks.firsts}} <i class="fa fa-trophy trophy-gold"></i></span>
+              <span>{{player.ranks.seconds}} <i class="fa fa-trophy trophy-silver"></i></span>
+              <span>{{player.ranks.thirds}} <i class="fa fa-trophy trophy-bronze"></i></span>
+            </span>
             <span flex layout="column" layout-align="center end">
               <span>Total Points:  {{player.totalPoints}}</span>
             </span>
           </h4>
           <p layout="row" layout-align="start center">
-            <span flex>Average Rank: {{player.averageRank | number:0}}</span>
+            <span flex>Average Rank: {{player.ranks.average | number:0}}</span>
             <span flex layout="column" layout-align="center end">
-              <span ng-show="!vm.stats.showAll"><i class="fa fa-usd"></i>  {{player.bonusChips}}</span>
-              <span ng-show="vm.stats.showAll">Shout Outs: {{player.shoutOuts}}</span>
+              <span>Games Played: {{player.gamesPlayed}}</span>
             </span>
           </p>
         </div>
@@ -55,7 +63,8 @@
       There {{ vm.stats.isCurrentSeason ? 'are' : 'were' }} {{vm.seasonStats.length ? vm.seasonStats.length : 'no' }} players this
       season.
       <span ng-if="vm.seasonStats.length">
-        The highest score {{ vm.stats.isCurrentSeason ? 'is' : 'was' }} {{vm.highestScore}}.
+        The highest score {{ vm.stats.isCurrentSeason ? 'is' : 'was' }} {{vm.stats.highestScore}}.
+        {{vm.season.gamesPlayed}} games have been played this season.
         The season started on {{vm.season.startDate | date}}.
         <span ng-show="!vm.stats.isCurrentSeason && vm.season.endDate">
           The season ended on {{vm.season.endDate | date}}
@@ -72,7 +81,7 @@
   </md-card-title>
   <md-divider></md-divider>
   <md-card-content>
-    <p>{{vm.seasonStats.length}} players have participated in the Running Hearts Poker League. The all time high score is {{vm.highestScore}}.</p>
+    <p>{{vm.seasonStats.length}} players have participated in the Running Hearts Poker League. The all time high score is {{vm.stats.highestScore}}.</p>
   </md-card-content>
 </md-card>
 <md-card>

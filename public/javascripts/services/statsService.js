@@ -47,6 +47,12 @@
           },
           isArray: true
         },
+        'season': {
+          method: 'get',
+          params: {
+            action: 'seasons'
+          }
+        },
         'seasons': {
           method: 'get',
           params: {

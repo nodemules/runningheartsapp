@@ -33,6 +33,12 @@
     });
   })
 
+  api.get('/seasons/:seasonNumber', (req, res) => {
+    statsService.getSeasonStats(req.params.seasonNumber).then((season) => {
+      res.send(season);
+    })
+  });
+
   api.get('/seasons/:seasonNumber/players', function(req, res) {
     statsService.getSeasonPlayerStats(req.params.seasonNumber).then((players) => {
       res.send(players);

@@ -2,7 +2,7 @@
 html, body {
   overflow-y: auto;
   min-height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', 'Noto', sans-serif;
   font-size:14px;
   margin: 0px;
   padding: 0px;
@@ -30,10 +30,6 @@ a {
 
 .rhp-toolbar-xs {
   min-height: 40px;
-}
-
-.rhp-toolbar-xs h1 {
-  font-size: 16px;
 }
 
 .rhp-sidenav {
@@ -164,4 +160,16 @@ md-ink-bar {
 .rhp-messages-active .md-input-message-animation:not(.ng-animate) {
   opacity: 1;
   margin-top: 0;
+}
+
+.trophy-gold {
+  color: gold;
+}
+
+.trophy-silver {
+  color: silver;
+}
+
+.trophy-bronze {
+  color: #cd7f32;
 }
