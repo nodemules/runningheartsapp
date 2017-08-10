@@ -14,7 +14,11 @@
       '  <md-button class="md-secondary" ng-disabled="list.listIndex == 0" aria-label="last-five-list" ng-click="list.last5()">', //
       '    Last 5 list', //
       '  </md-button>', //
-      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | orderBy: list.sort | limitTo:5:list.listIndex">', //
+      '  <md-input-container class="rhp-add-player" flex-gt-xs="80" flex-xs="65">', //
+      '    <label>{{list.getEntityName(list.entityType)}} search</label>', //
+      '    <input ng-model="listSearch" name="name" />', //
+      '  </md-input-container>', //
+      '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | filter: listSearch | orderBy: list.sort | limitTo:5:list.listIndex">', //
       '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
       '      <div class="md-list-item-text">', //
       '        <h3 ng-if="item.name">{{item.name}}</h3>', //  TODO - Figure out how to standardize
@@ -88,6 +92,10 @@
           default:
             return false;
         }
+      }
+
+      vm.getEntityName = function(entityType) {
+        return Object.keys(Entities).find(key => Entities[key] === entityType).toLowerCase();
       }
 
       vm.canDelete = function(entityType) {
