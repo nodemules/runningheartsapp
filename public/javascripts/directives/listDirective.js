@@ -16,7 +16,7 @@
       '  </md-button>', //
       '  <md-input-container class="rhp-search-input" flex-gt-xs="80" flex-xs="65">', //
       '    <label>{{list.getEntityName(list.entityType)}} search</label>', //
-      '    <input ng-model="listSearch" name="name" />', //
+      '    <input ng-model="listSearch" name="name" ng-change="list.first()" />', //
       '  </md-input-container>', //
       '  <md-list class="md-dense" ng-class="{ \'rhp-dense-list\':list.mdMedia(\'xs\') }" ng-repeat="item in list.list | filter: listSearch | orderBy: list.sort | limitTo:list.size:list.listIndex">', //
       '    <md-list-item class="md-3-line md-hue-1" ng-click="list.setItem({item : item})">', //
