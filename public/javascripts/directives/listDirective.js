@@ -39,7 +39,7 @@
       '      </md-button>', //
       '    </md-list-item>', //
       '  </md-list>', //
-      '  <md-button class="md-secondary" aria-label="more-list" ng-click="(listSearch ? list.items.length : list.list.length) > list.listIndex + list.size ? list.next() : list.first()">', //
+      '  <md-button ng-hide="listSearch && list.items.length <= list.size" class="md-secondary" aria-label="more-list" ng-click="(listSearch ? list.items.length : list.list.length) > list.listIndex + list.size ? list.next() : list.first()">', //
       '    {{ (listSearch ? list.items.length : list.list.length) > list.listIndex + list.size ? \'And \' + ((listSearch ? list.items.length : list.list.length) - list.listIndex - list.size) + \' more...\' : \'Back to Start\' }}', //
       '  </md-button>', //
       '</md-content>'
