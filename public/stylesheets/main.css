@@ -40,6 +40,11 @@ a {
   padding: 3px 0px;
 }
 
+.rhp-search-input {
+  padding: 0;
+  margin: 0;
+}
+
 md-card-content.rhp-card-list {
   padding: 0;
 }
@@ -172,4 +177,21 @@ md-ink-bar {
 
 .trophy-bronze {
   color: #cd7f32;
+}
+
+.list-search md-input-container {
+  width: 100%;
+}
+
+.list-search md-input-container.md-input-focused .md-input {
+  border-color: white;
+}
+
+.list-search md-input-container label {
+  color: white;
+}
+
+.list-search md-input-container input {
+  border-color: white;
+  color: white;
 }

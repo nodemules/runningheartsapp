@@ -5,9 +5,9 @@
 
   angular.module(APP_NAME).controller('playersViewCtrl', playersViewCtrl);
 
-  playersViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'statsService'];
+  playersViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'statsService', 'dialogService'];
 
-  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService) {
+  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService, dialogService) {
 
     var vm = this;
 
@@ -74,8 +74,10 @@
     }
 
     vm.removePlayer = function(player) {
-      playersService.api(player._id).remove(function() {
-        $state.transitionTo('players.list');
+      dialogService.confirm('Are you sure you want to delete this player?').then(() => {
+        playersService.api(player._id).remove(function() {
+          $state.transitionTo('players.list');
+        });
       });
     }
 

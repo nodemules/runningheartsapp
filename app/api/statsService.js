@@ -1,15 +1,19 @@
 {
   function exports() {
 
+    var _ = require('lodash');
+
     var Season = require('../models/season'),
       Game = require('../models/game');
     var seasonsService = require('./seasonsService')();
+    var playersService = require('./playersService')();
     var StatsMatcher = require('../matchers/statsMatchers')();
     const GlobalMatcher = StatsMatcher.GLOBAL;
 
     var service = {
       getSeasonStats,
       getPlayerStats,
+      getAllPlayers,
       getAllPlayerStats,
       getSeasonPlayerStats,
       getWinners
@@ -43,6 +47,20 @@
         });
       }, (err) => {
         return reject(err);
+      });
+    }
+
+    function getAllPlayers() {
+      return new Promise((resolve, reject) => {
+        playersService.getAllPlayers().then((players) => {
+          getAllPlayerStats().then((playersWithStats) => {
+            return resolve(_.unionBy(playersWithStats, players, (a) => {
+              return _.find(players, {
+                _id: a._id
+              });
+            }));
+          });
+        });
       });
     }
 

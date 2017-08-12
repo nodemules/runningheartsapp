@@ -2,8 +2,9 @@
   var express = require('express'),
     api = express.Router();
 
-  var authService = require('./authService')(),
-    Permissions = require('../enum/permissions'),
+  var authService = require('./authService')();
+  var statsService = require('./statsService')();
+  var Permissions = require('../enum/permissions'),
     Players = require('../models/player');
 
   var publicPlayer = {
@@ -13,16 +14,9 @@
 
   api.get('/',
     (req, res) => {
-      Players
-        .find({
-          statusId: 1
-        })
-        .select('-statusId')
-        .exec((err, player) => {
-          if (err)
-            console.log(err.stack);
-          res.send(player);
-        })
+      statsService.getAllPlayers().then((players) => {
+        return res.send(players);
+      })
     })
 
   api.get('/count', (req, res) => {
