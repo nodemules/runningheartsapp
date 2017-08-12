@@ -178,3 +178,20 @@ md-ink-bar {
 .trophy-bronze {
   color: #cd7f32;
 }
+
+.list-search md-input-container {
+  width: 100%;
+}
+
+.list-search md-input-container.md-input-focused .md-input {
+  border-color: white;
+}
+
+.list-search md-input-container label {
+  color: white;
+}
+
+.list-search md-input-container input {
+  border-color: white;
+  color: white;
+}

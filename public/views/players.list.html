@@ -1,5 +1,43 @@
-<md-content layout="column">
-  <rhp-list ng-model="pl.players" rhp-list-size="4" entity-type="players.ENTITY_TYPE.PLAYER"
-    rhp-list-set="pl.viewPlayer(item)" rhp-list-edit="pl.editPlayer(item)" rhp-list-del="pl.removePlayer(item)" rhp-list-sort="'name'"></rhp-list>
-</md-content>
-<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="pl.newPlayer()" ng-if="players.permissions.ADD_PLAYER"><md-icon md-font-set="material-icons">add</md-icon></md-button>
+<div layout="column">
+  <md-toolbar>
+    <div class="md-toolbar-tools list-search">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label><span class="fa fa-search"></span> Player search</label>
+        <input ng-model="listSearch" name="name" />
+      </md-input-container>
+    </div>
+  </md-toolbar>
+  <md-list flex>
+    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+      <md-list-item class="md-3-line"
+          md-virtual-repeat="player in pl.players | filter: { name : listSearch } | orderBy: 'name'"
+          ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
+        <div class="md-list-item-text" layout="column">
+          <h3 layout="row" layout-align="start center">
+            <span flex>{{player.name}}</span>
+          </h3>
+          <h4 layout="row" layout-align="start center">
+            <span flex>
+              <span>{{player.ranks.firsts || 0}} <i class="fa fa-trophy trophy-gold"></i></span>
+              <span>{{player.ranks.seconds || 0}} <i class="fa fa-trophy trophy-silver"></i></span>
+              <span>{{player.ranks.thirds || 0}} <i class="fa fa-trophy trophy-bronze"></i></span>
+            </span>
+            <span flex layout="column" layout-align="center end">
+              <span>Total Points:  {{player.totalPoints || 0}}</span>
+            </span>
+          </h4>
+          <p layout="row" layout-align="start center">
+            <span flex ng-show="player.ranks.average">Average Rank: {{player.ranks.average | number:0}}</span>
+            <span flex layout="column" layout-align="center end">
+              <span>Games Played: {{player.gamesPlayed || 0}}</span>
+            </span>
+          </p>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="pl.newPlayer()" ng-if="players.permissions.ADD_PLAYER">
+  <md-icon md-font-set="material-icons">add</md-icon>
+</md-button>
