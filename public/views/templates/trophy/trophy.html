@@ -1,7 +1,8 @@
 <span class="rhp-trophy">
   <span>{{count}}</span>
-<span ng-if="position.before">{{rank}}</span>
-<span class="fa" ng-class="getIcon(rank)">
-  </span>
-<span ng-if="position.after">{{rank}}</span>
+<span ng-class="getRankClass(rank)">
+    <span ng-if="position.before">{{rank}}</span>
+<span class="fa" ng-class="getIconClass(rank)"></span>
+<span ng-class="getRankClass(rank)" ng-if="position.after">{{rank}}</span>
+</span>
 </span>

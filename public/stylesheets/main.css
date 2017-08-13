@@ -167,27 +167,6 @@ md-ink-bar {
   margin-top: 0;
 }
 
-.rhp-trophy.md-avatar {
-  font-size: 20px;
-}
-
-.rhp-trophy.md-avatar .fa-hashtag {
-  font-size: 18px;
-  color: #3f3f3f;
-}
-
-.trophy-gold {
-  color: gold;
-}
-
-.trophy-silver {
-  color: silver;
-}
-
-.trophy-bronze {
-  color: #cd7f32;
-}
-
 md-toolbar.rhp-list-search {
   height: 40px;
 }

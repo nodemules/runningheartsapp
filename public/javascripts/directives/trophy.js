@@ -33,7 +33,7 @@
         scope.position.before = false;
       }
 
-      scope.getIcon = function(rank) {
+      scope.getIconClass = function(rank) {
         var icon = '';
         switch (rank) {
           case 1:
@@ -51,6 +51,19 @@
         }
         return icon;
       }
+
+      scope.getRankClass = function(rank) {
+        var icon = '';
+        if (rank >= 10) {
+          icon = 'rhp-trophy-rank-sm';
+        } else if (rank >= 100) {
+          icon = 'rhp-trophy-rank-xs';
+        } else {
+          icon = 'rhp-trophy-rank';
+        }
+        return icon;
+      }
+
     }
 
   }
