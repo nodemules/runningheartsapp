@@ -11,7 +11,7 @@
     }
 
     function createNewEvents() {
-      venuesService.getVenues(function(error, venues) {
+      venuesService.getVenues().then((venues) => {
         eventsCreator.generateNewEvents(venues);
       })
     }

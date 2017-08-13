@@ -21,13 +21,17 @@
             <span flex>
               <span>{{venue.day}} at {{venue.time}}</span>
             </span>
-            <span flex layout="column" layout-align="center end"></span>
+            <span flex layout="column" layout-align="center end">
+              Events Hosted: {{venue.events.length}}
+            </span>
           </h4>
           <p layout="row" layout-align="start center">
             <span flex>
               <rhp-name-list ng-model="venue.td"></rhp-name-list>
             </span>
-            <span flex layout="column" layout-align="center end"></span>
+            <span flex layout="column" layout-align="center end">
+              Games Played: {{venue.gamesPlayed || 0}}
+            </span>
           </p>
         </div>
         <md-divider ng-if="!$last"></md-divider>
