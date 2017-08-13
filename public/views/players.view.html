@@ -29,17 +29,19 @@
   <md-card>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline rhp-headline-center" ng-show="!pv.stats.specificSeason">{{pv.stats.currentSeason ? 'Current Season' : 'All Time'}} Stats</span>
+        <span class="md-headline rhp-headline-center" ng-show="!pv.stats.specificSeason">{{!pv.stats.allTime ? 'Current Season' : 'All Time'}} Stats</span>
         <span class="md-headline rhp-headline-center" ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}} Stats</span>
       </md-card-title-text>
     </md-card-title>
     <md-divider></md-divider>
     <md-card-content>
-      <md-switch ng-model="pv.stats.currentSeason" ng-show="!pv.stats.specificSeason" ng-change="pv.getPlayerStats(pv.stats.currentSeason)">Show Current Season Stats</md-switch>
+      <md-switch ng-model="pv.stats.allTime" ng-show="!pv.stats.specificSeason" ng-change="pv.getPlayerStats()">
+        Show All Time Stats
+      </md-switch>
       <div style="text-align: center;" ng-show="pv.stats.specificSeason">
         <md-button class="md-raised md-secondary" ng-click="pv.getPlayerStats(true)">Show Current Season Stats</md-button>
       </div>
-      <p ng-show="!pv.player.games.length">This player hasn't played any games yet<span ng-show="pv.stats.currentSeason"> this season</span>!</p>
+      <p ng-show="!pv.player.games.length">This player hasn't played any games yet<span ng-show="!pv.stats.allTime"> this season</span>!</p>
       <div ng-show="pv.player.games.length">
         <p>Total Points: {{pv.player.totalPoints}}</p>
         <p>Total Wins:
@@ -59,7 +61,7 @@
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline rhp-headline-center">
-          <span ng-show="pv.stats.currentSeason">Current Season</span>
+          <span ng-show="!pv.stats.allTime">Current Season</span>
         <span ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}}</span>
         <span ng-show="pv.stats.allTime">All Time</span> Games Played: {{pv.player.games.length}}
         </span>

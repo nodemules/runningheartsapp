@@ -41,7 +41,7 @@
           url: '/view/:id',
           params: {
             season: null,
-            allTime: null
+            allTime: false
           },
           parent: 'players',
           templateUrl: '/views/players.view.html',
@@ -52,7 +52,7 @@
           url: '/view/:id/games',
           params: {
             season: null,
-            allTime: null
+            allTime: false
           },
           parent: 'players',
           templateUrl: '/views/players.view.games.html',

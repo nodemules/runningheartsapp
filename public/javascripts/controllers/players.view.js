@@ -12,7 +12,7 @@
     var vm = this;
 
     vm.stats = {
-      currentSeason: true,
+      allTime: false,
       specificSeason: false,
       seasonNumber: null
     }
@@ -34,12 +34,11 @@
         if (seasonNumber) {
           return vm.getPlayerStatsForSeason(seasonNumber);
         }
-        vm.getPlayerStats(vm.stats.currentSeason);
+        vm.getPlayerStats();
       })
     }
 
     vm.getPlayerStatsForSeason = function(seasonNumber) {
-      vm.stats.currentSeason = false;
       vm.stats.allTime = false;
       vm.stats.specificSeason = true;
       vm.stats.seasonNumber = seasonNumber;
@@ -48,16 +47,13 @@
       });
     }
 
-    vm.getPlayerStats = function(currentSeason) {
-      vm.stats.currentSeason = currentSeason;
+    vm.getPlayerStats = function() {
       vm.stats.specificSeason = false;
-      if (currentSeason) {
+      if (!vm.stats.allTime) {
         statsService.api(vm.player._id).playerSeason((player) => {
           mergePlayerStats(player);
         });
       } else {
-        vm.stats.currentSeason = false;
-        vm.stats.allTime = true;
         statsService.api(vm.player._id).player((player) => {
           mergePlayerStats(player);
         });
@@ -87,6 +83,7 @@
     function initialize() {
       if ($stateParams.id) {
         vm.stats.allTime = $stateParams.allTime;
+        console.log(vm.stats);
         vm.getPlayer($stateParams.id, $stateParams.season);
       }
     }
