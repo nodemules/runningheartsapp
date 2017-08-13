@@ -1,7 +1,7 @@
 <div class="md-headline rhp-headline-center" ng-show="pv.player.name">
   {{pv.player.name}}'s Games for
-  <span ng-show="!pv.stats.allTime">Current Season</span>
-  <span ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}}</span>
+  <span ng-show="!pv.stats.season && !pv.stats.allTime">Current Season</span>
+  <span ng-show="pv.stats.season">Season {{pv.stats.season.seasonNumber}}</span>
   <span ng-show="pv.stats.allTime">All Time</span>
 </div>
 <md-list flex>

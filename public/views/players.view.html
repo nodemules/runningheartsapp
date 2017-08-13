@@ -29,16 +29,16 @@
   <md-card>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline rhp-headline-center" ng-show="!pv.stats.specificSeason">{{!pv.stats.allTime ? 'Current Season' : 'All Time'}} Stats</span>
-        <span class="md-headline rhp-headline-center" ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}} Stats</span>
+        <span class="md-headline rhp-headline-center" ng-show="!pv.stats.season">{{!pv.stats.allTime ? 'Current Season' : 'All Time'}} Stats</span>
+        <span class="md-headline rhp-headline-center" ng-show="pv.stats.season">Season {{pv.stats.season.seasonNumber}} Stats</span>
       </md-card-title-text>
     </md-card-title>
     <md-divider></md-divider>
     <md-card-content>
-      <md-switch ng-model="pv.stats.allTime" ng-show="!pv.stats.specificSeason" ng-change="pv.getPlayerStats()">
+      <md-switch ng-model="pv.stats.allTime" ng-show="!pv.stats.season" ng-change="pv.getPlayerStats()">
         Show All Time Stats
       </md-switch>
-      <div style="text-align: center;" ng-show="pv.stats.specificSeason">
+      <div style="text-align: center;" ng-show="pv.stats.season">
         <md-button class="md-raised md-secondary" ng-click="pv.getPlayerStats(true)">Show Current Season Stats</md-button>
       </div>
       <p ng-show="!pv.player.games.length">This player hasn't played any games yet<span ng-show="!pv.stats.allTime"> this season</span>!</p>
@@ -61,8 +61,8 @@
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline rhp-headline-center">
-          <span ng-show="!pv.stats.allTime">Current Season</span>
-        <span ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}}</span>
+          <span ng-show="!pv.stats.season && !pv.stats.allTime">Current Season</span>
+        <span ng-show="pv.stats.season && !pv.stats.allTime">Season {{pv.stats.season.seasonNumber}}</span>
         <span ng-show="pv.stats.allTime">All Time</span> Games Played: {{pv.player.games.length}}
         </span>
       </md-card-title-text>
@@ -97,7 +97,7 @@
     <md-divider></md-divider>
     <md-card-actions ng-show="pv.player.games.length > 3">
 
-      <md-button ui-sref="players.view.games({ id: pv.player._id, season: pv.stats.seasonNumber, allTime: pv.stats.allTime })">
+      <md-button ui-sref="players.view.games({ id: pv.player._id, season: pv.stats.season.seasonNumber, allTime: pv.stats.allTime })">
         View All Games <i class="fa fa-chevron-right"></i>
       </md-button>
     </md-card-actions>

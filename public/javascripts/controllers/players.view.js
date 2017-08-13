@@ -5,17 +5,16 @@
 
   angular.module(APP_NAME).controller('playersViewCtrl', playersViewCtrl);
 
-  playersViewCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'statsService', 'dialogService'];
+  playersViewCtrl.$inject = [
+    '$filter', '$state', '$stateParams', 'playersService', 'statsService', 'seasonsService',
+    'dialogService'
+  ];
 
-  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService, dialogService) {
+  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService, seasonsService, dialogService) {
 
     var vm = this;
 
-    vm.stats = {
-      allTime: false,
-      specificSeason: false,
-      seasonNumber: null
-    }
+    vm.stats = {};
 
     function mergePlayerStats(player) {
       if (player.name) {
@@ -40,15 +39,15 @@
 
     vm.getPlayerStatsForSeason = function(seasonNumber) {
       vm.stats.allTime = false;
-      vm.stats.specificSeason = true;
-      vm.stats.seasonNumber = seasonNumber;
-      statsService.api(vm.player._id, seasonNumber).playerSeason((player) => {
-        mergePlayerStats(player);
-      });
+      vm.stats.season = seasonsService.api(seasonNumber).get(() => {
+        statsService.api(vm.player._id, vm.stats.season.seasonNumber).playerSeason((player) => {
+          mergePlayerStats(player);
+        });
+      })
     }
 
     vm.getPlayerStats = function() {
-      vm.stats.specificSeason = false;
+      vm.stats.season = null;
       if (!vm.stats.allTime) {
         statsService.api(vm.player._id).playerSeason((player) => {
           mergePlayerStats(player);
@@ -83,7 +82,6 @@
     function initialize() {
       if ($stateParams.id) {
         vm.stats.allTime = $stateParams.allTime;
-        console.log(vm.stats);
         vm.getPlayer($stateParams.id, $stateParams.season);
       }
     }
