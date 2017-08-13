@@ -11,6 +11,7 @@
       restrict: 'E',
       templateUrl: '../views/templates/trophy/trophy.html',
       scope: {
+        count: '=',
         rank: '=',
         before: '@',
         after: '@'
@@ -22,16 +23,14 @@
     return directive;
 
     function linkFn(scope, el, attrs) {
-      scope.icon = {
-        position: {
-          before: angular.isDefined(attrs.before),
-          after: angular.isDefined(attrs.after)
-        }
+      scope.position = {
+        before: angular.isDefined(attrs.before),
+        after: angular.isDefined(attrs.after)
       }
-      if (scope.icon.position.before === scope.icon.position.after) {
+      if (!angular.isDefined(attrs.count) && scope.position.before === scope.position.after) {
         console.error('rhpTrophy directive cannot have icon assigned to \'before\' and \'after\' positions.',
           'Defaulting to \'after\' position.')
-        scope.icon.position.before = false;
+        scope.position.before = false;
       }
 
       scope.getIcon = function(rank) {
@@ -50,7 +49,6 @@
             icon = 'fa-hashtag';
             break;
         }
-        scope.icon.styleClass = icon;
         return icon;
       }
     }

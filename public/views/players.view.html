@@ -45,9 +45,7 @@
       <div ng-show="pv.player.games.length">
         <p>Total Points: {{pv.player.totalPoints}}</p>
         <p>Total Wins:
-          <span>{{pv.player.ranks.firsts}} <i class="fa fa-trophy trophy-gold"></i></span>
-          <span>{{pv.player.ranks.seconds}} <i class="fa fa-trophy trophy-silver"></i></span>
-          <span>{{pv.player.ranks.thirds}} <i class="fa fa-trophy trophy-bronze"></i></span>
+          <rhp-trophy-list ranks="pv.player.ranks"></rhp-trophy-list>
         </p>
         <p ng-show="pv.player.bonusChips != null">Bonus Chips: {{pv.player.bonusChips}}</p>
         <p>Average Rank: {{pv.player.ranks.average | number:0}}</p>
