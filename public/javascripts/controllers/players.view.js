@@ -40,6 +40,7 @@
 
     vm.getPlayerStatsForSeason = function(seasonNumber) {
       vm.stats.currentSeason = false;
+      vm.stats.allTime = false;
       vm.stats.specificSeason = true;
       vm.stats.seasonNumber = seasonNumber;
       statsService.api(vm.player._id, seasonNumber).playerSeason((player) => {
@@ -55,6 +56,8 @@
           mergePlayerStats(player);
         });
       } else {
+        vm.stats.currentSeason = false;
+        vm.stats.allTime = true;
         statsService.api(vm.player._id).player((player) => {
           mergePlayerStats(player);
         });
@@ -83,6 +86,7 @@
 
     function initialize() {
       if ($stateParams.id) {
+        vm.stats.allTime = $stateParams.allTime;
         vm.getPlayer($stateParams.id, $stateParams.season);
       }
     }

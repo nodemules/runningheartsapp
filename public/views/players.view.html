@@ -58,14 +58,46 @@
   <md-card ng-show="pv.player.games.length">
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline rhp-headline-center">{{pv.stats.currentSeason ? 'Current Season' : 'All Time'}} Games Played: {{pv.player.games.length}}</span>
+        <span class="md-headline rhp-headline-center">
+          <span ng-show="pv.stats.currentSeason">Current Season</span>
+        <span ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}}</span>
+        <span ng-show="pv.stats.allTime">All Time</span> Games Played: {{pv.player.games.length}}
+        </span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-content>
-      <md-button ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 5" ui-sref="games.view({ id : game._id })">
-        {{game.event.venue.name}} -- {{game.gameStartTime | date: 'short'}}
-      </md-button>
+    <md-divider></md-divider>
+    <md-card-content class="rhp-card-list">
+      <md-list flex>
+        <md-list-item class="md-2-line" ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 3" ui-sref="games.view({ id : game._id })">
+          <span class="md-avatar">
+            <i class="fa fa-hashtag"></i>   {{game.rank}}
+          </span>
+          <div class="md-list-item-text" layout="column">
+            <h3 layout="row" layout-align="start center">
+              <span flex>{{game.event.venue.name}}</span>
+              <span flex layout="column" layout-align="center end">
+                <span></span>
+              </span>
+            </h3>
+            <h4 layout="row" layout-align="start center">
+              <span flex>
+                <span>{{game.gameStartTime | date: 'shortDate'}}</span>
+              </span>
+              <span flex layout="column" layout-align="center end">
+                <span></span>
+              </span>
+            </h4>
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
     </md-card-content>
-    <md-card-actions></md-card-actions>
+    <md-divider></md-divider>
+    <md-card-actions ng-show="pv.player.games.length > 3">
+
+      <md-button ui-sref="players.view.games({ id: pv.player._id, season: pv.stats.seasonNumber, allTime: pv.stats.allTime })">
+        View All Games <i class="fa fa-chevron-right"></i>
+      </md-button>
+    </md-card-actions>
   </md-card>
 </md-content>

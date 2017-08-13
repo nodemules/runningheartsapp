@@ -40,10 +40,22 @@
         .state('players.view', {
           url: '/view/:id',
           params: {
-            season: null
+            season: null,
+            allTime: null
           },
           parent: 'players',
           templateUrl: '/views/players.view.html',
+          controller: 'playersViewCtrl',
+          controllerAs: 'pv',
+        })
+        .state('players.view.games', {
+          url: '/view/:id/games',
+          params: {
+            season: null,
+            allTime: null
+          },
+          parent: 'players',
+          templateUrl: '/views/players.view.games.html',
           controller: 'playersViewCtrl',
           controllerAs: 'pv',
         })
