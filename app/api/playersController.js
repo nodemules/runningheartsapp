@@ -3,7 +3,10 @@
     api = express.Router();
 
   var authService = require('./authService')();
+  var errorService = require('./advice/errorService')();
   var statsService = require('./statsService')();
+  var playersService = require('./playersService')();
+
   var Permissions = require('../enum/permissions'),
     Players = require('../models/player');
 
@@ -72,9 +75,10 @@
           if (err)
             console.log(err.stack);
           res.send(players);
-        })
+        });
 
-    })
+    }
+  );
 
   api.put('/notIn', function(req, res) {
     Players
@@ -129,13 +133,12 @@
             res.send(player);
           })
       } else {
-        Players.create(req.body, (err, player) => {
-          if (err)
-            console.log(err.stack);
-          res.send(player);
-        });
+        playersService.createPlayer(req.body).then((player) => {
+          return res.send(player);
+        })
       }
-    });
+    }
+  );
 
   api.put('/',
     (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.EDIT_PLAYER]),
@@ -148,8 +151,9 @@
           if (err)
             console.log(err.stack);
           res.send(player);
-        })
-    });
+        });
+    }
+  );
 
   api.delete('/:id',
     (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.DELETE_PLAYER]),
@@ -163,8 +167,23 @@
             res.send(500, err.stack);
           }
           res.send();
-        })
-    })
+        });
+    }
+  );
+
+  api.post('/validate',
+    (req, res, next) => {
+      let permissions = [];
+      permissions.push(req.body._id ? Permissions.EDIT_PLAYER : Permissions.ADD_PLAYER);
+      authService.checkPermissions(req, res, next, permissions);
+    }, (req, res) => {
+      playersService.validatePlayerName(req.body).then((message) => {
+        return res.send(message);
+      }, (err) => errorService.handleError(res, err));
+    }
+  );
+
+
 
   module.exports = api;
 }
