@@ -9,15 +9,15 @@
   color: #3f3f3f;
 }
 
-.rhp-trophy-rank {
+.rhp-trophy.md-avatar .rhp-trophy-rank {
   font-size: 20px;
 }
 
-.rhp-trophy-rank-sm {
+.rhp-trophy.md-avatar .rhp-trophy-rank-sm {
   font-size: 16px;
 }
 
-.rhp-trophy-rank-xs {
+.rhp-trophy.md-avatar .rhp-trophy-rank-xs {
   font-size: 12px;
 }
 
