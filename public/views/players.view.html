@@ -71,9 +71,7 @@
     <md-card-content class="rhp-card-list">
       <md-list flex>
         <md-list-item class="md-2-line" ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 3" ui-sref="games.view({ id : game._id })">
-          <span class="md-avatar">
-            <i class="fa fa-hashtag"></i>   {{game.rank}}
-          </span>
+          <rhp-trophy class="md-avatar" rank="game.rank" after></rhp-trophy>
           <div class="md-list-item-text" layout="column">
             <h3 layout="row" layout-align="start center">
               <span flex>{{game.event.venue.name}}</span>
