@@ -1,9 +1,23 @@
-<div class="md-headline rhp-headline-center" ng-show="pv.player.name">
-  {{pv.player.name}}'s Games for
-  <span ng-show="!pv.stats.season && !pv.stats.allTime">Current Season</span>
-  <span ng-show="pv.stats.season">Season {{pv.stats.season.seasonNumber}}</span>
-  <span ng-show="pv.stats.allTime">All Time</span>
-</div>
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <div class="md-headline rhp-headline-center" ng-show="pv.player.name">
+        {{pv.player.name}}'s Games for
+        <span ng-show="!pv.stats.season && !pv.stats.allTime">Current Season</span>
+        <span ng-show="pv.stats.season">Season {{pv.stats.season.seasonNumber}}</span>
+        <span ng-show="pv.stats.allTime">All Time</span>
+      </div>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <md-switch ng-model="pv.stats.allTime" ng-show="!pv.stats.season" ng-change="pv.getPlayerStats()">
+      Show Games for All Time
+    </md-switch>
+    <div style="text-align: center;" ng-show="pv.stats.season">
+      <md-button class="md-raised md-secondary" ng-click="pv.getPlayerStats(true)">Show Current Season Games</md-button>
+    </div>
+  </md-card-content>
+</md-card>
 <md-list flex>
   <md-virtual-repeat-container id="rhp-virtual-repeat-container">
     <md-list-item class="md-2-line" md-virtual-repeat="game in pv.player.games | orderBy : '-gameStartTime'" ui-sref="games.view({ id : game._id })">

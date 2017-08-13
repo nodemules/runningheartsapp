@@ -6,7 +6,7 @@
 
      var rhpTabsTemplate = [
        '<md-tabs ng-show="tabs.tabVisibility()" md-stretch-tabs="always" class="md-primary md-fixed" md-selected="tabs.selectedTab">', //
-       '  <md-tab ng-click="tabs.tabPath(tab.path)" ng-repeat="tab in tabs.tabs">', //
+       '  <md-tab ng-click="tabs.tabPath(tab)" ng-repeat="tab in tabs.tabs">', //
        '    <md-tab-label>{{tab.name}}</md-tab-label>', //
        '  </md-tab>', //
        '</md-tabs>' //
@@ -35,15 +35,19 @@
          return currentState !== 'list' && !(currentState === 'manage' && !$stateParams.id)
        }
 
-       vm.tabPath = function(path) {
-         var pathArray = path.split('.');
+       vm.tabPath = function(tab) {
+         if (tab.params) {
+           return $state.transitionTo(tab.path, tab.params);
+         }
+
+         var pathArray = tab.path.split('.');
 
          if ($stateParams.id) {
-           $state.transitionTo(path, {
+           $state.transitionTo(tab.path, {
              id: $stateParams.id
            });
          } else if (pathArray[1] === 'list') {
-           $state.transitionTo(path);
+           $state.transitionTo(tab.path);
          }
        }
 
@@ -59,6 +63,19 @@
          })
 
          doTabStuff(tabsTypes, state);
+
+         if (state.parent === 'players') {
+           var gamesTab = {
+             name: 'Games',
+             path: 'players.view.games',
+             params: {
+               id: $stateParams.id,
+               season: $stateParams.season,
+               allTime: $stateParams.allTime
+             }
+           };
+           vm.tabs.push(gamesTab);
+         }
 
        }
 
