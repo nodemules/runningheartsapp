@@ -117,7 +117,7 @@ md-card-content.rhp-card-list md-list {
   width: 100%;
 }
 
-.player-info {
+.rhp-headline-center {
   font-family: 'Bitter', serif;
   text-align: center;
 }
@@ -194,4 +194,9 @@ md-ink-bar {
 .list-search md-input-container input {
   border-color: white;
   color: white;
+}
+
+md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):first-of-type,
+md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):last-of-type {
+  margin: 0 4px;
 }
