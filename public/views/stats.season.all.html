@@ -13,9 +13,7 @@
         </h3>
         <h4 layout="row" layout-align="start center">
           <span flex>
-            <span>{{player.ranks.firsts}} <i class="fa fa-trophy trophy-gold"></i></span>
-            <span>{{player.ranks.seconds}} <i class="fa fa-trophy trophy-silver"></i></span>
-            <span>{{player.ranks.thirds}} <i class="fa fa-trophy trophy-bronze"></i></span>
+            <rhp-trophy-list ranks="player.ranks"></rhp-trophy-list>
           </span>
           <span flex layout="column" layout-align="center end">
             <span>Total Points:  {{player.totalPoints}}</span>
