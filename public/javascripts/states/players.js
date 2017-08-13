@@ -24,6 +24,10 @@
         })
         .state('players.manage', {
           url: '/manage/:id',
+          params: {
+            season: null,
+            allTime: false
+          },
           parent: 'players',
           templateUrl: '/views/players.manage.html',
           controller: 'playersManageCtrl',

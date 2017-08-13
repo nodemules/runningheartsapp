@@ -179,19 +179,25 @@ md-ink-bar {
   color: #cd7f32;
 }
 
-.list-search md-input-container {
-  width: 100%;
+md-toolbar.rhp-list-search {
+  height: 40px;
 }
 
-.list-search md-input-container.md-input-focused .md-input {
+.rhp-list-search md-input-container {
+  width: 100%;
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+
+.rhp-list-search md-input-container.md-input-focused .md-input {
   border-color: white;
 }
 
-.list-search md-input-container label {
+.rhp-list-search md-input-container label {
   color: white;
 }
 
-.list-search md-input-container input {
+.rhp-list-search md-input-container input {
   border-color: white;
   color: white;
 }

@@ -1,6 +1,6 @@
 <div layout="column">
-  <md-toolbar>
-    <div class="md-toolbar-tools list-search">
+  <md-toolbar class="rhp-list-search">
+    <div class="md-toolbar-tools">
       <md-input-container class="md-block" flex-gt-sm>
         <label><span class="fa fa-search"></span> Player search</label>
         <input ng-model="listSearch" name="name" />
@@ -9,9 +9,8 @@
   </md-toolbar>
   <md-list flex>
     <md-virtual-repeat-container id="rhp-virtual-repeat-container">
-      <md-list-item class="md-3-line"
-          md-virtual-repeat="player in pl.players | filter: { name : listSearch } | orderBy: 'name'"
-          ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
+      <md-list-item class="md-3-line" md-virtual-repeat="player in pl.players | filter: { name : listSearch } | orderBy: 'name'"
+        ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
         <div class="md-list-item-text" layout="column">
           <h3 layout="row" layout-align="start center">
             <span flex>{{player.name}}</span>
