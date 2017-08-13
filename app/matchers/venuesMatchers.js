@@ -5,6 +5,68 @@
   function exports() {
     return {
       GLOBAL: {
+        matchVenue: {
+          '$match': {
+            'venue.statusId': 1
+          }
+        },
+        unwindVenues: {
+          $unwind: {
+            path: '$venue'
+          }
+        },
+        unwindTds: {
+          $unwind: {
+            path: '$venue.td',
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        lookupTds: {
+          $lookup: {
+            from: 'players',
+            localField: 'venue.td',
+            foreignField: '_id',
+            as: 'venue.td'
+          }
+        }
+      },
+      GET_VENUES_WITH_EVENTS: {
+        lookupVenues: {
+          $lookup: {
+            from: 'venues',
+            localField: 'venue',
+            foreignField: '_id',
+            as: 'venue'
+          }
+        },
+        group: {
+          $group: {
+            _id: '$venue._id',
+            venue: {
+              $addToSet: '$venue'
+            },
+            events: {
+              $addToSet: {
+                _id: '$_id',
+                date: '$date',
+                completed: '$completed'
+              }
+            }
+          }
+        },
+        project: {
+          $project: {
+            _id: '$venue._id',
+            numberOfGames: '$venue.numberOfGames',
+            name: '$venue.name',
+            day: '$venue.day',
+            time: '$venue.time',
+            td: '$td',
+            events: '$events'
+          }
+        }
+      },
+      GET_VENUES_WITH_GAMES: {
         lookupEvents: {
           $lookup: {
             from: 'events',
@@ -29,30 +91,6 @@
             localField: 'event.venue',
             foreignField: '_id',
             as: 'venue'
-          }
-        },
-        unwindVenues: {
-          $unwind: {
-            path: '$venue'
-          }
-        },
-        matchVenue: {
-          '$match': {
-            'venue.statusId': 1
-          }
-        },
-        unwindTds: {
-          $unwind: {
-            path: '$venue.td',
-            preserveNullAndEmptyArrays: true
-          }
-        },
-        lookupTds: {
-          $lookup: {
-            from: 'players',
-            localField: 'venue.td',
-            foreignField: '_id',
-            as: 'venue.td'
           }
         },
         group: {
@@ -119,7 +157,7 @@
             day: '$venue.day',
             numberOfGames: '$venue.numberOfGames',
             td: '$td',
-            events: '$events',
+            // events: '$events',
             gamesPlayed: '$venue.gamesPlayed'
           }
         }
