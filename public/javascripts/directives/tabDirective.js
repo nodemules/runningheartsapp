@@ -36,11 +36,14 @@
        }
 
        vm.tabPath = function(path) {
+
          var pathArray = path.split('.');
 
          if ($stateParams.id) {
            $state.transitionTo(path, {
-             id: $stateParams.id
+             id: $stateParams.id,
+             season: $stateParams.season,
+             allTime: $stateParams.allTime
            });
          } else if (pathArray[1] === 'list') {
            $state.transitionTo(path);
@@ -59,6 +62,14 @@
          })
 
          doTabStuff(tabsTypes, state);
+
+         if (state.parent === 'players') {
+           var gamesTab = {
+             name: 'Games',
+             path: 'players.view.games'
+           };
+           vm.tabs.push(gamesTab);
+         }
 
        }
 

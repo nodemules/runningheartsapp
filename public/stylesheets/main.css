@@ -53,6 +53,14 @@ md-card-content.rhp-card-list md-list {
   padding: 0;
 }
 
+md-card-actions .rhp-card-actions-xs {
+  width: 100%;
+}
+
+md-card-actions .rhp-card-actions-xs:not(:last-child) {
+  padding-bottom:10px;
+}
+
 .rhp-dense-list md-list-item,
 .rhp-dense-list md-list-item .md-list-item-inner {
   min-height: 24px;
@@ -117,7 +125,7 @@ md-card-content.rhp-card-list md-list {
   width: 100%;
 }
 
-.player-info {
+.rhp-headline-center {
   font-family: 'Bitter', serif;
   text-align: center;
 }
@@ -167,31 +175,31 @@ md-ink-bar {
   margin-top: 0;
 }
 
-.trophy-gold {
-  color: gold;
+md-toolbar.rhp-list-search {
+  height: 40px;
+  min-height: 40px;
 }
 
-.trophy-silver {
-  color: silver;
-}
-
-.trophy-bronze {
-  color: #cd7f32;
-}
-
-.list-search md-input-container {
+.rhp-list-search md-input-container {
   width: 100%;
+  margin-bottom: 0px;
+  margin-top: 10px;
 }
 
-.list-search md-input-container.md-input-focused .md-input {
+.rhp-list-search md-input-container.md-input-focused .md-input {
   border-color: white;
 }
 
-.list-search md-input-container label {
+.rhp-list-search md-input-container label {
   color: white;
 }
 
-.list-search md-input-container input {
+.rhp-list-search md-input-container input {
   border-color: white;
   color: white;
+}
+
+md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):first-of-type,
+md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):last-of-type {
+  margin: 0 4px;
 }

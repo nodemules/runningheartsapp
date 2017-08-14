@@ -1,0 +1,8 @@
+<span class="rhp-trophy">
+  <span ng-show="position.none">{{count || 0}}</span>
+<span ng-class="getRankClass(rank)">
+    <span ng-if="position.before && !position.none">{{rank}}</span>
+<span class="fa" ng-class="getIconClass(rank)"></span>
+<span ng-class="getRankClass(rank)" ng-if="position.after && !position.none">{{rank}}</span>
+</span>
+</span>
