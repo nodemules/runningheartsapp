@@ -1,54 +1,105 @@
 <md-content layout="column">
-  <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+  <md-card>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline player-info">
+        <span class="md-headline rhp-headline-center">
             {{pv.player.name}}
             <md-subheader ng-show="pv.player.statusId == 2">(Inactive)</md-subheader>
           </span>
-        <span class="md-subhead player-info">{{pv.player.isTd ? 'Tournament Director' : ''}}</span>
-        <md-switch ng-model="pv.stats.currentSeason" ng-show="!pv.stats.specificSeason" ng-change="pv.getPlayerStats(pv.stats.currentSeason)">Show Current Season Stats</md-switch>
-        <md-button class="md-raised md-secondary" ng-click="pv.getPlayerStats(true)" ng-show="pv.stats.specificSeason">Show Current Season Stats</md-button>
+        <span class="md-subhead rhp-headline-center">{{pv.player.isTd ? 'Tournament Director' : ''}}</span>
       </md-card-title-text>
     </md-card-title>
+    <md-divider></md-divider>
     <md-card-content>
-      <center>
-        <h3 ng-show="!pv.stats.specificSeason">{{pv.stats.currentSeason ? 'Current Season' : 'All Time'}}</h3>
-        <h3 ng-show="pv.stats.specificSeason">Season {{pv.stats.seasonNumber}}</h3>
-      </center>
-      <p ng-show="!pv.player.games.length">This player hasn't played any games yet<span ng-show="pv.stats.currentSeason"> this season</span>!</p>
+      <p>Shout Outs: {{pv.player.shoutOuts}}</p>
+    </md-card-content>
+    <md-divider></md-divider>
+    <md-card-actions layout-gt-xs="row" layout-xs="column" layout-align="end center">
+      <div layout="row" layout-align="end center" ng-class="{ 'rhp-card-actions-xs' : pv.media('xs') }">
+        <md-button class="md-raised" ng-show="players.permissions.EDIT_PLAYER" ui-sref="players.manage({ id: pv.player._id })">
+          Edit Player
+        </md-button>
+        <md-button class="md-secondary md-raised" ng-show="players.permissions.DELETE_PLAYER" ng-click="pv.removePlayer(pv.player)">
+          Delete Player
+        </md-button>
+      </div>
+      <div layout="row" layout-align="end center" ng-class="{ 'rhp-card-actions-xs' : pv.media('xs') }">
+        <md-button class="md-primary md-raised" ng-click="pv.shoutOut(pv.player._id)">
+          <span class="fa fa-bullhorn"></span> Give Shout Out
+        </md-button>
+      </div>
+    </md-card-actions>
+  </md-card>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline rhp-headline-center" ng-show="!pv.stats.season">{{!pv.stats.allTime ? 'Current Season' : 'All Time'}} Stats</span>
+        <span class="md-headline rhp-headline-center" ng-show="pv.stats.season">Season {{pv.stats.season.seasonNumber}} Stats</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-divider></md-divider>
+    <md-card-content>
+      <md-switch ng-model="pv.stats.allTime" ng-show="!pv.stats.season" ng-change="pv.getPlayerStats()">
+        Show All Time Stats
+      </md-switch>
+      <div style="text-align: center;" ng-show="pv.stats.season">
+        <md-button class="md-raised md-secondary" ng-click="pv.getPlayerStats(true)">Show Current Season Stats</md-button>
+      </div>
+      <p ng-show="!pv.player.games.length">This player hasn't played any games yet<span ng-show="!pv.stats.allTime"> this season</span>!</p>
       <div ng-show="pv.player.games.length">
         <p>Total Points: {{pv.player.totalPoints}}</p>
         <p>Total Wins:
-          <span>{{pv.player.ranks.firsts}} <i class="fa fa-trophy trophy-gold"></i></span>
-          <span>{{pv.player.ranks.seconds}} <i class="fa fa-trophy trophy-silver"></i></span>
-          <span>{{pv.player.ranks.thirds}} <i class="fa fa-trophy trophy-bronze"></i></span>
+          <rhp-trophy-list ranks="pv.player.ranks"></rhp-trophy-list>
         </p>
         <p ng-show="pv.player.bonusChips != null">Bonus Chips: {{pv.player.bonusChips}}</p>
         <p>Average Rank: {{pv.player.ranks.average | number:0}}</p>
         <p>Best Rank: {{pv.player.ranks.best}}</p>
         <p>Worst Rank: {{pv.player.ranks.worst}}</p>
       </div>
-      <p>Shout Outs: {{pv.player.shoutOuts}}</p>
-      <center ng-show="pv.player.games.length">
-        <p>Games Played: {{pv.player.games.length}}</p>
-      </center>
-      <md-button ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 5" ui-sref="games.view({ id : game._id })">
-        {{game.event.venue.name}} -- {{game.gameStartTime | date: 'short'}}
-      </md-button>
     </md-card-content>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button ng-show="players.permissions.EDIT_PLAYER"
-        ui-sref="players.manage({ id: pv.player._id })">
-        Edit Player
+    <md-card-actions></md-card-actions>
+  </md-card>
+  <md-card ng-show="pv.player.games.length">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline rhp-headline-center">
+          <span ng-show="!pv.stats.season && !pv.stats.allTime">Current Season</span>
+        <span ng-show="pv.stats.season && !pv.stats.allTime">Season {{pv.stats.season.seasonNumber}}</span>
+        <span ng-show="pv.stats.allTime">All Time</span> Games Played: {{pv.player.games.length}}
+        </span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-divider></md-divider>
+    <md-card-content class="rhp-card-list">
+      <md-list flex>
+        <md-list-item class="md-2-line" ng-repeat="game in pv.player.games | orderBy : '-gameStartTime' | limitTo: 3" ui-sref="games.view({ id : game._id })">
+          <rhp-trophy class="md-avatar" rank="game.rank" after></rhp-trophy>
+          <div class="md-list-item-text" layout="column">
+            <h3 layout="row" layout-align="start center">
+              <span flex>{{game.event.venue.name}}</span>
+              <span flex layout="column" layout-align="center end">
+                <span></span>
+              </span>
+            </h3>
+            <h4 layout="row" layout-align="start center">
+              <span flex>
+                <span>{{game.gameStartTime | date: 'shortDate'}}</span>
+              </span>
+              <span flex layout="column" layout-align="center end">
+                <span></span>
+              </span>
+            </h4>
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-card-content>
+    <md-divider></md-divider>
+    <md-card-actions ng-show="pv.player.games.length > 3">
+
+      <md-button ui-sref="players.view.games({ id: pv.player._id, season: pv.stats.season.seasonNumber, allTime: pv.stats.allTime })">
+        View All Games <i class="fa fa-chevron-right"></i>
       </md-button>
-      <md-button ng-show="players.permissions.DELETE_PLAYER"
-        ng-click="pv.removePlayer(pv.player)">
-        Delete Player
-      </md-button>
-    </md-card-actions>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button ng-click="pv.shoutOut(pv.player._id)">Give Shout Out</md-button>
     </md-card-actions>
   </md-card>
 </md-content>
