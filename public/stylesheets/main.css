@@ -53,6 +53,14 @@ md-card-content.rhp-card-list md-list {
   padding: 0;
 }
 
+md-card-actions .rhp-card-actions-xs {
+  width: 100%;
+}
+
+md-card-actions .rhp-card-actions-xs:not(:last-child) {
+  padding-bottom:10px;
+}
+
 .rhp-dense-list md-list-item,
 .rhp-dense-list md-list-item .md-list-item-inner {
   min-height: 24px;

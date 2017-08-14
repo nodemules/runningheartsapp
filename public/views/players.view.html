@@ -14,16 +14,20 @@
       <p>Shout Outs: {{pv.player.shoutOuts}}</p>
     </md-card-content>
     <md-divider></md-divider>
-    <md-card-actions layout="row" layout-align="end center">
-      <md-button class="md-raised" ng-show="players.permissions.EDIT_PLAYER" ui-sref="players.manage({ id: pv.player._id })">
-        Edit Player
-      </md-button>
-      <md-button class="md-secondary md-raised" ng-show="players.permissions.DELETE_PLAYER" ng-click="pv.removePlayer(pv.player)">
-        Delete Player
-      </md-button>
-      <md-button class="md-primary md-raised" ng-click="pv.shoutOut(pv.player._id)">
-        <span class="fa fa-bullhorn"></span> Give Shout Out
-      </md-button>
+    <md-card-actions layout-gt-xs="row" layout-xs="column" layout-align="end center">
+      <div layout="row" layout-align="end center" ng-class="{ 'rhp-card-actions-xs' : pv.media('xs') }">
+        <md-button class="md-raised" ng-show="players.permissions.EDIT_PLAYER" ui-sref="players.manage({ id: pv.player._id })">
+          Edit Player
+        </md-button>
+        <md-button class="md-secondary md-raised" ng-show="players.permissions.DELETE_PLAYER" ng-click="pv.removePlayer(pv.player)">
+          Delete Player
+        </md-button>
+      </div>
+      <div layout="row" layout-align="end center" ng-class="{ 'rhp-card-actions-xs' : pv.media('xs') }">
+        <md-button class="md-primary md-raised" ng-click="pv.shoutOut(pv.player._id)">
+          <span class="fa fa-bullhorn"></span> Give Shout Out
+        </md-button>
+      </div>
     </md-card-actions>
   </md-card>
   <md-card>

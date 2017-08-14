@@ -6,13 +6,16 @@
   angular.module(APP_NAME).controller('playersViewCtrl', playersViewCtrl);
 
   playersViewCtrl.$inject = [
-    '$filter', '$state', '$stateParams', 'playersService', 'statsService', 'seasonsService',
+    '$filter', '$state', '$stateParams', '$mdMedia', 'playersService', 'statsService', 'seasonsService',
     'dialogService'
   ];
 
-  function playersViewCtrl($filter, $state, $stateParams, playersService, statsService, seasonsService, dialogService) {
+  function playersViewCtrl($filter, $state, $stateParams, $mdMedia, playersService, statsService, seasonsService,
+    dialogService) {
 
     var vm = this;
+
+    vm.media = $mdMedia;
 
     vm.stats = {};
 
