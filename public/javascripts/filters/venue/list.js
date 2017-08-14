@@ -1,12 +1,12 @@
 {
   /* global angular, APP_NAME */
 
-  angular.module(APP_NAME).filter('venueListFilter', ($filter, arrayUtil) => {
+  angular.module(APP_NAME).filter('venueListFilter', (Utils) => {
     return (venues, search) => {
-      if (!venues || !venues.length) {
+      if (!venues || !venues.length || !search) {
         return venues;
       }
-      return arrayUtil.findAll(venues, search, ['name', 'day', 'td']);
+      return Utils.arrays(venues).findAll(search, ['name', 'day', 'td.name']);
     }
 
   })

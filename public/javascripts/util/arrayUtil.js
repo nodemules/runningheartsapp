@@ -3,9 +3,9 @@
 
   angular.module(APP_NAME).factory('arrayUtil', arrayUtil);
 
-  arrayUtil.$inject = ['$filter'];
+  arrayUtil.$inject = ['$filter', 'objectUtil'];
 
-  function arrayUtil($filter) {
+  function arrayUtil($filter, objectUtil) {
 
     const _ID = '_id';
 
@@ -31,7 +31,7 @@
       var filters = [];
       angular.forEach(props, (prop) => {
         var filter = {};
-        filter[prop] = value;
+        objectUtil.setProperty(filter, prop, value);
         filters.push($filter('filter')(arr, filter));
       })
       return uniqById(join(filters));
