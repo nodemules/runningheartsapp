@@ -18,17 +18,26 @@
       },
       replace: true,
       link: linkFn
-    }
+    };
 
     return directive;
 
     function linkFn(scope, el, attrs) {
+      var beforeOrAfterNotPresent = !angular.isDefined(attrs.before) && !angular.isDefined(attrs.after);
       scope.position = {
         before: angular.isDefined(attrs.before),
-        after: angular.isDefined(attrs.after)
+        after: angular.isDefined(attrs.after),
+        none: angular.isDefined(attrs.count)
+      };
+
+      if (!angular.isDefined(attrs.count) && beforeOrAfterNotPresent) {
+        console.error('rhpTrophy requires either a \'before\' or \'after\' attribute.');
+        scope.position.before = false;
+        scope.position.after = true;
       }
-      if (!angular.isDefined(attrs.count) && scope.position.before === scope.position.after) {
-        console.error('rhpTrophy directive cannot have icon assigned to \'before\' and \'after\' positions.',
+
+      if (!scope.position.none && scope.position.before === scope.position.after && !beforeOrAfterNotPresent) {
+        console.error('rhpTrophy directive cannot have icon assigned to both \'before\' and \'after\' positions.',
           'Defaulting to \'after\' position.')
         scope.position.before = false;
       }
@@ -50,7 +59,7 @@
             break;
         }
         return icon;
-      }
+      };
 
       scope.getRankClass = function(rank) {
         var icon = '';
@@ -62,7 +71,7 @@
           icon = 'rhp-trophy-rank';
         }
         return icon;
-      }
+      };
 
     }
 
