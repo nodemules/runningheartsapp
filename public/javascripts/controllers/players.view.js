@@ -7,11 +7,11 @@
 
   playersViewCtrl.$inject = [
     '$filter', '$state', '$stateParams', '$mdMedia', 'playersService', 'statsService', 'seasonsService',
-    'dialogService'
+    'dialogService', 'stateService'
   ];
 
   function playersViewCtrl($filter, $state, $stateParams, $mdMedia, playersService, statsService, seasonsService,
-    dialogService) {
+    dialogService, stateService) {
 
     var vm = this;
 
@@ -51,6 +51,10 @@
 
     vm.getPlayerStats = function() {
       vm.stats.season = null;
+      stateService.setParams({
+        id: vm.player._id,
+        allTime: vm.stats.allTime
+      });
       if (!vm.stats.allTime) {
         statsService.api(vm.player._id).playerSeason((player) => {
           mergePlayerStats(player);
