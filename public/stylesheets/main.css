@@ -177,6 +177,7 @@ md-ink-bar {
 
 md-toolbar.rhp-list-search {
   height: 40px;
+  min-height: 40px;
 }
 
 .rhp-list-search md-input-container {
