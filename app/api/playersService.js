@@ -6,6 +6,7 @@
     var service = {
       getAllPlayers,
       createPlayer,
+      updatePlayer,
       validatePlayerName
     }
 
@@ -20,27 +21,51 @@
           .exec((err, players) => {
             if (err) {
               console.error(err.stack);
-              return reject();
+              return reject(err);
             }
             return resolve(players);
           })
       })
     }
 
-    function createPlayer(player) {
+    function updatePlayer(player) {
       return new Promise((resolve, reject) => {
-
         Player
-          .create(sanitizePlayerName(player), (err, player) => {
+          .findByIdAndUpdate(player._id, sanitizePlayerName(player), {
+            'new': true
+          })
+          .select('-statusId')
+          .exec((err, player) => {
             if (err) {
               console.log(err.stack);
               return reject({
-                message: 'Error occurred creating a player',
+                message: 'Error occurred updating a player',
                 code: 'DATABASE_ERROR',
                 status: 500
               });
             }
             return resolve(player);
+          })
+
+      });
+    }
+
+    function createPlayer(player) {
+      return new Promise((resolve, reject) => {
+
+        Player
+          .create(sanitizePlayerName(player), (err, p) => {
+            if (err) {
+              if (err.code === 11000) {
+                return reject({
+                  message: `Player name [${player.name}] is taken`,
+                  code: 'PLAYER_NAME_TAKEN'
+                });
+              }
+              console.log(err.stack);
+              return reject(err);
+            }
+            return resolve(p);
           });
       })
     }

@@ -122,16 +122,9 @@
     },
     (req, res) => {
       if (req.body._id) {
-        Players
-          .findByIdAndUpdate(req.body._id, req.body, {
-            'new': true
-          })
-          .select('-statusId')
-          .exec((err, player) => {
-            if (err)
-              console.log(err.stack);
-            res.send(player);
-          })
+        playersService.updatePlayer(req.body).then((player) => {
+          return res.send(player);
+        }, (err) => errorService.handleError(res, err));
       } else {
         playersService.createPlayer(req.body).then((player) => {
           return res.send(player);
