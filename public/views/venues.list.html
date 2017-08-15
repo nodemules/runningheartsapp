@@ -1,6 +1,41 @@
-<md-content layout="column">
-  <md-card ng-repeat="error in vl.errors">{{error}}</md-card>
-  <rhp-list ng-model="vl.venues" rhp-list-size="4" rhp-text="vl.venueListText" entity-type="venues.ENTITY_TYPE.VENUE"
-    rhp-list-set="vl.viewVenue(item)" rhp-list-edit="vl.editVenue(item)" rhp-list-del="vl.removeVenue(item)" rhp-list-sort="'name'"></rhp-list>
-</md-content>
-<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="vl.newVenue()" ng-if="venues.permissions.ADD_VENUE"><md-icon md-font-set="material-icons">add</md-icon></md-button>
+<div layout="column">
+  <md-toolbar class="rhp-list-search">
+    <div class="md-toolbar-tools">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label><span class="fa fa-search"></span>Venue search</label>
+        <input ng-model="listSearch" name="name" autocomplete="off" />
+      </md-input-container>
+    </div>
+  </md-toolbar>
+  <md-list flex>
+    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+      <md-list-item class="md-3-line" ui-sref="venues.view({ id : venue._id })" md-virtual-repeat="venue in vl.venues | venueListFilter:listSearch | orderBy: 'name'">
+        <div class="md-list-item-text" layout="column">
+          <h3 layout="row" layout-align="start center">
+            <span flex>{{venue.name}}</span>
+          </h3>
+          <h4 layout="row" layout-align="start center">
+            <span flex>
+              <span>{{venue.day}} at {{venue.time}}</span>
+            </span>
+            <span flex layout="column" layout-align="center end">
+              Events Hosted: {{venue.events.length}}
+            </span>
+          </h4>
+          <p layout="row" layout-align="start center">
+            <span flex>
+              <rhp-name-list ng-model="venue.td"></rhp-name-list>
+            </span>
+            <span flex layout="column" layout-align="center end">
+              Games Played: {{venue.gamesPlayed || 0}}
+            </span>
+          </p>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="vl.newVenue()" ng-if="venues.permissions.ADD_VENUE">
+  <md-icon md-font-set="material-icons">add</md-icon>
+</md-button>

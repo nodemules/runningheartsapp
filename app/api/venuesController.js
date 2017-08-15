@@ -8,11 +8,8 @@ var authService = require('./authService')(),
 var Venues = require('../models/venue');
 
 api.get('/', function(req, res) {
-  venuesService.getVenues(function(err, venues) {
-    if (err) {
-      return res.send(err)
-    }
-    res.send(venues);
+  venuesService.getVenues().then((venues) => {
+    return res.send(venues);
   });
 });
 
