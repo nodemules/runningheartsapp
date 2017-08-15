@@ -6,9 +6,10 @@
     };
 
     function handleError(res, error) {
-
       if (!error) {
-        return [500, 'An error occurred'];
+        res.send(500, {
+          message: 'An error occurred'
+        });
       }
       var status = error.status || 406;
       var handledError = {

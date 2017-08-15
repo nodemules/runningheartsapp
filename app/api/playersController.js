@@ -135,7 +135,7 @@
       } else {
         playersService.createPlayer(req.body).then((player) => {
           return res.send(player);
-        })
+        }, (err) => errorService.handleError(res, err));
       }
     }
   );

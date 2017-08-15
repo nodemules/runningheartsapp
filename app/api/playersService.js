@@ -20,7 +20,7 @@
           .exec((err, players) => {
             if (err) {
               console.error(err.stack);
-              return reject(err);
+              return reject();
             }
             return resolve(players);
           })
@@ -29,11 +29,16 @@
 
     function createPlayer(player) {
       return new Promise((resolve, reject) => {
+
         Player
-          .create(player, (err, player) => {
+          .create(sanitizePlayerName(player), (err, player) => {
             if (err) {
               console.log(err.stack);
-              return reject(err);
+              return reject({
+                message: 'Error occurred creating a player',
+                code: 'DATABASE_ERROR',
+                status: 500
+              });
             }
             return resolve(player);
           });
@@ -47,6 +52,9 @@
             message: 'A Player name must be provided for validation.'
           });
         }
+
+        sanitizePlayerName(player);
+
         Player
           .find({
             name: player.name
@@ -72,6 +80,14 @@
             });
           })
       })
+    }
+
+    function sanitizePlayerName(player) {
+      if (!player || !player.name) {
+        return;
+      }
+      player.name = player.name.replace(/[^a-zA-Z ]+/g, '').replace(/\s\s+/g, ' ').trim();
+      return player;
     }
 
     return service;

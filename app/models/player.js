@@ -13,7 +13,8 @@ var playerSchema = mongoose.Schema({
   },
   'name': {
     'type': String,
-    'required': true
+    'required': true,
+    'unique': true
   },
   'user': {
     'type': Schema.Types.ObjectId,
