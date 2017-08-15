@@ -1,5 +1,5 @@
 {
-  /* global angular, APP_NAME */
+  /* global angular, APP_NAME, _ */
 
   angular.module(APP_NAME).factory('objectUtil', objectUtil);
 
@@ -23,23 +23,13 @@
       return byCall && byInstance && byType;
     }
 
-    function setProperty(path, value, obj) {
+    function setProperty(prop, value, obj) {
       if (!isObject(obj)) {
         obj = {};
       }
-      var parts = path.split('.'),
-        part;
-      while (part = parts.shift()) {
-        if (!isObject(obj[part])) {
-          obj[part] = {};
-        }
-        if (parts.length === 0) {
-          obj[part] = value;
-        } else {
-          obj = obj[part];
-        }
-      }
-      return obj;
+
+      return _.set(obj, prop, value)
+
     }
   }
 

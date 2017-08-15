@@ -12,12 +12,21 @@
     const _ID = '_id';
 
     var service = {
+      find,
       findOne,
       findAll,
       join,
       uniqById,
       uniq
     };
+
+    function find(arr, filter, exact) {
+      if (!arr || !Array.isArray(arr)) {
+        console.error(MESSAGE_REQUIRE_ARRAY)
+        return;
+      }
+      return $filter('filter')(arr, filter, exact);
+    }
 
     /**
      * Finds a single element in the array
@@ -67,8 +76,6 @@
         var p = angular.copy(props);
         props = [];
         props.push(p);
-      } else if (value) {
-        return find(arr, value, exact);
       }
 
       if (!props || !Array.isArray(props)) {
@@ -93,12 +100,12 @@
      */
     function join(arraysToJoin) {
       var arr = [];
-      if (!arraysToJoin || !Arrays.isArray(arraysToJoin)) {
+      if (!arraysToJoin || !Array.isArray(arraysToJoin)) {
         console.error(MESSAGE_REQUIRE_ARRAY)
         return;
       }
       angular.forEach(arraysToJoin, (joinArr) => {
-        if (Arrays.isArray(joinArr)) {
+        if (Array.isArray(joinArr)) {
           arr = arr.concat(joinArr);
         }
       });
@@ -139,16 +146,6 @@
      */
     function uniqById(arr) {
       return uniq(arr, _ID);
-    }
-
-    // PRIVATE METHODS
-
-    function find(arr, filter, exact) {
-      if (!arr || !Array.isArray(arr)) {
-        console.error(MESSAGE_REQUIRE_ARRAY)
-        return;
-      }
-      return $filter('filter')(arr, filter, exact);
     }
 
     return service;
