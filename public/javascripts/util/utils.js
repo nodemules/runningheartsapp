@@ -18,10 +18,11 @@
 
     function arrays(arr) {
       if (!arr || !Array.isArray(arr)) {
-        console.error(MESSAGE_REQUIRE_ARRAY)
+        console.error(MESSAGE_REQUIRE_ARRAY);
         return {};
       }
       return {
+        find: (value, exact) => arrayUtil.find(arr, value, exact),
         findOne: (value) => arrayUtil.findOne(arr, value),
         findAll: (value, props, exact) => arrayUtil.findAll(arr, value, props, exact)
       }
