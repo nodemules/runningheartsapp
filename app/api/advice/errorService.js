@@ -16,6 +16,7 @@
       }
 
       var handledError = {};
+      var status = 500;
       switch (error.name) {
         case MONGO_ERROR:
           handledError = constructMongoError(error);
@@ -25,21 +26,22 @@
           break;
         default:
           handledError = constructDefaultError(error);
+          status = handledError.status;
           break;
       }
-      res.send(500, handledError);
+      res.send(status, handledError);
 
     }
 
-    function constructDefaultError(error) {
-      var status = error.status || 406;
+    function constructDefaultError(error, status) {
       var handledError = {
-        message: error.message
+        message: error.message,
+        status: error.status || 406
       };
-      if (status !== 500) {
+      if (handledError.status !== 500) {
         handledError.code = error.code;
       }
-      return status, handledError;
+      return handledError;
     }
 
     function constructMongoError(error) {

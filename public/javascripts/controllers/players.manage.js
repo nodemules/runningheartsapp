@@ -1,11 +1,11 @@
-// global angular
-(function(angular) {
-
-  'use strict';
+{
+  /* global angular, APP_NAME */
 
   angular.module(APP_NAME).controller('playersManageCtrl', playersManageCtrl);
 
-  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'historyService', 'formService', 'errorService'];
+  playersManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'historyService', 'formService',
+    'errorService'
+  ];
 
   function playersManageCtrl($filter, $state, $stateParams, playersService, historyService, formService, errorService) {
 
@@ -22,6 +22,20 @@
         $state.transitionTo('players.list');
       }, (err) => {
         errorService.handleApiError(err);
+      })
+    }
+
+    vm.validate = function(player) {
+      playersService.api().validate(player, angular.noop, (err) => {
+        switch (err.data.code) {
+          case 'PLAYER_NAME_TAKEN':
+            err.config.data.$$saving = false;
+            vm.forms.playerForm.name.$setValidity('nameTaken', false)
+            break;
+          default:
+            errorService.handleApiError(err);
+            break;
+        }
       })
     }
 
@@ -43,4 +57,4 @@
 
   }
 
-})(angular);
+}
