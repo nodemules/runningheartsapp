@@ -24,6 +24,10 @@
         })
         .state('players.manage', {
           url: '/manage/:id',
+          params: {
+            season: null,
+            allTime: false
+          },
           parent: 'players',
           templateUrl: '/views/players.manage.html',
           controller: 'playersManageCtrl',
@@ -40,10 +44,22 @@
         .state('players.view', {
           url: '/view/:id',
           params: {
-            season: null
+            season: null,
+            allTime: false
           },
           parent: 'players',
           templateUrl: '/views/players.view.html',
+          controller: 'playersViewCtrl',
+          controllerAs: 'pv',
+        })
+        .state('players.view.games', {
+          url: '/view/:id/games',
+          params: {
+            season: null,
+            allTime: false
+          },
+          parent: 'players',
+          templateUrl: '/views/players.view.games.html',
           controller: 'playersViewCtrl',
           controllerAs: 'pv',
         })

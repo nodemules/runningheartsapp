@@ -1,0 +1,4 @@
+<span ng-repeat="item in list">
+  {{item.name}}<span ng-if="!$last && list.length > 1 && !($index === (list.length - 2))">, </span>
+<span ng-if="list.length > 1 && $index === (list.length - 2)">&amp; </span>
+</span>
