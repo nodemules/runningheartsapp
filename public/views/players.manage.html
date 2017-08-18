@@ -3,18 +3,25 @@
     <div layout-gt-xs="row" class="rhp-input-group">
       <md-input-container class="md-block" flex-gt-xs>
         <label>Name</label>
-        <input required ng-model="pm.player.name" name="name">
-        <div ng-class="{ 'rhp-messages-active' : pm.forms.playerForm.name.$dirty }"
-          ng-messages="pm.forms.playerForm.name.$error" ng-if="pm.forms.playerForm.name.$dirty">
+        <input required autocomplete="off" ng-model="pm.player.name" name="name" ng-pattern="/^[a-zA-Z\s]*$/" ng-change="pm.validate(pm.player)"
+          ng-model-options="{ debounce: 200 }">
+        <div ng-class="{ 'rhp-messages-active' : pm.forms.playerForm.name.$dirty }" ng-messages="pm.forms.playerForm.name.$error"
+          ng-if="pm.forms.playerForm.name.$dirty">
           <div ng-message="required">
             You must provide a player name.
+          </div>
+          <div ng-message="pattern">
+            Only alphabetical and whitespace characters are allowed in a player's name.
+          </div>
+          <div ng-message="nameTaken">
+            This name is taken, please choose another.
           </div>
         </div>
       </md-input-container>
       <md-input-container class="md-block" flex-gt-xs>
-          <md-switch ng-model="pm.player.isTd" aria-label="Tournament Director">
-            Tournament Director
-          </md-switch>
+        <md-switch ng-model="pm.player.isTd" aria-label="Tournament Director">
+          Tournament Director
+        </md-switch>
       </md-input-container>
     </div>
     <div layout="row" layout-align="end">

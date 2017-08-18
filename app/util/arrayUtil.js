@@ -6,9 +6,21 @@
     const _ID = '_id';
 
     var service = {
+      find,
+      findById,
       merge,
       mergeById,
       unionById
+    }
+
+    function findById(arr, id) {
+      var predicate = {};
+      predicate[_ID] = id;
+      return find(JSON.parse(JSON.stringify(arr)), predicate);
+    }
+
+    function find(arr, predicate) {
+      return _.find(arr, predicate);
     }
 
     function merge(arr1, arr2, id) {

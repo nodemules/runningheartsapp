@@ -58,6 +58,12 @@
           params: {
             action: 'count'
           }
+        },
+        'validate': {
+          method: 'POST',
+          params: {
+            action: 'validate'
+          }
         }
       });
     }
