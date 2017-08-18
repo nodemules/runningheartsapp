@@ -26,6 +26,10 @@
     }
 
     vm.validate = function(player) {
+      vm.forms.playerForm.name.$setValidity('nameTaken', true);
+      if (!player || !player.name) {
+        return;
+      }
       playersService.api().validate(player, angular.noop, (err) => {
         switch (err.data.code) {
           case 'PLAYER_NAME_TAKEN':

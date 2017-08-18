@@ -1,6 +1,8 @@
 {
   function exports() {
 
+    var Utils = require('../util/utils')();
+
     var Player = require('../models/player');
 
     var service = {
@@ -93,16 +95,20 @@
                 status: 500
               });
             }
-            if (players.length) {
-              return reject({
-                message: `Player name [${player.name}] is taken`,
-                code: 'PLAYER_NAME_TAKEN'
-              })
-            }
-            return resolve({
+
+            const PLAYER_NAME_AVAILABLE = {
               message: `Player name [${player.name}] is available`,
               code: 'PLAYER_NAME_AVAILABLE'
-            });
+            };
+            const PLAYER_NAME_TAKEN = {
+              message: `Player name [${player.name}] is taken`,
+              code: 'PLAYER_NAME_TAKEN'
+            };
+
+            if (players.length && !Utils.arrays(players).findById(player._id)) {
+              return reject(PLAYER_NAME_TAKEN)
+            }
+            return resolve(PLAYER_NAME_AVAILABLE);
           })
       })
     }
