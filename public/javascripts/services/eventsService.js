@@ -3,9 +3,9 @@
 
   angular.module(APP_NAME).factory('eventsService', eventsService);
 
-  eventsService.$inject = ['$resource', 'entityService', 'Entities'];
+  eventsService.$inject = ['$resource', '$filter', 'entityService', 'Entities'];
 
-  function eventsService($resource, entityService, Entities) {
+  function eventsService($resource, $filter, entityService, Entities) {
 
     const basePath = '/api/events';
 
@@ -33,7 +33,7 @@
           },
           transformResponse: function(data) {
             data.$$saving = false;
-            return angular.fromJson(data);
+            return transformEventResponse(data);
           }
         },
         'count': {
@@ -47,14 +47,48 @@
           params: {
             action: 'date'
           },
-          isArray: true
+          isArray: true,
+          transformResponse: transformEventsResponse
         },
         'season': {
           method: 'GET',
           url: basePath + '/season/:id',
-          isArray: true
+          isArray: true,
+          transformResponse: transformEventsResponse
+        },
+        'query': {
+          method: 'GET',
+          isArray: true,
+          transformResponse: transformEventsResponse
+        },
+        'get': {
+          method: 'GET',
+          transformResponse: transformEventResponse
         }
+
       });
+    }
+
+    function transformEventResponse(data) {
+      var events = angular.fromJson(data);
+      setEventDay(events);
+      return events;
+    }
+
+    function transformEventsResponse(data) {
+      var events = angular.fromJson(data);
+      setEventDays(events);
+      return events;
+    }
+
+    function setEventDays(events) {
+      angular.forEach(events, (ev) => {
+        setEventDay(ev);
+      })
+    }
+
+    function setEventDay(ev) {
+      ev.fullDate = $filter('date')(ev.date, 'fullDate');
     }
 
   }

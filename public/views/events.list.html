@@ -1,5 +1,42 @@
-<md-content layout="column">
-  <rhp-list ng-model="el.events" rhp-list-size="4" entity-type="events.ENTITY_TYPE.EVENT"
-    rhp-list-set="el.viewEvent(item)" rhp-list-edit="el.editEvent(item)" rhp-list-del="el.removeEvent(item)" rhp-list-sort="'-date'"></rhp-list>
-</md-content>
-<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="el.newEvent()" ng-if="events.permissions.ADD_EVENT"><md-icon md-font-set="material-icons">add</md-icon></md-button>
+<div layout="column">
+  <md-toolbar class="rhp-list-search">
+    <div class="md-toolbar-tools">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label><span class="fa fa-search"></span>Event search</label>
+        <input ng-model="listSearch" name="name" autocomplete="off" />
+      </md-input-container>
+    </div>
+  </md-toolbar>
+  <md-list flex>
+    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+      <md-list-item class="md-3-line" ui-sref="events.view({ id : event._id })" ng-class="{ 'completed-event' : event.completed, 'current-event' : el.isCurrentEvent(event) }"
+        md-virtual-repeat="event in el.events | eventListFilter:listSearch | orderBy: '-date'">
+        <div class="md-list-item-text" layout="column">
+          <h3 layout="row" layout-align="start center">
+            <span flex>{{event.venue.name}}</span>
+            <span ng-show="el.isCurrentEvent(event)"><span class="fa fa-calendar"></span></span>
+          </h3>
+          <h4 layout="row" layout-align="start center">
+            <span flex>
+              <span>{{event.date | date:'fullDate'}} at {{event.date | date:'shortTime'}}</span>
+            </span>
+            <span flex layout="column" layout-align="center end">
+            </span>
+          </h4>
+          <p layout="row" layout-align="start center">
+            <span flex>
+              <rhp-name-list ng-model="event.td"></rhp-name-list>
+            </span>
+            <span flex layout="column" layout-align="center end">
+              Number of Games: {{event.venue.numberOfGames}}
+            </span>
+          </p>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-virtual-repeat-container>
+  </md-list>
+</div>
+<md-button class="md-fab md-fab-bottom-right md-primary" ng-click="el.newEvent()" ng-if="events.permissions.ADD_VENUE">
+  <md-icon md-font-set="material-icons">add</md-icon>
+</md-button>

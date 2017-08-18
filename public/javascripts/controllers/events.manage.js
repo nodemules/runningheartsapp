@@ -2,9 +2,12 @@
   /* global APP_NAME, angular */
   angular.module(APP_NAME).controller('eventsManageCtrl', eventsManageCtrl);
 
-  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService', 'venuesService', 'historyService', 'formService', 'errorService', 'permissionsService'];
+  eventsManageCtrl.$inject = ['$filter', '$state', '$stateParams', 'eventsService', 'usersService', 'playersService',
+    'venuesService', 'historyService', 'formService', 'errorService', 'permissionsService'
+  ];
 
-  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService, historyService, formService, errorService, permissionsService) {
+  function eventsManageCtrl($filter, $state, $stateParams, eventsService, usersService, playersService, venuesService,
+    historyService, formService, errorService, permissionsService) {
 
     var vm = this;
 
