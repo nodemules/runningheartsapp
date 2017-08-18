@@ -22,7 +22,7 @@
   </md-card-content>
 </md-card>
 <md-list flex>
-  <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+  <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
     <md-list-item class="md-2-line" md-virtual-repeat="game in pv.player.games | orderBy : '-gameStartTime'" ui-sref="games.view({ id : game._id })">
       <rhp-trophy class="md-avatar" rank="game.rank" after></rhp-trophy>
       <div class="md-list-item-text" layout="column">

@@ -8,7 +8,7 @@
     </div>
   </md-toolbar>
   <md-list flex>
-    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item class="md-3-line" ui-sref="venues.view({ id : venue._id })" md-virtual-repeat="venue in vl.venues | venueListFilter:listSearch | orderBy: 'name'">
         <div class="md-list-item-text" layout="column">
           <h3 layout="row" layout-align="start center">

@@ -5,7 +5,7 @@
    function rhpTabs() {
 
      var rhpTabsTemplate = [
-       '<md-tabs ng-show="tabs.tabVisibility()" md-stretch-tabs="always" class="md-primary md-fixed" md-selected="tabs.selectedTab">', //
+       '<md-tabs ng-if="tabs.tabVisibility()" md-stretch-tabs="always" class="md-primary md-fixed" md-selected="tabs.selectedTab">', //
        '  <md-tab ng-click="tabs.tabPath(tab.path)" ng-repeat="tab in tabs.tabs">', //
        '    <md-tab-label>{{tab.name}}</md-tab-label>', //
        '  </md-tab>', //
