@@ -84,6 +84,7 @@
           GlobalMatcher.group,
           GlobalMatcher.lookupPlayer,
           GlobalMatcher.unwindPlayer,
+          GlobalMatcher.matchPlayer,
           project,
           StatsMatcher.GET_ALL_PLAYER_STATS.sortBy
         ];

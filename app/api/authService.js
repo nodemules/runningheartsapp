@@ -33,9 +33,9 @@
 
     function setPermissions(req, res, next) {
       let now = new Date();
-      console.log(req.session);
 
-      if (!req.session.permissions || (req.session.permissionExpires && (new Date(req.session.permissionExpires).getTime() < now.getTime()))) {
+      if (!req.session.permissions || (req.session.permissionExpires && (new Date(req.session.permissionExpires).getTime() <
+          now.getTime()))) {
         console.log(`Setting permissions for [${req.user.username}]`)
         RoleService.getPermissionsForRole(req.user.roleId, (permissions) => {
           req.session.permissions = permissions;
@@ -43,8 +43,10 @@
           console.log(then);
           req.session.permissionExpires = new Date(then);
           console.log(req.session.permissionExpires);
-          console.log(`${req.session.permissions.length} permissions found for [${req.user.username}],
-            they will expire in ${new Date(req.session.permissionExpires).getTime() - now.getTime()}`)
+          console.log(
+            `${req.session.permissions.length} permissions found for [${req.user.username}],
+            they will expire in ${new Date(req.session.permissionExpires).getTime() - now.getTime()}`
+          )
           next();
         });
       } else {

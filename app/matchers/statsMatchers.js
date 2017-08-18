@@ -127,6 +127,11 @@
             'path': '$player'
           }
         },
+        matchPlayer: {
+          '$match': {
+            'player.statusId': 1
+          }
+        },
         unwindEvent: {
           '$unwind': {
             'path': '$event'
