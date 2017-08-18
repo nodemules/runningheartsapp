@@ -203,3 +203,11 @@ md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):firs
 md-card md-card-actions:not(.layout-column) .md-button:not(.md-icon-button):last-of-type {
   margin: 0 4px;
 }
+
+.completed-event {
+  opacity: 0.33;
+}
+
+.current-event {
+  background-color: rgba(255, 87, 34, 0.85);
+}

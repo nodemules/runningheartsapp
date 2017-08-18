@@ -1,13 +1,15 @@
-// global angular
-(function(angular) {
+{
 
-  'use strict';
+  /* global angular, APP_NAME, moment */
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService', 'permissionsService', 'dialogService'];
+  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService',
+    'permissionsService', 'dialogService'
+  ];
 
-  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService, permissionsService, dialogService) {
+  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService,
+    permissionsService, dialogService) {
 
     var vm = this;
 
@@ -15,39 +17,28 @@
 
     vm.getEvents = function() {
       vm.events = eventsService.api().season();
-    }
+    };
 
     vm.newEvent = function() {
       $state.transitionTo('events.manage');
-    }
+    };
 
-    vm.editEvent = function(event) {
-      $state.transitionTo('events.manage', {
-        id: event._id
-      });
-    }
-
-    vm.viewEvent = function(event) {
+    vm.viewEvent = function(ev) {
       $state.transitionTo('events.view', {
-        id: event._id
+        id: ev._id
       });
-    }
+    };
 
-    vm.removeEvent = function(event) {
-      dialogService.confirm('Are you sure you want to delete this event?').then(() => {
-        eventsService.api(event._id).remove(function() {
-          vm.getEvents();
-        });
-      })
-
-    }
+    vm.isCurrentEvent = function(ev) {
+      return moment().isSame(moment(ev.date), 'd');
+    };
 
     function initialize() {
       vm.getEvents();
-    }
+    };
 
     initialize();
 
   }
 
-})(angular);
+}
