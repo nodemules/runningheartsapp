@@ -23,7 +23,7 @@
   <md-list flex>
     <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item md-virtual-repeat="p in gp.players | filter: { name: player.name } | orderBy: 'name'">
-        <md-checkbox ng-checked="gp.isSelected(p)" ng-click="gp.toggleSelection(p)" ng-disabled="gp.game.inProgress && gp.isExistingPlayer(p)"></md-checkbox>
+        <md-checkbox ng-checked="gp.game.players | contains: { player: { _id: p._id } }" ng-click="gp.toggleSelection(p)" ng-disabled="gp.game.inProgress && gp.isExistingPlayer(p)"></md-checkbox>
         <p>{{p.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
