@@ -4,8 +4,8 @@
       <form name="gp.forms.playerAddForm" flex>
         <md-input-container class="md-block" flex-gt-sm>
           <label><span class="fa fa-search"></span> Player search</label>
-          <input autocomplete="off" ng-model="player.name"
-          name="name" ng-pattern="/^[a-zA-Z\s]*$/" ng-model-options="{ debounce: 200 }" ng-change="gp.validatePlayerName(player)"/>
+          <input autocomplete="off" name="name" ng-model="player.name" ng-model-options="{ debounce: 200 }" ng-pattern="/^[a-zA-Z\s]*$/"
+            ng-change="gp.validatePlayerName(player)" />
           <div ng-class="{ 'rhp-messages-active' : gp.forms.playerAddForm.name.$dirty }" ng-messages="gp.forms.playerAddForm.name.$error"
             ng-if="gp.forms.playerAddForm.name.$dirty">
             <div ng-message="pattern">
@@ -19,14 +19,18 @@
       </form>
     </div>
   </md-toolbar>
-  <md-button class="md-primary md-raised" ng-show="player.name && !gp.forms.playerAddForm.name.$invalid" ng-click="gp.createPlayer(player)">Add {{player.name}}</md-button>
+  <md-button class="md-primary md-raised" ng-show="player.name && !gp.forms.playerAddForm.name.$invalid" ng-click="gp.createPlayer(player)">
+    Add {{player.name}}
+  </md-button>
   <md-list flex>
-    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true" md-top-index="gp.list.topIndex">
       <md-list-item md-virtual-repeat="p in gp.players | filter: { name: player.name } | orderBy: 'name'">
         <md-checkbox ng-checked="gp.game.players | contains: { player: { _id: p._id } }" ng-click="gp.toggleSelection(p)" ng-disabled="gp.game.inProgress && gp.isExistingPlayer(p)"></md-checkbox>
         <p>{{p.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
-  <md-button class="md-default md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">{{!gp.game.inProgress && gp.originalPlayers.length ?  'Update Players' : 'Add Players'}}</md-button>
+  <md-button class="md-default md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">
+    {{!gp.game.inProgress && gp.originalPlayers.length ? 'Update Players' : 'Add Players'}}
+  </md-button>
 </md-content>

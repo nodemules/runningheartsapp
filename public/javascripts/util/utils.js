@@ -24,7 +24,9 @@
       return {
         find: (value, exact) => arrayUtil.find(arr, value, exact),
         findOne: (value) => arrayUtil.findOne(arr, value),
-        findAll: (value, props, exact) => arrayUtil.findAll(arr, value, props, exact)
+        findAll: (value, props, exact) => arrayUtil.findAll(arr, value, props, exact),
+        indexOf: (predicate) => arrayUtil.indexOf(arr, predicate),
+        orderedIndexOf: (sort, predicate) => arrayUtil.orderedIndexOf(arr, sort, predicate)
       }
     }
 
