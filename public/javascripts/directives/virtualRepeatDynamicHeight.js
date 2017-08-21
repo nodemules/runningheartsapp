@@ -1,5 +1,5 @@
 {
-  /* global angular, APP_name */
+  /* global angular, APP_NAME, $ */
 
   angular.module(APP_NAME).directive('virtualRepeatDynamicHeight', virtualRepeatDynamicHeight);
 
