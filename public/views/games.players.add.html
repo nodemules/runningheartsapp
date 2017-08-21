@@ -1,42 +1,32 @@
 <md-content layout="column" flex>
-  <div class="rhp-list-actions" layout="row" layout-align="start" flex="15">
-    <div layout="row" flex>
-      <md-checkbox ng-model="gp.showAllPlayers" ng-change="gp.getPlayers()" ng-if="!gp.game.inProgress">Show All Players</md-checkbox>
+  <md-toolbar class="rhp-list-search" ng-class="{ 'rhp-list-search-error' : gp.forms.playerAddForm.name.$invalid }">
+    <div class="md-toolbar-tools">
+      <form name="gp.forms.playerAddForm" flex>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label><span class="fa fa-search"></span> Player search</label>
+          <input autocomplete="off" ng-model="player.name"
+          name="name" ng-pattern="/^[a-zA-Z\s]*$/" ng-model-options="{ debounce: 200 }" ng-change="gp.validatePlayerName(player)"/>
+          <div ng-class="{ 'rhp-messages-active' : gp.forms.playerAddForm.name.$dirty }" ng-messages="gp.forms.playerAddForm.name.$error"
+            ng-if="gp.forms.playerAddForm.name.$dirty">
+            <div ng-message="pattern">
+              Only alphabetical and whitespace characters are allowed.
+            </div>
+            <div ng-message="nameTaken">
+              A player exists with this name.
+            </div>
+          </div>
+        </md-input-container>
+      </form>
     </div>
-    <div layout="row" layout-align="end" flex>
-      <md-button class="md-raised md-primary" ui-sref="games.view({ id : gp.game._id })">Back to Game</md-button>
-    </div>
-  </div>
-  <md-list class="md-dense" ng-class="{ 'rhp-dense-list':gp.mdMedia('xs') }" layout="row" flex="85">
-    <md-virtual-repeat-container id="vertical-container" flex>
+  </md-toolbar>
+  <md-button class="md-primary md-raised" ng-show="player.name && !gp.forms.playerAddForm.name.$invalid" ng-click="gp.createPlayer(player)">Add {{player.name}}</md-button>
+  <md-list flex>
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item md-virtual-repeat="p in gp.players | filter: { name: player.name } | orderBy: 'name'">
-        <md-checkbox ng-checked="gp.isSelected(p)" ng-click="gp.toggleSelection(p)"></md-checkbox>
+        <md-checkbox ng-checked="gp.game.players | contains: { player: { _id: p._id } }" ng-click="gp.toggleSelection(p)" ng-disabled="gp.game.inProgress && gp.isExistingPlayer(p)"></md-checkbox>
         <p>{{p.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
-</md-content>
-<md-content layout="row" flex>
-  <md-input-container class="rhp-add-player" flex-gt-xs="80" flex-xs="65">
-    <label>Player Search</label>
-    <input required ng-model="player.name" name="name" />
-  </md-input-container>
-  <div>
-    <md-button type="submit" layout="column" flex class="md-raised md-primary" ng-click="gp.createPlayer(player);" ng-disabled="!player.name || gp.validatePlayerName(player.name)">Create Player</md-button>
-  </div>
-</md-content>
-<div layout="row" layout-align="end" ng-show="player.$$error">
-  <p>
-    {{player.$$error.message}}. There was an error adding player.
-    <span ng-show="player.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
-  </p>
-</div>
-<md-content layout="column" layout-align="end" flex>
-  <md-button class="md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">Add Players</md-button>
-  <div layout="row" layout-align="end" ng-show="gp.game.$$error">
-    <p>
-      {{gp.game.$$error.message}}. There was an error adding players to the game.
-      <span ng-show="gp.game.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
-    </p>
-  </div>
+  <md-button class="md-default md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">{{!gp.game.inProgress && gp.originalPlayers.length ?  'Update Players' : 'Add Players'}}</md-button>
 </md-content>

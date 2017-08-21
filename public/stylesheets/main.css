@@ -186,11 +186,20 @@ md-toolbar.rhp-list-search {
   margin-top: 10px;
 }
 
+.rhp-list-search.rhp-list-search-error {
+  height: 56px;
+  min-height: 56px;
+}
+
+.rhp-list-search.rhp-list-search-error md-input-container {
+  margin-bottom: 20px;
+}
+
 .rhp-list-search md-input-container.md-input-focused .md-input {
   border-color: white;
 }
 
-.rhp-list-search md-input-container label {
+.rhp-list-search md-input-container label, .rhp-list-search .rhp-messages-active div {
   color: white;
 }
 
