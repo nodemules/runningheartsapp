@@ -3,41 +3,34 @@
 
   angular.module(APP_NAME).controller('gamesPlayersCtrl', gamesPlayersCtrl);
 
-  gamesPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', '$mdMedia', 'playersService', 'gamesService', 'errorService'];
+  gamesPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'gamesService', 'errorService', 'Utils'];
 
-  function gamesPlayersCtrl($filter, $state, $stateParams, $mdMedia, playersService, gamesService, errorService) {
+  function gamesPlayersCtrl($filter, $state, $stateParams, playersService, gamesService, errorService, Utils) {
 
     var vm = this;
 
     vm.game = {};
-
     vm.forms = {};
-
-    vm.mdMedia = $mdMedia;
 
     vm.getGame = function(gameId) {
       vm.game = gamesService.api(gameId).get(function() {
-        vm.game.newGame = vm.game.players.length === 0;
+        vm.originalPlayers = angular.copy(vm.game.players);
         vm.getPlayers();
       });
     };
 
     vm.getPlayers = function() {
-      var players = [];
-      angular.forEach(vm.game.players, function(player) {
-        players.push(player.player._id);
+      playersService.api().query(function(players) {
+        vm.players = players;
       });
-      if (!vm.game.inProgress) {
-        vm.players = playersService.api().query(function() {
-          ready();
-        });
-      } else {
-        vm.players = playersService.api().notIn({
-          players: players
-        }, function() {
-          ready();
-        });
-      }
+    };
+
+    vm.isExistingPlayer = function(player) {
+      return !!Utils.arrays(vm.originalPlayers).findOne({
+        player: {
+          _id: player._id
+        }
+      });
     };
 
     vm.isSelected = function(player) {
@@ -100,19 +93,15 @@
 
     vm.createPlayer = function(player) {
       playersService.api().save(player, function(resPlayer) {
-        vm.getPlayers(true);
+        vm.getPlayers();
         vm.game.players.push({
           player: resPlayer
         });
-        player.name = null;
+        delete player.name;
       }, function(err) {
         errorService.handleApiError(err);
       });
     };
-
-    function ready() {
-      vm.ready = true;
-    }
 
     function initialize() {
       vm.getGame($stateParams.gameId);

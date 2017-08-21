@@ -12,21 +12,21 @@
               Only alphabetical and whitespace characters are allowed.
             </div>
             <div ng-message="nameTaken">
-              A player exists with this name. Select them below.
+              A player exists with this name.
             </div>
           </div>
         </md-input-container>
       </form>
     </div>
   </md-toolbar>
-  <md-button class="md-primary md-raised" ng-show="player.name && !gp.forms.playerAddForm.name.$invalid">Add {{player.name}}</md-button>
+  <md-button class="md-primary md-raised" ng-show="player.name && !gp.forms.playerAddForm.name.$invalid" ng-click="gp.createPlayer(player)">Add {{player.name}}</md-button>
   <md-list flex>
     <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item md-virtual-repeat="p in gp.players | filter: { name: player.name } | orderBy: 'name'">
-        <md-checkbox ng-checked="gp.isSelected(p)" ng-click="gp.toggleSelection(p)"></md-checkbox>
+        <md-checkbox ng-checked="gp.isSelected(p)" ng-click="gp.toggleSelection(p)" ng-disabled="gp.game.inProgress && gp.isExistingPlayer(p)"></md-checkbox>
         <p>{{p.name}}</p>
       </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
-  <md-button class="md-default md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">{{!gp.game.inProgress && !gp.game.newGame ?  'Update Players' : 'Add Players'}}</md-button>
+  <md-button class="md-default md-raised" ng-click="gp.addPlayersToGame()" ng-disabled="gp.game.$$saving">{{!gp.game.inProgress && gp.originalPlayers.length ?  'Update Players' : 'Add Players'}}</md-button>
 </md-content>
