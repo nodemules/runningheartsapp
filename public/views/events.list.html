@@ -8,7 +8,7 @@
     </div>
   </md-toolbar>
   <md-list flex>
-    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item class="md-3-line" ui-sref="events.view({ id : event._id })" ng-class="{ 'completed-event' : event.completed, 'current-event' : el.isCurrentEvent(event) }"
         md-virtual-repeat="event in el.events | eventListFilter:listSearch | orderBy: '-date'">
         <div class="md-list-item-text" layout="column">

@@ -8,7 +8,7 @@
     </div>
   </md-toolbar>
   <md-list flex>
-    <md-virtual-repeat-container id="rhp-virtual-repeat-container">
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
       <md-list-item class="md-3-line" md-virtual-repeat="player in pl.players | filter: { name : listSearch } | orderBy: 'name'"
         ui-sref="players.view({ id : player._id, season : vm.seasonNumber })">
         <div class="md-list-item-text" layout="column">

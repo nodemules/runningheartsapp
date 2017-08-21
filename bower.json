@@ -25,6 +25,7 @@
     "angular-messages": "1.6.1",
     "angular-aria": "1.6.1",
     "moment": "^2.18.1",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "jquery": "2.2.4"
   }
 }
