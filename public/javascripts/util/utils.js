@@ -26,7 +26,8 @@
         findOne: (value) => arrayUtil.findOne(arr, value),
         findAll: (value, props, exact) => arrayUtil.findAll(arr, value, props, exact),
         indexOf: (predicate) => arrayUtil.indexOf(arr, predicate),
-        orderedIndexOf: (sort, predicate) => arrayUtil.orderedIndexOf(arr, sort, predicate)
+        orderedIndexOf: (sort, predicate) => arrayUtil.orderedIndexOf(arr, sort, predicate),
+        addOrRemove: (obj) => arrayUtil.addOrRemove(arr, obj)
       }
     }
 

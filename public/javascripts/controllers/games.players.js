@@ -39,34 +39,13 @@
       });
     };
 
-    vm.isSelected = function(player) {
-      var attendee = $filter('filter')(vm.game.players, {
-        player: {
-          _id: player._id
-        }
-      })[0];
-      var idx = vm.game.players.indexOf(attendee);
-      var selected = false;
-      if (idx != -1) {
-        selected = true;
-      }
-      return selected;
-    };
-
     vm.toggleSelection = function(player) {
-      var attendee = $filter('filter')(vm.game.players, {
+      var attendee = {
         player: {
           _id: player._id
         }
-      })[0];
-      var idx = vm.game.players.indexOf(attendee);
-      if (idx > -1) {
-        vm.game.players.splice(idx, 1);
-      } else {
-        vm.game.players.push({
-          player: player
-        });
-      }
+      };
+      Utils.arrays(vm.game.players).addOrRemove(attendee);
     };
 
     vm.addPlayersToGame = function() {

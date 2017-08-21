@@ -19,7 +19,8 @@
       uniqById,
       uniq,
       indexOf,
-      orderedIndexOf
+      orderedIndexOf,
+      addOrRemove
     };
 
     function find(arr, filter, exact) {
@@ -156,6 +157,15 @@
 
     function orderedIndexOf(arr, sort, predicate) {
       return indexOf($filter('orderBy')(arr, sort), predicate);
+    }
+
+    function addOrRemove(arr, obj) {
+      var idx = indexOf(arr, obj);
+      if (idx > -1) {
+        arr.splice(idx, 1);
+      } else {
+        arr.push(obj);
+      }
     }
 
     return service;
