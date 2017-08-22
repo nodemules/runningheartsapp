@@ -25,22 +25,33 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <div ng-show="!gv.game.players.length">
-        There are no players for this game... yet.
-      </div>
-      <md-card ui-sref="players.view({ id: player.player._id})" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']">
-        <md-card-title>
-          <div layout="row" class="stats-player-row" layout-align="center center">
-            <div layout="row" flex="10" layout-align="start center">
-              <span ng-show="player.rank <= 8" class="player-row"><i class="fa fa-hashtag"></i>   {{player.rank}}</span>
-            </div>
-            <div layout="row" flex layout-align="center center">
-              {{player.player.name}}
-            </div>
+      <md-list flex>
+        <div ng-show="!gv.game.players.length">
+          There are no players for this game... yet.
+        </div>
+        <md-list-item class="md-3-line" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']"
+          ui-sref="players.view({ id : player.player._id })">
+          <div class="md-list-item-text" layout="column">
+            <h3 layout="row" layout-align="start center">
+              <span flex layout="column" layout-align="center start">
+                <span>{{player.player.name}}</span>
+              </span>
+            </h3>
+            <h4 layout="row" layout-align="start center">
+              <span flex layout="column" layout-align="center start">
+                <span>Rank: {{player.rank || gv.game.inProgress ? 'Still In Game!' : 'Game Not Started!'}}</span>
+              </span>
+            </h4>
+            <h4 layout="row" layout-align="start center">
+              <span flex layout="column" layout-align="center start">
+                <span>Score: {{player.score || gv.game.inProgress ? 'Still In Game!' : 'Game Not Started!'}}</span>
+              </span>
+            </h4>
           </div>
-        </md-card-title>
-      </md-card>
+          <rhp-trophy ng-show="gv.game.completed" class="md-avatar" rank="$index+1" after></rhp-trophy>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
     </md-card-content>
   </md-card>
-
 </md-content>
