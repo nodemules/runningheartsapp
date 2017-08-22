@@ -3,14 +3,20 @@
 
   angular.module(APP_NAME).controller('gamesPlayersCtrl', gamesPlayersCtrl);
 
-  gamesPlayersCtrl.$inject = ['$filter', '$state', '$stateParams', 'playersService', 'gamesService', 'errorService', 'Utils'];
+  gamesPlayersCtrl.$inject = ['$filter', '$state', '$timeout', '$stateParams', 'playersService', 'gamesService',
+    'errorService', 'Utils'
+  ];
 
-  function gamesPlayersCtrl($filter, $state, $stateParams, playersService, gamesService, errorService, Utils) {
+  function gamesPlayersCtrl($filter, $state, $timeout, $stateParams, playersService, gamesService, errorService,
+    Utils) {
 
     var vm = this;
 
     vm.game = {};
     vm.forms = {};
+    vm.list = {
+      topIndex: 0
+    };
 
     vm.getGame = function(gameId) {
       vm.game = gamesService.api(gameId).get(function() {
@@ -33,34 +39,13 @@
       });
     };
 
-    vm.isSelected = function(player) {
-      var attendee = $filter('filter')(vm.game.players, {
-        player: {
-          _id: player._id
-        }
-      })[0];
-      var idx = vm.game.players.indexOf(attendee);
-      var selected = false;
-      if (idx != -1) {
-        selected = true;
-      }
-      return selected;
-    };
-
     vm.toggleSelection = function(player) {
-      var attendee = $filter('filter')(vm.game.players, {
+      var attendee = {
         player: {
           _id: player._id
         }
-      })[0];
-      var idx = vm.game.players.indexOf(attendee);
-      if (idx > -1) {
-        vm.game.players.splice(idx, 1);
-      } else {
-        vm.game.players.push({
-          player: player
-        });
-      }
+      };
+      Utils.arrays(vm.game.players).addOrRemove(attendee);
     };
 
     vm.addPlayersToGame = function() {
@@ -92,12 +77,18 @@
     };
 
     vm.createPlayer = function(player) {
-      playersService.api().save(player, function(resPlayer) {
-        vm.getPlayers();
-        vm.game.players.push({
-          player: resPlayer
-        });
+      playersService.api().save(player, (p) => {
+        var attendee = {
+          player: p
+        };
+        vm.game.players.push(attendee);
         delete player.name;
+        vm.players.push(p);
+        $timeout(() => {
+          vm.list.topIndex = Utils.arrays(vm.players).orderedIndexOf('name', {
+            _id: p._id
+          });
+        });
       }, function(err) {
         errorService.handleApiError(err);
       });

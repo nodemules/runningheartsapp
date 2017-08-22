@@ -17,7 +17,10 @@
       findAll,
       join,
       uniqById,
-      uniq
+      uniq,
+      indexOf,
+      orderedIndexOf,
+      addOrRemove
     };
 
     function find(arr, filter, exact) {
@@ -36,14 +39,14 @@
      *
      * @return exact matched value in array or undefined
      */
-    function findOne(arr, filter) {
+    function findOne(arr, filter, original) {
       var filtered = find(arr, filter, true);
       var one;
       switch (filtered.length) {
         case 0:
           break;
         case 1:
-          one = angular.copy(filtered[0]);
+          one = original ? filtered[0] : angular.copy(filtered[0]);
           break;
         default:
           console.error('More than one record found in array for', filter,
@@ -146,6 +149,23 @@
      */
     function uniqById(arr) {
       return uniq(arr, _ID);
+    }
+
+    function indexOf(arr, predicate) {
+      return arr.indexOf(findOne(arr, predicate, true))
+    }
+
+    function orderedIndexOf(arr, sort, predicate) {
+      return indexOf($filter('orderBy')(arr, sort), predicate);
+    }
+
+    function addOrRemove(arr, obj) {
+      var idx = indexOf(arr, obj);
+      if (idx > -1) {
+        arr.splice(idx, 1);
+      } else {
+        arr.push(obj);
+      }
     }
 
     return service;
