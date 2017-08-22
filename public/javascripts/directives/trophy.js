@@ -63,10 +63,10 @@
 
       scope.getRankClass = function(rank) {
         var icon = '';
-        if (rank >= 10) {
-          icon = 'rhp-trophy-rank-sm';
-        } else if (rank >= 100) {
+        if (rank >= 100) {
           icon = 'rhp-trophy-rank-xs';
+        } else if (rank >= 10) {
+          icon = 'rhp-trophy-rank-sm';
         } else {
           icon = 'rhp-trophy-rank';
         }
