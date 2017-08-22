@@ -2,13 +2,13 @@
   <md-toolbar class="rhp-list-search">
     <div class="md-toolbar-tools">
       <md-input-container class="md-block" flex-gt-sm>
-        <label><span class="fa fa-search"></span>Event search</label>
+        <label><span class="fa fa-search"></span> Event search</label>
         <input ng-model="listSearch" name="name" autocomplete="off" />
       </md-input-container>
     </div>
   </md-toolbar>
   <md-list flex>
-    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true">
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true" md-top-index="el.list.topIndex">
       <md-list-item class="md-3-line" ui-sref="events.view({ id : event._id })" ng-class="{ 'completed-event' : event.completed, 'current-event' : el.isCurrentEvent(event) }"
         md-virtual-repeat="event in el.events | eventListFilter:listSearch | orderBy: '-date'">
         <div class="md-list-item-text" layout="column">

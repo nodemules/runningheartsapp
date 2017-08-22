@@ -4,19 +4,16 @@
 
   angular.module(APP_NAME).controller('eventsListCtrl', eventsListCtrl);
 
-  eventsListCtrl.$inject = ['$filter', '$state', 'eventsService', 'usersService', 'playersService', 'venuesService',
-    'permissionsService', 'dialogService'
-  ];
+  eventsListCtrl.$inject = ['$state', '$timeout', 'eventsService', 'Utils'];
 
-  function eventsListCtrl($filter, $state, eventsService, usersService, playersService, venuesService,
-    permissionsService, dialogService) {
+  function eventsListCtrl($state, $timeout, eventsService, Utils) {
 
     var vm = this;
 
-    vm.permissions = {};
+    vm.list = {};
 
     vm.getEvents = function() {
-      vm.events = eventsService.api().season();
+      vm.events = eventsService.api().season(setListIndex);
     };
 
     vm.newEvent = function() {
@@ -32,6 +29,17 @@
     vm.isCurrentEvent = function(ev) {
       return moment().isSame(moment(ev.date), 'd');
     };
+
+    function setListIndex(events) {
+      var todaysEvents = Utils.arrays(events).find(vm.isCurrentEvent);
+      if (todaysEvents.length) {
+        $timeout(() => {
+          vm.list.topIndex = Utils.arrays(events).orderedIndexOf('-date', {
+            _id: todaysEvents[0]._id
+          });
+        });
+      }
+    }
 
     function initialize() {
       vm.getEvents();
