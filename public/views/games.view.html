@@ -24,31 +24,22 @@
         <span class="md-headline">Players</span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-content>
+    <md-divider></md-divider>
+    <md-card-content class="rhp-card-list">
       <md-list flex>
         <div ng-show="!gv.game.players.length">
           There are no players for this game... yet.
         </div>
-        <md-list-item class="md-3-line" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']"
+        <md-list-item class="md-2-line" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']"
           ui-sref="players.view({ id : player.player._id })">
+          <rhp-trophy ng-show="player.rank <= 8" class="md-avatar" rank="$index+1" after></rhp-trophy>
+          <md-icon ng-show="!player.rank" class="md-avatar">mood</md-icon>
+          <md-icon ng-show="player.rank >= 9" class="md-avatar">mood_bad</md-icon>
           <div class="md-list-item-text" layout="column">
-            <h3 layout="row" layout-align="start center">
-              <span flex layout="column" layout-align="center start">
+            <h3 layout="row" layout-align="center center">
                 <span>{{player.player.name}}</span>
-              </span>
             </h3>
-            <h4 layout="row" layout-align="start center">
-              <span flex layout="column" layout-align="center start">
-                <span>Rank: {{player.rank || gv.game.inProgress ? 'Still In Game!' : 'Game Not Started!'}}</span>
-              </span>
-            </h4>
-            <h4 layout="row" layout-align="start center">
-              <span flex layout="column" layout-align="center start">
-                <span>Score: {{player.score || gv.game.inProgress ? 'Still In Game!' : 'Game Not Started!'}}</span>
-              </span>
-            </h4>
           </div>
-          <rhp-trophy ng-show="gv.game.completed" class="md-avatar" rank="$index+1" after></rhp-trophy>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
       </md-list>
