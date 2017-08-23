@@ -121,18 +121,14 @@
      };
 
      vm.completeGame = function() {
-       if (!vm.game.finalize) {
-         return false;
-       }
        var message = `Game will be marked complete and scores cannot be changed.
       Scores will be submitted to season standings.`;
        dialogService.confirm(message).then(() => {
          vm.game.completed = true;
          saveGame(function() {
-           if (vm.game.number === vm.game.event.venue.numberOfGames) {
-             vm.game.event.completed = true;
-             eventsService.api().save(vm.game.event);
-           }
+           $state.go('games.view', {
+             id: vm.game._id
+           });
          }, function() {
            vm.game.completed = false;
          });
@@ -150,6 +146,9 @@
        }, function(a, e) {
          return a < e || a === undefined;
        });
+       if (!unscoredPlayers) {
+         return;
+       }
        return unscoredPlayers.length - 1;
      }
 

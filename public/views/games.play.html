@@ -35,16 +35,8 @@
     </md-virtual-repeat-container>
   </md-list>
   <div layout="column">
-    <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-primary" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
-      {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
-    </md-button>
-    <md-button ng-if="gp.game.finalize" class="md-raised md-primary" ng-click="gp.completeGame();">
-      {{ 'Complete Game' }}
-    </md-button>
-  </div>
-  <div layout="column">
-    <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" >
-      Return to Game Manager
+    <md-button ng-click="gp.completeGame();" ng-disabled="!gp.isFinalizeable()" class="md-raised md-primary">
+      Complete Game
     </md-button>
   </div>
 </div>
