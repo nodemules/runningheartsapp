@@ -11,10 +11,11 @@
      var vm = this;
 
      vm.selectPlayer = function(player) {
+       var selected = player.selected;
        angular.forEach(vm.game.players, (player) => {
          player.selected = false;
        });
-       player.selected = true;
+       player.selected = !selected;
      };
 
      vm.getGame = function(id) {

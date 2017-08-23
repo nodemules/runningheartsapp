@@ -9,22 +9,20 @@
   </md-card>
   <md-list flex>
     <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true" flex>
-        <md-list-item class="md-2-line" md-virtual-repeat="player in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" ng-click="gp.selectPlayer(player)">
-          <div ng-if="!player.selected">
-            <rhp-trophy ng-if="player.rank <= 8" class="md-avatar" rank="$index+1" after></rhp-trophy>
-            <md-icon ng-if="!player.rank" class="md-avatar">mood</md-icon>
-            <md-icon ng-if="player.rank >= 9 " class="md-avatar">mood_bad</md-icon>
-          </div>
-          <md-button class="md-fab" ng-if="player.selected && !player.rank" ng-click="gp.playerOut(player); player.selected = false">
-            <md-icon>
-              mood_bad
-            </md-icon>
-          </md-button>
-          <md-button class="md-fab" ng-if="player.selected && player.rank" ng-click="gp.playerBackIn(player); player.selected = false">
-            <md-icon>
-              mood
-            </md-icon>
-          </md-button>
+        <md-list-item md-theme="{{player.rank ? 'playerOut' : 'playerIn'}}" md-theme-watch="true" class="md-2-line" md-virtual-repeat="player in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" ng-click="gp.selectPlayer(player)">
+            <md-button ng-if="!player.selected" class="md-fab rhp-rank-fab md-accent" aria-label="player select" ng-click="gp.selectPlayer(player)">
+              <div ng-if="player.rank <= 8">{{player.rank}}</div>
+              <md-icon ng-if="!player.rank">mood</md-icon>
+              <md-icon ng-if="player.rank >= 9">mood_bad</md-icon>
+            </md-button>
+            <md-button ng-if="player.selected" class="md-fab md-primary" ng-click="player.rank ? gp.playerBackIn(player) : gp.playerOut(player); player.selected = false">
+              <md-icon ng-if="player.rank">
+                mood
+              </md-icon>
+              <md-icon ng-if="!player.rank">
+                clear
+              </md-icon>
+            </md-button>
           <div class="md-list-item-text" layout="column">
             <h3 layout="row" layout-align="center center">
                 <span>{{player.player.name}} {{foo}}</span>
@@ -37,10 +35,10 @@
     </md-virtual-repeat-container>
   </md-list>
   <div layout="column">
-    <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
+    <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-primary" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
       {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
     </md-button>
-    <md-button ng-if="gp.game.finalize" class="md-raised md-warn" ng-click="gp.completeGame();">
+    <md-button ng-if="gp.game.finalize" class="md-raised md-primary" ng-click="gp.completeGame();">
       {{ 'Complete Game' }}
     </md-button>
   </div>
