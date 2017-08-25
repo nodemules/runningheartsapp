@@ -45,6 +45,19 @@ a {
   margin: 0;
 }
 
+.rhp-rank-fab {
+ font-size: 20px;
+ font-weight: bolder;
+ background-color: lightgrey;
+ color: black
+}
+
+.rhp-rank-fab-placeholder {
+  width: 56px;
+  height: 56px;
+  margin: 6px 8px;
+}
+
 md-card-content.rhp-card-list {
   padding: 0;
 }

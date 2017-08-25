@@ -7,50 +7,40 @@
       </p>
     </md-card-content>
   </md-card>
-  <md-list class="md-dense" layout="row" flex>
-    <md-virtual-repeat-container id="rhp-active-player-container" flex>
-      <md-list-item md-whiteframe="3" layout="column" class="rhp-active-player" md-virtual-repeat="attendee in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" layout-align="center center" >
-        <div ng-click="!gp.game.finalize ? touched=!touched : null"layout="row" class="rhp-list-row" layout-align="center center">
-          <div ng-click="gp.game.finalize ? changeRank=!changeRank : null" ng-show="!changeRank" layout="row" flex="10" layout-align="center center">
-            <span ng-show="attendee.rank <= 8"> <i class="fa fa-hashtag"></i>   {{attendee.rank}}</span>
-            <span ng-show="gp.game.finalize && attendee.rank > 8"><i class="fa fa-hashtag"></i></span>
-          </div>
-          <div layout="row" flex="10" layout-align="center center" ng-show="changeRank">
-            <md-input-container>
-              <input ng-focus="attendee.rank=null" ng-change="gp.checkScore(attendee); changeRank=false;" ng-blur="gp.noBlankAllowed(attendee); changeRank=false;" aria-label="attendee-rank" type="number" ng-model="attendee.rank">
-            </md-input-container>
-          </div>
-          <div layout="row" flex layout-align="center center">
-              {{attendee.player.name | uppercase}}
-          </div>
-          <div layout="row" layout-align="center center" flex="10">
-              {{attendee.score}}
-          </div>
-        </div>
-        <div layout="row" layout-align="end center" ng-if="touched && !gp.game.finalize && !gp.game.completed">
-          <div layout-align="start center">
-            <md-button class="md-raised md-warn" ng-click="gp.playerOut(attendee); touched = !touched; $parent.touched = !$parent.touched;" ng-disabled="attendee.score">
-              OUT
+  <md-list flex>
+    <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true" flex>
+        <md-list-item md-theme="{{player.rank ? 'playerOut' : 'playerIn'}}" md-theme-watch="true" class="md-2-line" md-virtual-repeat="player in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" ng-click="gp.selectPlayer(player)">
+            <md-button ng-if="!player.selected && player.rank" class="md-fab rhp-rank-fab md-accent" aria-label="player select" ng-click="gp.selectPlayer(player)">
+              <div ng-if="player.rank <= 8">{{player.rank}}</div>
+              <md-icon ng-if="player.rank >= 9">remove</md-icon>
             </md-button>
-            <md-button class="md-raised md-warn" ng-click="gp.playerBackIn(attendee); touched = !touched; $parent.touched = !$parent.touched;" ng-if="attendee.score">
-              UNDO
+            <div ng-if="!player.selected && !player.rank" class="rhp-rank-fab-placeholder">
+            </div>
+            <md-button ng-if="player.selected" class="md-fab md-primary" ng-click="player.rank ? gp.playerBackIn(player) : gp.playerOut(player); player.selected = false">
+              <md-icon ng-if="player.rank">
+                attach_money
+              </md-icon>
+              <md-icon ng-if="!player.rank">
+                clear
+              </md-icon>
             </md-button>
+          <div class="md-list-item-text" layout="column">
+            <h3 layout="row" layout-align="center center">
+                <span>{{player.player.name}}</span>
+            </h3>
           </div>
-        </div>
-      </md-list-item>
+          <div class="rhp-rank-fab-placeholder">
+          </div>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
     </md-virtual-repeat-container>
   </md-list>
-</div>
-<div layout="column">
-  <md-button ng-if="!gp.game.finalize && !gp.game.completed" ng-disabled="gp.game.finalTable && !gp.isFinalizeable()" class="md-raised md-warn" ng-click="gp.game.finalTable ? gp.finalizeGame() : gp.finalTable()">
-    {{ gp.game.finalTable ? 'Finalize Game' : 'Final Table' }}
-  </md-button>
-  <md-button ng-if="gp.game.finalize" class="md-raised md-warn" ng-click="gp.completeGame();">
-    {{ 'Complete Game' }}
-  </md-button>
-</div>
-<div layout="column">
-  <md-button class="md-raised md-default" ui-sref="games.view({ id : gp.game._id })" >
-    Return to Game Manager
-  </md-button>
+  <div layout="column">
+    <md-button ng-click="gp.resetAllScores();" ng-show="(gp.game.players | filter: { rank: '!!'}).length" class="md-raised md-primary">
+      Reset All Scores
+    </md-button>
+    <md-button ng-click="gp.completeGame();" ng-disabled="!gp.canComplete()" class="md-raised md-primary">
+      Complete Game
+    </md-button>
+  </div>
 </div>
