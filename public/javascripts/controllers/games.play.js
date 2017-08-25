@@ -60,66 +60,6 @@
        });
      };
 
-     vm.finalTable = function() {
-       var nextRankOut = getNextRankOut() + 1;
-       var message;
-       if (nextRankOut > 8) {
-         message = `You have more than 8 players remaining. Do you want to
-        just select members of the final table?`;
-         return dialogService.confirm(message).then(() => {
-           $state.go('games.ft', {
-             id: vm.game._id
-           });
-         });
-       }
-       message = `Are you sure you want to start the final table? Players
-      cannot buy back in but you will be able to edit the final standings later.`;
-       dialogService.confirm(message).then(() => {
-         vm.game.finalTable = true;
-         saveGame(angular.noop, function() {
-           vm.game.finalTable = false;
-         });
-       });
-
-     };
-
-     vm.finalizeGame = function() {
-       var message = `Are you sure you want to finalize the game? The next screen
-      will allow you to edit standings if there was a mistake or press complete
-      to finish.`;
-       dialogService.confirm(message).then(() => {
-         vm.game.finalize = true;
-       });
-     };
-
-     vm.checkScore = function(player) {
-       var oldRank = getRank(player.score);
-
-       if (!player.rank && player.rank !== 0) {
-         return false;
-       }
-       if (player.rank > 8 || player.rank < 1) {
-         player.rank = oldRank;
-         return false;
-       }
-       if (player.rank > vm.game.players.length) {
-         player.rank = vm.game.players.length;
-       }
-       var newScore = getScore(player.rank - 1);
-       var counterPart = $filter('filter')(vm.game.players, {
-         score: newScore
-       })[0];
-       counterPart.rank = oldRank;
-       counterPart.score = getScore(oldRank - 1);
-       player.score = newScore;
-     };
-
-     vm.noBlankAllowed = function(player) {
-       if (!player.rank) {
-         player.rank = getRank(player.score);
-       }
-     };
-
      vm.completeGame = function() {
        var message = `Game will be marked complete and scores cannot be changed.
       Scores will be submitted to season standings.`;
@@ -135,7 +75,7 @@
        });
      };
 
-     vm.isFinalizeable = function() {
+     vm.canComplete = function() {
        return getNextRankOut() < 0;
      };
 

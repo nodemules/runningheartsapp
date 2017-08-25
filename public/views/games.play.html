@@ -35,7 +35,7 @@
     </md-virtual-repeat-container>
   </md-list>
   <div layout="column">
-    <md-button ng-click="gp.completeGame();" ng-disabled="!gp.isFinalizeable()" class="md-raised md-primary">
+    <md-button ng-click="gp.completeGame();" ng-disabled="!gp.canComplete()" class="md-raised md-primary">
       Complete Game
     </md-button>
   </div>
