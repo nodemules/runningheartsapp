@@ -79,6 +79,18 @@
        return getNextRankOut() < 0;
      };
 
+
+
+     vm.resetAllScores = function() {
+       var message = 'This will reset all scores for all players in this game.';
+       dialogService.confirm(message).then(() => {
+         angular.forEach(vm.game.players, (player) => {
+           zeroOutAttendee(player);
+         });
+         saveGame();
+       });
+     };
+
      function getNextRankOut() {
 
        var unscoredPlayers = $filter('filter')(vm.game.players, {

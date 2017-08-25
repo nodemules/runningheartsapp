@@ -35,6 +35,9 @@
     </md-virtual-repeat-container>
   </md-list>
   <div layout="column">
+    <md-button ng-click="gp.resetAllScores();" ng-show="(gp.game.players | filter: { rank: '!!'}).length" class="md-raised md-primary">
+      Reset All Scores
+    </md-button>
     <md-button ng-click="gp.completeGame();" ng-disabled="!gp.canComplete()" class="md-raised md-primary">
       Complete Game
     </md-button>
