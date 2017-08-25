@@ -10,14 +10,15 @@
   <md-list flex>
     <md-virtual-repeat-container virtual-repeat-dynamic-height include-siblings="true" flex>
         <md-list-item md-theme="{{player.rank ? 'playerOut' : 'playerIn'}}" md-theme-watch="true" class="md-2-line" md-virtual-repeat="player in gp.game.players | orderBy: ['-score', '-cashedOutTime', 'rank']" ng-click="gp.selectPlayer(player)">
-            <md-button ng-if="!player.selected" class="md-fab rhp-rank-fab md-accent" aria-label="player select" ng-click="gp.selectPlayer(player)">
+            <md-button ng-if="!player.selected && player.rank" class="md-fab rhp-rank-fab md-accent" aria-label="player select" ng-click="gp.selectPlayer(player)">
               <div ng-if="player.rank <= 8">{{player.rank}}</div>
-              <md-icon ng-if="!player.rank">mood</md-icon>
-              <md-icon ng-if="player.rank >= 9">mood_bad</md-icon>
+              <md-icon ng-if="player.rank >= 9">remove</md-icon>
             </md-button>
+            <div ng-if="!player.selected && !player.rank" class="rhp-rank-fab-placeholder">
+            </div>
             <md-button ng-if="player.selected" class="md-fab md-primary" ng-click="player.rank ? gp.playerBackIn(player) : gp.playerOut(player); player.selected = false">
               <md-icon ng-if="player.rank">
-                mood
+                attach_money
               </md-icon>
               <md-icon ng-if="!player.rank">
                 clear
@@ -28,7 +29,7 @@
                 <span>{{player.player.name}} {{foo}}</span>
             </h3>
           </div>
-          <div class="md-avatar">
+          <div class="rhp-rank-fab-placeholder">
           </div>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
