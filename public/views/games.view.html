@@ -9,7 +9,7 @@
         {{gv.game.event.date | date:'fullDate'}}
     </md-card-content>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button class="md-raised md-primary" ui-sref="events.view({ id : gv.game.event._id })">Back to Event</md-button>
+      <md-button class="md-raised md-primary" ui-sref="events.view({ id : gv.game.event._id })">View Event</md-button>
     </md-card-actions>
   </md-card>
   <div ng-if="games.permissions.PLAY_GAME">
@@ -25,22 +25,25 @@
       </md-card-title-text>
     </md-card-title>
     <md-divider></md-divider>
-    <md-card-content class="rhp-card-list">
+    <md-card-content ng-class="{ 'rhp-card-list': gv.game.players.length }">
       <md-list flex>
         <div ng-show="!gv.game.players.length">
           There are no players for this game... yet.
         </div>
-        <md-list-item class="md-2-line" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']"
+        <md-list-item md-theme="playerOut" class="md-2-line" ng-repeat="player in gv.game.players | orderBy: ['-score', '-cashedOutTime']"
           ui-sref="players.view({ id : player.player._id })">
-          <rhp-trophy ng-show="player.rank <= 8" class="md-avatar" rank="$index+1" after></rhp-trophy>
-          <md-icon ng-show="!player.rank" class="md-avatar">mood</md-icon>
-          <md-icon ng-show="player.rank >= 9" class="md-avatar">mood_bad</md-icon>
+          <md-button ng-if="player.rank" class="md-fab rhp-rank-fab md-accent" aria-label="player select" ng-click="gp.selectPlayer(player)">
+            <div ng-if="player.rank <= 8">{{player.rank}}</div>
+            <md-icon ng-if="player.rank >= 9">remove</md-icon>
+          </md-button>
+          <div ng-if="!player.rank" class="rhp-rank-fab-placeholder">
+          </div>
           <div class="md-list-item-text" layout="column">
             <h3 layout="row" layout-align="center center">
                 <span>{{player.player.name}}</span>
             </h3>
           </div>
-          <div class="md-avatar">
+          <div class="rhp-rank-fab-placeholder">
           </div>
           <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
