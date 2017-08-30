@@ -16,6 +16,8 @@
     "express-session": "~1.0.0",
     "express-sessions": "^1.0.6",
     "lodash": "^4.15.0",
+    "log4js": "^2.3.3",
+    "log4js-extend": "^0.2.1",
     "method-override": "~1.0.0",
     "moment": "^2.18.1",
     "mongodb": "latest",
@@ -23,8 +25,6 @@
     "morgan": "~1.0.0",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*",
-    "winston": "^2.3.1",
-    "winston-console-formatter": "^0.3.1"
+    "passport-local": "*"
   }
 }
