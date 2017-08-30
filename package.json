@@ -1,6 +1,6 @@
 {
   "name": "running-hearts-poker",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "scripts": {
     "start": "nodemon server.js"
   },
