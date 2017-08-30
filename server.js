@@ -1,73 +1,89 @@
-// server.js
-require('enum').register();
-// set up ======================================================================
-// get all the tools we need
-var express = require('express');
-var path = require('path');
-var app = express();
-var port = process.env.RHP_PORT || 8080;
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var moment = require('moment-timezone');
+{
 
-var session = require('express-session');
-var passport = require('passport');
-var flash = require('connect-flash');
-var cookieParser = require('cookie-parser');
+  // server.js
+  const env = require('./config/environment');
+  env.setEnvironment(process.env);
 
-var api = require('./app/api/main');
-var configuration = require('./config/configuration.js');
-var automation = require('./app/automation/main');
+  require('enum').register();
 
-automation(configuration.automation);
+  // register the logger ASAP
+  const logger = require('./config/logging');
 
-moment.tz.setDefault('America/New_York');
+  // set up ======================================================================
+  // get all the tools we need
+  var express = require('express');
+  var path = require('path');
+  var app = express();
+  var port = env.getPort();
+  var mongoose = require('mongoose');
+  var morgan = require('morgan');
+  var bodyParser = require('body-parser');
+  var moment = require('moment-timezone');
 
-// configuration ===============================================================
-require('./config/passport')(passport);
-var env = process.env.npm_config_dev ? 'dev' : 'prod';
-var db = configuration[env === 'dev' ? 'localdb' : 'remotedb'];
-mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}/${db.name}`); // connect to our configuration
+  var session = require('express-session');
+  var passport = require('passport');
+  var flash = require('connect-flash');
+  var cookieParser = require('cookie-parser');
 
-// set up our express application
-app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]')); // log every request to the console
-app.use(bodyParser.json()); // get information from html forms
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+  var api = require('./app/api/main');
+  var configuration = require('./config/configuration.js');
+  var automation = require('./app/automation/main');
 
-app.set('view engine', 'ejs'); // set up ejs for templating
-app.use(express.static(path.join(__dirname, 'public')));
+  automation(configuration.automation);
 
-//authentication
-app.use(cookieParser(configuration.secret)); // read cookies (needed for auth)
-app.use(flash());
-app.use(session({
-  cookie: {
-    httpOnly: true,
-    maxAge: 86400000
-  },
-  secret: configuration.secret,
-  store: new(require('express-sessions'))({
-    storage: 'mongodb',
-    instance: mongoose, // optional
-    host: db.host, // optional
-    port: db.port, // optional
-    db: db.name, // optional
-    collection: 'sessions', // optional
-    expire: 86400 // optional
-  })
-}));
+  moment.tz.setDefault('America/New_York');
 
-app.use(passport.initialize());
-app.use(passport.session());
+  // configuration ===============================================================
 
-app.use('/api', api);
+  require('./config/passport')(passport);
+  var db = configuration[env.getName() === 'dev' ? 'localdb' : 'remotedb'];
 
-// routes ======================================================================
-require('./app/routes.js')(app);
+  // connect to our configuration
+  mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}/${db.name}`);
 
-// launch ======================================================================
-app.listen(port);
-console.log('Running Hearts App Listening On... ' + port);
+  // log every request to the console
+  app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
+
+
+  // get information from html forms
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+
+  app.set('view engine', 'ejs'); // set up ejs for templating
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  //authentication
+  app.use(cookieParser(configuration.secret)); // read cookies (needed for auth)
+  app.use(flash());
+  app.use(session({
+    cookie: {
+      httpOnly: true,
+      maxAge: 86400000
+    },
+    secret: configuration.secret,
+    store: new(require('express-sessions'))({
+      storage: 'mongodb',
+      instance: mongoose, // optional
+      host: db.host, // optional
+      port: db.port, // optional
+      db: db.name, // optional
+      collection: 'sessions', // optional
+      expire: 86400 // optional
+    })
+  }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  app.use('/api', api);
+
+  // routes ======================================================================
+  require('./app/routes.js')(app);
+
+  // launch ======================================================================
+  app.listen(port);
+  logger.info('Running Hearts App Listening On... ' + port);
+
+}
