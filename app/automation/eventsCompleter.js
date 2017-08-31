@@ -1,12 +1,13 @@
 {
   function exports() {
-    var eventsService = require('../api/eventsService')(),
-      dateUtil = require('../util/dateUtil')();
+
+    const LOG = require('../../config/logging').getLogger();
+
     var Event = require('../models/event');
 
     var service = {
       markEventsCompleted
-    }
+    };
 
     function markEventsCompleted(events) {
       events.forEach((event) => {
@@ -19,11 +20,12 @@
           })
           .select('-statusId')
           .exec((err, e) => {
-            if (err)
-              return console.error(err);
-            console.log(`Event ${event._id} Marked Completed`);
-          })
-      })
+            if (err) {
+              return LOG.error(err);
+            }
+            LOG.info(`Event ${e._id} Marked Completed`);
+          });
+      });
     }
 
     return service;

@@ -1,6 +1,9 @@
 {
   function exports() {
-    var moment = require('moment-timezone')
+
+    const LOG = require('../../config/logging').getLogger();
+
+    var moment = require('moment-timezone');
     var Event = require('../models/event');
     var seasonsService = require('./seasonsService')();
 
@@ -17,7 +20,7 @@
       getCount,
       deleteEvent,
       persistEvent
-    }
+    };
 
     var publicEvent = [{
       path: 'venue',
@@ -57,24 +60,24 @@
 
         Event.create(ev, (err, e) => {
           if (err) {
-            console.error(err);
+            LOG.error(err);
             return reject(err);
           }
-          return resolve(e)
-        })
-      })
+          return resolve(e);
+        });
+      });
     }
 
     function createEvents(events) {
       return new Promise((resolve, reject) => {
         Event.insertMany(events, (err, createdEvents) => {
           if (err) {
-            console.error(err);
+            LOG.error(err);
             return reject(err);
           }
           return resolve(createdEvents);
-        })
-      })
+        });
+      });
     }
 
     function updateEvent(ev) {
@@ -88,12 +91,12 @@
           .select('-statusId')
           .exec((err, ev) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(ev);
-          })
-      })
+          });
+      });
     }
 
     function getEvents() {
@@ -106,13 +109,13 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
           });
 
-      })
+      });
     }
 
     function getEvent(id) {
@@ -122,12 +125,12 @@
           .populate(publicEvent)
           .exec((err, event) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(event);
-          })
-      })
+          });
+      });
     }
 
     function getPastEvents() {
@@ -142,12 +145,12 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
           });
-      })
+      });
     }
 
     function getByDate(start, end) {
@@ -171,12 +174,12 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
-          })
-      })
+          });
+      });
     }
 
     function getEventsBySeason(seasonNumber) {
@@ -186,16 +189,16 @@
           seasonsService.getSeason(seasonNumber).then((season) => {
             getByDate(season.startDate, season.endDate ? season.endDate : endOfTime).then((events) => {
               return resolve(events);
-            })
-          })
+            });
+          });
         } else {
           seasonsService.getLatestSeason().then((season) => {
             getByDate(season.startDate, endOfTime).then((events) => {
               return resolve(events);
-            })
-          })
+            });
+          });
         }
-      })
+      });
     }
 
     function getCount() {
@@ -206,14 +209,14 @@
           })
           .exec((err, count) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve({
               count: count
             });
-          })
-      })
+          });
+      });
     }
 
     function deleteEvent(id) {
@@ -225,12 +228,12 @@
           })
           .exec((err) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve();
-          })
-      })
+          });
+      });
     }
 
     function persistEvent(ev) {
@@ -238,7 +241,7 @@
         if (ev._id) {
           updateEvent(ev).then((ev) => {
             return resolve(ev);
-          })
+          });
         } else {
           checkIfEventExists(ev.venue, ev.date, true).then((eventInfo) => {
             if (!eventInfo.event) {
@@ -249,11 +252,11 @@
               return reject({
                 message: 'An event already exists.',
                 code: 'EVENT_ALREADY_EXISTS'
-              })
+              });
             }
-          })
+          });
         }
-      })
+      });
     }
 
     function checkIfEventExists(venue, date, manual) {
@@ -264,7 +267,7 @@
             $gte: moment(date).startOf('day').format(),
             $lte: moment(date).endOf('day').format()
           }
-        }
+        };
         if (manual) {
           event.statusId = 1;
         }
@@ -272,16 +275,16 @@
           .find(event)
           .exec((err, events) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve({
               venue: venue,
               date: date,
               event: events[0]
-            })
-          })
-      })
+            });
+          });
+      });
     }
 
     return service;

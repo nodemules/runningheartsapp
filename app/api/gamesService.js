@@ -1,10 +1,13 @@
 {
   function exports() {
+
+    const LOG = require('../../config/logging').getLogger();
+
     var moment = require('moment-timezone');
     var Game = require('../models/game');
     var service = {
       byDate
-    }
+    };
 
     function byDate(startDate, endDate) {
       return new Promise(function(resolve, reject) {
@@ -29,7 +32,7 @@
               select: 'username'
             }
           }]
-        }]
+        }];
         Game
           .find({
             startTime: {
@@ -41,11 +44,13 @@
           .populate(pOptions)
           .select('-statusId')
           .exec(function(err, games) {
-            if (err)
+            if (err) {
+              LOG.error(err);
               return reject(err);
+            }
             return resolve(games);
-          })
-      })
+          });
+      });
 
     }
 

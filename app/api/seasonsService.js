@@ -1,5 +1,8 @@
 {
   function exports() {
+
+    const LOG = require('../../config/logging').getLogger();
+
     var moment = require('moment-timezone');
     var Season = require('../models/season');
 
@@ -8,7 +11,7 @@
       getSeason,
       getSeasons,
       startNewSeason
-    }
+    };
 
     function getLatestSeason() {
       return new Promise((resolve, reject) => {
@@ -27,12 +30,12 @@
             seasonNumber: seasonNumber
           }).exec((err, seasons) => {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(seasons[0]);
-          })
-      })
+          });
+      });
     }
 
     function getSeasons() {
@@ -42,12 +45,12 @@
           .sort('-startDate')
           .exec((err, seasons) => {
             if (err) {
-              console.log(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(seasons);
-          })
-      })
+          });
+      });
 
     }
 
@@ -62,9 +65,9 @@
               endDate: time
             }
           })
-          .exec((err, season) => {
+          .exec((err) => {
             if (err) {
-              console.log(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             Season
@@ -73,14 +76,14 @@
                 startDate: time
               }, (err, season) => {
                 if (err) {
-                  console.log(err.stack);
+                  LOG.error(err.stack);
                   return reject(err);
                 }
                 return resolve(season);
-              })
-          })
+              });
+          });
 
-      })
+      });
 
 
     }
