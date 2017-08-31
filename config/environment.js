@@ -2,11 +2,15 @@
 
   function exports() {
 
+    const Environment = require('../app/enum/environments');
+
     var environment = {
       getName,
       getPort,
       setEnvironment
     };
+
+    const DEFAULT_PORT = 8080;
 
     var ENV_NAME, ENV_PORT;
 
@@ -19,8 +23,8 @@
     }
 
     function setEnvironment(env) {
-      ENV_NAME = env.npm_config_dev ? 'dev' : 'prod';
-      ENV_PORT = env.RHP_PORT || '8080';
+      ENV_NAME = env.npm_config_dev ? Environment.DEV : Environment.PROD;
+      ENV_PORT = env.RHP_PORT || DEFAULT_PORT;
     }
 
     return environment;

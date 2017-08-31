@@ -1,7 +1,7 @@
 {
   module.exports = function() {
 
-    const logger = require('../../config/logging');
+    const LOG = require('../../config/logging').getLogger();
 
     var express = require('express'),
       api = express.Router(),
@@ -77,7 +77,7 @@
           message: 'No user found.'
         });
       }
-      logger.info(`Logging out [${sessionUser.username}]`);
+      LOG.info(`Logging out [${sessionUser.username}]`);
       req.logout();
       res.send({
         message: `User [${sessionUser.username}] has been logged out`

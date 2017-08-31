@@ -1,7 +1,7 @@
 {
   function exports() {
 
-    const logger = require('../../config/logging');
+    const LOG = require('../../config/logging').getLogger();
 
     var moment = require('moment-timezone');
     var Event = require('../models/event');
@@ -60,7 +60,7 @@
 
         Event.create(ev, (err, e) => {
           if (err) {
-            logger.error(err);
+            LOG.error(err);
             return reject(err);
           }
           return resolve(e);
@@ -72,7 +72,7 @@
       return new Promise((resolve, reject) => {
         Event.insertMany(events, (err, createdEvents) => {
           if (err) {
-            logger.error(err);
+            LOG.error(err);
             return reject(err);
           }
           return resolve(createdEvents);
@@ -91,7 +91,7 @@
           .select('-statusId')
           .exec((err, ev) => {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(ev);
@@ -109,7 +109,7 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
@@ -125,7 +125,7 @@
           .populate(publicEvent)
           .exec((err, event) => {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(event);
@@ -145,7 +145,7 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
@@ -174,7 +174,7 @@
           .select('-statusId')
           .exec(function(err, events) {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve(events);
@@ -209,7 +209,7 @@
           })
           .exec((err, count) => {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve({
@@ -228,7 +228,7 @@
           })
           .exec((err) => {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve();
@@ -275,7 +275,7 @@
           .find(event)
           .exec((err, events) => {
             if (err) {
-              logger.error(err);
+              LOG.error(err);
               return reject(err);
             }
             return resolve({

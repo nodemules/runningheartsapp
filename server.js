@@ -1,13 +1,17 @@
 {
 
+  require('enum').register();
+
   // server.js
   const env = require('./config/environment');
   env.setEnvironment(process.env);
 
-  require('enum').register();
+  const Environment = require('./app/enum/environments');
 
   // register the logger ASAP
   const logger = require('./config/logging');
+  const LOG = logger.getLogger();
+
 
   // set up ======================================================================
   // get all the tools we need
@@ -16,7 +20,6 @@
   var app = express();
   var port = env.getPort();
   var mongoose = require('mongoose');
-  var morgan = require('morgan');
   var bodyParser = require('body-parser');
   var moment = require('moment-timezone');
 
@@ -36,13 +39,13 @@
   // configuration ===============================================================
 
   require('./config/passport')(passport);
-  var db = configuration[env.getName() === 'dev' ? 'localdb' : 'remotedb'];
+  var db = configuration[env.getName() === Environment.DEV ? 'localdb' : 'remotedb'];
 
   // connect to our configuration
   mongoose.connect(`mongodb://${db.user}:${db.key}@${db.host}:${db.port}/${db.name}`);
 
   // log every request to the console
-  app.use(morgan('[:date[clf]] :method :url :status :response-time ms - :res[content-length]'));
+  app.use(logger.getRequestLogger());
 
 
   // get information from html forms
@@ -84,6 +87,6 @@
 
   // launch ======================================================================
   app.listen(port);
-  logger.info('Running Hearts App Listening On... ' + port);
+  LOG.info('Running Hearts App Listening On... ' + port);
 
 }
