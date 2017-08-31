@@ -57,7 +57,7 @@
   });
 
   api.post('/login', passport.authenticate('local'), function(req, res) {
-    res.send(res.req.session);
+    return res.send(res.req.session);
   });
 
   /**
@@ -139,9 +139,11 @@
         'new': true
       })
       .exec(function(err, user) {
-        if (err)
-          res.send(err);
-        res.send(user);
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send(user);
       });
   });
 
@@ -151,10 +153,10 @@
       .findByIdAndUpdate(req.params.id, req.body)
       .exec(function(err) {
         if (err) {
-          LOG.info(err.stack);
-          res.send(500, err.stack);
+          LOG.error(err);
+          return errorService.handleError(res, err);
         }
-        res.send();
+        return res.send();
       });
   });
 
