@@ -1,7 +1,12 @@
 {
+
+  const LOG = require('../../config/logging').getLogger();
+
   var express = require('express'),
     api = express.Router(),
     passport = require('passport');
+
+  const errorService = require('./advice/errorService');
 
   var authService = require('./authService')(),
     tokenService = require('./tokenService')(),
@@ -13,10 +18,12 @@
       .find()
       .select('-statusId local.username usertype')
       .exec(function(err, user) {
-        if (err)
-          console.log(err.stack);
-        res.send(user);
-      })
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send(user);
+      });
   });
 
   api.get('/:id',
@@ -25,13 +32,15 @@
       Users
         .findById(req.params.id)
         .exec((err, user) => {
-          if (err)
-            console.log(err.stack);
-          res.send(user);
-        })
+          if (err) {
+            LOG.error(err);
+            return errorService.handleError(res, err);
+          }
+          return res.send(user);
+        });
     });
 
-  api.get('/type/:typeId', function(req, res, next) {
+  api.get('/type/:typeId', function(req, res) {
     Users
       .find({
         usertype: req.params.typeId
@@ -39,9 +48,11 @@
       .select('-statusId local.username usertype player')
       .populate('player')
       .exec(function(err, users) {
-        if (err)
-          res.send(err);
-        res.json(users);
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.json(users);
       });
   });
 
@@ -56,18 +67,18 @@
   api.post('/',
     (req, res, next) => {
       let permissions = [];
-      console.log('Creating or modifying a user...');
-      console.log(`User is logged in [${authService.isAuth(req)}]`);
+      LOG.info('Creating or modifying a user...');
+      LOG.info(`User is logged in [${authService.isAuth(req)}]`);
       if (req.body._id) {
         switch (req.body._id) {
           case !undefined:
-            console.log(`User is editing a User [${(req.body._id)}]`);
+            LOG.info(`User is editing a User [${(req.body._id)}]`);
             break;
           case req.user._id:
-            console.log(`User is modifying own User [${(req.body._id === req.user._id)}]`);
+            LOG.info(`User is modifying own User [${(req.body._id === req.user._id)}]`);
             break;
           default:
-            console.log('User is creating a new user')
+            LOG.info('User is creating a new user');
             break;
         }
         if (authService.isAuth(req)) {
@@ -81,7 +92,7 @@
           authService.checkPermissions(req, res, next, permissions);
         }
       } else {
-        next()
+        next();
       }
     },
     tokenService.validateToken,
@@ -95,9 +106,11 @@
           })
           .select('-statusId')
           .exec(function(err, user) {
-            if (err)
-              console.log(err.stack);
-            res.send(user);
+            if (err) {
+              LOG.error(err);
+              return errorService.handleError(res, err);
+            }
+            return res.send(user);
           });
       } else {
         //make all usernames lowercase in Db for login ease
@@ -113,7 +126,7 @@
               return res.send(401, errorResponse);
 
             }
-            res.send(user);
+            return res.send(user);
           });
       }
     });
@@ -138,11 +151,11 @@
       .findByIdAndUpdate(req.params.id, req.body)
       .exec(function(err) {
         if (err) {
-          console.log(err.stack);
+          LOG.info(err.stack);
           res.send(500, err.stack);
         }
         res.send();
-      })
+      });
   });
 
 

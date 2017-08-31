@@ -44,7 +44,7 @@
     const requestLogger = log4js.connectLogger(LOG, {
       level: 'auto',
       format: ':method :url :status :response-time ms - :res[content-length]',
-      nolog: '\\.(gif|jpe?g|png|js|css|htm?l)'
+      nolog: '\\.(gif|jpe?g|png|js|css|html?)'
     });
 
     function registerUncaughtExceptionHandler() {
@@ -73,7 +73,12 @@
       }
 
       LOG.info('Environment loaded: [%s]', env.getName());
-      LOG.info('Logging level is set to %s', LOG.level);
+      LOG.info('Logging level is set to %s', LOG.level, {
+        a: {
+          b: [],
+          c: 'd'
+        }
+      });
 
     }
 

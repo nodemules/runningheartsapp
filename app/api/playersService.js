@@ -1,6 +1,8 @@
 {
   function exports() {
 
+    const LOG = require('../../config/logging').getLogger();
+
     var Utils = require('../util/utils')();
 
     var Player = require('../models/player');
@@ -10,7 +12,7 @@
       createPlayer,
       updatePlayer,
       validatePlayerName
-    }
+    };
 
     function getAllPlayers() {
       return new Promise((resolve, reject) => {
@@ -22,12 +24,12 @@
           .select('-statusId')
           .exec((err, players) => {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(players);
-          })
-      })
+          });
+      });
     }
 
     function updatePlayer(player) {
@@ -39,7 +41,7 @@
           .select('-statusId')
           .exec((err, player) => {
             if (err) {
-              console.log(err.stack);
+              LOG.error(err.stack);
               return reject({
                 message: 'Error occurred updating a player',
                 code: 'DATABASE_ERROR',
@@ -47,7 +49,7 @@
               });
             }
             return resolve(player);
-          })
+          });
 
       });
     }
@@ -64,12 +66,12 @@
                   code: 'PLAYER_NAME_TAKEN'
                 });
               }
-              console.log(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(p);
           });
-      })
+      });
     }
 
     function validatePlayerName(player) {
@@ -88,7 +90,7 @@
           })
           .exec((err, players) => {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject({
                 message: 'Error occurred validating Player name',
                 code: 'DATABASE_ERROR',
@@ -106,11 +108,11 @@
             };
 
             if (players.length && !Utils.arrays(players).findById(player._id)) {
-              return reject(PLAYER_NAME_TAKEN)
+              return reject(PLAYER_NAME_TAKEN);
             }
             return resolve(PLAYER_NAME_AVAILABLE);
-          })
-      })
+          });
+      });
     }
 
     function sanitizePlayerName(player) {

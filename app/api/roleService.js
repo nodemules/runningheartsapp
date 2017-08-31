@@ -1,22 +1,29 @@
 {
   function exports() {
+
+    const LOG = require('../../config/logging').getLogger();
+
     var Role = require('../models/role');
     var Permissions = require('../enum/permissions');
+
+    const errorService = require('./advice/errorService');
+
     var service = {
       getPermissionsForRole,
       addPermissionToRole,
       addAllPermissionsToRole
-    }
+    };
 
     function getPermissionsForRole(roleId, cb) {
       Role.find({
         roleId: roleId
       }, (err, roles) => {
-        if (err)
-          return console.error(err);
+        if (err) {
+          return LOG.error(err);
+        }
         var role = roles[0];
         cb(role ? role.permissions : []);
-      })
+      });
     }
 
     function addPermissionToRole(req, res, next) {
@@ -34,8 +41,10 @@
       }, {
         upsert: true
       }, function(err, data) {
-        if (err)
-          console.error(err);
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
 
         res.locals.role = data;
         next();
@@ -49,9 +58,9 @@
         let p = {
           key: permission.key,
           value: permission.value
-        }
-        permissions.push(p)
-      })
+        };
+        permissions.push(p);
+      });
 
       Role.findOneAndUpdate({
         roleId: req.params.roleId
@@ -64,8 +73,10 @@
       }, {
         upsert: true
       }, function(err, data) {
-        if (err)
-          console.error(err);
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
 
         res.locals.role = data;
         next();

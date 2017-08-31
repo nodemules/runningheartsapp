@@ -1,7 +1,7 @@
 {
   function exports() {
 
-    var _ = require('lodash');
+    const LOG = require('../../config/logging').getLogger();
 
     var ArrayUtil = require('../util/arrayUtil')();
 
@@ -15,7 +15,7 @@
     var service = {
       getVenues,
       getAllVenues
-    }
+    };
 
     function getVenues() {
       return new Promise((resolve, reject) => {
@@ -24,9 +24,9 @@
             getVenuesWithGames().then((venuesWithGames) => {
               return resolve(ArrayUtil.mergeById(ArrayUtil.unionById(venuesWithGames, venues),
                 venuesWithEvents));
-            });
-          });
-        });
+            }, reject);
+          }, reject);
+        }, reject);
       });
     }
 
@@ -48,13 +48,13 @@
           .aggregate(pipeline)
           .exec(function(err, venues) {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(venues);
           });
 
-      })
+      });
     }
 
     function getVenuesWithGames() {
@@ -81,7 +81,7 @@
           .aggregate(pipeline)
           .exec(function(err, venues) {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(venues);
@@ -100,12 +100,12 @@
           .select('-statusId')
           .exec(function(err, venues) {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(venues);
           });
-      })
+      });
     }
 
     return service;

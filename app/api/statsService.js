@@ -1,6 +1,8 @@
 {
   function exports() {
 
+    const LOG = require('../../config/logging').getLogger();
+
     var _ = require('lodash');
 
     var Season = require('../models/season'),
@@ -17,7 +19,7 @@
       getAllPlayerStats,
       getSeasonPlayerStats,
       getWinners
-    }
+    };
 
     function getSeasonStats(seasonNumber) {
       return new Promise((resolve, reject) => {
@@ -33,20 +35,18 @@
             .aggregate(pipeline)
             .exec(function(err, arr) {
               if (err) {
-                console.error(err.stack);
+                LOG.error(err.stack);
                 return reject(err);
               }
               var seasonWithStats = season;
               if (arr.length) {
                 var stats = arr[0];
                 delete stats._id;
-                seasonWithStats = Object.assign(stats, season._doc)
+                seasonWithStats = Object.assign(stats, season._doc);
               }
               return resolve(seasonWithStats);
             });
-        });
-      }, (err) => {
-        return reject(err);
+        }, reject);
       });
     }
 
@@ -59,8 +59,8 @@
                 _id: a._id
               });
             }));
-          });
-        });
+          }, reject);
+        }, reject);
       });
     }
 
@@ -69,7 +69,7 @@
 
         var project = {
           $project: Object.assign({}, GlobalMatcher.project.$project)
-        }
+        };
         delete project.$project.bonusChips;
 
         var pipeline = [
@@ -93,13 +93,13 @@
           .aggregate(pipeline)
           .exec(function(err, players) {
             if (err) {
-              console.error(err.stack);
-              return reject(err)
+              LOG.error(err.stack);
+              return reject(err);
             }
             resolve(players);
-          })
+          });
 
-      })
+      });
     }
 
     function getPlayerStats(playerId, season) {
@@ -107,7 +107,7 @@
 
         var project = {
           $project: Object.assign({}, GlobalMatcher.project.$project)
-        }
+        };
         if (!season) {
           delete project.$project.bonusChips;
         }
@@ -132,12 +132,12 @@
           .aggregate(pipeline)
           .exec(function(err, players) {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(players[0]);
-          })
-      })
+          });
+      });
 
     }
 
@@ -150,7 +150,7 @@
           })
           .exec(function(err, seasons) {
             if (err) {
-              console.error(err);
+              LOG.error(err);
               return reject(err);
             }
 
@@ -176,13 +176,13 @@
               .aggregate(pipeline)
               .exec(function(err, players) {
                 if (err) {
-                  console.error(err.stack);
-                  return reject(err)
+                  LOG.error(err.stack);
+                  return reject(err);
                 }
                 return resolve(players);
-              })
-          })
-      })
+              });
+          });
+      });
     }
 
     function getWinners(season) {
@@ -199,32 +199,32 @@
           StatsMatcher.GET_WINNERS.project,
           StatsMatcher.GET_WINNERS.sort,
           StatsMatcher.GET_WINNERS.limit
-        ]
+        ];
 
         Game
           .aggregate(pipeline)
           .exec(function(err, players) {
             if (err) {
-              console.error(err.stack);
+              LOG.error(err.stack);
               return reject(err);
             }
             return resolve(calculateWinners(players));
-          })
-      })
+          });
+      });
     }
 
     function calculateWinners(players) {
       var winners = [];
       var scores = players.map((player) => {
-        return player.totalPoints
-      })
+        return player.totalPoints;
+      });
       if (scores && scores.length) {
         var max = scores.reduce((a, b) => {
           return a > b ? a : b;
-        })
+        });
         winners = players.filter((player) => {
           return player.totalPoints === max;
-        })
+        });
       }
       return winners;
     }
