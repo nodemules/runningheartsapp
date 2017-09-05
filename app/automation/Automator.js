@@ -8,18 +8,18 @@
     var service = {
       createNewEvents,
       completeEvents
-    }
+    };
 
     function createNewEvents() {
       venuesService.getAllVenues().then((venues) => {
         eventsCreator.generateNewEvents(venues);
-      })
+      });
     }
 
     function completeEvents() {
       eventsService.getPastEvents().then((events) => {
         eventsCompleter.markEventsCompleted(events);
-      })
+      });
     }
 
     return service;

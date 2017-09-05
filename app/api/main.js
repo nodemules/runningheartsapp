@@ -1,4 +1,7 @@
 {
+
+  const LOG = require('../../config/logging').getLogger();
+
   var express = require('express'),
     api = express.Router();
 
@@ -14,7 +17,7 @@
 
 
   api.use(function(req, res, next) {
-    console.log('Running Hearts API is baking...');
+    LOG.trace('Running Hearts API is baking...');
     next();
   });
 
@@ -24,9 +27,9 @@
     if (!req.isAuthenticated()) {
       next();
     } else {
-      authService.setPermissions(req, res, next)
+      authService.setPermissions(req, res, next);
     }
-  })
+  });
 
   api.use('/venues', venuesController);
   api.use('/events', eventsController);

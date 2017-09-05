@@ -1,4 +1,7 @@
 {
+
+  const LOG = require('../../config/logging').getLogger();
+
   var express = require('express'),
     api = express.Router();
 
@@ -13,14 +16,14 @@
   var publicPlayer = {
     path: 'user',
     select: 'local.username'
-  }
+  };
 
   api.get('/',
     (req, res) => {
       statsService.getAllPlayers().then((players) => {
         return res.send(players);
-      })
-    })
+      });
+    });
 
   api.get('/count', (req, res) => {
     Players
@@ -28,13 +31,15 @@
         statusId: 1
       })
       .exec((err, count) => {
-        if (err)
-          res.send(err);
-        res.send({
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send({
           count: count
-        })
-      })
-  })
+        });
+      });
+  });
 
   api.get('/:id', (req, res) => {
     Players
@@ -45,11 +50,13 @@
       .populate(publicPlayer)
       .select('-statusId')
       .exec((err, player) => {
-        if (err)
-          console.log(err.stack);
-        res.send(player);
-      })
-  })
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send(player);
+      });
+  });
 
   /**
    * @name findBy
@@ -72,9 +79,11 @@
         .find(req.body)
         .select('-statusId')
         .exec(function(err, players) {
-          if (err)
-            console.log(err.stack);
-          res.send(players);
+          if (err) {
+            LOG.error(err);
+            return errorService.handleError(res, err);
+          }
+          return res.send(players);
         });
 
     }
@@ -90,11 +99,13 @@
       })
       .select('-statusId')
       .exec(function(err, players) {
-        if (err)
-          console.log(err.stack);
-        res.send(players);
-      })
-  })
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send(players);
+      });
+  });
 
   api.put('/:id/shoutOut', function(req, res) {
     Players
@@ -108,11 +119,13 @@
         'new': true
       })
       .exec(function(err, player) {
-        if (err)
-          console.log(err.stack);
-        res.send(player);
-      })
-  })
+        if (err) {
+          LOG.error(err);
+          return errorService.handleError(res, err);
+        }
+        return res.send(player);
+      });
+  });
 
   api.post('/',
     (req, res, next) => {
@@ -141,8 +154,10 @@
           'new': true
         })
         .exec(function(err, player) {
-          if (err)
-            console.log(err.stack);
+          if (err) {
+            LOG.error(err);
+            return errorService.handleError(res, err);
+          }
           res.send(player);
         });
     }
@@ -156,8 +171,8 @@
         .findByIdAndUpdate(req.params.id, req.body)
         .exec(function(err) {
           if (err) {
-            console.log(err.stack);
-            res.send(500, err.stack);
+            LOG.error(err);
+            return errorService.handleError(res, err);
           }
           res.send();
         });
