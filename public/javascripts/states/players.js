@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($stateProvider, $urlRouterProvider) => {
+    .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
 
-      $urlRouterProvider.when('/players', '/players/list')
+      $urlRouterProvider.when('/players', '/players/list');
 
       $stateProvider
         .state('players', {
@@ -35,7 +35,7 @@
           historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
-              var permissions = []
+              var permissions = [];
               permissions.push($stateParams.id ? 'EDIT_PLAYER' : 'ADD_PLAYER');
               return authProvider.authWithPermissions('players.list', permissions);
             }]
@@ -62,7 +62,7 @@
           templateUrl: '/views/players.view.games.html',
           controller: 'playersViewCtrl',
           controllerAs: 'pv',
-        })
+        });
 
-    })
+    }]);
 }

@@ -15,7 +15,7 @@
         vertical: '@'
       },
       replace: true
-    }
+    };
 
     return directive;
 

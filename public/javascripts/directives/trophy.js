@@ -38,7 +38,7 @@
 
       if (!scope.position.none && scope.position.before === scope.position.after && !beforeOrAfterNotPresent) {
         console.error('rhpTrophy directive cannot have icon assigned to both \'before\' and \'after\' positions.',
-          'Defaulting to \'after\' position.')
+          'Defaulting to \'after\' position.');
         scope.position.before = false;
       }
 
