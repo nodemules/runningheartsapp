@@ -30,21 +30,42 @@
       },
       uglify: {
         options: {
-          banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+          banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd HH:MM:ss") %> */\n'
         },
         build: {
           src: 'src/<%= pkg.name %>.js',
           dest: 'public/dist/<%= pkg.name %>.min.js'
         }
+      },
+      nodemon: {
+        dev: {
+          script: 'server.js',
+          options: {
+            ignore: ['src', 'public/javascripts']
+          }
+        }
+      },
+      watch: {
+        files: ['public/javascripts/**/*.js'],
+        tasks: ['concat:build', 'browserify:dist', 'uglify:build']
+      },
+      concurrent: {
+        dev: ['nodemon:dev', 'watch'],
+        options: {
+          logConcurrentOutput: true
+        }
       }
     });
 
+    grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-nodemon');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('build', ['concat:build', 'browserify:dist', 'uglify:build']);
+    grunt.registerTask('develop', ['concat:build', 'browserify:dist', 'uglify:build', 'concurrent:dev']);
 
   };
 }
