@@ -4,6 +4,15 @@
     // Project configuration.
     grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
+      copy: {
+        fonts: {
+          cwd: 'public/',
+          src: ['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf'],
+          dest: 'public/dist/fonts/',
+          expand: true,
+          flatten: true
+        }
+      },
       concat: {
         build: {
           src: ['public/javascripts/**/*.js'],
@@ -47,18 +56,18 @@
       uglify: {
         build: {
           src: 'src/<%= pkg.name %>.js',
-          dest: 'public/dist/<%= pkg.name %>.min.js'
+          dest: 'public/dist/js/<%= pkg.name %>.min.js'
         },
         vendor: {
           src: 'src/vendor.js',
-          dest: 'public/dist/vendor.min.js'
+          dest: 'public/dist/js/vendor.min.js'
         }
       },
       cssmin: {
         build: {
           files: {
-            'public/dist/<%= pkg.name %>.min.css': ['src/<%= pkg.name %>.css'],
-            'public/dist/vendor.min.css': ['src/vendor.css']
+            'public/dist/css/<%= pkg.name %>.min.css': ['src/<%= pkg.name %>.css'],
+            'public/dist/css/vendor.min.css': ['src/vendor.css']
           }
         }
       },
@@ -76,6 +85,7 @@
       },
       concurrent: {
         dev: ['nodemon:dev', 'watch'],
+        concat: ['concat:build', 'concat:css', 'bower_concat:build'],
         minify: ['uglify:build', 'uglify:vendor', 'cssmin:build'],
         options: {
           logConcurrentOutput: true
@@ -91,10 +101,11 @@
     grunt.loadNpmTasks('grunt-nodemon');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
 
     // Default task(s).
-    grunt.registerTask('develop', ['concat:build', 'concat:css', 'bower_concat:build', 'browserify:dist',
-      'concurrent:minify',
+    grunt.registerTask('develop', ['copy:fonts', 'concurrent:concat', 'browserify:dist', 'concurrent:minify',
       'concurrent:dev'
     ]);
 

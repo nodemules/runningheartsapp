@@ -13,11 +13,12 @@ logs
 results
 
 npm-debug.log
-node_modules
+node_modules/
 
 config/configuration.js
 config/auth.js
 
-public/bower_components
+public/bower_components/
+public/dist/
 
 src/
