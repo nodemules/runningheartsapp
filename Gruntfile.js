@@ -4,6 +4,14 @@
     // Project configuration.
     grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
+      commands: {
+        bower_install: {
+          cmd: [
+            'rm -rf public/bower_components',
+            'bower install'
+          ]
+        }
+      },
       copy: {
         fonts: {
           cwd: 'public/',
@@ -66,7 +74,11 @@
       cssmin: {
         build: {
           files: {
-            'public/dist/css/<%= pkg.name %>.min.css': ['src/<%= pkg.name %>.css'],
+            'public/dist/css/<%= pkg.name %>.min.css': ['src/<%= pkg.name %>.css']
+          }
+        },
+        vendor: {
+          files: {
             'public/dist/css/vendor.min.css': ['src/vendor.css']
           }
         }
@@ -80,19 +92,30 @@
         }
       },
       watch: {
-        files: ['public/javascripts/**/*.js'],
-        tasks: ['concat:build', 'browserify:dist', 'uglify:build']
+        build: {
+          files: ['public/javascripts/**/*.js'],
+          tasks: ['concat:build', 'browserify:dist', 'uglify:build']
+        },
+        css: {
+          files: ['public/stylesheets/**/*.css'],
+          tasks: ['concat:css', 'cssmin:build']
+        },
+        vendor: {
+          files: ['public/bower_components/**/*', 'bower.json'],
+          tasks: ['bower_concat:build', 'uglify:vendor', 'cssmin:vendor']
+        }
       },
       concurrent: {
-        dev: ['nodemon:dev', 'watch'],
+        dev: ['nodemon:dev', 'watch:build', 'watch:css', 'watch:vendor'],
         concat: ['concat:build', 'concat:css', 'bower_concat:build'],
-        minify: ['uglify:build', 'uglify:vendor', 'cssmin:build'],
+        minify: ['uglify:build', 'uglify:vendor', 'cssmin:build', 'cssmin:vendor'],
         options: {
           logConcurrentOutput: true
         }
       }
     });
 
+    grunt.loadNpmTasks('grunt-commands');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-bower-concat');
@@ -105,7 +128,8 @@
 
 
     // Default task(s).
-    grunt.registerTask('develop', ['copy:fonts', 'concurrent:concat', 'browserify:dist', 'concurrent:minify',
+    grunt.registerTask('develop', ['commands:bower_install', 'copy:fonts', 'concurrent:concat', 'browserify:dist',
+      'concurrent:minify',
       'concurrent:dev'
     ]);
 
