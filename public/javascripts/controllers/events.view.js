@@ -1,6 +1,6 @@
 {
 
-  /* global angular, APP_NAME */
+  /* global angular, APP_NAME, moment */
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
@@ -35,7 +35,7 @@
         errorService.handleApiError(err);
       });
 
-    }
+    };
 
     vm.editEvent = function(event) {
       if (event) {
