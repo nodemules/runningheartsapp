@@ -5,6 +5,11 @@
     grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
       commands: {
+        clear: {
+          cmd: [
+            'rm -rf public/dist'
+          ]
+        },
         bower_install: {
           cmd: [
             'rm -rf public/bower_components',
@@ -15,7 +20,7 @@
       copy: {
         fonts: {
           cwd: 'public/',
-          src: ['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf'],
+          src: ['**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf', '!dist/**'],
           dest: 'public/dist/fonts/',
           expand: true,
           flatten: true
@@ -100,13 +105,18 @@
           files: ['public/stylesheets/**/*.css'],
           tasks: ['concat:css', 'cssmin:build']
         },
+        fonts: {
+          cwd: 'public/',
+          files: ['!dist/**', '**/*.eot', '**/*.svg', '**/*.ttf', '**/*.woff', '**/*.woff2', '**/*.otf'],
+          tasks: ['copy:fonts']
+        },
         vendor: {
-          files: ['public/bower_components/**/*', 'bower.json'],
+          files: ['public/bower_components/**/*.js', 'public/bower_components/**/*.css', 'bower.json'],
           tasks: ['bower_concat:build', 'uglify:vendor', 'cssmin:vendor']
         }
       },
       concurrent: {
-        dev: ['nodemon:dev', 'watch:build', 'watch:css', 'watch:vendor'],
+        dev: ['nodemon:dev', 'watch:build', 'watch:css', 'watch:vendor', 'watch:fonts'],
         concat: ['concat:build', 'concat:css', 'bower_concat:build'],
         minify: ['uglify:build', 'uglify:vendor', 'cssmin:build', 'cssmin:vendor'],
         options: {
@@ -128,9 +138,8 @@
 
 
     // Default task(s).
-    grunt.registerTask('develop', ['commands:bower_install', 'copy:fonts', 'concurrent:concat', 'browserify:dist',
-      'concurrent:minify',
-      'concurrent:dev'
+    grunt.registerTask('develop', ['commands:clear', 'commands:bower_install', 'copy:fonts', 'concurrent:concat',
+      'browserify:dist', 'concurrent:minify', 'concurrent:dev'
     ]);
 
   };
