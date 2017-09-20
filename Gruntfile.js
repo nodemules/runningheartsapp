@@ -7,13 +7,20 @@
       commands: {
         clear: {
           cmd: [
+            'rm -rf src/',
             'rm -rf public/dist'
           ]
         },
         bower_install: {
           cmd: [
-            'rm -rf public/bower_components',
+            'bower prune',
             'bower install'
+          ]
+        },
+        npm_install: {
+          cmd: [
+            'npm prune',
+            'npm install'
           ]
         }
       },
@@ -138,8 +145,8 @@
 
 
     // Default task(s).
-    grunt.registerTask('develop', ['commands:clear', 'commands:bower_install', 'copy:fonts', 'concurrent:concat',
-      'browserify:dist', 'concurrent:minify', 'concurrent:dev'
+    grunt.registerTask('develop', ['commands:clear', 'commands:bower_install', 'commands:npm_install', 'copy:fonts',
+      'concurrent:concat', 'browserify:dist', 'concurrent:minify', 'concurrent:dev'
     ]);
 
   };
