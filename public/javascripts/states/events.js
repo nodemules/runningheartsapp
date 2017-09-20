@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($stateProvider, $urlRouterProvider) => {
+    .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
 
-      $urlRouterProvider.when('/events', '/events/list')
+      $urlRouterProvider.when('/events', '/events/list');
 
       $stateProvider
         .state('events', {
@@ -31,7 +31,7 @@
           historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
-              var permissions = []
+              var permissions = [];
               permissions.push($stateParams.id ? 'EDIT_EVENT' : 'ADD_EVENT');
               return authProvider.authWithPermissions('events.list', permissions);
             }]
@@ -43,7 +43,7 @@
           templateUrl: '/views/events.view.html',
           controller: 'eventsViewCtrl',
           controllerAs: 'ev'
-        })
+        });
 
-    })
+    }]);
 }

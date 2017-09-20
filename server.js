@@ -16,6 +16,7 @@
   // set up ======================================================================
   // get all the tools we need
   var express = require('express');
+  var compression = require('compression');
   var path = require('path');
   var app = express();
   var port = env.getPort();
@@ -46,6 +47,8 @@
 
   // log every request to the console
   app.use(logger.getRequestLogger());
+
+  app.use(compression());
 
 
   // get information from html forms

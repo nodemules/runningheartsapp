@@ -1,5 +1,5 @@
 {
-  /* global angular */
+  /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
     .directive('passwordMatch', passwordMatch);
@@ -12,7 +12,7 @@
       scope: true,
       require: 'ngModel',
       link: linkFn
-    }
+    };
 
     return directive;
 

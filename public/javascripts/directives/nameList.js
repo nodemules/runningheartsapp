@@ -13,7 +13,7 @@
       scope: {
         list: '=ngModel'
       }
-    }
+    };
 
     return directive;
 

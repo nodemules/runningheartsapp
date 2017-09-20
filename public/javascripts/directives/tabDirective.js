@@ -19,8 +19,7 @@
        bindToController: true,
        controller: rhpTabsController,
        controllerAs: 'tabs'
-     }
-     return directive;
+     };
 
      rhpTabsController.$inject = ['$scope', '$q', '$state', '$filter', '$timeout', '$stateParams', 'permissionsService'];
 
@@ -32,8 +31,8 @@
 
        vm.tabVisibility = function() {
          var currentState = $state.current.name.split('.')[1];
-         return currentState !== 'list' && !(currentState === 'manage' && !$stateParams.id)
-       }
+         return currentState !== 'list' && !(currentState === 'manage' && !$stateParams.id);
+       };
 
        vm.tabPath = function(path) {
 
@@ -48,7 +47,7 @@
          } else if (pathArray[1] === 'list') {
            $state.transitionTo(path);
          }
-       }
+       };
 
        function buildTabArray(state) {
 
@@ -56,10 +55,10 @@
 
          var tabsTypes = ['List', 'View'];
 
-         $q.all([addManageTab(state.parent)]).then((data) => {
+         $q.all([addManageTab(state.parent)]).then(() => {
            tabsTypes.push('Manage');
            doTabStuff(tabsTypes, state);
-         })
+         });
 
          doTabStuff(tabsTypes, state);
 
@@ -91,7 +90,7 @@
            if (!isTabInArray) {
              vm.tabs.push(tab);
            }
-         })
+         });
 
          if (state) {
            setActiveTab(state);
@@ -114,13 +113,13 @@
 
          switch (entity.toUpperCase()) {
            case 'EVENTS':
-             permission = 'EDIT_EVENT'
+             permission = 'EDIT_EVENT';
              break;
            case 'VENUES':
-             permission = 'EDIT_VENUE'
+             permission = 'EDIT_VENUE';
              break;
            case 'PLAYERS':
-             permission = 'EDIT_PLAYER'
+             permission = 'EDIT_PLAYER';
              break;
            default:
              return false;
@@ -137,13 +136,15 @@
          } else {
            buildTabArray(n);
          }
-       })
+       });
 
        function initialize() {}
 
        initialize();
 
      }
+
+     return directive;
 
    }
 

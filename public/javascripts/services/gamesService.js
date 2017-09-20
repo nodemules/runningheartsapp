@@ -12,7 +12,7 @@
 
     var service = {
       api: api
-    }
+    };
 
     return service;
 
@@ -32,8 +32,9 @@
             return angular.toJson(data);
           },
           transformResponse: function(data) {
-            data.$$saving = false;
-            return angular.fromJson(data);
+            var d = angular.fromJson(data);
+            d.$$saving = false;
+            return d;
           }
         },
         'save': {
@@ -50,8 +51,9 @@
             return angular.toJson(data);
           },
           transformResponse: function(data) {
-            data.$$saving = false;
-            return angular.fromJson(data);
+            var d = angular.fromJson(data);
+            d.$$saving = false;
+            return d;
           }
         },
         'byDate': {

@@ -2,9 +2,9 @@
   /* global angular, APP_NAME */
   angular
     .module(APP_NAME)
-    .config(($stateProvider, $urlRouterProvider) => {
+    .config(['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider) => {
 
-      $urlRouterProvider.when('/venues', '/venues/list')
+      $urlRouterProvider.when('/venues', '/venues/list');
 
       $stateProvider
         .state('venues', {
@@ -34,7 +34,7 @@
           historyIgnore: true,
           resolve: {
             auth: ['authProvider', '$stateParams', function(authProvider, $stateParams) {
-              var permissions = []
+              var permissions = [];
               permissions.push($stateParams.id ? 'EDIT_VENUE' : 'ADD_VENUE');
               return authProvider.authWithPermissions('venues.list', permissions);
             }]
@@ -46,7 +46,7 @@
           templateUrl: '/views/venues.view.html',
           controller: 'venuesViewCtrl',
           controllerAs: 'vv'
-        })
+        });
 
-    })
+    }]);
 }

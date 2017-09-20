@@ -11,9 +11,7 @@
       templateUrl: '../views/templates/sideNav/nav.html',
       restrict: 'E',
       controller: controllerFn
-    }
-
-    return directive;
+    };
 
     controllerFn.$inject = [
       '$scope', '$mdSidenav', '$state', 'eventsService',
@@ -28,7 +26,7 @@
 
       navService.onRefreshNavData($scope, (entities) => {
         reloadData(entities);
-      })
+      });
 
       function handleData(param, data) {
         $scope.messages[param] = data;
@@ -82,16 +80,16 @@
           players: playersService.api().count(),
           seasons: seasonsService.api().query(),
           stats: statsService.api().currentSeasonWinners()
-        }
+        };
         entityService.startEntityTimers();
-      }
+      };
 
       $scope.isLoggedIn = function() {
         return authService.isAuth();
-      }
+      };
 
       $scope.logout = function() {
-        var message = 'Are you sure you want to logout?'
+        var message = 'Are you sure you want to logout?';
         return dialogService.confirm(message).then(() => {
           authApiService.api().logout(function() {
             $state.transitionTo('logout', {}, {
@@ -99,12 +97,12 @@
             });
           });
           return $scope.toggleMenu();
-        })
-      }
+        });
+      };
 
       $scope.toggleMenu = function() {
         $mdSidenav('appSidenav').toggle();
-      }
+      };
 
       function initialize() {
         $scope.loadTabs();
@@ -113,6 +111,8 @@
       initialize();
 
     }
+
+    return directive;
 
   }
 
