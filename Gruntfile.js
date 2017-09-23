@@ -22,6 +22,19 @@
             'npm prune',
             'npm install'
           ]
+        },
+        start_prod: {
+          cmd: [
+            'pm2 startOrRestart ecosystem.json'
+          ]
+        },
+        git_prod: {
+          cmd: [
+            'git checkout .',
+            'git clean -d -f',
+            'git checkout master',
+            'git pull'
+          ]
         }
       },
       copy: {
@@ -147,6 +160,10 @@
     // Default task(s).
     grunt.registerTask('develop', ['commands:clear', 'commands:bower_install', 'commands:npm_install', 'copy:fonts',
       'concurrent:concat', 'browserify:dist', 'concurrent:minify', 'concurrent:dev'
+    ]);
+
+    grunt.registerTask('production', ['commands:clear', 'commands:git_prod', 'commands:bower_install', 'commands:npm_install', 'copy:fonts',
+      'concurrent:concat', 'browserify:dist', 'concurrent:minify', 'commands:start_prod'
     ]);
 
   };
