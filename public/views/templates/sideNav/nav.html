@@ -54,10 +54,15 @@
         <h3>Standings</h3>
         <h4>View Player Standings</h4>
         <p>
-          <span ng-repeat="player in messages.stats">
-            {{player.name}}<span ng-show="!$last && messages.stats.length > 1">, </span>
+          <span ng-if="messages.stats.length">
+            <span ng-repeat="player in messages.stats">
+              {{player.name}}<span ng-show="!$last && messages.stats.length > 1">, </span>
+            </span>
+            {{ messages.stats.length > 1 ? 'are' : 'is' }} currently leading!
           </span>
-          {{ messages.stats.length > 1 ? 'are' : 'is' }} currently leading!
+          <span ng-if="!messages.stats.length">
+            No games have been played this season.
+          </span>
         </p>
       </div>
     </md-list-item>
