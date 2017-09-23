@@ -30,7 +30,8 @@
         },
         git_prod: {
           cmd: [
-            'git clean -d',
+            'git checkout .',
+            'git clean -d -f',
             'git checkout master',
             'git pull'
           ]
