@@ -11,7 +11,7 @@
 
     var service = {
       api: api
-    }
+    };
 
     return service;
 
@@ -32,8 +32,9 @@
             return angular.toJson(data);
           },
           transformResponse: function(data) {
-            data.$$saving = false;
-            return transformEventResponse(data);
+            var d = angular.fromJson(data);
+            d.$$saving = false;
+            return transformEventResponse(d);
           }
         },
         'count': {
@@ -84,7 +85,7 @@
     function setEventDays(events) {
       angular.forEach(events, (ev) => {
         setEventDay(ev);
-      })
+      });
     }
 
     function setEventDay(ev) {
