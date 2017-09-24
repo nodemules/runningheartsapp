@@ -88,7 +88,7 @@
   </md-card-title>
   <md-divider></md-divider>
   <md-card-content>
-    <md-button class="md-raised md-default" ng-repeat="season in vm.seasons | orderBy:'startDate'" ui-sref="stats.seasons({ id: season.seasonNumber })">
+    <md-button class="md-raised md-default" ng-repeat="season in vm.seasons | orderBy:'seasonNumber'" ui-sref="stats.seasons({ id: season.seasonNumber })">
       {{season.seasonNumber}}
     </md-button>
     <div layout="column">
