@@ -23,8 +23,23 @@
     }
 
     function setEnvironment(env) {
-      ENV_NAME = env.NODE_ENV ? Environment.DEV : Environment.PROD;
       ENV_PORT = env.RHP_PORT || DEFAULT_PORT;
+      setName(env.NODE_ENV);
+    }
+
+    function setName(name) {
+      switch (name) {
+        case 'production':
+          ENV_NAME = Environment.PRODUCTION;
+          break;
+        case 'qa':
+          ENV_NAME = Environment.QA;
+          break;
+        default:
+          ENV_NAME = Environment.DEV;
+          break;
+
+      }
     }
 
     return environment;
