@@ -23,7 +23,7 @@
     }
 
     function setEnvironment(env) {
-      ENV_NAME = env.npm_config_dev ? Environment.DEV : Environment.PROD;
+      ENV_NAME = env.NODE_ENV ? Environment.DEV : Environment.PROD;
       ENV_PORT = env.RHP_PORT || DEFAULT_PORT;
     }
 

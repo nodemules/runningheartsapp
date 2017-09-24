@@ -42,7 +42,7 @@
       return new Promise((resolve, reject) => {
         Season
           .find()
-          .sort('-startDate')
+          .sort('-seasonNumber')
           .exec((err, seasons) => {
             if (err) {
               LOG.error(err.stack);
