@@ -3,7 +3,7 @@
 
   function exports() {
 
-    var environments = ['dev', 'qa', 'prod'];
+    var environments = ['dev', 'qa', 'production'];
 
     function getEnvironments() {
       var envs = {};

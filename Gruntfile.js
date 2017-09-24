@@ -25,7 +25,7 @@
         },
         start_prod: {
           cmd: [
-            'pm2 startOrRestart ecosystem.json'
+            'pm2 startOrRestart ecosystem.config.js --env production'
           ]
         },
         git_prod: {
@@ -164,6 +164,10 @@
 
     grunt.registerTask('production', ['commands:clear', 'commands:git_prod', 'commands:bower_install', 'commands:npm_install', 'copy:fonts',
       'concurrent:concat', 'browserify:dist', 'concurrent:minify', 'commands:start_prod'
+    ]);
+
+    grunt.registerTask('build', ['commands:clear', 'commands:bower_install', 'commands:npm_install', 'copy:fonts',
+      'concurrent:concat', 'browserify:dist', 'concurrent:minify'
     ]);
 
   };
