@@ -3,7 +3,7 @@
 
     const LOG = require('../../config/logging').getLogger();
 
-    const errorService = require('./advice/errorService');
+    const errorService = require('./advice/errorService')();
 
     var Token = require('../models/token');
 

@@ -6,7 +6,7 @@
     api = express.Router(),
     passport = require('passport');
 
-  const errorService = require('./advice/errorService');
+  const errorService = require('./advice/errorService')();
 
   var authService = require('./authService')(),
     tokenService = require('./tokenService')(),

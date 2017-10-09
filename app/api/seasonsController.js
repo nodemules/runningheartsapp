@@ -6,30 +6,32 @@
     seasonsService = require('./seasonsService')(),
     Permissions = require('../enum/permissions');
 
+  const errorService = require('./advice/errorService')();
+
   api.post('/:seasonNumber',
     (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.START_NEW_SEASON]),
     (req, res) => {
       seasonsService.startNewSeason(req.params.seasonNumber).then((season) => {
         res.send(season);
-      });
+      }, (err) => errorService.handleError(res, err));
     });
 
   api.get('/:seasonNumber', (req, res) => {
     seasonsService.getSeason(req.params.seasonNumber).then((seasons) => {
       res.send(seasons);
-    });
+    }, (err) => errorService.handleError(res, err));
   });
 
   api.get('/', (req, res) => {
     seasonsService.getSeasons().then((seasons) => {
       res.send(seasons);
-    });
+    }, (err) => errorService.handleError(res, err));
   });
 
   api.get('/latest', (req, res) => {
     seasonsService.getLatestSeason().then((season) => {
       res.send(season);
-    });
+    }, (err) => errorService.handleError(res, err));
   });
 
 

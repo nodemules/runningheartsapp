@@ -2,7 +2,7 @@
 
   const LOG = require('../../config/logging').getLogger();
 
-  const errorService = require('./advice/errorService');
+  const errorService = require('./advice/errorService')();
 
   var express = require('express'),
     api = express.Router();
@@ -48,7 +48,7 @@
   api.get('/date', function(req, res) {
     gamesService.byDate(req.query.startDate, req.query.endDate).then(function(games) {
       res.send(games);
-    });
+    }, (err) => errorService.handleError(res, err));
   });
 
   api.get('/:id', function(req, res) {
