@@ -22,7 +22,7 @@
     (req, res) => {
       statsService.getAllPlayers().then((players) => {
         return res.send(players);
-      });
+      }, (err) => errorService.handleError(res, err));
     });
 
   api.get('/count', (req, res) => {
@@ -190,8 +190,6 @@
       }, (err) => errorService.handleError(res, err));
     }
   );
-
-
 
   module.exports = api;
 }

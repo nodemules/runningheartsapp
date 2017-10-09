@@ -6,7 +6,7 @@
     var Role = require('../models/role');
     var Permissions = require('../enum/permissions');
 
-    const errorService = require('./advice/errorService');
+    const errorService = require('./advice/errorService')();
 
     var service = {
       getPermissionsForRole,

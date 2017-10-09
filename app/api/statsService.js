@@ -25,6 +25,13 @@
       return new Promise((resolve, reject) => {
         seasonsService.getSeason(seasonNumber).then((season) => {
 
+          if (!season) {
+            return reject({
+              code: 'NO_SEASON_FOUND',
+              message: `No season found for season number [${seasonNumber}]`
+            });
+          }
+
           var pipeline = [
             StatsMatcher.GET_SEASON_STATS.match(season.startDate, season.endDate),
             StatsMatcher.GET_SEASON_STATS.group,
@@ -155,6 +162,13 @@
             }
 
             var season = seasons[0];
+
+            if (!season) {
+              return reject({
+                code: 'NO_SEASON_FOUND',
+                message: `No season found for season number [${seasonNumber}]`
+              });
+            }
 
             var pipeline = [
               StatsMatcher.GET_SEASON_PLAYER_STATS.match(season.startDate, season.endDate),
