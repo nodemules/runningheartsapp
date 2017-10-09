@@ -1,7 +1,7 @@
 {
   const LOG = require('../../config/logging').getLogger();
 
-  const errorService = require('./advice/errorService');
+  const errorService = require('./advice/errorService')();
 
   var express = require('express'),
     api = express.Router();
@@ -15,7 +15,7 @@
   api.get('/', function(req, res) {
     venuesService.getVenues().then((venues) => {
       return res.send(venues);
-    });
+    }, (err) => errorService.handleError(res, err));
   });
 
   api.get('/count', function(req, res) {
