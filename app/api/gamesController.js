@@ -77,7 +77,10 @@
       }
     }];
     Game
-      .findById(req.params.id)
+      .find({
+        _id: req.params.id,
+        statusId: 1
+      })
       .populate(pOptions)
       .select('-statusId')
       .exec(function(err, games) {
@@ -85,7 +88,7 @@
           LOG.error(err);
           return errorService.handleError(res, err);
         }
-        return res.send(games);
+        return res.send(games[0]);
       });
   });
 
