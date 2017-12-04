@@ -30,6 +30,9 @@
       select: '-statusId'
     }, {
       path: 'games',
+      match: {
+        'statusId': 1
+      },
       populate: {
         path: 'players',
         populate: {
