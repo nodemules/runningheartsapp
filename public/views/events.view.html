@@ -30,7 +30,7 @@
           <span ng-if="game.completed">This game had {{ game.players.length }} players.</span>
         </span>
         <span class="md-subhead" ng-if="game.completed">
-          {{(game.players | filter: { rank : 1})[0].player.name}} is the winner!
+          {{(game.players | filter: { rank : 1 } : true)[0].player.name}} is the winner!
         </span>
       </md-card-title-text>
     </md-card-title>
