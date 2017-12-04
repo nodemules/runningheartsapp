@@ -155,12 +155,13 @@
               'startTime': {
                 '$gte': moment(startTime).toDate()
               },
+              'statusId': 1,
               'completed': true,
               'players': {
                 '$ne': []
               }
             }
-          }
+          };
 
           if (endTime) {
             match.$match.startTime.$lt = moment(endTime).toDate();
@@ -190,15 +191,16 @@
           var match = {
             '$match': {
               'players.player': mongoose.Types.ObjectId(id),
-              'completed': true
+              'completed': true,
+              'statusId': 1
             }
-          }
+          };
           if (season) {
             match.$match.startTime = {
               '$gte': moment(season.startDate).toDate()
-            }
+            };
             if (season.endDate) {
-              match.$match.startTime.$lt = moment(season.endDate).toDate()
+              match.$match.startTime.$lt = moment(season.endDate).toDate();
             }
           }
           return match;
@@ -208,9 +210,10 @@
         match: function() {
           return {
             '$match': {
-              'completed': true
+              'completed': true,
+              'statusId': 1
             }
-          }
+          };
         },
         sortBy: {
           '$sort': {
@@ -226,9 +229,10 @@
               'startTime': {
                 '$gte': moment(startTime).toDate()
               },
-              'completed': true
+              'completed': true,
+              'statusId': 1
             }
-          }
+          };
 
           if (endTime) {
             match.$match.startTime.$lt = moment(endTime).toDate();
@@ -246,15 +250,16 @@
         match: function(season) {
           var match = {
             '$match': {
-              'completed': true
+              'completed': true,
+              'statusId': 1
             }
-          }
+          };
           if (season) {
             match.$match.startTime = {
               '$gte': moment(season.startDate).toDate()
-            }
+            };
             if (season.endDate) {
-              match.$match.startTime.$lt = moment(season.endDate).toDate()
+              match.$match.startTime.$lt = moment(season.endDate).toDate();
             }
           }
           return match;
@@ -291,7 +296,7 @@
           '$limit': 5
         }
       }
-    }
+    };
   }
 
   module.exports = exports;
