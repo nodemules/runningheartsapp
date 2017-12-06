@@ -1,4 +1,5 @@
-<md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary" layout="row">
+<md-toolbar id="appToolbar" ng-class="{ 'rhp-toolbar-xs':home.mdMedia('xs') }" class="md-primary"
+    layout="row">
   <div class="md-toolbar-tools" layout="row">
     <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleMenu();">
       <md-icon md-font-set="material-icons">menu</md-icon>
@@ -18,14 +19,25 @@
       <div ng-if="home.permissions.PLAY_GAME" layout="row" layout-align="center center">
         <h2>WELCOME TO RUNNING HEARTS!</h2>
       </div>
-      <md-card>
-        <div layout="row" layout-align="center center">
-          <h4>Tonight's Games</h4>
+      <md-card id="gamesTonight">
+        <md-card-title layout-align="center center">
+          <md-card-title-text class="md-headline">Tonight's Games</<md-card-title-text>
+        </md-card-title>
+        <md-divider></md-divider>
+        <div ng-show="!home.todaysEvents.length">
+          <p>
+            There are no games tonight!
+          </p>
         </div>
         <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
           <md-list-item class="md-3-line md-hue-1">
             <div class="md-list-item-text" layout="column">
-              <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}} tonight at <a class="md-primary" ui-sref="events.view({ id : event._id })">{{event.venue.name}}</a></h3>
+              <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}}
+                tonight at
+                <a class="md-primary" ui-sref="events.view({ id : event._id })">
+                  {{event.venue.name}}
+                </a>
+              </h3>
               <h4>Hosted by
                 <span ng-repeat="td in event.td">
                   {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
@@ -36,6 +48,76 @@
             </div>
           </md-list-item>
         </md-list>
+      </md-card>
+      <md-card id="gamesRecent" ng-if="home.recentEvents.length">
+        <md-card-title layout-align="center center">
+          <md-card-title-text class="md-headline">Recent Games</<md-card-title-text>
+        </md-card-title>
+        <md-divider></md-divider>
+        <div ng-show="card.showRecentEvents" ng-init="card.showRecentEvents=true">
+          <md-list class="md-dense" ng-repeat="event in home.recentEvents | filter : { games : [] } | orderBy: '-date' | limitTo: 3">
+            <md-list-item class="md-3-line md-hue-1">
+              <div class="md-list-item-text" layout="column">
+                <h3>{{event.games.length}} game{{event.games.length ? 's' : ''}}
+                </h3>
+                <h4>
+                  {{home.dayOfEvent(event.date)}} at
+                  <a class="md-primary" ui-sref="events.view({ id : event._id })">
+                    {{event.venue.name}}
+                  </a>
+               </h4>
+                <p>Hosted by
+                  <span ng-repeat="td in event.td">
+                    {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+                    <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+                    {{($index + 1) < ev.event.td.length ? ', ' : ''}}
+                  </span>
+                </p>
+              </div>
+            </md-list-item>
+          </md-list>
+          <md-divider></md-divider>
+        </div>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-secondary" ng-click="card.showRecentEvents=!card.showRecentEvents">
+            {{card.showRecentEvents ? 'Hide' : 'Show'}} This Card
+          </md-button>
+        </md-card-actions>
+      </md-card>
+      <md-card id="gamesUpcoming" ng-if="home.upcomingEvents.length">
+        <md-card-title layout-align="center center">
+          <md-card-title-text class="md-headline">Upcoming Games</<md-card-title-text>
+        </md-card-title>
+        <md-divider></md-divider>
+        <div ng-show="card.showUpcomingEvents" ng-init="card.showUpcomingEvents=true">
+          <md-list class="md-dense" ng-repeat="event in home.upcomingEvents | orderBy: 'date' | limitTo: 3">
+            <md-list-item class="md-3-line md-hue-1">
+              <div class="md-list-item-text" layout="column">
+                <h3>{{event.venue.numberOfGames}} game{{event.venue.numberOfGames ? 's' : ''}}
+                </h3>
+                <h4>
+                  {{home.dayOfEvent(event.date)}} at
+                  <a class="md-primary" ui-sref="events.view({ id : event._id })">
+                    {{event.venue.name}}
+                  </a>
+               </h4>
+                <p>Hosted by
+                  <span ng-repeat="td in event.td">
+                    {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
+                    <a class="md-primary" ui-sref="players.view({ id : td._id })">{{td.name}}</a>
+                    {{($index + 1) < ev.event.td.length ? ', ' : ''}}
+                  </span>
+                </p>
+              </div>
+            </md-list-item>
+          </md-list>
+          <md-divider></md-divider>
+        </div>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-secondary" ng-click="card.showUpcomingEvents=!card.showUpcomingEvents">
+            {{card.showUpcomingEvents ? 'Hide' : 'Show'}} This Card
+          </md-button>
+        </md-card-actions>
       </md-card>
     </md-content>
   </md-content>
