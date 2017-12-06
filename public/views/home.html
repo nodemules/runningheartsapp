@@ -24,11 +24,9 @@
           <md-card-title-text class="md-headline">Tonight's Games</<md-card-title-text>
         </md-card-title>
         <md-divider></md-divider>
-        <div ng-show="!home.todaysEvents.length">
-          <p>
-            There are no games tonight!
-          </p>
-        </div>
+        <md-card-content ng-show="!home.todaysEvents.length">
+          There are no games tonight!
+        </md-card-content>
         <md-list class="md-dense" ng-repeat="event in home.todaysEvents">
           <md-list-item class="md-3-line md-hue-1">
             <div class="md-list-item-text" layout="column">
@@ -49,11 +47,14 @@
           </md-list-item>
         </md-list>
       </md-card>
-      <md-card id="gamesRecent" ng-if="home.recentEvents.length">
+      <md-card id="gamesRecent">
         <md-card-title layout-align="center center">
           <md-card-title-text class="md-headline">Recent Games</<md-card-title-text>
         </md-card-title>
         <md-divider></md-divider>
+        <md-card-content ng-show="!(home.recentEvents  | filter : { games : [] }).length">
+          No games have been played recently.
+        </md-card-content>
         <div ng-show="card.showRecentEvents" ng-init="card.showRecentEvents=true">
           <md-list class="md-dense" ng-repeat="event in home.recentEvents | filter : { games : [] } | orderBy: '-date' | limitTo: 3">
             <md-list-item class="md-3-line md-hue-1">
@@ -78,17 +79,20 @@
           </md-list>
           <md-divider></md-divider>
         </div>
-        <md-card-actions layout="row" layout-align="end center">
+        <md-card-actions layout="row" layout-align="end center" ng-show="(home.recentEvents  | filter : { games : [] }).length">
           <md-button class="md-secondary" ng-click="card.showRecentEvents=!card.showRecentEvents">
             {{card.showRecentEvents ? 'Hide' : 'Show'}} This Card
           </md-button>
         </md-card-actions>
       </md-card>
-      <md-card id="gamesUpcoming" ng-if="home.upcomingEvents.length">
+      <md-card id="gamesUpcoming">
         <md-card-title layout-align="center center">
           <md-card-title-text class="md-headline">Upcoming Games</<md-card-title-text>
         </md-card-title>
         <md-divider></md-divider>
+        <md-card-content ng-show="!home.upcomingEvents.length">
+          There are no games scheduled for the next few weeks.
+        </md-card-content>
         <div ng-show="card.showUpcomingEvents" ng-init="card.showUpcomingEvents=true">
           <md-list class="md-dense" ng-repeat="event in home.upcomingEvents | orderBy: 'date' | limitTo: 3">
             <md-list-item class="md-3-line md-hue-1">
@@ -113,7 +117,7 @@
           </md-list>
           <md-divider></md-divider>
         </div>
-        <md-card-actions layout="row" layout-align="end center">
+        <md-card-actions layout="row" layout-align="end center" ng-show="home.upcomingEvents.length">
           <md-button class="md-secondary" ng-click="card.showUpcomingEvents=!card.showUpcomingEvents">
             {{card.showUpcomingEvents ? 'Hide' : 'Show'}} This Card
           </md-button>
