@@ -32,7 +32,7 @@
     }];
     Game
       .find({
-        statusId: 1
+        statusId: { '$in': [1,3]}
       })
       .populate(pOptions)
       .select('-statusId')
@@ -79,7 +79,7 @@
     Game
       .find({
         _id: req.params.id,
-        statusId: 1
+        statusId: {'$in': [1,3]}
       })
       .populate(pOptions)
       .select('-statusId')
