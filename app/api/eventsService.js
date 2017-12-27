@@ -31,7 +31,9 @@
     }, {
       path: 'games',
       match: {
-        'statusId': 1
+        'statusId': {
+          '$in': [1, 3]
+        }
       },
       populate: {
         path: 'players',
@@ -106,7 +108,7 @@
       return new Promise((resolve, reject) => {
         Event
           .find({
-            statusId: 1
+            statusId: { '$in': [1,3] }
           })
           .populate(publicEventForList)
           .select('-statusId')
@@ -171,7 +173,7 @@
               $gte: startDate,
               $lte: endDate
             },
-            statusId: 1
+            statusId: {'$in': [1,3]}
           })
           .populate(publicEvent)
           .select('-statusId')

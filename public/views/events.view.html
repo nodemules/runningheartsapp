@@ -2,7 +2,11 @@
   <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">Poker @ <a class="md-primary" ui-sref="venues.view({ id : ev.event.venue._id })">{{ev.event.venue.name}}</a></span>
+        <span class="md-headline">
+          <span ng-if="ev.event.statusId === 1">Poker</span>
+          <span ng-if="ev.event.statusId === 3">Main Event</span>
+          @ <a class="md-primary" ui-sref="venues.view({ id : ev.event.venue._id })">{{ev.event.venue.name}}</a>
+        </span>
         <span class="md-subhead">Hosted by
           <span ng-repeat="td in ev.event.td">
           {{($index + 1) == ev.event.td.length && ev.event.td.length > 1 ? 'and/or ' : ''}}
@@ -61,7 +65,7 @@
       </md-button>
     </md-card-actions>
   </md-card>
-  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && ((ev.event.games.length < ev.event.venue.numberOfGames && !ev.event.completed) || events.permissions.NO_GAME_LIMIT) && ev.event.statusId == 1">
+  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && ((ev.event.games.length < ev.event.venue.numberOfGames && !ev.event.completed) || events.permissions.NO_GAME_LIMIT) && ev.event.statusId !== 2">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game #{{ev.event.games.length + 1}}</span>
