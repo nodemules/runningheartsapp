@@ -24,6 +24,13 @@
       });
     };
 
+    vm.makeMainEvent = function(event) {
+      dialogService.confirm('Are you sure you want to make this the main event?').then(() => {
+        event.statusId = 3
+        eventsService.api().save(event);
+        });
+    }
+
     vm.newGame = function() {
       vm.game = {
         event: vm.event,

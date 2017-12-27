@@ -27,7 +27,8 @@
       'NO_GAME_LIMIT': 26,
       'CREATE_REGISTRATION_TOKEN': 27,
       'START_ANY_GAME': 28,
-      'CREATE_ANY_EVENT': 29
+      'CREATE_ANY_EVENT': 29,
+      'MAKE_MAIN_EVENT': 30
     }
 
     var myEnum = new Enum(permissions);
