@@ -19,7 +19,7 @@
   api.put('/:seasonNumber',
       (req, res, next) => authService.checkPermissions(req, res, next, [Permissions.EDIT_SEASON]),
       (req, res) => {
-        seasonsService.persistSeason({seasonNumber: req.params.seasonNumber, gameId: req.body.mainEventId}).then((season) => {
+        seasonsService.persistSeason(req.body).then((season) => {
           res.send(season);
         }, (err) => errorService.handleError(res, err));
       });

@@ -121,7 +121,7 @@
             seasonNumber: season.seasonNumber
           }, {
             $set: {
-              mainEventId: season.gameId
+              mainEventId: season.mainEventId
             }
           })
           .exec((err) => {

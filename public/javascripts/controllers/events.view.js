@@ -29,8 +29,8 @@
       dialogService.confirm('Are you sure you want to make this the main event?').then(() => {
         event.statusId = 3
         eventsService.api().save(event);
-        seasonsService.api(vm.event.season.seasonNumber).findBy({mainEventId: event._id})
-
+        vm.event.season.mainEventId = event._id;
+        seasonsService.api(vm.event.season.seasonNumber).findBy(vm.event.season);
         });
     }
 
