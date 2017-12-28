@@ -67,6 +67,9 @@
         </span>
       </span>
     </p>
+    <p>
+      <md-button ng-if="vm.season.mainEventId.length" ui-sref="events.view({ id: vm.season.mainEventId})">View Main Event For This Season</md-button>
+    </p>
   </md-card-content>
 </md-card>
 <md-card ng-show="vm.stats.showAll">
