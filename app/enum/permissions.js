@@ -28,7 +28,8 @@
       'CREATE_REGISTRATION_TOKEN': 27,
       'START_ANY_GAME': 28,
       'CREATE_ANY_EVENT': 29,
-      'MAKE_MAIN_EVENT': 30
+      'MAKE_MAIN_EVENT': 30,
+      'EDIT_SEASON': 31
     }
 
     var myEnum = new Enum(permissions);

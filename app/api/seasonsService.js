@@ -11,7 +11,8 @@
       getSeason,
       getSeasons,
       startNewSeason,
-      getSeasonByEventDate
+      getSeasonByEventDate,
+      persistSeason
     };
 
     function getLatestSeason() {
@@ -111,7 +112,27 @@
 
       });
 
+    }
 
+    function persistSeason(season) {
+      return new Promise((resolve, reject) => {
+        Season
+          .findOneAndUpdate({
+            seasonNumber: season.seasonNumber
+          }, {
+            $set: {
+              mainEventId: season.gameId
+            }
+          })
+          .exec((err) => {
+            if (err) {
+              LOG.error(err.stack);
+              return reject(err);
+            }
+            return resolve({})
+          })
+
+      })
     }
 
     return service;
