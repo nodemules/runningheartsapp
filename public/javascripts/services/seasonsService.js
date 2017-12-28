@@ -1,5 +1,5 @@
-// global angular
-(function(angular) {
+// global angular, APP_NAME
+{
 
   angular.module(APP_NAME).factory('seasonsService', seasonsService);
 
@@ -7,7 +7,7 @@
 
   function seasonsService($resource) {
 
-    var basePath = '/api/seasons'
+    const basePath = '/api/seasons'
 
     var service = {
       api: api
@@ -31,10 +31,13 @@
             action: 'notIn'
           },
           isArray: true
+        },
+        'byEventDate': {
+          method: 'GET',
+          url: basePath + '/date/:date'
         }
       });
     }
-
   }
 
-})(angular);
+}

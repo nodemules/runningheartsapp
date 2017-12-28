@@ -4,15 +4,16 @@
 
   angular.module(APP_NAME).controller('eventsViewCtrl', eventsViewCtrl);
 
-  eventsViewCtrl.$inject = ['$state', '$stateParams', 'eventsService', 'gamesService', 'dialogService', 'errorService'];
+  eventsViewCtrl.$inject = ['$state', '$stateParams', 'eventsService', 'gamesService', 'dialogService', 'seasonsService', 'errorService'];
 
-  function eventsViewCtrl($state, $stateParams, eventsService, gamesService, dialogService, errorService) {
+  function eventsViewCtrl($state, $stateParams, eventsService, gamesService, dialogService, seasonsService, errorService) {
 
     var vm = this;
 
     vm.getEvent = function(id) {
       vm.event = eventsService.api(id).get(() => {
         vm.event.isToday = moment().isSame(vm.event.date, 'd');
+        vm.event.season = seasonsService.api().byEventDate({date: vm.event.date});
       });
     };
 
@@ -28,6 +29,7 @@
       dialogService.confirm('Are you sure you want to make this the main event?').then(() => {
         event.statusId = 3
         eventsService.api().save(event);
+
         });
     }
 

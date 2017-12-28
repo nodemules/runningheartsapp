@@ -10,7 +10,8 @@
       getLatestSeason,
       getSeason,
       getSeasons,
-      startNewSeason
+      startNewSeason,
+      getSeasonByEventDate
     };
 
     function getLatestSeason() {
@@ -52,6 +53,31 @@
           });
       });
 
+    }
+
+    function getSeasonByEventDate(date) {
+      return new Promise((resolve, reject) => {
+        Season
+          .find({
+            startDate: {
+              $lte: date
+            },
+            $or: [ {
+              endDate: {
+                $gte: date
+              }
+            }, {
+              endDate: null
+            }]
+          })
+          .exec((err, season) => {
+            if (err) {
+              LOG.error(err.stack);
+              return reject(err);
+            }
+            return resolve(season.pop())
+        });
+      });
     }
 
     function startNewSeason(seasonNumber) {

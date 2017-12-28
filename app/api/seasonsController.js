@@ -16,6 +16,12 @@
       }, (err) => errorService.handleError(res, err));
     });
 
+  api.get('/date/:date', (req, res) => {
+    seasonsService.getSeasonByEventDate(req.params.date).then((season) => {
+      res.send(season);
+    }, (err) => errorService.handleError(res, err));
+  });
+
   api.get('/:seasonNumber', (req, res) => {
     seasonsService.getSeason(req.params.seasonNumber).then((seasons) => {
       res.send(seasons);
@@ -33,6 +39,7 @@
       res.send(season);
     }, (err) => errorService.handleError(res, err));
   });
+
 
 
   module.exports = api;

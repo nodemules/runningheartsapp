@@ -4,7 +4,7 @@
       <md-card-title-text>
         <span class="md-headline">
           <span ng-if="ev.event.statusId === 1">Poker</span>
-          <span ng-if="ev.event.statusId === 3">Main Event</span>
+          <span ng-if="ev.event.statusId === 3">Main Event of Season {{ev.event.season.seasonNumber}}</span>
           @ <a class="md-primary" ui-sref="venues.view({ id : ev.event.venue._id })">{{ev.event.venue.name}}</a>
         </span>
         <span class="md-subhead">Hosted by
@@ -21,9 +21,15 @@
       <p>From here you can start your game or edit the event if you need to change TDs.</p>
     </md-card-content>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button class="md-raised md-default" ng-click="ev.makeMainEvent(ev.event)" ng-if="events.permissions.MAKE_MAIN_EVENT">Main Event!</md-button>
-      <md-button class="md-raised md-default" ng-click="ev.removeEvent(ev.event)" ng-if="events.permissions.DELETE_EVENT">Delete Event</md-button>
-      <md-button class="md-raised md-default" ng-click="ev.editEvent(ev.event)" ng-if="events.permissions.EDIT_EVENT">Edit Event</md-button>
+      <md-button class="md-raised md-default" ng-click="ev.makeMainEvent(ev.event)"
+                 ng-if="events.permissions.MAKE_MAIN_EVENT && ev.event.statusId !== 3">Main Event!
+      </md-button>
+      <md-button class="md-raised md-default" ng-click="ev.removeEvent(ev.event)"
+                 ng-if="events.permissions.DELETE_EVENT">Delete Event
+      </md-button>
+      <md-button class="md-raised md-default" ng-click="ev.editEvent(ev.event)"
+                 ng-if="events.permissions.EDIT_EVENT">Edit Event
+      </md-button>
     </md-card-actions>
   </md-card>
   <md-card class="rhp-card-xs" ng-repeat="game in ev.event.games">
@@ -41,12 +47,12 @@
     </md-card-title>
     <md-card-content>
       <p ng-if="game.finalTable && !game.completed">
-          <strong>This game is at the Final Table!</strong>
-          <span ng-if="(game.players | filter:{ score: '!' }).length === 0">No</span>
-          <span ng-if="(game.players | filter:{ score: '!' }).length !== 0">
+        <strong>This game is at the Final Table!</strong>
+        <span ng-if="(game.players | filter:{ score: '!' }).length === 0">No</span>
+        <span ng-if="(game.players | filter:{ score: '!' }).length !== 0">
             <strong>{{ (game.players | filter:{ score: '!' }).length }}</strong> out of the <strong>{{ game.players.length }}</strong>
           </span>
-          players are remaining.
+        players are remaining.
       </p>
       <p ng-if="!game.finalTable && !game.completed && game.inProgress">
         There are
@@ -60,24 +66,29 @@
     <md-card-actions layout="column">
       <md-button class="md-raised md-primary" ng-click="ev.viewGame(game)">View Game</md-button>
       <md-button class="md-raised md-primary" ng-click="ev.completeGame(game)"
-        ng-if="!game.completed && game.players.length !== 0 && (game.players | filter:{ score: '!' }).length === 0 && events.permissions.PLAY_GAME">
+                 ng-if="!game.completed && game.players.length !== 0 && (game.players | filter:{ score: '!' }).length === 0 && events.permissions.PLAY_GAME">
         Complete Game
       </md-button>
     </md-card-actions>
   </md-card>
-  <md-card class="rhp-card-xs" ng-if="events.permissions.PLAY_GAME && ((ev.event.games.length < ev.event.venue.numberOfGames && !ev.event.completed) || events.permissions.NO_GAME_LIMIT) && ev.event.statusId !== 2">
+  <md-card class="rhp-card-xs"
+           ng-if="events.permissions.PLAY_GAME && ((ev.event.games.length < ev.event.venue.numberOfGames && !ev.event.completed) || events.permissions.NO_GAME_LIMIT) && ev.event.statusId !== 2">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Game #{{ev.event.games.length + 1}}</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-actions layout="column">
-      <md-button class="md-raised md-primary" ng-click="ev.newGame()" ng-disabled="ev.game.$$saving || (!ev.event.isToday && !events.permissions.START_ANY_GAME)">Start {{ev.event.games.length ? 'Another' : ''}} Game</md-button>
+      <md-button class="md-raised md-primary" ng-click="ev.newGame()"
+                 ng-disabled="ev.game.$$saving || (!ev.event.isToday && !events.permissions.START_ANY_GAME)">
+        Start {{ev.event.games.length ? 'Another' : ''}} Game
+      </md-button>
     </md-card-actions>
     <md-card-content layout="row" layout-align="end" ng-show="ev.game.$$error">
       <p>
         {{ev.game.$$error.message}}. There was an error creating this game.
-        <span ng-show="ev.game.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary" ui-sref="login">here</a> to login.</span>
+        <span ng-show="ev.game.$$error.code === 'NO_USER_FOUND'">Click <a class="md-primary"
+                                                                          ui-sref="login">here</a> to login.</span>
       </p>
     </md-card-content>
   </md-card>
