@@ -43,7 +43,7 @@
         event: vm.event,
         number: vm.event.games.length + 1
       };
-      if (vm.event.statusId = 3) {
+      if (vm.event.statusId === 3) {
         vm.game.statusId = 3
       };
       gamesService.api().create(vm.game, function(game) {
