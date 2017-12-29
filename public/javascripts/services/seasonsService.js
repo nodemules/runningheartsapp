@@ -21,7 +21,7 @@
       return $resource(basePath + '/:id/:action', {
         id: id
       }, {
-        'findBy': {
+        'update': {
           method: 'PUT',
           isArray: true
         },

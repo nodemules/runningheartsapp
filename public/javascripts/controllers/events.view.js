@@ -22,7 +22,7 @@
         eventsService.api(event._id).remove(function() {
           if (event.statusId === 3) {
             vm.event.season.mainEventId = null;
-            seasonsService.api(vm.event.season.seasonNumber).findBy(vm.event.season)
+            seasonsService.api(vm.event.season.seasonNumber).update(vm.event.season)
           }
           $state.go('events.list');
         });
@@ -34,7 +34,7 @@
         event.statusId = 3
         eventsService.api().save(event);
         vm.event.season.mainEventId = event._id;
-        seasonsService.api(vm.event.season.seasonNumber).findBy(vm.event.season);
+        seasonsService.api(vm.event.season.seasonNumber).update(vm.event.season);
         });
     }
 
